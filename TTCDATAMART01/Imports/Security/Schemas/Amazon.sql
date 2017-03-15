@@ -1,0 +1,3 @@
+CREATE SCHEMA [Amazon]
+AUTHORIZATION [dbo]
+GO

@@ -1,0 +1,33 @@
+CREATE TABLE [Staging].[TGCPlus_CustFinal]
+(
+[AsofDate] [date] NULL,
+[CustomerID] [bigint] NULL,
+[uuid] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EmailAddress] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlCampaignID] [int] NULL,
+[IntlCampaignName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlMDChannel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlSubDate] [date] NULL,
+[IntlSubMonth] [int] NULL,
+[IntlSubYear] [int] NULL,
+[IntlSubPlanID] [bigint] NULL,
+[IntlSubPlanName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlSubType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubPlanID] [bigint] NULL,
+[SubPlanName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[pas_id] [bigint] NOT NULL,
+[pas_created_at] [datetime] NULL,
+[SubDate] [date] NULL,
+[SubMonth] [int] NULL,
+[SubYear] [int] NULL,
+[SubPaymentHandler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TransactionType] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustStatusFlag] [int] NOT NULL,
+[TGCCustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TGCCust] [int] NULL,
+[TGCCustSegmentFcst] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TGCCustSegment] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TransSeqNum] [bigint] NULL
+) ON [PRIMARY]
+GO

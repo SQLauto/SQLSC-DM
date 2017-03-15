@@ -1,0 +1,15 @@
+CREATE TABLE [Mapping].[MBA_SubjectCategory2_AS_Lookup]
+(
+[ANALYSIS_UNIT] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ANALYSIS_UNIT_FREQ] [float] NULL,
+[ASSOC_ANALYSIS_UNIT] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ASSOC_ANALYSIS_UNIT_FREQ] [float] NULL,
+[FREQ_CO_OCCUR] [float] NULL,
+[TOT_BASKET_DIMENSIONS] [float] NULL,
+[SUPPORT] [float] NULL,
+[CONFIDENCE] [float] NULL,
+[EXPECTED_CONFIDENCE] [float] NULL,
+[LIFT] [float] NULL,
+[SalesPerK] [float] NULL
+) ON [PRIMARY]
+GO

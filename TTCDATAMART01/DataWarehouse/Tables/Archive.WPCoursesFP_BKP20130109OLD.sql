@@ -1,0 +1,5 @@
+CREATE TABLE [Archive].[WPCoursesFP_BKP20130109OLD]
+(
+[CourseID] [int] NOT NULL
+) ON [PRIMARY]
+GO

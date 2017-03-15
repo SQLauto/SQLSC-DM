@@ -1,0 +1,32 @@
+CREATE TABLE [dbo].[DigialCust_analysis_20161109Base]
+(
+[CustomerID] [dbo].[udtCustomerID] NULL,
+[Orderid] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DateOrdered] [smalldatetime] NULL,
+[OrderSource] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FlagAudioVideo] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FlagDigitalPhysical] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[NetOrderAmount] [money] NULL,
+[StartDate] [varchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[EndDate] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CustSegmentAsOfDate] [datetime] NULL,
+[CustomerSegment] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Frequency] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerSegmentFnl] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[NewSeg] [int] NULL,
+[Name] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[a12mf] [int] NULL,
+[FMT_DigitalAudio] [int] NULL,
+[FMT_DVD] [int] NULL,
+[FMT_CD] [int] NULL,
+[FMT_DigitalVideo] [int] NULL,
+[FMT_Transcript] [int] NULL,
+[FMT_DigitalTranscript] [int] NULL,
+[Sales_DigitalAudio] [money] NULL,
+[Sales_DVD] [money] NULL,
+[Sales_CD] [money] NULL,
+[Sales_DigitalVideo] [money] NULL,
+[Sales_Transcript] [money] NULL,
+[Sales_DigitalTranscript] [money] NULL
+) ON [PRIMARY]
+GO

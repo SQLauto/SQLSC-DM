@@ -1,0 +1,3 @@
+CREATE SCHEMA [Marketing]
+AUTHORIZATION [TEACHCO\korfontak]
+GO

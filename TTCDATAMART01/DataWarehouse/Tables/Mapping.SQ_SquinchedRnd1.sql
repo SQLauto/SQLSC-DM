@@ -1,0 +1,31 @@
+CREATE TABLE [Mapping].[SQ_SquinchedRnd1]
+(
+[SQ_AdCode] [int] NULL,
+[SQ_Year] [int] NULL,
+[SQ_Season] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Catalog] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Spread] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Page] [float] NULL,
+[SQ_SKU] [int] NULL,
+[SQ_NSSqIn] [float] NULL,
+[SQ_ZoneSqIn] [float] NULL,
+[SQ_AddonSqIn] [float] NULL,
+[SQ_PageNSSqIn] [float] NULL,
+[SQ_TotalSqIn] [float] NULL,
+[SQ_TotalNSPerSKU] [float] NULL,
+[SQ_TotalSellPerSKU] [float] NULL,
+[SQ_FreeStreaming] [bit] NULL,
+[SQ_NewRelease] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_PageLocation] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_LectureTitles] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_NumImagesShown] [float] NULL,
+[SQ_ImageSqIn] [float] NULL,
+[SQ_ImageLoc] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_RedCircleMessage] [bit] NULL,
+[SQ_PartnerLogo_Msg] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_HolidayMessage] [bit] NULL,
+[SQ_Set_Flag] [bit] NULL,
+[SQ_Set_SKU] [int] NULL,
+[SQ_Set_SqIn] [float] NULL
+) ON [PRIMARY]
+GO

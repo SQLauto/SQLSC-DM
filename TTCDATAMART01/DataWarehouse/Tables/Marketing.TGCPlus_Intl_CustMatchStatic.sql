@@ -1,0 +1,32 @@
+CREATE TABLE [Marketing].[TGCPlus_Intl_CustMatchStatic]
+(
+[EmailAddress] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TGCP_ID] [bigint] NOT NULL,
+[TGCP_UUID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RegisteredDate] [datetime] NULL,
+[IntlSubscribedDate] [datetime] NULL,
+[CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CustomerSince] [datetime] NULL,
+[AsOfDate] [date] NULL,
+[NewSeg] [int] NULL,
+[Name] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[a12mf] [int] NULL,
+[ComboID] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerSegment] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Frequency] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerSegmentNew] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerSegmentFnl] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerSegmentFrcst] [varchar] (57) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FullName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Address1] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Address2] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Address3] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[City] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[State] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[postalCode] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FirstCustBU] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TenureDaysReg] [int] NULL,
+[TenureDaysSub] [int] NULL,
+[MatchType] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

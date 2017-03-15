@@ -1,0 +1,32 @@
+CREATE TABLE [Staging].[Snag_ssis_Film]
+(
+[id] [bigint] NULL,
+[version] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[android_poster_image_url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[cue_points] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[description] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[film_type] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[geo_restrictions] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[imdb_id] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[log_line] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[poster_image_url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[rating] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[release_date] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[runtime] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[season_id] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[seo_title] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[show_id] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[status] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[thumbnail_url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[title] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[tmdb_id] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[video_image_url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[widget_image_url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[year] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[site_id] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[uuid] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[update_date] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[primary_category_id] [int] NOT NULL,
+[episode_number] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

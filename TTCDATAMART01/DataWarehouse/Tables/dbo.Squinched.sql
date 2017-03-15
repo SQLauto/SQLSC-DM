@@ -1,0 +1,31 @@
+CREATE TABLE [dbo].[Squinched]
+(
+[SQ_AdCode] [float] NULL,
+[SQ_Year] [float] NULL,
+[SQ_Season] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Catalog] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Spread] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_Page] [float] NULL,
+[SQ_SKU] [float] NULL,
+[SQ_NSSqIn] [float] NULL,
+[SQ_ZoneSqIn] [float] NULL,
+[SQ_AddonSqIn] [float] NULL,
+[SQ_PageNSSqIn] [float] NULL,
+[SQ_TotalSqIn] [float] NULL,
+[SQ_TotalNSPerSKU] [float] NULL,
+[SQ_TotalSellPerSKU] [float] NULL,
+[SQ_FreeStreaming] [bit] NOT NULL,
+[SQ_NewRelease] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_PageLocation] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_LectureTitles] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_NumImagesShown] [float] NULL,
+[SQ_ImageSqIn] [float] NULL,
+[SQ_ImageLoc] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_RedCircleMessage] [bit] NOT NULL,
+[SQ_PartnerLogo_Msg] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SQ_HolidayMessage] [bit] NOT NULL,
+[SQ_Set_Flag] [bit] NOT NULL,
+[SQ_Set_SKU] [float] NULL,
+[SQ_Set_SqIn] [float] NULL
+) ON [PRIMARY]
+GO

@@ -1,0 +1,30 @@
+CREATE TABLE [Marketing].[SalesByAdcode]
+(
+[AdCode] [int] NULL,
+[AdcodeName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CatalogCode] [int] NOT NULL,
+[CatalogName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_Audience] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_Year] [int] NULL,
+[MD_Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_ChannelID] [int] NULL,
+[MD_ChannelName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_PromotionTypeID] [int] NULL,
+[MD_PromotionType] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_CampaignID] [int] NULL,
+[MD_CampaignName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_PriceType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[StartDate] [datetime] NULL,
+[StopDate] [datetime] NULL,
+[CampaingStartDate] [int] NULL,
+[CampaingStopDate] [int] NULL,
+[OrderSource] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CurrencyCode] [nvarchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BillingCountryCode] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Sales] [money] NULL,
+[Orders] [int] NULL,
+[TotalCourseSales] [money] NULL,
+[Units] [int] NULL,
+[Parts] [money] NULL
+) ON [PRIMARY]
+GO

@@ -1,0 +1,2 @@
+CREATE SYNONYM [Archive].[MailhistoryPrior2Year] FOR [DataWarehouse].[Archive].[MailingHistory2014]
+GO

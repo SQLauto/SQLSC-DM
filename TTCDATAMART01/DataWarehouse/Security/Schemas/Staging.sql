@@ -1,0 +1,3 @@
+CREATE SCHEMA [Staging]
+AUTHORIZATION [TEACHCO\korfontak]
+GO

@@ -1,0 +1,32 @@
+CREATE TABLE [Marketing].[MailTracker_ShippingCatalog]
+(
+[YearOfAcquisition] [int] NULL,
+[MonthOfAcquisition] [int] NULL,
+[AcquisitionDate] [date] NULL,
+[ItemID] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ItemName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchAdCode] [int] NULL,
+[PurchAdcodeName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchCatalogCode] [int] NULL,
+[PurchCatalogName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_Year] [int] NULL,
+[PurchMD_Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_Audience] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_ChannelID] [int] NULL,
+[PurchMD_ChannelName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_PromotionTypeID] [int] NULL,
+[PurchMD_PromotionType] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_CampaignID] [int] NULL,
+[PurchMD_CampaignName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PurchMD_PriceType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[HVLVGroup] [varchar] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PurchStopDate] [datetime] NULL,
+[Circ] [int] NULL,
+[Orders] [int] NULL,
+[Sales] [money] NULL,
+[parts] [money] NULL,
+[units] [int] NULL,
+[ReportDate] [date] NULL,
+[Offer_expired_flg] [int] NOT NULL
+) ON [PRIMARY]
+GO

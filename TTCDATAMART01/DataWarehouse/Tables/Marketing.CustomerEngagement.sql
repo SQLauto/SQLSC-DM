@@ -1,0 +1,31 @@
+CREATE TABLE [Marketing].[CustomerEngagement]
+(
+[CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[AsOfDate] [datetime] NULL,
+[CntOfEmails] [int] NOT NULL,
+[MailCntsLast3Month] [int] NOT NULL,
+[MailCntsLast6Month] [int] NOT NULL,
+[MailCntsLast9Month] [int] NOT NULL,
+[MailCntsLast1Year] [int] NOT NULL,
+[EmailCntsLast3Month] [int] NOT NULL,
+[EmailCntsLast6Month] [int] NOT NULL,
+[EmailCntsLast9Month] [int] NOT NULL,
+[EmailCntsLast1Year] [int] NOT NULL,
+[EmailOpensLast3Month] [int] NOT NULL,
+[EmailOpensLast6Month] [int] NOT NULL,
+[EmailOpensLast9Month] [int] NOT NULL,
+[EmailOpensLast1Year] [int] NOT NULL,
+[FlagEmailOpensLast3Month] [int] NOT NULL,
+[FlagEmailOpensLast6Month] [int] NOT NULL,
+[FlagEmailOpensLast9Month] [int] NOT NULL,
+[FlagEmailOpensLast1Year] [int] NOT NULL,
+[EmailCliksLast3Month] [int] NOT NULL,
+[EmailCliksLast6Month] [int] NOT NULL,
+[EmailCliksLast9Month] [int] NOT NULL,
+[EmailCliksLast1Year] [int] NOT NULL,
+[FlagEmailCliksLast3Month] [int] NOT NULL,
+[FlagEmailCliksLast6Month] [int] NOT NULL,
+[FlagEmailCliksLast9Month] [int] NOT NULL,
+[FlagEmailCliksLast1Year] [int] NOT NULL
+) ON [PRIMARY]
+GO

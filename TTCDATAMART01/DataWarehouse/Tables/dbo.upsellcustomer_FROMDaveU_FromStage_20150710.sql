@@ -1,0 +1,6 @@
+CREATE TABLE [dbo].[upsellcustomer_FROMDaveU_FromStage_20150710]
+(
+[dax_customer_id] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[segmentgroup] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

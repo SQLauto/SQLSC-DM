@@ -1,0 +1,32 @@
+CREATE TABLE [Staging].[TN_OMCM_Customers]
+(
+[CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlYear] [int] NULL,
+[IntlMonth] [int] NULL,
+[IntlMonthOfPurchase] [varchar] (90) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlAvgOrderBin] [char] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlCoursesBin] [char] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlFormatMediaPref] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlOrderSource] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlParts] [dbo].[udtCourseParts] NOT NULL,
+[IntlPartsBin] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlNumOfCOurses] [smallint] NOT NULL,
+[IntlPromotionTypeID] [smallint] NOT NULL,
+[IntlPurchAmount] [money] NOT NULL,
+[IntlPurchaseOrderID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlSubjectPref] [dbo].[udtSubjectPreference] NOT NULL,
+[Education] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Gender] [varchar] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[HouseHoldIncomeRange] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IntlPurchaseAgeBin] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MonthsOnFile] [int] NULL,
+[TotalCourseSales] [money] NULL,
+[TotalTranscriptSales] [money] NULL,
+[TotalTranscriptQuantity] [int] NULL,
+[TotalTranscriptParts] [dbo].[udtCourseParts] NULL,
+[MailContacts_2010Plus] [int] NULL,
+[MailContacts_2013] [int] NULL,
+[EmailContacts_2010Plus] [int] NULL,
+[EmailContacts_2013] [int] NULL
+) ON [PRIMARY]
+GO

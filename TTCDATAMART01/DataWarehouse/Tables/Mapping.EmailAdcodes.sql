@@ -1,0 +1,8 @@
+CREATE TABLE [Mapping].[EmailAdcodes]
+(
+[Adcode] [int] NULL,
+[CustGroup] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Catalogcode] [int] NULL,
+[CatName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

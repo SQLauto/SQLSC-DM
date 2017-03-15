@@ -1,0 +1,30 @@
+CREATE TABLE [Marketing].[Email_RFI_Report_del]
+(
+[CampaignId] [int] NULL,
+[CampaignName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CatalogCode] [int] NULL,
+[catalogname] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[StartDate] [datetime] NULL,
+[EmailYear] [int] NULL,
+[EmailMonth] [int] NULL,
+[StopDate] [datetime] NULL,
+[TotalEmailed] [int] NULL,
+[TotalSales] [money] NULL,
+[TotalOrders] [int] NULL,
+[TotalCourseParts] [money] NULL,
+[TotalCourseSales] [money] NULL,
+[TotalCourseUnits] [int] NULL,
+[EmailID] [int] NULL,
+[EmailType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Flag_DoublePunch] [tinyint] NULL,
+[EmailOfferID] [int] NULL,
+[EmailOffer] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Recency] [int] NULL,
+[Interval] [int] NULL,
+[Frequency] [int] NULL,
+[PriorRunDate] [datetime] NULL,
+[ReportDate] [datetime] NOT NULL,
+[FrequencyByYear] [int] NULL,
+[MD_Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

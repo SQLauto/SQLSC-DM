@@ -1,0 +1,33 @@
+CREATE TABLE [Archive].[TGCPlus_user_Audit_trail]
+(
+[uuid] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Prev_Email] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Email] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Email_Mismatch] [int] NOT NULL,
+[Prev_campaign] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[campaign] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[campaign_Mismatch] [int] NOT NULL,
+[Prev_TGCPluscampaign] [int] NULL,
+[TGCPluscampaign] [int] NULL,
+[TGCPluscampaign_Mismatch] [int] NOT NULL,
+[Prev_entitled_dt] [datetime] NULL,
+[entitled_dt] [datetime] NULL,
+[entitled_dtMismatch] [int] NOT NULL,
+[Prev_joined] [datetime] NULL,
+[joined] [datetime] NULL,
+[joined_Mismatch] [int] NOT NULL,
+[Prev_payment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[payment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[payment_handler_Mismatch] [int] NOT NULL,
+[Prev_registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[registered_via_platform_Mismatch] [int] NOT NULL,
+[Prev_subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[subscribed_via_platform_Mismatch] [int] NOT NULL,
+[Prev_registration_type] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[registration_type] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[registration_type_Mismatch] [int] NOT NULL,
+[DMlastupdated] [datetime] NOT NULL
+) ON [PRIMARY]
+GO

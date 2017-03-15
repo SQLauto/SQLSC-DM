@@ -1,0 +1,3 @@
+CREATE SCHEMA [Mapping]
+AUTHORIZATION [TEACHCO\korfontak]
+GO

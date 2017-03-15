@@ -1,0 +1,33 @@
+CREATE TABLE [Staging].[OrdAllctn_LW_AllOrders_VW]
+(
+[OrderID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[YearOrdered] [int] NULL,
+[NetOrderAmount] [money] NULL,
+[MonthOrdered] [int] NULL,
+[WeekOfOrder] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FlagCountry] [int] NOT NULL,
+[MD_Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DateOrdered] [date] NULL,
+[StartDate] [datetime] NULL,
+[StopDate] [datetime] NULL,
+[WeekDiff] [int] NULL,
+[FlagUnsourcedOrder] [int] NOT NULL,
+[AdCode] [int] NULL,
+[AdcodeName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CatalogCode] [int] NULL,
+[CatalogName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PriceTypeID] [int] NULL,
+[PromotionType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_Channel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_PromotionType] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_CampaignName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_PriceType] [varchar] (81) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BudsCatalogCode] [int] NOT NULL,
+[BudsCategoryName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Coupon] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CouponDesc] [nvarchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AssignedBudCode] [int] NULL,
+[AssignedBudName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

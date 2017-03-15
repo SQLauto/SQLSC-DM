@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+CREATE AGGREGATE [dbo].[GROUP_CONCAT_DS] (@VALUE [nvarchar] (4000), @DELIMITER [nvarchar] (4), @SORT_ORDER [tinyint])
+RETURNS [nvarchar] (max)
+EXTERNAL NAME [GroupConcat].[GroupConcat.GROUP_CONCAT_DS]
+GO
