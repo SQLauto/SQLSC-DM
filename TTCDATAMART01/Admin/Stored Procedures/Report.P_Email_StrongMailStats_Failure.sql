@@ -8,6 +8,8 @@ GO
 -- Issue#	Date		Modified By		Details
 ------------------------------------------------------------------------------------------------------------------------------------------
 -- US1978	03/30/2016	BryantJ			Initial
+-- US2921	03/03/2017	BryantJ			Alert is now triggered by SM_TRACKING_LOG table instead of SM_SUCCESS_LOG table,
+--											will now trigger if table is empty
 ------------------------------------------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE [Report].[P_Email_StrongMailStats_Failure]
 	@Recipients VARCHAR(MAX),
@@ -46,14 +48,15 @@ BEGIN
 		ELSE
 		BEGIN
 			SELECT @max_data_date = MAX(DATESTAMP)
-			FROM StrongMailStats..SM_SUCCESS_LOG WITH(NOLOCK)
+			FROM StrongMailStats..SM_TRACKING_LOG WITH(NOLOCK)	-- US2921
 			WHERE DATESTAMP < @now
 
-			IF @max_data_date < DATEADD(DAY,-@Max_Days_With_No_Updates,@now)
+			IF ISNULL(@max_data_date,'') < DATEADD(DAY,-@Max_Days_With_No_Updates,@now)	-- US2921
 			BEGIN			
-				SELECT @subject = 'StrongMail Alert: StrongMailStats Has No New Data Since ' + CONVERT(VARCHAR,@max_data_date,20) + ' - ' + @@SERVERNAME
+				SELECT @subject = 'StrongMail Alert: StrongMailStats Has No New Data Since ' + ISNULL(CONVERT(VARCHAR,@max_data_date,20),'(no records found)')	-- US2921
+								+ ' - ' + @@SERVERNAME 
 
-				-- Structured this way so you can have multipled tables worth of data chained in a row with minimum modification.
+				-- Structured this way so you can have multiple tables worth of data chained in a row with minimum modification.
 				SELECT @xml = 
 							CAST( (
 								SELECT td = CONVERT(VARCHAR,Log_Day,20) + '</td><td>'
@@ -61,16 +64,16 @@ BEGIN
 								FROM (	
 										SELECT CONVERT(DATE,DATESTAMP) AS Log_Day, 
 											COUNT(*) Total
-										FROM StrongMailStats..SM_SUCCESS_LOG WITH(NOLOCK)
+										FROM StrongMailStats..SM_TRACKING_LOG WITH(NOLOCK)	-- US2921
 										WHERE DATESTAMP > DATEADD(MONTH,-1,@now)
 										GROUP BY CONVERT(DATE,DATESTAMP)
 									) AS d
 								ORDER BY Log_Day DESC
 							FOR XML PATH('tr'), TYPE ) AS VARCHAR(MAX))
 
-				SET @body += '<H3>Count of Records Per Day for the Last Month (Based on SM_SUCCESS_Log Table)</H3>
+				SET @body += '<H3>Count of Records Per Day for the Last Month (Based on SM_TRACKING_LOG Table)</H3>
 							<table border = 1> 
-							<tr>'
+							<tr>'				-- US2921
 							+ '<th> Log Day </th> '
 							+ '<th> Total </th> '
 							+ '</tr>'
@@ -121,4 +124,5 @@ BEGIN
 
 	SET NOCOUNT OFF
 END
+
 GO
