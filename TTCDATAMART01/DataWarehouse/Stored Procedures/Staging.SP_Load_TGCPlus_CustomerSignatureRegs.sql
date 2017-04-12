@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
 CREATE Proc [Staging].[SP_Load_TGCPlus_CustomerSignatureRegs]
 as
 
@@ -86,7 +85,10 @@ select dateadd(day,-1,convert(date,@DMLastUpdateESTDateTime)) AsofDate,
 	null ZipCode, 
 	cast(a.joined as date) RegDate,
 	month(a.joined) RegMonth,
-	year(a.joined) RegYear
+	year(a.joined) RegYear,
+	NULL IntlPaidAmt,
+	NULL IntlPaidDate
+
 from DataWarehouse.Archive.TGCPlus_User a 
 	left join
 	DataWarehouse.Mapping.vwAdcodesAll b 
@@ -140,7 +142,4 @@ from Datawarehouse.Staging.TGCPlus_CustomerSignatureRegs
 
 END
  
-
-
-
 GO

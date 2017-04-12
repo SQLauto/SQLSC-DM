@@ -5,10 +5,12 @@ GO
 
 
 
-CREATE Proc [Staging].[SP_Load_TGCPlus_CustomerSignature]
-as
 
-Begin
+
+CREATE PROC [Staging].[SP_Load_TGCPlus_CustomerSignature]
+AS
+
+BEGIN
 
 
 /***************** Subscribers Daily Table *************************/
@@ -59,7 +61,9 @@ drop table staging.TGCPlus_CustomerDaily
 		MAX(TransSeqNum) MaxSeqNum,
 		RegDate, 		-- PR 10/25/2016 added Registration Date to Signature Table
 		RegMonth,		-- PR 10/25/2016 added Registration Date to Signature Table
-		RegYear			-- PR 10/25/2016 added Registration Date to Signature Table
+		RegYear,			-- PR 10/25/2016 added Registration Date to Signature Table
+		CONVERT(float,null) as IntlPaidAmt,-- VB 3/16/2017 added IntlPaidAmt to Signature Table
+		CONVERT(date, null) as IntlPaidDate-- VB 3/16/2017 added IntlPaidDate to Signature Table
 		into staging.TGCPlus_CustomerDaily
 		from DataWarehouse.Marketing.TGCPlus_StatusHistory
 		group by
@@ -217,6 +221,23 @@ left Join (select customerid,SubPaymentHandler
 		on t1.CustomerID=t2.user_id
 
 
+
+/* Update INTL Payment Amt  if pre_tax_amount > $8*/
+
+		SELECT user_id,completed_at, pre_tax_amount, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY completed_at)AS PaySeq
+		INTO #TGCPlus_Billing_payments
+		FROM DataWarehouse.Archive.TGCPlus_UserBilling
+		WHERE Type = 'Payment' AND pre_tax_amount>8 -- Intl Payment only if greater than $8 
+
+		Update t1
+		set IntlPaidAmt=t2.pre_tax_amount,
+			IntlPaidDate = t2.completed_at
+		-- select *
+		from Datawarehouse.staging.TGCPlus_CustomerDaily t1
+		join #TGCPlus_Billing_payments t2
+		on t1.CustomerID=t2.user_id AND t2.PaySeq = 1 
+
+
 /* Update Paid flag if not cancelled and paid amount >$10 */
 		Update Datawarehouse.staging.TGCPlus_CustomerDaily 
 		set PaidFlag=1
@@ -301,8 +322,18 @@ left Join (select customerid,SubPaymentHandler
 		order by CustomerID, IntlSubDate 
 		
 
+
+/* Updating Customer status to Renew for customers who have paid and have records in the billing table after the PAS table has a suspend Bondugulav 3/30/2017 */
+update C
+set TransactionType = 'Renew',CustStatusFlag = 1,PaidFlag = 1
+from DataWarehouse.staging.TGCPlus_CustomerDaily c
+join Datawarehouse.Archive.TGCPlus_customerStatus s on c.CustomerID = s.Customerid
+where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in ('Initial Payment','Recurring Payment')
+
+
+
 /* Truncate and load TGCPlus_CustomerSignature*/
-	Begin 
+	BEGIN 
 		Truncate table Datawarehouse.Marketing.TGCPlus_CustomerSignature
 
 		Insert into Datawarehouse.Marketing.TGCPlus_CustomerSignature
@@ -399,7 +430,9 @@ left Join (select customerid,SubPaymentHandler
 				cast(Ad.postalCode as varchar(20))as ZipCode,
 				a.RegDate,		-- PR 10/25/2016 added Registration Date to Signature Table
 				a.RegMonth,		-- PR 10/25/2016 added Registration Date to Signature Table
-				a.RegYear		-- PR 10/25/2016 added Registration Date to Signature Table
+				a.RegYear,		-- PR 10/25/2016 added Registration Date to Signature Table
+				a.IntlPaidAmt,
+				a.IntlPaidDate
 		from DataWarehouse.staging.TGCPlus_CustomerDaily a
 		left join DataWarehouse.mapping.vwadcodesall b
 		on a.IntlCampaignID=b.adcode
@@ -415,60 +448,62 @@ left Join (select customerid,SubPaymentHandler
 		and a.EmailAddress not like '%plustest%' 
 		and a.IntlMDChannel not like '%OfficeDepot%'
 		order by a.CustomerID, a.IntlSubDate 
-
+		 
 /* Country update to include Country names from datawarehouse.Mapping.TGCPLusCountry vikram 9/20/2016*/
 
-	 Update C
-	 set c.country = Coalesce(m.Country,m1.Country,'ROW') 
-	 from  Datawarehouse.Marketing.TGCPlus_CustomerSignature c
-	 left join datawarehouse.Mapping.TGCPLusCountry m
-	 on m.Country = c.country
-	 left join datawarehouse.Mapping.TGCPLusCountry m1
-	 on m1.Alpha2Code = c.country
+	 UPDATE C
+	 SET c.country = COALESCE(m.Country,m1.Country,'ROW') 
+	 FROM  Datawarehouse.Marketing.TGCPlus_CustomerSignature c
+	 LEFT JOIN datawarehouse.Mapping.TGCPLusCountry m
+	 ON m.Country = c.country
+	 LEFT JOIN datawarehouse.Mapping.TGCPLusCountry m1
+	 ON m1.Alpha2Code = c.country
 
-	End
+	END
 
 
 -- Update registered only customers	  -- PR 11/2/2016
-exec Staging.SP_Load_TGCPlus_CustomerSignatureRegs
+EXEC Staging.SP_Load_TGCPlus_CustomerSignatureRegs
 
 
-Declare @SQL nvarchar(1000), @Date Varchar(10) = CONVERT(varchar,  GETDATE(), 112)
+DECLARE @SQL NVARCHAR(1000), @Date VARCHAR(10) = CONVERT(VARCHAR,  GETDATE(), 112)
 
-If DATEPART(d,getdate()) = 1
+IF DATEPART(d,GETDATE()) = 1
 /* Create SnapShot*/
-Begin 
+BEGIN 
 
-set @SQL = '
+SET @SQL = '
 			if object_id (''archive.TGCPlus_CustomerSignature'+ @Date + ''') is null
 			select * into archive.TGCPlus_CustomerSignature' + @Date + ' from Marketing.TGCPlus_CustomerSignature'
-exec (@SQL)
+EXEC (@SQL)
 
-set @SQL = '
+SET @SQL = '
 			if object_id (''archive.TGCPlus_CustomerSignature'+ @Date + ''') is null
 			select * into archive.TGCPlus_CustomerSignature' + @Date + ' from Marketing.TGCPlus_CustomerSignatureRegs'  -- PR 11/2/2016
-exec (@SQL)
+EXEC (@SQL)
 
 
-End
+END
 
-If datepart(WEEKDAY,getdate()) = 1
+IF DATEPART(WEEKDAY,GETDATE()) = 1
 /* Create Weekly SnapShot*/
-Begin 
-	insert into Archive.TGCPlus_CustomerSignature_Wkly
-	select * 
-	from Marketing.TGCPlus_CustomerSignature
+BEGIN 
+	INSERT INTO Archive.TGCPlus_CustomerSignature_Wkly
+	SELECT * 
+	FROM Marketing.TGCPlus_CustomerSignature
 
-	insert into Archive.TGCPlus_CustomerSignature_Wkly		-- PR 11/2/2016
-	select * 
-	from Marketing.TGCPlus_CustomerSignatureRegs
-End
+	INSERT INTO Archive.TGCPlus_CustomerSignature_Wkly		-- PR 11/2/2016
+	SELECT * 
+	FROM Marketing.TGCPlus_CustomerSignatureRegs
+END
 
-Drop table #Beta
-Drop table #Beta2
+DROP TABLE #Beta
+DROP TABLE #Beta2
 
 END
  
+
+
 
 
 

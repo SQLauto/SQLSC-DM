@@ -2,11 +2,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-
  CREATE View [Archive].[VW_Indirect_sales]
  as
  
- select CountryCode,
+ select DISTINCT CountryCode,
 		PartnerName,
 		ReportDate,
 		Format,

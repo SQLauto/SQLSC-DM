@@ -823,7 +823,7 @@ on E.customerid = CCS.CustomerID and E.Emailaddress= CCs.EmailAddress
 select E.*                   
 into #EmailsNotMatched                  
 from DataWarehouse.staging.EPC_EmailPullCYC E                  
-left join #Matched M                
+left join #Matched M    
 on m.emailaddress=e.emailaddress                  
 where m.emailaddress is null                  
                   
@@ -973,7 +973,7 @@ drop table  staging.EPC_EmailPull_PRSPCT
  [FirstName] [varchar](50) NULL,                
  [EmailAddress] [varchar](255) NOT NULL,                
  [Unsubscribe] [varchar](1) NOT NULL,                
- [EmailStatus] [varchar](15) NULL,                
+ [EmailStatus] [varchar](15) NULL,               
  [SubjectLine] [varchar](300) NULL,                
  [CustHTML] [varchar](2000) NULL,                
  [State] [varchar](50) NULL,                
@@ -1030,7 +1030,7 @@ End
 --------------------------------------------------------Block ends for Prospect New EPC Emails--------------------------------------------------------                  
 ----------------------------------------------------------------------------------------------------------------------------------------------------   
 
-/*
+
 --------------------------------------------------------------------------------------------------------------------------------------------        
 --------------------------------------------------------------------------------------------------------------------------------------------        
 -------------------------------Splitter to split counts based of the percentage of records in mapping---------------------------------------        
@@ -1122,7 +1122,8 @@ group by primary_adcode having COUNT(*)>1
               
       Print 'updating records for above segments'        
       exec ('update staging.EPC_EmailPullCYC         
-          set adcode = '+ @adcode +        
+          set adcode = '+ @adcode +  
+		  ',CatalogName = ''Active Test'' ' +       
         ' where adcode = '+ @PrimaryAdcode +' and customerID in (select top ' + @Cnt + '  customerID   from staging.EPC_EmailPullCYC where adcode = '+ @PrimaryAdcode +   
         ' and comboid= '''+ @comboid + ''' and EmailCnt= '''+ @Emailcnt + ''' and  preferredcategory  = ''' + @preferredcategory + ''' order by NEWID() )')        
         
@@ -1157,7 +1158,7 @@ begin
 print 'No Splits'        
 End        
         
-*/
+
 
         
 Print 'Delete New Customers whos segments are pending from Picking work bench'        
@@ -1262,9 +1263,9 @@ update a
 set PreferredCategory =     case --when PreferredCategory = 'PR' then 'EC'  
                                           --when PreferredCategory in ('SCI','GEN','VA','MSC','X') then 'FW'  
                                           --when PreferredCategory is null then 'FW'  
-                                          --when PreferredCategory = 'MH' then 'AH'  
+                                          when PreferredCategory = 'MH' then 'AH'  
                                           when PreferredCategory = 'FA' then 'VA'  
-										  when PreferredCategory = 'MSC' then 'VA'  
+										  --when PreferredCategory = 'MSC' then 'VA'  
                                           when PreferredCategory in ('GEN','X') then 'FW'  
                                           else PreferredCategory  
                                     end  
@@ -1475,7 +1476,8 @@ subject =  case when PreferredCategory = 'AH' then 'History'
     when PreferredCategory = 'PR' then 'Professional'  
     when PreferredCategory = 'VA' then 'Fine Arts and Music'  
     when PreferredCategory = 'MH' then 'History'  
-    when PreferredCategory = 'MSC' then 'Fine Arts and Music'  
+    when PreferredCategory = 'MSC' then 'Music'  
+	when PreferredCategory = 'FA' then 'Fine Arts'  
     End  
   
 ,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject##' , 'history')  
@@ -1489,7 +1491,8 @@ subject =  case when PreferredCategory = 'AH' then 'History'
      when PreferredCategory = 'PR' then Replace (subjectline, '##Subject##' , 'professional')   
      when PreferredCategory = 'VA' then Replace (subjectline, '##Subject##' , 'fine arts and music')   
      when PreferredCategory = 'MH' then Replace (subjectline, '##Subject##' , 'history')   
-     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject##' , 'fine arts and music')        
+     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject##' , 'music')        
+	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject##' , 'fine arts')   
      End  
   
 from staging.EPC_EmailPullCYC a  

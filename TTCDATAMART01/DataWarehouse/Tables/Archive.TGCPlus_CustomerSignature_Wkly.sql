@@ -63,6 +63,8 @@ CREATE TABLE [Archive].[TGCPlus_CustomerSignature_Wkly]
 [ZipCode] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RegDate] [date] NULL,
 [RegMonth] [int] NULL,
-[RegYear] [int] NULL
+[RegYear] [int] NULL,
+[IntlPaidAmt] [float] NULL,
+[IntlPaidDate] [date] NULL
 ) ON [PRIMARY]
 GO

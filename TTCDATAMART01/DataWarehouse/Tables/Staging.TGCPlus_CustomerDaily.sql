@@ -42,6 +42,8 @@ CREATE TABLE [Staging].[TGCPlus_CustomerDaily]
 [MaxSeqNum] [bigint] NULL,
 [RegDate] [date] NULL,
 [RegMonth] [int] NULL,
-[RegYear] [int] NULL
+[RegYear] [int] NULL,
+[IntlPaidAmt] [float] NULL,
+[IntlPaidDate] [date] NULL
 ) ON [PRIMARY]
 GO

@@ -64,6 +64,8 @@ CREATE TABLE [Marketing].[TGCPlus_CustomerSignature_Snapshot]
 [RegDate] [date] NULL,
 [RegMonth] [int] NULL,
 [RegYear] [int] NULL,
-[DMLastUpdated] [datetime] NULL CONSTRAINT [DF__TGCPlus_C__DMLas__37B65833] DEFAULT (getdate())
+[IntlPaidAmt] [float] NULL,
+[IntlPaidDate] [date] NULL,
+[DMLastUpdated] [datetime] NULL CONSTRAINT [DF__TGCPlus_C__DMLas__7BC88FCC] DEFAULT (getdate())
 ) ON [PRIMARY]
 GO

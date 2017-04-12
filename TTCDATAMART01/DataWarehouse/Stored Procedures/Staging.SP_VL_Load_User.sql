@@ -4,9 +4,9 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE Proc [Staging].[SP_VL_Load_User]            
-as            
-Begin            
+CREATE PROC [Staging].[SP_VL_Load_User]            
+AS            
+BEGIN            
             
 
 
@@ -106,7 +106,10 @@ from DataWarehouse.Archive.TGCPlus_User a join
 	  where a.entitled_dt is null /* Added after missing entitled dates*/
 --where a.subscription_plan_id is null
 
-
+/*Update any entitled dates that are missed due to missing pas table data 3/21/2017*/
+update [Archive].[TGCPlus_User]   
+set entitled_dt =  VL_entitled_dt
+WHERE entitled_dt IS NULL AND VL_entitled_dt IS NOT null
  
 /*Update TGCPLus campaign (Integer)*/  
                   
@@ -137,39 +140,39 @@ exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_User'
 
  /* Audit trail */
 
-	insert into Archive.TGCPlus_User_Audit_trail
-	select Prev.uuid,
-		Prev.email as Prev_Email, U.Email ,case when Prev.email <> U.Email then 1 else 0 end as Email_Mismatch, 
-		Prev.campaign as Prev_campaign, U.campaign,case when Prev.campaign <> U.campaign then 1 else 0 end as campaign_Mismatch,
-		Prev.TGCPluscampaign as Prev_TGCPluscampaign, U.TGCPluscampaign,case when Prev.TGCPluscampaign <> U.TGCPluscampaign then 1 else 0 end as TGCPluscampaign_Mismatch,
-		Prev.entitled_dt as Prev_entitled_dt, U.entitled_dt,case when Prev.entitled_dt <> U.entitled_dt then 1 else 0 end as entitled_dtMismatch,
-		Prev.joined as Prev_joined, U.joined,case when Prev.joined <> U.joined then 1 else 0 end as joined_Mismatch,
-		Prev.payment_handler as Prev_payment_handler, U.payment_handler,case when Prev.payment_handler <> U.payment_handler then 1 else 0 end as payment_handler_Mismatch,
-		Prev.registered_via_platform as Prev_registered_via_platform, U.registered_via_platform,case when Prev.registered_via_platform <> U.registered_via_platform then 1 else 0 end as registered_via_platform_Mismatch,
-		Prev.subscribed_via_platform as Prev_subscribed_via_platform, U.subscribed_via_platform,case when Prev.subscribed_via_platform <> U.subscribed_via_platform then 1 else 0 end as subscribed_via_platform_Mismatch,
-		Prev.registration_type as Prev_registration_type, U.registration_type,case when Prev.registration_type <> U.registration_type then 1 else 0 end as registration_type_Mismatch
-		,getdate() as DMlastupdated
-	from [staging].[TGCPlus_PrevDay_User] Prev
-	join [Archive].[TGCPlus_User]  U
-	on U.uuid = Prev.uuid
-	where U.id <> Prev.id
-	or Prev.email <> U.Email
-	or Prev.campaign <> U.campaign
-	or Prev.TGCPluscampaign <> U.TGCPluscampaign
-	or Prev.entitled_dt <> U. entitled_dt
-	or Prev.joined <> U.Joined
-	or Prev.payment_handler <> U.payment_handler
-	or Prev.registered_via_platform <> U.registered_via_platform
-	or Prev.subscribed_via_platform <> U.subscribed_via_platform
-	or Prev.registration_type <> U.registration_type
+	INSERT INTO Archive.TGCPlus_User_Audit_trail
+	SELECT Prev.uuid,
+		Prev.email AS Prev_Email, U.Email ,CASE WHEN Prev.email <> U.Email THEN 1 ELSE 0 END AS Email_Mismatch, 
+		Prev.campaign AS Prev_campaign, U.campaign,CASE WHEN Prev.campaign <> U.campaign THEN 1 ELSE 0 END AS campaign_Mismatch,
+		Prev.TGCPluscampaign AS Prev_TGCPluscampaign, U.TGCPluscampaign,CASE WHEN Prev.TGCPluscampaign <> U.TGCPluscampaign THEN 1 ELSE 0 END AS TGCPluscampaign_Mismatch,
+		Prev.entitled_dt AS Prev_entitled_dt, U.entitled_dt,CASE WHEN Prev.entitled_dt <> U.entitled_dt THEN 1 ELSE 0 END AS entitled_dtMismatch,
+		Prev.joined AS Prev_joined, U.joined,CASE WHEN Prev.joined <> U.joined THEN 1 ELSE 0 END AS joined_Mismatch,
+		Prev.payment_handler AS Prev_payment_handler, U.payment_handler,CASE WHEN Prev.payment_handler <> U.payment_handler THEN 1 ELSE 0 END AS payment_handler_Mismatch,
+		Prev.registered_via_platform AS Prev_registered_via_platform, U.registered_via_platform,CASE WHEN Prev.registered_via_platform <> U.registered_via_platform THEN 1 ELSE 0 END AS registered_via_platform_Mismatch,
+		Prev.subscribed_via_platform AS Prev_subscribed_via_platform, U.subscribed_via_platform,CASE WHEN Prev.subscribed_via_platform <> U.subscribed_via_platform THEN 1 ELSE 0 END AS subscribed_via_platform_Mismatch,
+		Prev.registration_type AS Prev_registration_type, U.registration_type,CASE WHEN Prev.registration_type <> U.registration_type THEN 1 ELSE 0 END AS registration_type_Mismatch
+		,GETDATE() AS DMlastupdated
+	FROM [staging].[TGCPlus_PrevDay_User] Prev
+	JOIN [Archive].[TGCPlus_User]  U
+	ON U.uuid = Prev.uuid
+	WHERE U.id <> Prev.id
+	OR Prev.email <> U.Email
+	OR Prev.campaign <> U.campaign
+	OR Prev.TGCPluscampaign <> U.TGCPluscampaign
+	OR Prev.entitled_dt <> U. entitled_dt
+	OR Prev.joined <> U.Joined
+	OR Prev.payment_handler <> U.payment_handler
+	OR Prev.registered_via_platform <> U.registered_via_platform
+	OR Prev.subscribed_via_platform <> U.subscribed_via_platform
+	OR Prev.registration_type <> U.registration_type
  
  
-   If exists (select top 1 * from DataWarehouse.Archive.TGCPlus_user_Audit_trail where cast(DMlastupdated as date) = cast(getdate() as date))
+   IF EXISTS (SELECT TOP 1 * FROM DataWarehouse.Archive.TGCPlus_user_Audit_trail WHERE CAST(DMlastupdated AS DATE) = CAST(GETDATE() AS DATE))
 
-   Begin
+   BEGIN
    
-		DECLARE @p_body as nvarchar(max), @p_subject as nvarchar(max)
-		DECLARE @p_recipients as nvarchar(max), @p_profile_name as nvarchar(max)
+		DECLARE @p_body AS NVARCHAR(MAX), @p_subject AS NVARCHAR(MAX)
+		DECLARE @p_recipients AS NVARCHAR(MAX), @p_profile_name AS NVARCHAR(MAX)
 		SET @p_profile_name = N'DL datamart alerts'
 		SET @p_recipients = N'~dldatamartalerts@TEACHCO.com'
 		SET @p_subject = N'Data Added today to TGCPlus User Audit Trail'
@@ -180,10 +183,12 @@ exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_User'
 		  @body = @p_body,
 		  @body_format = 'HTML',
 		  @subject = @p_subject
-	end
+	END
 
 END   
    
+
+
 
 
 

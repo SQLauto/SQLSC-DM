@@ -64,6 +64,8 @@ CREATE TABLE [Marketing].[TGCPlus_ConsumptionFreeMonthChurn]
 [RegDate] [date] NULL,
 [RegMonth] [int] NULL,
 [RegYear] [int] NULL,
+[IntlPaidAmt] [float] NULL,
+[IntlPaidDate] [date] NULL,
 [CustStatus] [varchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [IntlCourseID] [bigint] NULL,
 [IntlLectureNumber] [bigint] NULL,
