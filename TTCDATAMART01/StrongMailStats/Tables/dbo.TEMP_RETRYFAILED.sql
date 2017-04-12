@@ -1,0 +1,25 @@
+CREATE TABLE [dbo].[TEMP_RETRYFAILED]
+(
+[TRDATE] [datetime] NULL,
+[SNO] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MAILINGID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DBID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MESSAGEID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[USERID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DBROWNUM] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DBNAME] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MSGSNO] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EMAIL] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BOUNCE] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[VSGNAME] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[OUTBOUNDIP] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MXIP] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CATEGORY] [int] NULL,
+[TYPE] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CODE] [int] NULL
+) ON [PRIMARY]
+GO
+GRANT REFERENCES ON  [dbo].[TEMP_RETRYFAILED] TO [TEACHCO\OLTP_DATA Group]
+GO
+GRANT SELECT ON  [dbo].[TEMP_RETRYFAILED] TO [TEACHCO\OLTP_DATA Group]
+GO

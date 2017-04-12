@@ -1,0 +1,2 @@
+CREATE USER [rep_admin] WITHOUT LOGIN
+GO
