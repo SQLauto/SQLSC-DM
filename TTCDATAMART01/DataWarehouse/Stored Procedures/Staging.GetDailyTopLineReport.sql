@@ -86,7 +86,7 @@ begin
         a.CustomerSegmentFnlPrior,
         a.NewsegPrior, a.NamePrior, a.A12mfPrior,
        -- fo.CustType,		--PR 9/12 -- This variable is causing confusion. So, removing after discussing with Amit
-        vac.MD_Audience,
+	    vac.MD_Audience,
         vac.MD_Year,
         vac.MD_Country,
         vac.MD_PriceType,
@@ -103,7 +103,7 @@ begin
 		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
 		Mapping.vwAdcodesAll vac on a.AdCode = vac.AdCode left join
 		Staging.vwDMSOUPByFormat fmt on a.OrderID = fmt.Orderid
-    where year(a.DateOrdered) >= YEAR(getdate())-2
+    where year(a.DateOrdered) >= YEAR(getdate())-1
     group by YEAR(a.DateOrdered),
         MONTH(a.DateOrdered),
         DataWarehouse.Staging.GetMonday(a.DateOrdered),
@@ -136,7 +136,7 @@ begin
         a.CustomerSegmentFnlPrior,
         a.NewsegPrior, a.NamePrior, a.A12mfPrior,
        -- fo.CustType,  --PR 9/12 -- This variable is causing confusion. So, removing after discussing with Amit
-        vac.MD_Audience,
+	    vac.MD_Audience,
         vac.MD_Year,
         vac.MD_Country,
         vac.MD_PriceType,

@@ -53,6 +53,24 @@ Begin
 	on b.JSCOUPONNUMBER = c.couponNumber
 
 
+	select a.*, 										
+	case when DATEDIFF(day,a.created_date,a.customersince) < -1 then 'Existing' else 'New' end as CustType,									
+	b.JSCOUPONNUMBER, b.CurrencyCode,									
+	b.Coupon, b.CouponDesc, isnull(b.Orders,0) Orders,									
+	isnull(b.Sales,0) Sales		
+	Into #EmailCaptureOrders							
+	from #EmailCapture a 
+	left join (select customerid, Coupon, CurrencyCode,									
+		JSCOUPONNUMBER, CouponDesc, 								
+		count(OrderID) Orders, 								
+		sum(NetOrderAmount) Sales								
+	from #CouponOrders									
+	group by CustomerID, Coupon, CurrencyCode, 									
+		JSCOUPONNUMBER, CouponDesc) 
+		b on a.CustomerID = b.CustomerID		
+	
+	
+
 	Truncate table Datawarehouse.archive.EmailCaptureReportByCoupons
 	
 	Insert into Datawarehouse.archive.EmailCaptureReportByCoupons

@@ -3,7 +3,6 @@ GO
 SET ANSI_NULLS ON
 GO
 
-
 CREATE Proc [Staging].[SP_FBA_Load_Sales]
 as
 Begin
@@ -75,9 +74,9 @@ select  s.amazon_order_id,
 
 
 
-insert into Mapping.FBA_Customer_Address (buyer_email,buyer_name,recipient_name,ship_address_1,ship_address_2,ship_address_3,ship_city,ship_state,ship_postal_code,ship_country)
+insert into Mapping.FBA_Customer_Address (buyer_email,buyer_name,recipient_name,ship_address_1,ship_address_2,ship_address_3,ship_city,ship_state,ship_postal_code,ship_country,Initialpurchase_date)
 select FBA.* from
-(select buyer_email,buyer_name,recipient_name,	ship_address_1,	ship_address_2,	ship_address_3,	ship_city,	ship_state,	ship_postal_code,	ship_country
+(select buyer_email,buyer_name,recipient_name,	ship_address_1,	ship_address_2,	ship_address_3,	ship_city,	ship_state,	ship_postal_code,	ship_country,min(purchase_date)Initialpurchase_date
 from  Archive.FBA_Sales
 group by buyer_email,buyer_name,recipient_name,	ship_address_1,	ship_address_2,	ship_address_3,	ship_city,	ship_state,	ship_postal_code,	ship_country)FBA
 left join Mapping.FBA_Customer_Address Ad
@@ -86,4 +85,5 @@ where Ad.buyer_email is null
 
  
 End
+
 GO

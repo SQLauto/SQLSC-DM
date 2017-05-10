@@ -4,9 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
-
-
 CREATE Proc [Staging].[SP_VL_Load_TGCPLus_Daily]
 as
 
@@ -41,6 +38,10 @@ Print 'Executed staging.SP_VL_Load_VideoEvents'
 Exec Staging.SP_VL_Load_Seriescategories
 Print 'Executed staging.SP_VL_Load_Seriescategories'
 
+/*Refresh TGCPlus_Transaction  & TGCPlus_CustomerStatus table*/
+
+Exec [Staging].[SP_Load_TGCPlus_Transaction]  
+Print 'Executed staging.SP_Load_TGCPlus_Transaction'
 
 /*Refresh TGCPlus Daily orders table and TGCPluscustomerSignature table*/
 
@@ -88,6 +89,7 @@ end
 
 
 END
+
 
 
 

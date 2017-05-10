@@ -3,7 +3,8 @@ GO
 SET ANSI_NULLS ON
 GO
 
-Create Proc [dbo].[SP_Load_EmailOrders] @Date date =  null, @maxdate date = null
+
+CREATE Proc [dbo].[SP_Load_EmailOrders] @Date date =  null, @maxdate date = null
 As
 BEGIN
 
@@ -14,10 +15,12 @@ end
 
 if @maxdate is null
 begin
-select @maxdate = Staging.GetSunday(cast(dateadd(m,-1,getdate()) as date))
-end
 
- 
+/*Changed to 2 weeks VB 5/5/2017*/
+--select @maxdate = Staging.GetSunday(cast(dateadd(m,-1,getdate()) as date))
+
+select @maxdate = Staging.GetSunday(cast(dateadd(Week,-2,getdate()) as date))
+end
 
 select @Date Startdate, @maxdate Enddate
 
@@ -25,13 +28,18 @@ while @Date<=@maxdate
 
 Begin  
 
-       Declare @Startdate Date , @Enddate Date set @Startdate = @Date set @Enddate = DATEADD(MONTH,1,@Startdate) 
+       Declare @Startdate Date , @Enddate Date 
+	   set @Startdate = @Date 
+/*Changed to 2 weeks VB 5/5/2017*/
+--set @Enddate = DATEADD(MONTH,1,@Startdate)
+	   set @Enddate = DATEADD(Week,2,@Startdate)
+	    
        select @Startdate,@Enddate
 
        /* For 1 day Load Email History Data*/
        select CustomerID,Adcode,StartDate,FlagHoldOut,ComboID,PreferredCategory,EmailAddress
        into #EmailHistory
-       from DataWarehouse.Archive.EmailHistory2016
+       from DataWarehouse.Archive.EmailhistoryCurrentYear
        where StartDate = @Startdate
 
        /*Adcodes list*/
@@ -39,7 +47,7 @@ Begin
        into #Adcode
        from #EmailHistory
 
-       /* SM_TRACKING_LOG between the 1 months*/
+       /* SM_TRACKING_LOG between the start and end dates*/
        select * ,substring(userid,CHARINDEX('_',userid,0)+1,6 ) adcode,substring(userid,0,CHARINDEX('_',userid,0)) Customerid 
        into #SM_TRACKING_LOG
        from DataWarehouse.Archive.SM_TRACKING_LOG 

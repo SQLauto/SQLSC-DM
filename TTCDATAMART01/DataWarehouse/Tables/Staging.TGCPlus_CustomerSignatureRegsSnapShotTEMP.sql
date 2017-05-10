@@ -7,7 +7,7 @@ CREATE TABLE [Staging].[TGCPlus_CustomerSignatureRegsSnapShotTEMP]
 [TGCCustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CountryCode] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IntlCampaignID] [int] NULL,
-[IntlCampaignName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IntlCampaignName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IntlMD_Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IntlMD_Audience] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IntlMD_Channel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

@@ -7,6 +7,7 @@ GO
 
 
 
+
 CREATE VIEW [Staging].[vwDMSOUPByFormatIgnoreReturns]
 AS
 
@@ -31,18 +32,18 @@ select a.OrderID, b.Dateordered, b.NetOrderAmount,
 	sum(case when a.FormatMedia in ('DV') then a.Totalsales else 0 end) VideoDLSales,
 	sum(case when a.FormatMedia in ('DV') then a.TotalQuantity else 0 end) VideoDLUnits,
 	sum(case when a.FormatMedia in ('DV') then a.TotalParts else 0 end) VideoDLParts,
-	sum(case when a.FormatMedia in ('T') then a.Totalsales else 0 end) TranscriptSales,
-	sum(case when a.FormatMedia in ('T') then a.TotalQuantity else 0 end) TranscriptUnits,
-	sum(case when a.FormatMedia in ('T') then a.TotalParts else 0 end) TranscriptParts,
-	sum(case when a.FormatMedia in ('DT') then a.Totalsales else 0 end) DigitalTranscriptSales,
-	sum(case when a.FormatMedia in ('DT') then a.TotalQuantity else 0 end) DigitalTranscriptUnits,
-	sum(case when a.FormatMedia in ('DT') then a.TotalParts else 0 end) DigitalTranscriptParts,
-	sum(case when a.FormatMedia in ('DL','DV','DT') then a.Totalsales else 0 end) DigitalSales,
-	sum(case when a.FormatMedia in ('DL','DV','DT') then a.TotalQuantity else 0 end) DigitalUnits,
-	sum(case when a.FormatMedia in ('DL','DV','DT') then a.TotalParts else 0 end) DigitalParts,
-	sum(case when a.FormatMedia in ('C','M','A','V','D','T') then a.Totalsales else 0 end) PhysicalSales,
-	sum(case when a.FormatMedia in ('C','M','A','V','D','T') then a.TotalQuantity else 0 end) PhysicalUnits,
-	sum(case when a.FormatMedia in ('C','M','A','V','D','T') then a.TotalParts else 0 end) PhysicalParts,
+	sum(case when left(a.StockItemID,2) = 'PT' then a.Totalsales else 0 end) TranscriptSales,
+	sum(case when left(a.StockItemID,2) = 'PT' then a.TotalQuantity else 0 end) TranscriptUnits,
+	sum(case when left(a.StockItemID,2) = 'PT' then a.TotalParts else 0 end) TranscriptParts,
+	sum(case when left(a.StockItemID,2) = 'DT' then a.Totalsales else 0 end) DigitalTranscriptSales,
+	sum(case when left(a.StockItemID,2) = 'DT' then a.TotalQuantity else 0 end) DigitalTranscriptUnits,
+	sum(case when left(a.StockItemID,2) = 'DT' then a.TotalParts else 0 end) DigitalTranscriptParts,
+	sum(case when left(a.StockItemID,2) in ('DA','DV','DT') then a.Totalsales else 0 end) DigitalSales,
+	sum(case when left(a.StockItemID,2) in ('DA','DV','DT') then a.TotalQuantity else 0 end) DigitalUnits,
+	sum(case when left(a.StockItemID,2) in ('DA','DV','DT') then a.TotalParts else 0 end) DigitalParts,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.Totalsales else 0 end) PhysicalSales,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.TotalQuantity else 0 end) PhysicalUnits,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.TotalParts else 0 end) PhysicalParts,
 	sum(a.TotalSales) TotalMerchandizeSales,
 	sum(a.TotalQuantity) TotalMerchandizeUnits,
 	sum(a.TotalParts) TotalMerchandizeParts
@@ -50,6 +51,7 @@ from Marketing.DMPurchaseOrderItems a with (nolock) join
 	Marketing.DMPurchaseOrdersIgnoreReturns b with (nolock) on a.OrderID = b.OrderID
 group by a.OrderID, b.DateOrdered, b.NetOrderAmount, 
 	b.ShippingCharge, b.DiscountAmount, b.Tax
+
 
 
 

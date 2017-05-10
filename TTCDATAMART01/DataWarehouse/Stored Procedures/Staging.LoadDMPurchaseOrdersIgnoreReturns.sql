@@ -239,6 +239,7 @@ begin
     SUM(TotalSales) As TS
     FROM Staging.ValidPurchaseOrderItemsIgnoreReturns (nolock) 
     WHERE FormatMedia = 'T' 
+	and left(stockitemid,2) = 'PT'
     GROUP BY OrderID) T	
     WHERE 
         MO.OrderID = T.OrderID	
@@ -442,7 +443,7 @@ begin
         select distinct poi.OrderID
         from Staging.ValidPurchaseOrderItemsIgnoreReturns poi (nolock)
         where 
-            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV','T')		-- PR -- 3/07/2017 ** xxx **
+            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV','PT')		-- PR -- 3/07/2017 ** xxx **
     )
     update po
     set po.FlagDigitalPhysical = 'Digital Only'
@@ -454,7 +455,7 @@ begin
         select distinct poi.OrderID
         from Staging.ValidPurchaseOrderItemsIgnoreReturns poi (nolock)
         where 
-            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV', 'T')		-- PR -- 3/07/2017 ** xxx **
+            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV', 'PT')		-- PR -- 3/07/2017 ** xxx **
 		except            
         select distinct poi.OrderID
         from Staging.ValidPurchaseOrderItemsIgnoreReturns poi (nolock)
@@ -471,7 +472,7 @@ begin
         select distinct poi.OrderID
         from Staging.ValidPurchaseOrderItemsIgnoreReturns poi (nolock)
         where 
-            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV','T')		-- PR -- 3/07/2017 ** xxx **
+            left(poi.StockItemID, 2) in ('PD', 'PC', 'PV', 'PA', 'PM', 'LA', 'LC', 'LD', 'LV','PT')		-- PR -- 3/07/2017 ** xxx **
 		intersect
         select distinct poi.OrderID
         from Staging.ValidPurchaseOrderItemsIgnoreReturns poi (nolock)
@@ -691,7 +692,7 @@ begin
     (SELECT OrderID, SUM(TotalParts) As TP, SUM(TotalQuantity)As TQ, 
     SUM(TotalSales) As TS
     FROM Staging.ValidPurchaseOrderItemsIgnoreReturns (nolock) 
-    WHERE FormatMedia in ('DL','DV')
+    WHERE left(stockitemid,2) in ('DA','DV','DT')
     GROUP BY OrderID) T	
     WHERE 
         MO.OrderID = T.OrderID	
@@ -707,7 +708,7 @@ begin
     (SELECT OrderID, SUM(TotalParts) As TP, SUM(TotalQuantity)As TQ, 
     SUM(TotalSales) As TS
     FROM Staging.ValidPurchaseOrderItemsIgnoreReturns (nolock) 
-    WHERE FormatMedia in ('D','C','A','V','M')
+    WHERE left(stockitemid,2) in ('PD','PC','PA','PV','PM','PT')
     GROUP BY OrderID) T	
     WHERE 
         MO.OrderID = T.OrderID	

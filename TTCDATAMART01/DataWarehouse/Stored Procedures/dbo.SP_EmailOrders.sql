@@ -2,14 +2,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-Create Proc [dbo].[SP_EmailOrders]
+
+CREATE Proc [dbo].[SP_EmailOrders]
 As
 Begin
 
 /**************************Email Orders report**********************************/
 --- This proc will run everyweek to load Email orders for last 7 days. 
 /********************************************************************************/
-
+return 0 
 
 Declare @Date date =cast(getdate()-8 as date), @maxdate date = cast(getdate()-1 as date)
 
@@ -91,4 +92,5 @@ End
 
 
 End
+
 GO

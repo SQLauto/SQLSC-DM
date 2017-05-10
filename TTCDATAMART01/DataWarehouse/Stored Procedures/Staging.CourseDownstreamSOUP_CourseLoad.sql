@@ -23,20 +23,21 @@ begin
 
 
 -- Get list of courses to be updated
---print 'Get list of courses to be updated'
---if object_id('Staging.TempCourse_LISTfor_SOUP_UpdtCL') is not null drop table Staging.TempCourse_LISTfor_SOUP_UpdtCL
+print 'Get list of courses to be updated'
+if object_id('Staging.TempCourse_LISTfor_SOUP_UpdtCL') is not null drop table Staging.TempCourse_LISTfor_SOUP_UpdtCL
 
---select a.*, b.TGCPlus_SubjCat, 
---		c.ProfessorID, c.Prof_FistName, c.Prof_LastName, c.ProfQual
---into Staging.TempCourse_LISTfor_SOUP_UpdtCL
---from Mapping.DMCourse a 
---	left join Archive.Vw_TGCPlus_CourseCategory b on a.CourseID = b.CourseID
---	left join Staging.Vw_DMCourse_unqProf c on a.CourseID = c.courseid
---where a.BundleFlag = 0	
---and a.CourseID > 50	
+select a.*, b.TGCPlus_SubjCat, 
+		c.ProfessorID, c.Prof_FistName, c.Prof_LastName, c.ProfQual
+into Staging.TempCourse_LISTfor_SOUP_UpdtCL
+from Mapping.DMCourse a 
+	left join Archive.Vw_TGCPlus_CourseCategory b on a.CourseID = b.CourseID
+	left join Staging.Vw_DMCourse_unqProf c on a.CourseID = c.courseid
+where a.BundleFlag = 0	
+and a.CourseID > 50	
+and year(a.ReleaseDate) = @ReleaseYear and month(a.ReleaseDate) in (@ReleaseMonth)
 --and year(a.ReleaseDate) = 2006 and month(a.ReleaseDate) in (1,2)
-----and a.courseid < 1000
---order by 1
+--and a.courseid < 1000
+order by 1
 --and a.ReleaseDate between DATEADD(monoth,-27,getdate()) and DATEADD(DAY,-17,getdate())
 
 print 'Get SOUP data for the selected courses'

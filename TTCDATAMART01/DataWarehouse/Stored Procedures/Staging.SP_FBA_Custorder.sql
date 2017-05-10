@@ -160,7 +160,7 @@ group by a.buyer_email,a.buyer_name,a.address,a.customerid,
 select *
 from #fnl1
 
-if object_id('Marketing.FBA_CustOrder1') is not null
+if object_id('Marketing.FBA_CustOrder') is not null
 drop table DataWarehouse.Marketing.FBA_CustOrder
 
 
@@ -168,6 +168,4 @@ select * into DataWarehouse.Marketing.FBA_CustOrder from  #fnl1
 
 
 End
-
-
 GO

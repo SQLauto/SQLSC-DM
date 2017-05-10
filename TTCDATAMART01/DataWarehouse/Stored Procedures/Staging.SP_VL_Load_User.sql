@@ -117,6 +117,12 @@ Update [Archive].[TGCPlus_User]
 set TGCPluscampaign = Case when subscription_plan_id = 27 then 120093 /* Beta Users*/          
          when registered_via_platform = 'Roku' and campaign is null then 120092 /* Roku */          
          when subscribed_via_platform = 'Roku' and registered_via_platform is null and campaign is NULL then 120092 /* Roku */          
+         when registered_via_platform = 'iOS' and campaign is null then 147003 /* iOS */             -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
+         when subscribed_via_platform = 'iOS' and registered_via_platform is null and campaign is NULL then 147003 /* iOS */  -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
+         when subscribed_via_platform = 'iTunes' and registered_via_platform is null and campaign is NULL then 147003 /* iOS */           -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
+         when registered_via_platform = 'Android' and campaign is null then 147004 /* Android */           -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
+         when subscribed_via_platform = 'Android' and registered_via_platform is null and campaign is NULL then 147004 /* Android */  -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
+         when subscribed_via_platform = 'Google Play' and registered_via_platform is null and campaign is NULL then 147004 /* Android */           -- PR Added on 5/3/2017 to distinguish between web, iOS and Android
          when patindex('%[a-z]%', campaign)> 0 then 120091 /* Default*/          
          when patindex(@specialchars, campaign)> 0 then 120091 /* Default*/  
          When isnumeric(campaign) = 0 then 120091 /* Default*/  

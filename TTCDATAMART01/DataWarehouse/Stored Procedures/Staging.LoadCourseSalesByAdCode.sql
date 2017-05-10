@@ -31,13 +31,14 @@ begin
         	O.DateOrdered BETWEEN A.StartDate and dateadd(day,1,A.StopDate)
 	        and a.StartDate between convert(date, '12/1/' + convert(varchar(4), @Year - 2)) and convert(date, '12/31/' + convert(varchar(4), @Year))
 	        AND OI.TotalSales Between 1 and 1500
-    	    AND (B.Promotiontype in ('Catalog','Convertalog','Catalog International','Letter Mailings',
-        	    'OutsideMailing','HighSchoolMail','SwampSpecific','Newsletter',
-                'Catalog Prospecting International','MAGAZINE','Magalog','ShippingCatalog',
-                'E-campaign','E-campaign_Int','Other','Magnificent7','MagBacks','Radio')
-                or a.ChannelID in (1,2,4,5,6,20))
-        GROUP BY 
-            a.CatalogCode, a.Adcode, OI.CourseID, OI.BundleID, StockItemID
+    	    --AND (B.Promotiontype in ('Catalog','Convertalog','Catalog International','Letter Mailings',
+        	--    'OutsideMailing','HighSchoolMail','SwampSpecific','Newsletter',
+         --       'Catalog Prospecting International','MAGAZINE','Magalog','ShippingCatalog',
+         --       'E-campaign','E-campaign_Int','Other','Magnificent7','MagBacks','Radio')
+               -- or a.ChannelID in (1,2,4,5,6,20)) -- PR 5/2/2017 Need all channels by Joe
+			AND a.ChannelID in (select distinct MD_ChannelID
+								from Mapping.MktDim_Channel)
+        GROUP BY   a.CatalogCode, a.Adcode, OI.CourseID, OI.BundleID, StockItemID
     )
     select 
 		oa.CatalogCode, 
