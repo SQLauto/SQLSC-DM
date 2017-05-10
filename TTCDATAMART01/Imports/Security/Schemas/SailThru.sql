@@ -1,0 +1,3 @@
+CREATE SCHEMA [SailThru]
+AUTHORIZATION [dbo]
+GO
