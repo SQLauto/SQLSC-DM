@@ -25,13 +25,14 @@ set Campaign =
          when cast(campaign as int)> @adcode then 120091 /* Default*/           
          else campaign end              
 
-select Campaign, DATE, 
+select 
+Campaign, DATE,
 sum(convert(int,Sessions)) Sessions, 
 sum(convert(int,New_users)) New_users, 
-sum(convert(int,Pageviews)) Pageviews, 
-sum(convert(int,Goal_1_completions_Finished_Registration)) Goal_1_completions_Finished_Registration, 
+sum(convert(int,Pageviews)) Pageviews,
+sum(convert(int,Goal_1_completions_Finished_Registration)) Goal_1_completions_Finished_Registration,
 sum(convert(int,Goal_2_completions_Signedup_For_Subscription)) Goal_2_completions_Signedup_For_Subscription ,
-sum(convert(int,Users)) AllUsers
+sum(CAST(REPLACE(RTRIM(LTRIM(users)),CHAR(13),'') AS INT)) AllUsers
 into #Metrics 
 from Staging.GA_ssis_Metrics 
 group by Campaign, date 
@@ -44,5 +45,5 @@ select * from #Metrics
 
 Drop table #Metrics
 
-End
+END
 GO

@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE proc [dbo].[Sp_EPC_EmailPull_Format]        
 as        
 Begin        
@@ -839,144 +840,6 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------      
 
   
---------------------------------------------------------------------------------------------------------------------------------------------        
---------------------------------------------------------------------------------------------------------------------------------------------        
---------------------------------------------------------------------------------------------------------------------------------------------        
--------------------------------Splitter to split counts based of the percentage of records in mapping---------------------------------------        
---------------------------------------------------------------------------------------------------------------------------------------------        
---------------------------------------------------------------------------------------------------------------------------------------------        
-if exists (select COUNT(*) from mapping.Email_adcode_Format         
-where primary_adcode is not null and EmailID = @EmailID         
-group by primary_adcode having COUNT(*)>1 )         
-Begin        
-        
-print 'Before Splitter'        
-        
-exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullFormat', datawarehouse        
-        
-        
-  
-alter table staging.EPC_EmailPullFormat add EmailCnt int  
-  
-update a  
-set a.EmailCnt = b.EmailCnt  
-from staging.EPC_EmailPullFormat a  
-left join   
-(select Customerid,COUNT(*) as EmailCnt  
-from staging.EPC_EmailPullFormat  
-group by Customerid) b  
-on a.customerid = b.customerid  
-  
-  
-        
---#primaryadcode        
-select primary_adcode,0 as processed  into #primaryadcode         
-from mapping.Email_adcode_Format         
-where primary_adcode is not null and EmailID = @EmailID         
-group by primary_adcode having COUNT(*)>1          
-        
-  while exists (select top 1 * from #primaryadcode where processed=0 order by primary_adcode)        
-   Begin        
-        
-   declare @primary_adcode varchar(10)        
-        
-   select top 1 @primary_adcode=primary_adcode from #primaryadcode where processed=0 order by primary_adcode        
-        
-   select '@primary_adcode',@primary_adcode        
-        
-        
-   --#adcode        
-   select adcode,split_percentage,primary_Adcode into #adcode       
-   from mapping.Email_adcode_Format where primary_Adcode=@primary_adcode and EmailID = @EmailID        
-        
-        
-   --#splitter        
-   Create table #splitter (adcode varchar(10),primary_adcode varchar(10),comboid varchar(20),preferredcategory varchar(30), split_percentage int,EmailCnt int,Cnt int, processed bit default(0))        
-   Insert into #splitter (adcode,comboid,preferredcategory,EmailCnt,cnt,primary_adcode,split_percentage )        
- select adcode,comboid,preferredcategory,EmailCnt,cnt,primary_Adcode,split_percentage from #adcode,        
-   ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(*) Cnt  
-            From  
-            (  
-               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory,COUNT(*) as EmailCnt        
-               From staging.EPC_EmailPullFormat        
-               Where adcode = @primary_adcode         
-               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')        
-            )  a  
- Group by coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx') ,EmailCnt  
- having COUNT(*)>1  
- )a     
-     
-  print 'updating #splitter processed=1 for primaryadcode'        
-   update #splitter        
-   set processed = 1        
-   where adcode=@primary_adcode        
-           
-   print 'updating #splitter Cnts for other adcode based of SplitPct'        
-   update #splitter        
-   set Cnt = cast( (split_percentage * cnt )/100 as int)        
-   where adcode<>@primary_adcode        
-        
-        
-   declare @adcode varchar(10), @PrimaryAdcode varchar(10),@EmailCnt varchar(15),@Cnt varchar(15),@comboid varchar(20),@preferredcategory varchar(20)        
-        
-     while exists (select top 1 * from #splitter where processed=0 order by adcode)        
-      Begin        
-        
-      select top 1 @adcode = adcode ,@PrimaryAdcode=primary_adcode, @Emailcnt = Emailcnt, @cnt = cnt,@comboid=comboid,@preferredcategory=preferredcategory         
-      from #splitter         
-      where processed=0         
-      order by adcode,comboid,preferredcategory ,Emailcnt       
-        
-      select  @adcode as adcode , @PrimaryAdcode as PrimaryAdcode,@Emailcnt as Emailcnt, @Cnt as cnt,@comboid as comboid,@preferredcategory as preferredcategory        
-              
-      Print 'updating records for above segments'        
-      exec ('update staging.EPC_EmailPullFormat         
-          set adcode = '+ @adcode +        
-        ' where adcode = '+ @PrimaryAdcode +' and customerID in (select top ' + @Cnt + '  customerID   from staging.EPC_EmailPullFormat where adcode = '+ @PrimaryAdcode +   
-        ' and comboid= '''+ @comboid + ''' and EmailCnt= '''+ @Emailcnt + ''' and  preferredcategory  = ''' + @preferredcategory + ''' order by NEWID() )')        
-        
-      update #splitter        
-      set processed=1        
-      where adcode=@adcode and comboid=@comboid and preferredcategory = @preferredcategory  and Emailcnt  = @Emailcnt  
-        
-      END        
-        
-   drop table #adcode        
-   drop table #splitter        
-        
-        
-   update #primaryadcode        
-   set processed=1        
-   where primary_adcode = @primary_adcode        
-        
-END        
-
-
-drop table #primaryadcode        
-alter table staging.EPC_EmailPullFormat drop column EmailCnt        
-        
-        
-/*Update Test group*/  
-update a  
-set  a.CatalogName = m.SegmentGroup 
-from DataWarehouse.Staging.EPC_EmailPullFormat a  
-inner join DataWarehouse.Mapping.Email_adcode_Format m   
-on  a.adcode = m.Adcode 
-where m.EmailID = @EmailID     
-and m.TestFlag = 1
-
-        
-print 'After Splitter'        
-exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullFormat', datawarehouse        
-        
-End            
-        
-Else        
-        
-begin        
-print 'No Splits'        
-End        
-        
         
 Print 'Delete New Customers whos segments are pending from Picking work bench'        
         
@@ -1073,7 +936,7 @@ into #SNI
 from DataWarehouse.Staging.EPC_EmailPullFormat E      
 inner join #EmailsNotMatched E1      
 on E.CustomerID = E1.CustomerId and E.EmailAddress = E1.Emailaddress      
-where E.CatalogName not in ( 'Active Control','Active Test')      
+where E.CatalogName not in ( 'Active Control')      
       
 --Valid Emails      
 --#MatchCustomeriD      
@@ -1082,7 +945,7 @@ into #MatchCustomeriD
 from DataWarehouse.Staging.EPC_EmailPullFormat a      
 join  DataWarehouse.Marketing.CampaignCustomerSignature b      
 on a.customerid = b.customerid and a.emailaddress <> b.EmailAddress      
-where CatalogName in ( 'Active Control','Active Test')      
+where CatalogName in ( 'Active Control')      
 and b.EmailAddress <> ''      
       
 --Blank Emails      
@@ -1092,7 +955,7 @@ into #Nomatch
 from DataWarehouse.Staging.EPC_EmailPullFormat a      
 join  DataWarehouse.Marketing.CampaignCustomerSignature b      
 on a.customerid = b.customerid and a.emailaddress <> b.EmailAddress      
-where CatalogName in ( 'Active Control','Active Test')     
+where CatalogName in ( 'Active Control')     
 and b.EmailAddress = ''      
       
       
@@ -1120,7 +983,7 @@ where e.CountryCode<>'US'
       
 Declare @SwampMatchCustomeriDAdcode int = 0       
 select @SwampMatchCustomeriDAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_format            
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp match' and countrycode= 'US'         
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp match' and countrycode= 'US'  and Format = 'DVD'        
 select '@SwampMatchCustomeriDAdcode', @SwampMatchCustomeriDAdcode          
       
       
@@ -1141,7 +1004,7 @@ where e.CountryCode<>'US'
       
 Declare @MatchCustomeriDAdcode int = 0       
 select @MatchCustomeriDAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_format            
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'EPC Active' and countrycode= 'US'         
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'EPC Active' and countrycode= 'US' and format = 'DVD'    
 select '@MatchCustomeriDAdcode', @MatchCustomeriDAdcode          
       
 Update e Set e.Adcode = @MatchCustomeriDAdcode,E.CatalogName = 'EPC Active'      
@@ -1181,6 +1044,9 @@ DROP table #Nomatch
       
 End      
 
+--drop table ##EPC_EmailPullFormat
+--select * into ##EPC_EmailPullFormat from staging.EPC_EmailPullFormat
+
 print 'After EPC update'        
 exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullFormat', datawarehouse 
 ----------------------------------------------------------------------------------------------------------------------------------------------------      
@@ -1205,7 +1071,7 @@ drop table  staging.EPC_EmailPull_Format_PRSPCT
  from DataWarehouse.Marketing.Vw_EPC_Prospect_EmailPull     
  where store_country not in ('au_en','uk_en')    
  and website_country not in ('UK','AU','Australia')    
- order by magento_created_date desc    
+ --order by magento_created_date desc    
      
      
  CREATE TABLE staging.EPC_EmailPull_Format_PRSPCT(    
@@ -1274,6 +1140,161 @@ End
 --------------------------------------------------------Block ends for Prospect New EPC Emails--------------------------------------------------------      
 ----------------------------------------------------------------------------------------------------------------------------------------------------      
   
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------        
+--------------------------------------------------------------------------------------------------------------------------------------------        
+--------------------------------------------------------------------------------------------------------------------------------------------        
+-------------------------------Splitter to split counts based of the percentage of records in mapping---------------------------------------        
+--------------------------------------------------------------------------------------------------------------------------------------------        
+--------------------------------------------------------------------------------------------------------------------------------------------        
+if exists (select COUNT(*) from mapping.Email_adcode_Format         
+where primary_adcode is not null and EmailID = @EmailID         
+group by primary_adcode having COUNT(*)>1 )         
+Begin        
+        
+print 'Before Splitter'        
+        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullFormat', datawarehouse        
+        
+        
+  
+alter table staging.EPC_EmailPullFormat add EmailCnt int  
+  
+update a  
+set a.EmailCnt = b.EmailCnt  
+from staging.EPC_EmailPullFormat a  
+left join   
+(select Customerid,COUNT(*) as EmailCnt  
+from staging.EPC_EmailPullFormat  
+group by Customerid) b  
+on a.customerid = b.customerid  
+  
+  
+        
+--#primaryadcode        
+select primary_adcode,0 as processed  into #primaryadcode         
+from mapping.Email_adcode_Format         
+where primary_adcode is not null and EmailID = @EmailID         
+group by primary_adcode having COUNT(*)>1          
+        
+  while exists (select top 1 * from #primaryadcode where processed=0 order by primary_adcode)        
+   Begin        
+        
+   declare @primary_adcode varchar(10)        
+        
+   select top 1 @primary_adcode=primary_adcode from #primaryadcode where processed=0 order by primary_adcode        
+        
+   select '@primary_adcode',@primary_adcode        
+        
+        
+   --#adcode        
+   select adcode,split_percentage,primary_Adcode into #adcode       
+   from mapping.Email_adcode_Format where primary_Adcode=@primary_adcode and EmailID = @EmailID        
+        
+        
+   --#splitter        
+   Create table #splitter (adcode varchar(10),primary_adcode varchar(10),comboid varchar(20),preferredcategory varchar(30), split_percentage int,EmailCnt int,Cnt int, processed bit default(0))        
+   Insert into #splitter (adcode,comboid,preferredcategory,EmailCnt,cnt,primary_adcode,split_percentage )        
+ select adcode,comboid,preferredcategory,EmailCnt,cnt,primary_Adcode,split_percentage from #adcode,        
+   ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(*) Cnt  
+            From  
+            (  
+               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory,COUNT(*) as EmailCnt        
+               From staging.EPC_EmailPullFormat        
+               Where adcode = @primary_adcode         
+               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')        
+            )  a  
+ Group by coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx') ,EmailCnt  
+ having COUNT(*)>1  
+ )a     
+     
+  print 'updating #splitter processed=1 for primaryadcode'        
+   update #splitter        
+   set processed = 1        
+   where adcode=@primary_adcode        
+           
+   print 'updating #splitter Cnts for other adcode based of SplitPct'        
+   update #splitter        
+   set Cnt = cast( (split_percentage * cnt )/100 as int)        
+   where adcode<>@primary_adcode        
+        
+        
+   declare @adcode varchar(10), @PrimaryAdcode varchar(10),@EmailCnt varchar(15),@Cnt varchar(15),@comboid varchar(20),@preferredcategory varchar(20)        
+        
+     while exists (select top 1 * from #splitter where processed=0 order by adcode)        
+      Begin        
+        
+      select top 1 @adcode = adcode ,@PrimaryAdcode=primary_adcode, @Emailcnt = Emailcnt, @cnt = cnt,@comboid=comboid,@preferredcategory=preferredcategory         
+      from #splitter         
+      where processed=0         
+      order by adcode,comboid,preferredcategory ,Emailcnt       
+        
+      select  @adcode as adcode , @PrimaryAdcode as PrimaryAdcode,@Emailcnt as Emailcnt, @Cnt as cnt,@comboid as comboid,@preferredcategory as preferredcategory        
+              
+      Print 'updating records for above segments'        
+      exec ('update staging.EPC_EmailPullFormat         
+          set adcode = '+ @adcode +        
+        ' ,catalogname = ''Active Test'' 
+		where adcode = '+ @PrimaryAdcode +' and customerID in (select top ' + @Cnt + '  customerID   from staging.EPC_EmailPullFormat where adcode = '+ @PrimaryAdcode +   
+        ' and comboid= '''+ @comboid + ''' and EmailCnt= '''+ @Emailcnt + ''' and  preferredcategory  = ''' + @preferredcategory + ''' order by NEWID() )')        
+        
+      update #splitter        
+      set processed=1        
+      where adcode=@adcode and comboid=@comboid and preferredcategory = @preferredcategory  and Emailcnt  = @Emailcnt  
+        
+      END        
+        
+   drop table #adcode        
+   drop table #splitter        
+        
+        
+   update #primaryadcode        
+   set processed=1        
+   where primary_adcode = @primary_adcode        
+        
+END        
+
+
+drop table #primaryadcode        
+alter table staging.EPC_EmailPullFormat drop column EmailCnt        
+        
+        
+/*Update Test group*/  
+--update a  
+--set  a.CatalogName = m.SegmentGroup 
+--from DataWarehouse.Staging.EPC_EmailPullFormat a  
+--inner join DataWarehouse.Mapping.Email_adcode_Format m   
+--on  a.adcode = m.Adcode 
+--where m.EmailID = @EmailID     
+--and m.TestFlag = 1
+
+
+Declare @EPC_TEST_Adcode int = 0                   
+select @EPC_TEST_Adcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_Format                        
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'EPC TEST' and countrycode= 'US' and format = 'DVD'                  
+select '@EPC_TEST_Adcode', @EPC_TEST_Adcode                      
+
+
+Update staging.EPC_EmailPullFormat
+set Adcode = @EPC_TEST_Adcode,CatalogName = 'EPC Test'                
+Where Adcode = @MatchCustomeriDAdcode
+and CustomerID in ( select distinct CustomerID from staging.EPC_EmailPullFormat where Adcode = @adcode)
+        
+print 'After Splitter'        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullFormat', datawarehouse        
+        
+End            
+        
+Else        
+        
+begin        
+print 'No Splits'        
+End        
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
 ----------------------------------------------------------------------------------------------------------------------------------------------------  
 --------------------------------------------------------Block for adding Format---------------------------------------------------------------------  
@@ -1487,8 +1508,8 @@ where map.EmailID = @EmailID
   
 /* Delete adcodes that are not in mapping and moved to default 0*/  
 print 'Delete where adcodes = 0'  
-Delete from staging.EPC_EmailPullFormat  
-where Adcode = 0  
+--Delete from staging.EPC_EmailPullFormat  
+--where Adcode = 0  
         
 --Update userid information.        
 --update a        
@@ -1497,7 +1518,7 @@ where Adcode = 0
         
 alter table staging.EPC_EmailPullFormat alter column [UserID] [nvarchar](51) NOT NULL       
         
-alter table staging.EPC_EmailPullFormat drop column countrycode        
+--alter table staging.EPC_EmailPullFormat drop column countrycode        
         
 --Create Email pull table with email name        
 set @sql = 'select * into staging.'+ @EmailID +   ' from staging.EPC_EmailPullFormat'        
@@ -1533,6 +1554,7 @@ End
   
   
   
+
 
 
 

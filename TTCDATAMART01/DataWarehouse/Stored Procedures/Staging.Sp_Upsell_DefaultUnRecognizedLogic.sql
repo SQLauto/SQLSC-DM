@@ -175,6 +175,9 @@ AS
                ON C.subjectcategoryid = ccup.subjectcategoryid 
       WHERE  C.courseid <> CCUP.courseid 
 
+	  delete from staging.logic_1listcourserank 
+	  where DisplayOrder>500
+
       SELECT 'Duplpicates in Courseid and UpsellCourseid' AS Duplpicates, 
              listid, 
              courseid, 

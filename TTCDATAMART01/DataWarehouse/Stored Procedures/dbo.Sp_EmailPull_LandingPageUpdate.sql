@@ -109,7 +109,7 @@ Procedure info:
 Begin Tran      
       
       
-if (select MAX(PrefID) from DataWarehouse.Mapping.WebLP_PrefID) <99      
+if (select MAX(PrefID) from DataWarehouse.Mapping.WebLP_PrefID) <90      
 begin      
 update DataWarehouse.Mapping.WebLP_PrefID      
 set PrefID = PrefID + 1      
@@ -225,7 +225,7 @@ set @sql = 'update a
    set Rank = Rank/ ('+ cast(@count as varchar(5))+'/8.33)  
    from lstmgr..'+ @tablenm + ' a       
    inner join DataWarehouse.Mapping.email_landingpage LP      
-   on LP.CourseID = a.CourseID      
+  on LP.CourseID = a.CourseID      
    where LP.EmailID = ''' + @emailid + '''  
    and LP.Message like ''%'''      
      

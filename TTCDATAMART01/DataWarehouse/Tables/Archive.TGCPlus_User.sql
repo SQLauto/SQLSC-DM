@@ -42,3 +42,7 @@ CREATE TABLE [Archive].[TGCPlus_User]
 [VL_entitled_dt] [datetime] NULL
 ) ON [PRIMARY]
 GO
+CREATE UNIQUE NONCLUSTERED INDEX [UC_TGCPlus_User_id] ON [Archive].[TGCPlus_User] ([id]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [UC_TGCPlus_User_uuid] ON [Archive].[TGCPlus_User] ([uuid]) ON [PRIMARY]
+GO

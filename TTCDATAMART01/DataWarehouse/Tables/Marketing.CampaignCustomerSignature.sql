@@ -92,5 +92,7 @@ CREATE TABLE [Marketing].[CampaignCustomerSignature]
 [EducationBin] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [IX_CampaignCustomerSignature_CustomerID] ON [Marketing].[CampaignCustomerSignature] ([CustomerID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [IX_CampaignCustomerSignature_CountryCode] ON [Marketing].[CampaignCustomerSignature] ([CountryCode]) INCLUDE ([CustomerID]) ON [PRIMARY]
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CampaignCustomerSignature] ON [Marketing].[CampaignCustomerSignature] ([CustomerID]) ON [PRIMARY]
 GO

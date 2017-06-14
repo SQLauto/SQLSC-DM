@@ -68,15 +68,20 @@ SELECT
     MAC.Adcode, 
     MAC.Name AS AdCodeName,
     MAC.Description AS AdcodeDescription,
-      CONVERT(VARCHAR,MIN(O.DateOrdered),101) AS MinOfDateOrdered, 
-      CONVERT(VARCHAR,MAX(O.DateOrdered),101) AS MaxOfDateOrdered,
-      SUM(NetOrderAmount) AS SumOfNetOrderAmount, 
-    COUNT(DISTINCT OrderID) AS CountOfOrderID,
-      ISNULL(CONVERT(VARCHAR,MAC.StartDate,101),'') AS StartDate, 
-      '' AS SaleDate,
-      CONVERT(VARCHAR(30),  GETDATE(), 101) AS ReportPullDate
-FROM 
-      Staging.vwOrders O  (nolock) JOIN
+	CONVERT(VARCHAR,MIN(O.DateOrdered),101) AS MinOfDateOrdered, 
+    CONVERT(VARCHAR,MAX(O.DateOrdered),101) AS MaxOfDateOrdered,
+    SUM(O.NetOrderAmount) AS SumOfNetOrderAmount, 
+    COUNT(DISTINCT O.OrderID) AS CountOfOrderID,
+	sum(case when O.SequenceNum = 1 then NetOrderAmount else 0 end) NewCustSales,
+	sum(case when O.SequenceNum = 1 then 0 else NetOrderAmount end) ExistingCustSales,
+	sum(case when O.SequenceNum = 1 then 1 else 0 end) NewCustOrders,
+	sum(case when O.SequenceNum = 1 then 0 else 1 end) ExistingCustOrders,
+    ISNULL(CONVERT(VARCHAR,MAC.StartDate,101),'') AS StartDate, 
+    '' AS SaleDate,
+    CONVERT(VARCHAR(30),  GETDATE(), 101) AS ReportPullDate
+--into Staging.SpaceSales_SpaceMaster
+FROM Marketing.DMPurchaseOrders O (nolock) JOIN
+     -- Staging.vwOrders O  (nolock) JOIN
 	  Staging.SpaceSales_Adocdes MAC ON O.Adcode = MAC.Adcode 
 /*    SuperStarDW.dbo.MktCampaign MC ON MC.CampaignID = MCC.CampaignID -- NOT IN DAX*/
 WHERE O.StatusCode in (0,1,2,3,12,13)
@@ -88,7 +93,8 @@ WHERE O.StatusCode in (0,1,2,3,12,13)
       AND O.NetOrderAmount > 0 AND O.NetOrderAmount < 1500
 GROUP BY 
       MAC.DaxMktCampaign,
-      MAC.MD_Campaign, MAC.Adcode, MAC.Name, MAC.Description,MAC.StartDate, MAC.SaleDate
+      MAC.MD_Campaign, MAC.Adcode, MAC.Name, MAC.Description,
+	MAC.StartDate, MAC.SaleDate
 ORDER BY 1,3
 
 truncate table Staging.SpaceSales
@@ -103,10 +109,16 @@ SELECT
     CONVERT(VARCHAR,MAX(O.DateOrdered),101) AS MaxOfDateOrdered,
     SUM(NetOrderAmount) AS SumOfNetOrderAmount, 
 	COUNT(DISTINCT OrderID) AS CountOfOrderID,
+	sum(case when O.SequenceNum = 1 then NetOrderAmount else 0 end) NewCustSales,
+	sum(case when O.SequenceNum = 1 then 0 else NetOrderAmount end) ExistingCustSales,
+	sum(case when O.SequenceNum = 1 then 1 else 0 end) NewCustOrders,
+	sum(case when O.SequenceNum = 1 then 0 else 1 end) ExistingCustOrders,
     ISNULL(CONVERT(VARCHAR,MAC.StartDate,101),'') AS StartDate, 
     CONVERT(VARCHAR(30),  GETDATE(), 101) AS ReportPullDate
+--	into Staging.SpaceSales
 FROM 
-      Staging.vwOrders O  (nolock) JOIN
+      --Staging.vwOrders O  (nolock) JOIN
+	  Marketing.DMPurchaseOrders O (nolock) JOIN
       Staging.SpaceSales_Adocdes MAC ON O.Adcode = MAC.Adcode 
 /*    SuperStarDW.dbo.MktCampaign MC ON MC.CampaignID = MCC.CampaignID -- NOT IN DAX*/
 WHERE O.StatusCode in (0,1,2,3,12,13)

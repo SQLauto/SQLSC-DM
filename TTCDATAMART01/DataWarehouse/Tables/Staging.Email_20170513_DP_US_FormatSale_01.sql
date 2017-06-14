@@ -20,6 +20,7 @@ CREATE TABLE [Staging].[Email_20170513_DP_US_FormatSale_01]
 [CatalogName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CustomerSegmentNew] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UserID] [nvarchar] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CountryCode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [NewSeg] [int] NULL,
 [Format] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ComboidPrior] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

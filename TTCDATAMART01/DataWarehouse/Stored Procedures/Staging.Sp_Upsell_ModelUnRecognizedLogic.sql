@@ -86,8 +86,10 @@ BEGIN
 			FROM testsummary.dbo.US_ReccomendList C
 			where  c.CourseView <> c.CourseRec
 			and segment = 'DEFAULT'
+			and c.rank <= 501
 			
-
+			delete from Staging.Logic_2ListCourseRank
+			where DisplayOrder >500
 
 END
 

@@ -466,7 +466,7 @@ and map.EmailID = @EmailID
 END                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
-----------------------------------------------Checking for email dupes and delete-----------------------------------------------------------                    
+----------------------------------------------Checking for email dupes and delete-----------------------------------------------------------                 
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
                         
@@ -572,7 +572,7 @@ begin
                         
 Print 'PM8 Started'                        
                           
---update lowvalue adcode                      
+--update lowvalue adcode                 
 select * from  datawarehouse.Mapping.Email_Adcode                        
 where   EmailID = @EmailID and SegmentGroup = 'PM8' and DLRFlag = 0                        
                         
@@ -702,7 +702,7 @@ if @CountryCode in ('US','CA')
 begin                        
                         
 /*               
-declare @DeepSwamp int                       
+declare @DeepSwamp int                 
 select @DeepSwamp = Adcode from   datawarehouse.Mapping.Email_Adcode                        
 where segmentGroup = 'Swamp control'                        
                         
@@ -770,7 +770,7 @@ END
                         
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
--------------------------------------------------------DLR Updates based of mailing---------------------------------------------------------                 
+-------------------------------------------------------DLR Updates based of mailing---------------------------------------------------------    
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 If exists (select COUNT(*) from mapping.Email_adcode                         
@@ -911,7 +911,7 @@ from Staging.EPC_EmailPull e
 inner join #MatchCustomeriD s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID  
 where e.CountryCode<>'US'       
-                  
+  
                   
 Declare @MatchCustomeriDAdcode int = 0                   
 select @MatchCustomeriDAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
@@ -973,7 +973,7 @@ if OBJECT_ID('staging.EPC_EmailPull_PRSPCT') is not null
 drop table  staging.EPC_EmailPull_PRSPCT                    
                 
 -- All Prospect Emails                
- select *                
+ select DISTINCT Emailaddress                
  into #prospect                
  from DataWarehouse.Marketing.Vw_EPC_Prospect_EmailPull                 
  where store_country not in ('au_en','uk_en')                
@@ -1187,7 +1187,7 @@ End
                         
 Else                 
                         
-begin                        
+begin               
 print 'No Splits'                        
 End                        
                        

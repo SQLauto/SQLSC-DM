@@ -4,11 +4,69 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE PROC [Staging].[SP_VL_Load_User]            
 AS            
 BEGIN            
             
 
+
+IF EXISTS (SELECT uuid FROM [Staging].VL_ssis_User GROUP BY uuid HAVING COUNT(*)>1)
+BEGIN 
+
+DECLARE @uuids VARCHAR(1000) = '''',  @Message VARCHAR(4000) = ''
+SELECT @uuids = @uuids +  CAST(uuid AS VARCHAR(255)) + ''',''' FROM [Staging].VL_ssis_User GROUP BY uuid HAVING COUNT(*)>1 
+SET  @uuids  = SUBSTRING(@uuids,1,LEN(@uuids)-1)
+SET  @Message = REPLACE('Check the below table <b> SELECT * FROM [Staging].VL_ssis_User where uuid in (<uuid>) </b>', '<uuid>',@uuids) 
+SET @Message = REPLACE(@Message,',)',')')
+
+		DECLARE @p_body AS NVARCHAR(MAX), @p_subject AS NVARCHAR(MAX)
+		DECLARE @p_recipients AS NVARCHAR(MAX), @p_profile_name AS NVARCHAR(MAX)
+		SET @p_profile_name = N'DL datamart alerts'
+		SET @p_recipients = N'dldatamartalerts@TEACHCO.com'
+		SET @p_subject = N'Duplicate values in Staging.VL_ssis_User table UUID column'
+		SET @p_body = @Message
+		EXEC msdb.dbo.sp_send_dbmail
+		  @profile_name = @p_profile_name,
+		  @recipients = @p_recipients,
+		  @body = @p_body,
+		  @body_format = 'HTML',
+		  @subject = @p_subject,
+		  @importance = 'High'
+
+END
+
+
+
+IF EXISTS (SELECT id FROM [Staging].VL_ssis_user GROUP BY id HAVING COUNT(*)>1)
+BEGIN 
+
+DECLARE @ids VARCHAR(1000) = '',  @Message1 VARCHAR(2000) = ''
+SELECT @ids = @ids +  CAST(id AS VARCHAR(10)) + ',' FROM [Staging].VL_ssis_user GROUP BY id HAVING COUNT(*)>1 
+SET  @ids  = SUBSTRING(@ids,1,LEN(@ids)-1)
+SET  @Message1 = REPLACE('Check the below table <b> SELECT * FROM [Staging].VL_ssis_user where id in (<id>) </b>', '<id>',@ids) 
+
+		DECLARE @p_body1 AS NVARCHAR(MAX), @p_subject1 AS NVARCHAR(MAX)
+		DECLARE @p_recipients1 AS NVARCHAR(MAX), @p_profile_name1 AS NVARCHAR(MAX)
+		SET @p_profile_name1 = N'DL datamart alerts'
+		SET @p_recipients1 = N'dldatamartalerts@TEACHCO.com'
+		SET @p_subject1 = N'Duplicate values in Staging.VL_ssis_User table Id column'
+		SET @p_body1 = @Message1
+
+		EXEC msdb.dbo.sp_send_dbmail
+		  @profile_name = @p_profile_name1,
+		  @recipients = @p_recipients1,
+		  @body = @p_body1,
+		  @body_format = 'HTML',
+		  @subject = @p_subject1,
+		  @importance = 'High'
+		  
+
+END
+
+
+BEGIN TRY
+    BEGIN TRANSACTION
 
 /*Update Previous Counts*/
 exec SP_TGCPlus_UpdatePreviousCounts @TGCPlusTableName = 'TGCPlus_User'
@@ -37,12 +95,51 @@ where pas_state = 'Completed'
 group by pa_user_id
 */
              
+
+
+
+
+--/* delete dupes*/
+
+--DELETE FROM  DataWarehouse.Staging.VL_ssis_User
+--WHERE uuid IN (
+--SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User
+--GROUP BY uuid
+--HAVING COUNT(*)>1)
+
+--DELETE FROM  DataWarehouse.Staging.VL_ssis_User
+--WHERE id IN (
+--SELECT id FROM DataWarehouse.Staging.VL_ssis_User
+--GROUP BY id
+--HAVING COUNT(*)>1)
+
+
+
 /*Truncate and Load */            
 --Truncate table [Archive].[TGCPlus_User]             
 Delete A from [Archive].[TGCPlus_User] A
 Join [Staging].VL_ssis_User S
 on A.uuid=s.uuid
+WHERE s.uuid NOT IN (
+SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY uuid
+HAVING COUNT(*)>1)
+AND s.id NOT IN (
+SELECT id FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY id
+HAVING COUNT(*)>1)
 
+Delete A from [Archive].[TGCPlus_User] A
+Join [Staging].VL_ssis_User S
+on A.id=s.id
+WHERE s.uuid NOT IN (
+SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY uuid
+HAVING COUNT(*)>1)
+AND s.id NOT IN (
+SELECT id FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY id
+HAVING COUNT(*)>1)
            
 insert into [Archive].[TGCPlus_User]            
 (id,version,active,city,email,first_name,full_name,gender,joined,large_profile_pic,last_login_date,last_name,original_profile_pic,password            
@@ -60,7 +157,15 @@ id,Cast(version as BigInt)version,Cast(active as Bit)active,city,email,first_nam
 ,Cast(entitled_dt as DateTime) entitled_dt            
 ,Cast(subscription_plan_id as BigInt)subscription_plan_id,offer_name,offer_code_used,offer_applied_method,payment_handler,subscribed_via_platform,registered_via_platform            
 ,GETDATE() as DMLastUpdateESTDateTime             
-from [Staging].VL_ssis_User             
+from [Staging].VL_ssis_User  
+WHERE uuid NOT IN (
+SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY uuid
+HAVING COUNT(*)>1)
+AND id NOT IN (
+SELECT id FROM DataWarehouse.Staging.VL_ssis_User
+GROUP BY id
+HAVING COUNT(*)>1)           
   
 
 /* Update entitled date from #PAS */
@@ -177,22 +282,45 @@ exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_User'
 
    BEGIN
    
-		DECLARE @p_body AS NVARCHAR(MAX), @p_subject AS NVARCHAR(MAX)
-		DECLARE @p_recipients AS NVARCHAR(MAX), @p_profile_name AS NVARCHAR(MAX)
-		SET @p_profile_name = N'DL datamart alerts'
-		SET @p_recipients = N'~dldatamartalerts@TEACHCO.com'
-		SET @p_subject = N'Data Added today to TGCPlus User Audit Trail'
-		SET @p_body = 'Check the below table <b> select * from DataWarehouse.Archive.TGCPlus_user_Audit_trail where cast(DMlastupdated as date) = cast(getdate() as date)</b>.'
+		DECLARE @p_body3 AS NVARCHAR(MAX), @p_subject3 AS NVARCHAR(MAX)
+		DECLARE @p_recipients3 AS NVARCHAR(MAX), @p_profile_name3 AS NVARCHAR(MAX)
+		SET @p_profile_name3 = N'DL datamart alerts'
+		SET @p_recipients3 = N'~dldatamartalerts@TEACHCO.com'
+		SET @p_subject3 = N'Data Added today to TGCPlus User Audit Trail'
+		SET @p_body3 = 'Check the below table <b> select * from DataWarehouse.Archive.TGCPlus_user_Audit_trail where cast(DMlastupdated as date) = cast(getdate() as date)</b>.'
 		EXEC msdb.dbo.sp_send_dbmail
-		  @profile_name = @p_profile_name,
-		  @recipients = @p_recipients,
-		  @body = @p_body,
+		  @profile_name = @p_profile_name3,
+		  @recipients = @p_recipients3,
+		  @body = @p_body3,
 		  @body_format = 'HTML',
-		  @subject = @p_subject
+		  @subject = @p_subject3
 	END
+
+
+
+    COMMIT TRANSACTION
+  END TRY
+
+  BEGIN CATCH
+    IF @@TRANCOUNT > 0
+    ROLLBACK TRANSACTION;
+ 
+    DECLARE @ErrorNumber INT = ERROR_NUMBER();
+    DECLARE @ErrorLine INT = ERROR_LINE();
+    DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+    DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+    DECLARE @ErrorState INT = ERROR_STATE();
+ 
+    PRINT 'Actual error number: ' + CAST(@ErrorNumber AS VARCHAR(10));
+    PRINT 'Actual line number: ' + CAST(@ErrorLine AS VARCHAR(10));
+ 
+    RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+  END CATCH
+
 
 END   
    
+
 
 
 

@@ -108,15 +108,15 @@ Set Nocount On
             INSERT INTO staging.logic1listcourserank 
             SELECT listid, 
                    c.courseid, 
-                   Cast(Rank() 
-                          OVER( 
-                            partition BY listid, C.courseid 
-  ORDER BY displayorder) AS SMALLINT) DisplayOrder, 
+                   Cast(Rank() OVER( Partition BY listid, C.courseid  ORDER BY displayorder) AS SMALLINT) DisplayOrder, 
                    upsellcourseid 
         FROM   datawarehouse.staging.templogic1listcourserank CR, 
                    #course C 
             WHERE  CR.upsellcourseid <> C.courseid 
                    AND C.courseid = @courseid 
+
+			Delete from staging.logic1listcourserank
+			where DisplayOrder>500
 
             UPDATE #course 
             SET    processed = 1 

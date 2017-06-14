@@ -452,7 +452,7 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 /* Country update to include Country names from datawarehouse.Mapping.TGCPLusCountry vikram 9/20/2016*/
 
 	 UPDATE C
-	 SET c.country = COALESCE(m.Country,m1.Country,'ROW') 
+	 SET c.country = COALESCE(m.Country,m1.Country,'Unknown') 
 	 FROM  Datawarehouse.Marketing.TGCPlus_CustomerSignature c
 	 LEFT JOIN datawarehouse.Mapping.TGCPLusCountry m
 	 ON m.Country = c.country
@@ -460,6 +460,7 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 	 ON m1.Alpha2Code = c.country
 
 	END
+
 
 
 -- Update registered only customers	  -- PR 11/2/2016

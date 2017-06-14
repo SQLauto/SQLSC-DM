@@ -369,7 +369,7 @@ ccs.LastName,
 ccs.FirstName,                        
 ccs.EmailAddress,              
 'N' as Unsubscribe,                        
-cast('VALID' as varchar(15)) as EmailStatus,                        
+cast('VALID' as varchar(15)) as EmailStatus,           
 map.SubjectLine,                        
 cast(case when map.CourseFlag = 0                        
       then ''                        
@@ -465,7 +465,7 @@ cast('' as nvarchar(51)) as UserID
 ,map.Priority               
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
-on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode                         
+on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode             
 inner join  datawarehouse.Marketing.Vw_EPC_EmailPull  ccs (nolock)                        
 on csg.CountryCode = case when ccs.CountryCode IN ('AU','US','GB','CA') then ccs.CountryCode else 'ROW' end and  ccs.comboid = csg.comboid                        
 WHERE 1 = 1 /*Removed due to EPC*/                  
@@ -537,7 +537,7 @@ set adcode = @AdcodeInqCanada
 from staging.EPC_EmailPull_DailyDeals a        
 where adcode = @AdcodeInq and CountryCode = 'CA'        
         
-        
+       
 declare @AdcodeInqInternational int =0        
 select @AdcodeInqInternational = isnull(Adcode,0) from  datawarehouse.mapping.Email_adcode        
 where  EmailID = @EmailID and SegmentGroup = 'International' and Countrycode='ROW' and DLRFlag = 0        
@@ -829,7 +829,7 @@ End
 ---------------------------------------------------------RAM Process Start------------------------------------------------------------------      
 -------------------------------------------------------------------------------------------------------------------------------------------- 
 --------------------------------------------------------------------------------------------------------------------------------------------                
-      
+/*      
 Declare @RAMControlAdcode int = 0   ,@Senddate  datetime   /* Send date is used for the RAM adcode date */      
 select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                       
@@ -925,7 +925,8 @@ on Ram.customerid = E.CustomerID
 */
 
        
- END      
+ END     
+ */ 
       
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
@@ -978,7 +979,7 @@ where PreferredCategory like '% %'
 update a        
 set a.CatalogName = case when map.SegmentGroup = ('Active Control') and map.CountryCode in('US','GB','AU') then 'Active_Control'        
        when map.SegmentGroup = ('Active Test') and map.Countrycode = 'US'    then 'Active_Test'        
-       when map.SegmentGroup = ('Active Control') and map.CountryCode = 'CA'    then 'Active_Canada'        
+       when map.SegmentGroup = ('Active Control') and map.CountryCode = 'CA'    then 'Active_Canada'    
        when map.SegmentGroup = ('International') and map.CountryCode= 'ROW'    then 'Active_International'        
        when map.SegmentGroup = ('Swamp Control') and map.Countrycode = 'US'    then 'Swamp_Control'        
        when map.SegmentGroup = ('Swamp Control') and map.CountryCode = 'CA'    then 'Active_Canada'        
@@ -1020,6 +1021,9 @@ where map.EmailID = @EmailID
 --on E.CustomerID = MRAM.CustomerID    
 --where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'  
 
+
+if @CountryCode in ('US','CA')        
+begin 
 --/*Daily Deals deletes Emails droppped where pref does not match*/
 print 'Daily Deals deletes  where pref does not match'
 Delete E from staging.EPC_EmailPull_DailyDeals E
@@ -1027,7 +1031,7 @@ Join DataWarehouse.Mapping.DMCourse C
 on E.courseId = C.CourseID
 where (E.CatalogName = 'Swamp match' or E.CustomerSegmentNew = 'DeepInactive')
 and E.PreferredCategory <> C.SubjectCategory2
-  
+end  
    
 
 --/*Daily Deals deletes where Customer has already purchased*/
@@ -1053,7 +1057,7 @@ alter table staging.EPC_EmailPull_DailyDeals alter column [UserID] [nvarchar](51
 --alter table staging.EPC_EmailPull_DailyDeals drop column countrycode        
         
 --Create Email pull table with email name        
---set @sql = 'select * into staging.EPC_'+ @EmailID +   ' from staging.EPC_EmailPull_DailyDeals'      /*Removed EPC_ on 20151019 for future email pulls*/  
+--set @sql = 'select * into staging.EPC_'+ @EmailID +   ' from staging.EPC_EmailPull_DailyDeals'     /*Removed EPC_ on 20151019 for future email pulls*/  
 set @sql = 'select * into staging.'+ @EmailID +   ' from staging.EPC_EmailPull_DailyDeals'        
 exec (@sql)        
         
@@ -1086,7 +1090,4 @@ End
         
   
   
-  
-  
-
 GO

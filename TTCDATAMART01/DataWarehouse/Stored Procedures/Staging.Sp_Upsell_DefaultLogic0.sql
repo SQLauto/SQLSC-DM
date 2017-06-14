@@ -38,7 +38,7 @@ group by listid
 order by 2 desc
 )b
 on a.ListId = b.ListId
-
+where DisplayOrder<=500
 
 
 END

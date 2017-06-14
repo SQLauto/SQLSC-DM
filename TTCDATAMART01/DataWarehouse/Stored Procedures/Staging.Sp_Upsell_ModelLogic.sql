@@ -140,6 +140,7 @@ BEGIN
 			JOIN mapping.tgc_upsell_logic_list LL 
 			ON C.segment = LL.listname AND LL.logicid = 2 
 			where  c.CourseView <> c.CourseRec
+			and c.rank <= 501
 
 
 		Insert into Staging.Logic2ListCourseRank
@@ -152,7 +153,7 @@ BEGIN
 			JOIN mapping.tgc_upsell_logic_list LL 
 			ON C.segment = LL.listname AND LL.logicid = 2 
 			where  c.CourseView <> c.CourseRec
-
+			and c.rank <= 501
 
 	Drop table #segment
 

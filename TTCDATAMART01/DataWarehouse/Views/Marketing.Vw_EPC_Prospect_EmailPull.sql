@@ -5,6 +5,13 @@ GO
 CREATE View [Marketing].[Vw_EPC_Prospect_EmailPull]  
 as  
 
+SELECT   * FROM Marketing.EPC_Prospect_EmailPull EPC
+WHERE /* Only include after 35 days end of Prospect wave VB 3/7/2017 */
+EPC.Emailaddress NOT IN (SELECT RTRIM(LTRIM(email)) FROM MagentoImports..epc_preference p WHERE p.registration_source_id = 7 AND DATEDIFF(d,p.created_date,GETDATE())>35 ) 
+
+--162,836
+--162,838
+/*
 select cast(EPC.Email as varchar(51)) as Emailaddress,
 	EPC.NewCourseAnnouncements,
 	EPC.FreeLecturesClipsandInterviews,
@@ -32,4 +39,9 @@ and isnull(EPC.CustomerID ,'')=''
 and EPC.Email like '%@%'
 /* Only include after 35 days end of Prospect wave VB 3/7/2017 */
 AND epc.Email NOT IN (SELECT RTRIM(LTRIM(email)) FROM MagentoImports..epc_preference p WHERE p.registration_source_id = 7 AND DATEDIFF(d,p.created_date,GETDATE())>35 ) 
+
+*/
+
+
+
 GO

@@ -20,3 +20,7 @@ CREATE TABLE [Marketing].[epc_preference]
 [Lastupdated] [datetime] NULL CONSTRAINT [DF__epc_prefe__Lastu__20425674] DEFAULT (getdate())
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_epc_preference_CustomerID] ON [Marketing].[epc_preference] ([CustomerID]) INCLUDE ([Email]) ON [PRIMARY]
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_epc_preference] ON [Marketing].[epc_preference] ([Email]) ON [PRIMARY]
+GO

@@ -6,7 +6,7 @@ CREATE TABLE [Staging].[Logic1ListCourseRank]
 [UpsellCourseID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-ALTER TABLE [Staging].[Logic1ListCourseRank] ADD CONSTRAINT [UC_Logic1ListCourseRank] UNIQUE NONCLUSTERED  ([ListID], [CourseID], [DisplayOrder], [UpsellCourseID]) ON [PRIMARY]
+ALTER TABLE [Staging].[Logic1ListCourseRank] ADD CONSTRAINT [UC_Logic1ListCourseRank] UNIQUE NONCLUSTERED  ([ListID], [CourseID], [DisplayOrder]) ON [PRIMARY]
 GO
 ALTER TABLE [Staging].[Logic1ListCourseRank] ADD CONSTRAINT [FK_Logic1ListCourseRank_ListID] FOREIGN KEY ([ListID]) REFERENCES [Mapping].[TGC_Upsell_Logic_List] ([ListID])
 GO

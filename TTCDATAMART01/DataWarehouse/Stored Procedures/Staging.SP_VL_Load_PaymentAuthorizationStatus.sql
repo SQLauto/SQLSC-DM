@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE PROC [Staging].[SP_VL_Load_PaymentAuthorizationStatus]    
 AS    
 BEGIN    
@@ -36,6 +37,12 @@ where pas_created_at >= (select Min(Cast(pas_created_at as DateTime)) as pas_cre
 /*Temp data fix due to duplicates in 8/5/2016 */
   --Delete S from [Staging].VL_ssis_PaymentAuthorizationStatus  S
   --where cast(pas_updated_at as date)<='8/6/2016'
+
+/* Load Distinct Values*/   
+SELECT DISTINCT * INTO #DistinctPAS FROM [Staging].VL_ssis_PaymentAuthorizationStatus 
+TRUNCATE TABLE [Staging].VL_ssis_PaymentAuthorizationStatus 
+INSERT INTO [Staging].VL_ssis_PaymentAuthorizationStatus 
+SELECT * FROM #DistinctPAS
     
 DELETE A FROM [Archive].[TGCPlus_PaymentAuthorizationStatus] A  
 INNER JOIN [Staging].VL_ssis_PaymentAuthorizationStatus  S  
@@ -84,4 +91,5 @@ END
 EXEC SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_PaymentAuthorizationStatus'
     
 END 
+
 GO
