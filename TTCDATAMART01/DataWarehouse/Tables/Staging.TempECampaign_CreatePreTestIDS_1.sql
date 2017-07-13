@@ -22,7 +22,6 @@ CREATE TABLE [Staging].[TempECampaign_CreatePreTestIDS_1]
 [UserID] [nvarchar] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CountryCode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [NewSeg] [int] NULL,
-[courseId] [int] NULL,
-[Priority] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[Priority] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

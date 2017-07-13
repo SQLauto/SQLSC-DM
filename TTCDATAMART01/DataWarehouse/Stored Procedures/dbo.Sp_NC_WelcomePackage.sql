@@ -98,7 +98,7 @@ where a.AcquisitionWeek =  @AcquisitionWeek
           
 if object_id('Staging.TempNewCustomerWelcomeSeries') is not null          
 Drop table [Staging].[TempNewCustomerWelcomeSeries]          
-          
+       
 select NCWS.CustomerID,cast(replace(FirstName,' ','') + ' ' + replace(LastName,' ','') + ' ' + replace(Suffix,' ','') as varchar(255))AS CustomerName,      Prefix,     FirstName,  MiddleName, LastName,   Suffix          
 ,ccs.Address1,    cast(ccs.Address2 as varchar(100)) as Address2, ccs.City,CCS.State      Region,     PostalCode,CAST(null as varchar(10))as CouponExpire,cast (Null as int) as Adcode,CAST(null as varchar(6)) as CouponCode          
 ,cast (0 as int) CourseID1,   cast (0 as int) CourseID2,cast (0 as int) CourseID3,cast (0 as int)  CourseID4,cast (0 as int)     CourseID5          
@@ -381,7 +381,7 @@ adcode      adcodename                                         catalogcode CustC
 109014      NCC: WP Cat WK 05/04 Drop 05/15/15 PM5 Control     50197       369          
 109069      NCC: WP Cat WK 05/04 Drop 05/15/15 PM8 Control     50252       833          
 109123      NCC: WP 6x9 JFY WK 05/04 Drop 05/15/15 PM4 TEST    50306       987          
-109177      NCC: WP 6x9 JFY WK 05/04 Drop 05/15/15 PM5 TEST    50360       404          
+109177 NCC: WP 6x9 JFY WK 05/04 Drop 05/15/15 PM5 TEST    50360       404          
 109231      NCC: WP 6x9 JFY WK 05/04 Drop 05/15/15 PM8 TEST    50414       815          
           
 (8 row(s) affected)          
@@ -698,12 +698,12 @@ exec (@SQL)
 -- \\File1\Groups\Marketing\WelcomePackages\DataFiles\2014_WP_Data          
           
 --declare @SQL varchar(1000) ,@CurrentWeekMondayID varchar(100) = 'TEST'          
-          
-set @SQL = 'exec staging.ExportTableToPipeText rfm, dbo, NCJFY69Mail_' + @CurrentWeekMondayID + '_CorpPress, ''\\File1\Groups\Marketing\WelcomePackages\DataFiles\2016_WP_Data'''          
+ 
+set @SQL = 'exec staging.ExportTableToPipeText rfm, dbo, NCJFY69Mail_' + @CurrentWeekMondayID + '_CorpPress, ''\\File1\Groups\Marketing\WelcomePackages\DataFiles\2017_WP_Data'''          
 exec (@SQL)          
 
 
-set @SQL = 'exec staging.ExportTableToPipeText rfm, dbo, NCJFY69Mail_BL_' + @CurrentWeekMondayID + '_CorpPress, ''\\File1\Groups\Marketing\WelcomePackages\DataFiles\2016_WP_Data'''          
+set @SQL = 'exec staging.ExportTableToPipeText rfm, dbo, NCJFY69Mail_BL_' + @CurrentWeekMondayID + '_CorpPress, ''\\File1\Groups\Marketing\WelcomePackages\DataFiles\2017_WP_Data'''          
 exec (@SQL)  
       
 --set @SQL = 'exec staging.ExportTableToPipeText rfm, dbo, NCJFY69Mail_' + @CurrentWeekMondayID + '_CorpPress, ''\\TTCDATAMART01\ETLDax\Reports'''          

@@ -32,6 +32,7 @@ CREATE TABLE [Staging].[OrdAllctn_ActiveHouseCampaigns_weekly]
 [PromotionType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MD_Year] [int] NULL,
 [DaxPeriodCodeIsPublic] [bit] NULL,
-[IPR_Channel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[IPR_Channel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MD_ChannelRU] [varchar] (17) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO

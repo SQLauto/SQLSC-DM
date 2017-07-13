@@ -9,9 +9,11 @@ Begin
 
 /* TGCPlus Emails Exclusion list for Facebook FB */
 
-Declare @SQL Nvarchar(2000),@Date varchar(8),@Dest Nvarchar(200),@File Nvarchar(200)
+Declare @SQL Nvarchar(2000),@Date varchar(8),@Dest Nvarchar(200),@File Nvarchar(200), @Year varchar(4)
 
 set @Date = convert(varchar, getdate(),112)
+
+set  @Year = year(@Date)
 
 /* Create Directoty */
 set @Dest = '\\File1\Groups\Marketing\Marketing Strategy and Analytics\FaceBook\FaceBookCampaigns\FBFiles_'+ @Date
@@ -70,20 +72,22 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 
  /*TGC Full customer list of TGC customers (for suppression purposes)*/
 set @SQL =	'
-			IF OBJECT_ID (''RFM..FB_TGC_AllEmails_' + @Date +''')IS NOT NULL
-			DROP TABLE rfm..FB_TGC_AllEmails_' + @Date +'
+			IF OBJECT_ID (''RFM..FB_TGC_AllEmails_'+ @Year + '_' + @Date +''')IS NOT NULL
+			DROP TABLE rfm..FB_TGC_AllEmails_'+ @Year + '_' + @Date + '
 			select distinct EPC.Email as Emailaddress, City,State,zip5
-			into rfm..FB_TGC_AllEmails_' + @Date +'
+			into rfm..FB_TGC_AllEmails_'+ @Year + '_' + @Date +'
 			from DataWarehouse.Marketing.epc_preference EPC
 			left join Datawarehouse.marketing.CampaignCustomersignature ccs
 			on EPC.CustomerID = CCS.CustomerID  
 			WHERE EPC.Email LIKE ''%@%''
+			and (year(ccs.customersince) = year(getdate()) or ccs.customersince is null)
+
 			/*All EPC Emails*/ 
 			'
 
 Print @SQL
 Exec  (@SQL)
-set @File = 'FB_TGC_AllEmails_' + @Date
+set @File = 'FB_TGC_AllEmails_'+ @Year + '_' + @Date
 
 /*Export @File to @Dest*/
 exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
@@ -105,5 +109,6 @@ EXEC msdb.dbo.sp_send_dbmail
   @subject = @p_subject
 
 End 
+
 
 GO

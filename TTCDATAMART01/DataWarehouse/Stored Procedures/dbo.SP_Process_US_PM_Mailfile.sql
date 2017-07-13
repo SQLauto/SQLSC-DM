@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-        
+ 
 CREATE Proc [dbo].[SP_Process_US_PM_Mailfile]        
 as        
 BEGIN        
@@ -37,7 +37,7 @@ where CustomerID is null
  on pm.adcode=map.adcode        
  where map.PMUpdateflag=0 and map.CountryCd = 'US'        
         
-        
+select  @table_nm as '@table_nm', @subjectFlg as '@subjectFlg'
        
 if @table_nm is not null        
         
@@ -103,11 +103,13 @@ set @sql =
      where adcode>0    
      group by adcode )H     
    on a.adcode= H.HisAdcode'       
-    
+
+Print @sql    
 exec (@sql)    
            
    End        
-        
+  
         
 END 
+
 GO

@@ -973,7 +973,7 @@ drop table  staging.EPC_EmailPull_PRSPCT
  [FirstName] [varchar](50) NULL,                
  [EmailAddress] [varchar](255) NOT NULL,                
  [Unsubscribe] [varchar](1) NOT NULL,                
- [EmailStatus] [varchar](15) NULL,               
+ [EmailStatus] [varchar](15) NULL,  
  [SubjectLine] [varchar](300) NULL,                
  [CustHTML] [varchar](2000) NULL,                
  [State] [varchar](50) NULL,                
@@ -1296,14 +1296,14 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse
 ---------------------------------------------------------RAM Process Start------------------------------------------------------------------      
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                
-      
+/*      
 Declare @RAMControlAdcode int = 0   ,@Senddate  datetime   /* Send date is used for the RAM adcode date */      
 select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.mapping.Email_adcode_CYC                         
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US' and cyc=1                  
       
       
 Declare @RAMTestAdcode int = 0                   
-select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.mapping.Email_adcode_CYC                         
+select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.mapping.Email_adcode_CYC    
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'    and cyc=1     
                   
 select  '@RAMControlAdcode', @RAMControlAdcode , '@RAMTestAdcode', @RAMTestAdcode   ,'@Senddate' ,  @Senddate      
@@ -1417,6 +1417,8 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse
 
        
  END      
+
+ */
       
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
@@ -1456,7 +1458,7 @@ a.Priority = map.Priority
 from staging.EPC_EmailPullCYC a        
 left join mapping.Email_adcode_CYC map        
 on a.Adcode=map.Adcode        
-left join Mapping.StateZone sz (nolock)         
+left join Mapping.StateZone sz (nolock)     
 on sz.[State] = a.[State]        
 where map.EmailID = @EmailID        
   
@@ -1480,19 +1482,19 @@ subject =  case when PreferredCategory = 'AH' then 'History'
 	when PreferredCategory = 'FA' then 'Fine Arts'  
     End  
   
-,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject##' , 'history')  
-     when PreferredCategory = 'FW' then Replace (subjectline, '##Subject##' , 'better living')  
-     when PreferredCategory = 'EC' then Replace (subjectline, '##Subject##' , 'business and economics')  
-     when PreferredCategory = 'LIT' then Replace (subjectline, '##Subject##' , 'literature-language')  
-     when PreferredCategory = 'MTH' then Replace (subjectline, '##Subject##' , 'mathematics')  
-     when PreferredCategory = 'PH' then Replace (subjectline, '##Subject##' , 'philosophy-intellectual-history')  
-     when PreferredCategory = 'RL' then Replace (subjectline, '##Subject##' , 'religion')   
-     when PreferredCategory = 'SCI' then Replace (subjectline, '##Subject##' , 'science')   
-     when PreferredCategory = 'PR' then Replace (subjectline, '##Subject##' , 'professional')   
-     when PreferredCategory = 'VA' then Replace (subjectline, '##Subject##' , 'fine arts and music')   
-     when PreferredCategory = 'MH' then Replace (subjectline, '##Subject##' , 'history')   
-     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject##' , 'music')        
-	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject##' , 'fine arts')   
+,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject Category## ' , 'history')  
+     when PreferredCategory = 'FW' then Replace (subjectline, '##Subject Category##' , 'better living')  
+     when PreferredCategory = 'EC' then Replace (subjectline, '##Subject Category## ' , 'business and economics')  
+     when PreferredCategory = 'LIT' then Replace (subjectline, '##Subject Category## ' , 'literature-language')  
+     when PreferredCategory = 'MTH' then Replace (subjectline, '##Subject Category## ' , 'mathematics')  
+     when PreferredCategory = 'PH' then Replace (subjectline, '##Subject Category## ' , 'philosophy-intellectual-history')  
+     when PreferredCategory = 'RL' then Replace (subjectline, '##Subject Category## ' , 'religion')   
+     when PreferredCategory = 'SCI' then Replace (subjectline, '##Subject Category## ' , 'science')   
+     when PreferredCategory = 'PR' then Replace (subjectline, '##Subject Category## ' , 'professional')   
+     when PreferredCategory = 'VA' then Replace (subjectline, '##Subject Category## ' , 'fine arts and music')   
+     when PreferredCategory = 'MH' then Replace (subjectline, '##Subject Category## ' , 'history')   
+     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject Category## ' , 'music')        
+	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject Category## ' , 'fine arts')   
      End  
   
 from staging.EPC_EmailPullCYC a  
@@ -1536,7 +1538,7 @@ where EmailID = @EmailID
 END        
         
 if OBJECT_ID('staging.EPC_EmailPullCYC') is not null        
-drop table  staging.EPC_EmailPullCYC        
+drop table  staging.EPC_EmailPullCYC   
         
 End        
         

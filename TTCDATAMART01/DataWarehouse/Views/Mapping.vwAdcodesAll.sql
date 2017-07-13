@@ -8,6 +8,7 @@ GO
 
 
 
+
 CREATE VIEW [Mapping].[vwAdcodesAll]
 AS
     SELECT Distinct
@@ -50,7 +51,14 @@ AS
 			when mcc.DaxMktChannel = 4 and p.MD_PriceType like '%Low Price Leader%' then 'Space_Buffet'
 			when mcc.DaxMktChannel = 4 and p.MD_PriceType not like '%Low Price Leader%' then 'Space'
 			else ch.MD_Channel
-		end as IPR_Channel
+		end as IPR_Channel,
+		case when ch.MD_ChannelID in (11,12,13,14,47,53,54,55,56,57,58) then 'Digital Marketing'
+			when ch.MD_ChannelID in (6,7,44) then 'Email'
+			when ch.MD_ChannelID in (1,2,3,8,9) then 'Physical Mailing'
+			when ch.MD_ChannelID in (4) then 'SpaceAds'
+			when ch.MD_ChannelID in (15,16,17) then 'Web Default'
+			else 'Other'
+		end as MD_ChannelRU
     FROM Staging.MktAdcodes MAC WITH (NOLOCK) 
     JOIN Staging.MktCatalogcodes MCC WITH (NOLOCK) ON MAC.CatalogCode = MCC.CatalogCode
     left join Mapping.MktCampaign oc (nolock) on oc.CampaignID = mcc.CampaignID
@@ -62,6 +70,7 @@ AS
     left join Mapping.MktDim_PriceType p (nolock) on p.MD_PriceTypeID = mcc.DaxMktPricingType
     left join Mapping.DMPromotionType dmp (nolock) on dmp.CatalogCode = MCC.CatalogCode
 	left join MarketingCubes..DimPromotionType dpt (nolock) on dpt.PromotionTypeID = dmp.DimPromotionID
+
 
 
 

@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE VIEW [Staging].[vwOrders]
 -- PR 2/12/2016 Removing TAX from NetOrderAmount based on business requirement
 (
@@ -99,6 +100,7 @@ as
         rtrim(ltrim(CurrencyCode)),
         -- o.NetOrderAmount, -- PR 2/12/2016 Removing TAX from NetOrderAmount for US orders based on business requirement
         case when o.ShipCountryCode like '%US%' then (o.NetOrderAmount - o.TotalReadyTaxCost) 
+			when o.ShipCountryCode = 'AU' then (o.NetOrderAmount - o.TotalReadyTaxCost) -- Added AU on 6/22 as AU will be charging tax from 7/1
 			else o.NetOrderAmount
 		end as NetOrderAmount,
         o.AdCode,
@@ -197,7 +199,9 @@ as
        -- isnull(o.TotalMerchandise, 0) + isnull(o.TotalTaxes, 0) + isnull(o.TotalShipping, 0) + isnull(o.TotalCoupons, 0) + isnull(o.OtherCharges, 0),    
 							 -- PR 2/12/2016 Removing TAX from NetOrderAmount for US orders based on business requirement
        case when o.ShipToCountryCode = 'US' then
-		isnull(o.TotalMerchandise, 0) + isnull(o.TotalShipping, 0) + isnull(o.TotalCoupons, 0) + isnull(o.OtherCharges, 0) 
+					isnull(o.TotalMerchandise, 0) + isnull(o.TotalShipping, 0) + isnull(o.TotalCoupons, 0) + isnull(o.OtherCharges, 0) 
+			when o.ShipToCountryCode = 'AU' then
+					isnull(o.TotalMerchandise, 0) + isnull(o.TotalShipping, 0) + isnull(o.TotalCoupons, 0) + isnull(o.OtherCharges, 0)  -- Added AU on 6/22 as AU will be charging tax from 7/1
 		else isnull(o.TotalMerchandise, 0) + isnull(o.TotalTaxes, 0) + isnull(o.TotalShipping, 0) + isnull(o.TotalCoupons, 0) + isnull(o.OtherCharges, 0)
 		end	as NetOrderAmount,    
         o.SourceCode,
@@ -291,6 +295,7 @@ as
 		where op.[status] <> 2
 		group by op.OrderID
 	) op on o.OrderID = op.OrderID */
+
 
 
 

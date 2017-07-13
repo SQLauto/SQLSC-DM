@@ -3,7 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
-Create Proc [dbo].[SP_FB_TGCPlus_Weekly_Report]
+CREATE Proc [dbo].[SP_FB_TGCPlus_Weekly_Report]
 as
 Begin
 
@@ -24,9 +24,11 @@ EXEC master.dbo.xp_create_subdir @Dest
 set @SQL =	'
 			IF OBJECT_ID (''RFM..FB_TGCP_Subscribers_' + @Date +''')IS NOT NULL
 			DROP TABLE rfm..FB_TGCP_Subscribers_' + @Date +'
-			select distinct rtrim(ltrim(EmailAddress)) as EmailAddress
+			select distinct rtrim(ltrim(C.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
 			into rfm..FB_TGCP_Subscribers_' + @Date +'
-			from DataWarehouse.Marketing.TGCPlus_CustomerSignature 
+			from DataWarehouse.Marketing.TGCPlus_CustomerSignature  c
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = c.customerid
 			Where TransactionType <> ''Cancelled'''
 Print @SQL
 Exec  (@SQL)
@@ -42,9 +44,11 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 set @SQL =	'
 			IF OBJECT_ID (''RFM..FB_TGCP_UnSubscribes_before30days_' + @Date +''')IS NOT NULL
 			DROP TABLE rfm..FB_TGCP_UnSubscribes_before30days_' + @Date +'
-			select distinct rtrim(ltrim(EmailAddress)) as EmailAddress
+			select distinct rtrim(ltrim(C.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
 			into rfm..FB_TGCP_UnSubscribes_before30days_' + @Date +'
-			from DataWarehouse.Marketing.TGCPlus_CustomerSignature 
+			from DataWarehouse.Marketing.TGCPlus_CustomerSignature  c
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = c.customerid
 			Where TransactionType = ''Cancelled''
 			and datediff(d,subdate,getdate())>30
 			'
@@ -61,9 +65,11 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 set @SQL =	'
 			IF OBJECT_ID (''RFM..FB_TGCP_UnSubscribes_last30days_' + @Date +''')IS NOT NULL
 			DROP TABLE rfm..FB_TGCP_UnSubscribes_last30days_' + @Date +'
-			select distinct rtrim(ltrim(EmailAddress)) as EmailAddress
+			select distinct rtrim(ltrim(C.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
 			into rfm..FB_TGCP_UnSubscribes_last30days_' + @Date +'
-			from DataWarehouse.Marketing.TGCPlus_CustomerSignature 
+			from DataWarehouse.Marketing.TGCPlus_CustomerSignature  c
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = c.customerid
 			Where TransactionType = ''Cancelled''
 			and datediff(d,subdate,getdate())<=30
 			'
@@ -80,11 +86,13 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 set @SQL =	'
 			IF OBJECT_ID (''RFM..FB_TGCP_Registrations_last30days_' + @Date +''')IS NOT NULL
 			DROP TABLE rfm..FB_TGCP_Registrations_last30days_' + @Date +'
-			select rtrim(ltrim(U.email))EmailAddress
+			select distinct rtrim(ltrim(U.email)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
 			into rfm..FB_TGCP_Registrations_last30days_' + @Date +'
 			from DataWarehouse.Archive.TGCPlus_user U
 			left join DataWarehouse.Marketing.TGCPlus_CustomerSignature tcs
 			on tcs.EmailAddress = u.Email 
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = tcs.customerid
 			Where TCS.EmailAddress is null
 			and U.entitled_dt is null 
 			and U.email not like ''%+%''
@@ -104,11 +112,13 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 set @SQL =	'
 			IF OBJECT_ID (''RFM..FB_TGCP_Registrations_before30days_' + @Date +''')IS NOT NULL
 			DROP TABLE rfm..FB_TGCP_Registrations_before30days_' + @Date +'
-			select rtrim(ltrim(U.email))EmailAddress
+			select distinct rtrim(ltrim(U.email)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
 			into rfm..FB_TGCP_Registrations_before30days_' + @Date +'
 			from DataWarehouse.Archive.TGCPlus_user U
 			left join DataWarehouse.Marketing.TGCPlus_CustomerSignature tcs
 			on tcs.EmailAddress = u.Email 
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = tcs.customerid
 			Where TCS.EmailAddress is null
 			and U.entitled_dt is null 
 			and U.email not like ''%+%''
@@ -125,6 +135,51 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 
 
 
+
+
+/*Monthly paid customers*/
+set @SQL =	'
+			IF OBJECT_ID (''RFM..FB_TGCP_MonthlyPaidSubscribers_' + @Date +''')IS NOT NULL
+			DROP TABLE rfm..FB_TGCP_MonthlyPaidSubscribers_' + @Date +'
+			select distinct rtrim(ltrim(c.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
+			into rfm..FB_TGCP_MonthlyPaidSubscribers_' + @Date +'
+			from DataWarehouse.Marketing.TGCPlus_CustomerSignature c
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = c.customerid
+			Where TransactionType <> ''Cancelled''
+			and PaidFlag = 1 and SubType = ''MONTH'' '
+			
+Print @SQL
+Exec  (@SQL)
+set @File = 'FB_TGCP_MonthlyPaidSubscribers_' + @Date
+
+/*Export @File to @Dest*/
+exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
+
+
+
+
+
+/*Monthly paid customers*/
+set @SQL =	'
+			IF OBJECT_ID (''RFM..FB_TGCP_YearlyPaidSubscribers_' + @Date +''')IS NOT NULL
+			DROP TABLE rfm..FB_TGCP_YearlyPaidSubscribers_' + @Date +'
+			select distinct rtrim(ltrim(c.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
+			into rfm..FB_TGCP_YearlyPaidSubscribers_' + @Date +'
+			from DataWarehouse.Marketing.TGCPlus_CustomerSignature c
+			left join datawarehouse.mapping.tgcplus_customeroverlay o 
+			on o.customerid = c.customerid
+			Where TransactionType <> ''Cancelled''
+			and PaidFlag = 1 and SubType = ''YEAR'' '
+			
+Print @SQL
+Exec  (@SQL)
+set @File = 'FB_TGCP_YearlyPaidSubscribers_' + @Date
+
+/*Export @File to @Dest*/
+exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
+
+
 DECLARE @p_body as nvarchar(max), @p_subject as nvarchar(max)
 DECLARE @p_recipients as nvarchar(max), @p_profile_name as nvarchar(max)
 SET @p_profile_name = N'DL datamart alerts'
@@ -139,5 +194,6 @@ EXEC msdb.dbo.sp_send_dbmail
   @subject = @p_subject
 
 End 
+
 
 GO
