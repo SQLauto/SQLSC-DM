@@ -10,8 +10,7 @@ Begin
 
 
 /*Update Previous Counts*/
-exec SP_TGCPlus_UpdatePreviousCounts @TGCPlusTableName = 'TGCPlus_VideoEvents'
-
+--exec SP_TGCPlus_UpdatePreviousCounts @TGCPlusTableName = 'TGCPlus_VideoEvents'  --too big to look at counts daily 8/7/2017
 
 /*Update Staging Table to remove Text qualifier*/
 
@@ -72,9 +71,8 @@ aid,cid,pfm,vid,uid,origip,Cast(tstamp as DateTime) tstamp,useragent,ref,url,pa,
 from [Staging].VL_ssis_VideoEvents     
   
   
-
 /*Update Counts*/
-exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_VideoEvents'
+--exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_VideoEvents' --too big to look at counts daily 8/7/2017
  
     
 END  

@@ -6,6 +6,7 @@ GO
 
 
 
+
 CREATE Proc [dbo].[SP_Load_epc_preference]
 as
 
@@ -511,7 +512,16 @@ Print 'EPC Preference Monthly Snapshot Table Created'
 End
 
 
+
+/*EPC CleanUp */
+
+delete from DataWarehouse.Marketing.epc_preference
+where email like '%|%' or len(Email)>51 or Email not LIKE '%@%'
+
+/*EPC CleanUp */
+
 End
+
 
 
 

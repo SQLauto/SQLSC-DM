@@ -28,12 +28,13 @@ Truncate table [Staging].[Logic0ListCourseRank]
 --select 0 as customerid, 0 as listid 
 
 --updating list 0 to use code from logic 2 tables. bondugulav 4/12/2017
+--updating list 0 to use code from logic 3 tables. bondugulav 7/21/2017
 
 Insert into [Staging].[Logic0ListCourseRank]
-select 0 as ListID,CourseID,DisplayOrder,UpsellCourseID from  [Staging].[Logic2ListCourseRank] a
+select 0 as ListID,CourseID,DisplayOrder,UpsellCourseID from  [Staging].[Logic3ListCourseRank] a
 join 
 (
-select top 1 listid,count(*)cnt from  [Staging].[Logic2CustomerList]
+select top 1 listid,count(*)cnt from  [Staging].[Logic3CustomerList]
 group by listid 
 order by 2 desc
 )b

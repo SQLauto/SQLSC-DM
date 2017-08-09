@@ -74,8 +74,8 @@ AND ISNULL(CCS.Frequency,'F1') = 'F1'
 	Update Temp_CnvtBestSeller
 	set HVLVGroup ='MV', 
 		VersionName ='Best Seller Convertalog_PM5', 
-		adcode =124647
-	where AdCode = 124675
+		adcode =142315
+	where AdCode = 142316
 
 
   select AdCode,AcquisitionWeek,HVLVGroup,count(*) from Temp_CnvtBestSeller
@@ -230,7 +230,9 @@ exec sp_executesql @ExecSQL
   
   
   
-set @ExecSQL = 'exec staging.ExportTableToPipeText rfm, dbo, Mail_US_Convertalog_BestSeller_' + @date + '_Quad, ''\\File1\Groups\Marketing\MailFiles\'+ @year + '\US\Convertalog'', ''Convertalog_BestSeller_'+ @date + '_Quad.TXT'''  
+set @ExecSQL = 'exec staging.ExportTableToPipeText rfm, dbo, Mail_US_Convertalog_BestSeller_' + @date 
+				+ '_Quad, ''\\File1\Groups\Marketing\MailFiles\'
+				+ @year + '\US\Convertalog'', ''Convertalog_BestSeller_'+ @date + '_Quad.TXT'''  
 
 Print @ExecSQL
 exec sp_executesql @ExecSQL  

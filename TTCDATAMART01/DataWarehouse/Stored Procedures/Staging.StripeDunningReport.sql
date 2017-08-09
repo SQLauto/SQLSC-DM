@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 CREATE Proc [Staging].[StripeDunningReport]
 as
 Begin
@@ -106,7 +107,8 @@ GROUP BY userId_metadata
 	LEFT JOIN (                                                                                                          
 	select  userid,MIN(DeclinedDate)DeclinedDate,MAX(Nextretrydate)Nextretrydate,Originalbillingdate, sum(case when RetryStatus ='RETRY' then 1 else 0 end) + sum(case when RetryStatus ='COMPLETED' then 1 else 0 end)  Retry,                                                                                                        
 	sum(case when RetryStatus ='COMPLETED' then 1 else 0 end) as Complete , sum(case when RetryStatus ='SUSPENDED' then 1 else 0 end) Failed                                                                                                          
-	from DataWarehouse.Archive.TGCPLus_CreditcardretryReport                                                                                                             
+	from DataWarehouse.Archive.TGCPLus_CreditcardretryReport    
+	where declinedcode not in  ('ANDROIDDUNNINGCODE','IOSDUNNINGCODE')        /*Filtered to exclude IOS and Android*/                                                                                                 
 	group by userid,Originalbillingdate) ccr                                                                                                        
 	ON ccr.UserID =  Sf.userId_metadata AND CAST(created AS DATE) = CAST(ccr.DeclinedDate AS DATE)                                                                                                                
                                                                                                        

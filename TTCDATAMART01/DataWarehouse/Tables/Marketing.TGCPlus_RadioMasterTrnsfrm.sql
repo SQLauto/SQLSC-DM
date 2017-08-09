@@ -61,6 +61,7 @@ CREATE TABLE [Marketing].[TGCPlus_RadioMasterTrnsfrm]
 [IntlMonthlyCancls_SrcTGCRdrct] [int] NULL,
 [IntlYearlyCancls_SrcTGCRdrct] [int] NULL,
 [IntlMonthlyPaid_SrcTGCRdrct] [int] NULL,
-[IntlYearlyPaid_SrcTGCRdrct] [int] NULL
+[IntlYearlyPaid_SrcTGCRdrct] [int] NULL,
+[DMlastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO

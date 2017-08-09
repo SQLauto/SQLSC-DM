@@ -2,8 +2,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-
-
     
 CREATE proc [dbo].[Sp_EPC_EmailPull_DLR]                        
 as                        
@@ -11,6 +9,25 @@ Begin
                         
 Declare @EmailID varchar(50),@sql varchar(500),@CountryCode varchar(20),@table varchar(100)                        
                         
+
+/* Duplicate dormant emails  */
+
+select Customerid, Emailaddress, Row_number() over(partition by customerid order by MaxOpendate desc) Rank ,FlagDormantCustomer
+into #Cust
+from marketing.vw_epc_emailpull
+order by 1
+
+select c1.*,DistinctEmailsCount,EngagedDistinctEmailCount, case when DistinctEmailsCount >=1 and EngagedDistinctEmailCount = 0 then 1
+                     when rank <= EngagedDistinctEmailCount then 1 else 0 end as Keep    
+into #CustFinal
+from #Cust c1
+left join (select Customerid, sum(case when  FlagDormantCustomer = 0 then 1 else 0 end)EngagedDistinctEmailCount, Count(Emailaddress) DistinctEmailsCount
+from #Cust group by Customerid ) c2
+on c1.customerid = c2.customerid  
+
+
+/* Duplicate dormant emails  */
+
                         
 while exists (select top 1 EmailID from mapping.Email_adcode where EmailCompletedFlag = 0 and MaxCourses = 0 order by EmailID)                        
 Begin                        
@@ -254,7 +271,7 @@ case when ccs.countrycode = 'US' or ccs.countrycode = 'CA' /*Stopdate (format??)
       else cast(DATENAME(WEEKDAY, map.EndDate) + ', ' + cast(datepart(dd,map.EndDate) as varchar(2))+ 'th ' + DATENAME(Month,map.EndDate) as varchar(50))                         
      end                        
 end as DeadlineDate,                        
-cast ('' as varchar(50)) as Subject, /* BLANK */                        
+cast ('' as varchar(50)) as Subject, /* BLANK */      
 map.segmentgroup as CatalogName,                        
 ccs.CustomerSegmentNew,                        
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
@@ -411,8 +428,8 @@ insert into staging.EPC_EmailPull
 select                         
 ccs.CustomerID,                        
 ccs.LastName,                        
-ccs.FirstName,                        
-ccs.EmailAddress,                        
+ccs.FirstName,       
+ccs.EmailAddress,                 
 'N' as Unsubscribe,                        
 cast('VALID' as varchar(15)) as EmailStatus,                        
 map.SubjectLine,                        
@@ -457,8 +474,8 @@ WHERE 1 = 1 /*Removed due to EPC*/
 --AND ccs.BuyerType > 1                         
 AND EmailAddress LIKE '%@%'                        
 AND ccs.PublicLibrary = 0                        
-AND ccs.CountryCode in ('GB')                        
-and ccs.comboid in ('NoRFM','highschool')                          
+AND ccs.CountryCode in ('GB')    
+and ccs.comboid in ('NoRFM','highschool')                    
 and ccs.NewSeg is null                        
 and map.DLRFlag = 0                        
 and map.EmailID = @EmailID                        
@@ -466,7 +483,7 @@ and map.EmailID = @EmailID
 END                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
-----------------------------------------------Checking for email dupes and delete-----------------------------------------------------------                 
+----------------------------------------------Checking for email dupes and delete-----------------------------------------------------------              
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
                         
@@ -572,7 +589,7 @@ begin
                         
 Print 'PM8 Started'                        
                           
---update lowvalue adcode                 
+--update lowvalue adcode         
 select * from  datawarehouse.Mapping.Email_Adcode                        
 where   EmailID = @EmailID and SegmentGroup = 'PM8' and DLRFlag = 0                        
                         
@@ -694,7 +711,7 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse
 End                        
 END                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
---------------------------------------------------------------------------------------------------------------------------------------------                        
+--------------------------------------------------------------------------------------------------------------------------------------------                  
 --------------------------------update customers for Deep Swamp based on customersegmentnew in ('DeepInactive')-----------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
@@ -702,7 +719,7 @@ if @CountryCode in ('US','CA')
 begin                        
                         
 /*               
-declare @DeepSwamp int                 
+declare @DeepSwamp int   
 select @DeepSwamp = Adcode from   datawarehouse.Mapping.Email_Adcode                        
 where segmentGroup = 'Swamp control'                        
                         
@@ -733,7 +750,7 @@ and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcod
   */                          
                           
                         
-declare @Swamp int = 0                       
+declare @Swamp int = 0   , @RAMControlAdcode int = 0   ,@RAMTestAdcode int = 0                       
 select @Swamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'US'                        
 select '@Swamp', @Swamp                        
@@ -747,7 +764,10 @@ from staging.EPC_EmailPull a
 where a.customersegmentnew in ('NewToFile_PM5','NewToFile_PM8')                        
 and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcode                        
     where EmailID = @EmailID and DLRFlag = 0 and SegmentGroup in ('Active Control') and countrycode= 'US')                        
- end                       
+ end                    
+  
+    set @RAMControlAdcode = @Swamp
+	set @RAMTestAdcode = @Swamp
 --CA NewToFile_PM5                        
 select @Swamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'CA'                        
@@ -760,14 +780,21 @@ set a.adcode=@Swamp
 --select count(*)                        
 from staging.EPC_EmailPull a                        
 where a.customersegmentnew in ('NewToFile_PM5','NewToFile_PM8')                        
-and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcode                        
+and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcode      
     where EmailID = @EmailID and DLRFlag = 0 and SegmentGroup in ('Active Control') and countrycode= 'CA')                        
 end                        
                         
                         
 END                         
-                        
-                        
+                       
+					   
+
+/* Canada CANSPAM Clean up Can not send them any email after 24 months*/
+Delete from staging.EPC_EmailPull
+where CountryCode = 'CA'
+and isnull(Newseg,20)>15
+
+                     
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 -------------------------------------------------------DLR Updates based of mailing---------------------------------------------------------    
@@ -814,7 +841,64 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                     
                   
+
+--------------------------------------------------------------------------------------------------------------------------------------------     
+--------------------------------------------------------------------------------------------------------------------------------------------                        
+---------------------------------------------------------RAM Process Start------------------------------------------------------------------      
+--------------------------------------------------------------------------------------------------------------------------------------------                        
+--------------------------------------------------------------------------------------------------------------------------------------------                
+      
+Declare  @Senddate  datetime   /* Send date is used for the RAM adcode date */      
+select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode                 
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                   
+   
+
+         
+--Declare @RAMTestAdcode int = 0                   
+select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'         
                   
+
+select  '@RAMControlAdcode', @RAMControlAdcode , '@RAMTestAdcode', @RAMTestAdcode   ,'@Senddate' ,  @Senddate      
+
+
+      
+If @RAMControlAdcode>0 and @RAMTestAdcode>0      
+      
+begin      
+      
+Alter table datawarehouse.staging.EPC_EmailPull add ComboidPrior varchar (30)      
+    
+Update E     
+set E.ComboidPrior = MRAM.ComboidPrior    
+from datawarehouse.staging.EPC_EmailPull E    
+Inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
+on E.CustomerID = MRAM.CustomerID      
+where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
+    
+      
+
+      
+/* update Email table with RAMControl and RAMTest Adcodes*/      
+      
+update E      
+set E.Adcode = Case when RAM.custgroup = 'Control' then @RAMControlAdcode      
+     when RAM.custgroup = 'TEST' Then @RAMTestAdcode      
+    end,      
+ E.Comboidprior = RAM.Comboidprior      
+from datawarehouse.staging.EPC_EmailPull E       
+inner join (      
+select customerid,custgroup,Comboidprior 
+from DataWarehouse.Mapping.RAM_CustomerCohort      
+)RAM      
+on Ram.customerid = E.CustomerID      
+      
+END      
+      
+--------------------------------------------------------------------------------------------------------------------------------------------                        
+--------------------------------------------------------------------------------------------------------------------------------------------                        
+---------------------------------------------------------RAM Process End--------------------------------------------------------------------      
+--------------------------------------------------------------------------------------------------------------------------------------------                    
                   
                   
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  
@@ -826,11 +910,12 @@ if @CountryCode in ('US','CA')
 Begin                  
                   
 --#Matched                  
-select E.*                   
+select E.*      
 into #Matched                  
 from DataWarehouse.Staging.EPC_EmailPull E           
 inner join DataWarehouse.Marketing.CampaignCustomerSignature ccs                  
-on E.customerid = CCS.CustomerID and E.Emailaddress= CCs.EmailAddress                  
+on E.customerid = CCS.CustomerID and E.Emailaddress= CCs.EmailAddress          
+where E.CountryCode = 'US'         
                   
 --#EmailsNotMatched                  
 select E.*                   
@@ -838,7 +923,8 @@ into #EmailsNotMatched
 from DataWarehouse.Staging.EPC_EmailPull E                  
 left join #Matched M                  
 on m.emailaddress=e.emailaddress                  
-where m.emailaddress is null                  
+where m.emailaddress is null     
+and E.CountryCode = 'US'                      
                   
                   
 --#SNI                  
@@ -847,7 +933,8 @@ into #SNI
 from DataWarehouse.Staging.EPC_EmailPull E                  
 inner join #EmailsNotMatched E1                  
 on E.CustomerID = E1.CustomerId and E.EmailAddress = E1.Emailaddress                  
-where E.CatalogName <> 'Active Control'                  
+where E.CatalogName <> 'Active Control'        
+and E.CountryCode = 'US'                   
                   
 --Valid Emails                  
 --#MatchCustomeriD                  
@@ -857,7 +944,8 @@ from DataWarehouse.Staging.EPC_EmailPull a
 join  DataWarehouse.Marketing.CampaignCustomerSignature b                  
 on a.customerid = b.customerid and a.emailaddress <> b.EmailAddress                  
 where CatalogName = 'Active Control'                  
-and b.EmailAddress <> ''                  
+and b.EmailAddress <> ''      
+and a.CountryCode = 'US'                  
                   
 --Blank Emails                  
 --#Nomatch                  
@@ -868,7 +956,7 @@ join  DataWarehouse.Marketing.CampaignCustomerSignature b
 on a.customerid = b.customerid and a.emailaddress <> b.EmailAddress                  
 where CatalogName = 'Active Control'                  
 and b.EmailAddress = ''                  
-                  
+and a.CountryCode = 'US'                        
                   
                   
 --#SNI                  
@@ -882,7 +970,7 @@ on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID
 --inner join Marketing.Vw_EPC_EmailPull V                  
 --on v.Emailaddress = e.Emailaddress                  
 where e.NewSeg not in (11,12,13,14,15,20,18,19,23,24,25,28)                  
-                  
+and e.CountryCode = 'US'                    
                   
 print 'Deleting extra swamp emails where CountryCode<>US'                  
 delete e                  
@@ -897,40 +985,44 @@ select @SwampMatchCustomeriDAdcode = isnull(Adcode,0) from   datawarehouse.Mappi
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp match' and countrycode= 'US'                     
 select '@SwampMatchCustomeriDAdcode', @SwampMatchCustomeriDAdcode                      
                   
-                  
+/*                  
 Update e Set e.Adcode = @SwampMatchCustomeriDAdcode,E.CatalogName = 'Swamp match'                  
 from Staging.EPC_EmailPull e                  
 inner join #SNI s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID                  
-                  
+*/                  
                   
 --#MatchCustomeriD                  
+/*
 print 'deleting #MatchCustomeriD emails where CountryCode<>US'                  
-delete e                  
+delete e 
 from Staging.EPC_EmailPull e                  
 inner join #MatchCustomeriD s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID  
 where e.CountryCode<>'US'       
-  
+*/   
                   
 Declare @MatchCustomeriDAdcode int = 0                   
 select @MatchCustomeriDAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'EPC Active' and countrycode= 'US'                     
 select '@MatchCustomeriDAdcode', @MatchCustomeriDAdcode                      
-                  
+  
+/*                     
 Update e Set e.Adcode = @MatchCustomeriDAdcode,E.CatalogName = 'EPC Active'                  
 from Staging.EPC_EmailPull e                  
 inner join #MatchCustomeriD s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID                  
-                  
+*/                   
 --#Nomatch                  
                   
+/*   
 print 'deleting #Nomatch emails where CountryCode<>US'                  
 delete e                  
 from Staging.EPC_EmailPull e                  
 inner join #Nomatch s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID                  
 where e.CountryCode<>'US'                  
+*/
 
 /*Merging EPC Match and EPC No Match*/
 /*                  
@@ -942,11 +1034,12 @@ select '@NomatchAdcode', @NomatchAdcode
 
 /*Merging EPC Match and EPC No Match*/
 --Update e Set e.Adcode =  @NomatchAdcode,E.CatalogName = 'Active Nomatch'    
+/*
 Update e Set e.Adcode = @MatchCustomeriDAdcode,E.CatalogName = 'EPC Active'                  
 from Staging.EPC_EmailPull e                  
 inner join #Nomatch s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID                  
-          
+*/          
                    
 DROP table #Matched                  
 DROP table #EmailsNotMatched                  
@@ -973,7 +1066,7 @@ if OBJECT_ID('staging.EPC_EmailPull_PRSPCT') is not null
 drop table  staging.EPC_EmailPull_PRSPCT                    
                 
 -- All Prospect Emails                
- select DISTINCT Emailaddress                
+ select DISTINCT Emailaddress               
  into #prospect                
  from DataWarehouse.Marketing.Vw_EPC_Prospect_EmailPull                 
  where store_country not in ('au_en','uk_en')                
@@ -1045,7 +1138,18 @@ End
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  
                              
                   
+
+
+print 'Before keep'                    
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse    
                   
+delete E from staging.EPC_EmailPull E
+join #CustFinal f
+on f.emailaddress = e.emailaddress
+where F.keep = 0
+
+print 'After keep'                        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse    		                  
                   
                   
                   
@@ -1069,7 +1173,7 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse
 alter table staging.EPC_EmailPull add EmailCnt int                  
                   
 update a                  
-set a.EmailCnt = b.EmailCnt                  
+set a.EmailCnt = b.EmailCnt           --1       /* EPC Test emails split counts issue 8/1/2017*/
 from staging.EPC_EmailPull a                  
 left join                   
 (select Customerid,COUNT(*) as EmailCnt                  
@@ -1104,7 +1208,7 @@ group by primary_adcode having COUNT(*)>1
    Create table #splitter (adcode varchar(10),primary_adcode varchar(10),comboid varchar(20),preferredcategory varchar(30), split_percentage int,EmailCnt int,Cnt int, processed bit default(0))                        
    Insert into #splitter (adcode,comboid,preferredcategory,EmailCnt,cnt,primary_adcode,split_percentage )                        
  select adcode,comboid,preferredcategory,EmailCnt,cnt,primary_Adcode,split_percentage from #adcode,                        
-   ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(*) Cnt                  
+   ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(distinct customerid) Cnt                  
             From                  
             (                  
                select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory, EmailCnt                        
@@ -1169,7 +1273,7 @@ print 'After Splitter'
 exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse        
 
 Declare @EPC_TEST_Adcode int = 0                   
-select @EPC_TEST_Adcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
+select @EPC_TEST_Adcode = isnull(Adcode,0) from  datawarehouse.Mapping.Email_adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'EPC TEST' and countrycode= 'US'                     
 select '@EPC_TEST_Adcode', @EPC_TEST_Adcode                      
 
@@ -1250,108 +1354,7 @@ Set preferredcategory =replace(preferredcategory,' ','')
 where PreferredCategory like '% %'                        
       
       
---------------------------------------------------------------------------------------------------------------------------------------------     
---------------------------------------------------------------------------------------------------------------------------------------------                        
----------------------------------------------------------RAM Process Start------------------------------------------------------------------      
---------------------------------------------------------------------------------------------------------------------------------------------                        
---------------------------------------------------------------------------------------------------------------------------------------------                
-      
-Declare @RAMControlAdcode int = 0   ,@Senddate  datetime   /* Send date is used for the RAM adcode date */      
-select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode                 
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                   
-      
-      
-Declare @RAMTestAdcode int = 0                   
-select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'         
-                  
-select  '@RAMControlAdcode', @RAMControlAdcode , '@RAMTestAdcode', @RAMTestAdcode   ,'@Senddate' ,  @Senddate      
-      
-If @RAMControlAdcode>0 and @RAMTestAdcode>0      
-      
-begin      
-      
-Alter table datawarehouse.staging.EPC_EmailPull add ComboidPrior varchar (30)      
-    
-Update E     
-set E.ComboidPrior = MRAM.ComboidPrior    
-from datawarehouse.staging.EPC_EmailPull E    
-Inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
-on E.CustomerID = MRAM.CustomerID      
-where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
-    
-      
-/*Remove Expired RAM Customers*/   
---VB Removing Ram archiving process 1/4/2017
-/*   
-Update RAM      
-set Ram.FlagRemoved=1,       
- DateRemoved = getdate(),      
- RAM.AdcodeRemoved= Case when RAM.custgroup = 'Control' then @RAMControlAdcode      
-     when RAM.custgroup = 'TEST' Then @RAMTestAdcode      
-    end      
-from datawarehouse.staging.EPC_EmailPull E      
-inner join DataWarehouse.Archive.RAM_CustomerCohort RAM      
-on E.CustomerID = RAM.CustomerID      
-inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
-on E.CustomerID = MRAM.CustomerID      
-where MRAM.CustomerSegmentFnlPrior in ('Active_Multi') /* Expired RAM Customer based on Current status*/      
-and MRAM.newseg in (3,4,5,8,9,10)       
-and FlagRemoved=0 /* And not yet expired */      
-*/      
-      
-/* update Email table with RAMControl and RAMTest Adcodes*/      
-      
-update E      
-set E.Adcode = Case when RAM.custgroup = 'Control' then @RAMControlAdcode      
-     when RAM.custgroup = 'TEST' Then @RAMTestAdcode      
-    end,      
- E.Comboidprior = RAM.Comboidprior      
-from datawarehouse.staging.EPC_EmailPull E       
-inner join (      
-select customerid,custgroup,Comboidprior from DataWarehouse.Mapping.RAM_CustomerCohort      
---VB Removing Ram archiving process 1/4/2017
-/*  
-select distinct dm.customerid,dm.custgroup,M.Comboid as Comboidprior from DataWarehouse.Archive.RAM_CustomerCohort  DM    
-left join Mapping.RFMComboLookup M      
-on DM.NewsegPrior=M.Newseg and DM.NamePrior=M.Name and isnull(DM.A12mfPrior,0)=M.A12mf --and DM.ConcatenatedPrior = M.Concatenated    
-where FlagRemoved=0      
-union      
-select MRAM.customerid,MRAM.custgroup,Comboidprior from DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
-left join DataWarehouse.Archive.RAM_CustomerCohort RAM      
-on Ram.customerid = MRAM.customerid      
-where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
-and RAM.customerid is null      
-*/
-)RAM      
-on Ram.customerid = E.CustomerID      
-      
-      
-/* update Email table with RAMControl and RAMTest Adcodes*/      
-      
---VB Removing Ram archiving process 1/4/2017
-/*        
- insert into DataWarehouse.Archive.RAM_CustomerCohort      
-      
- select distinct E.CustomerID, getdate() as InsertDate, MRAM.CustGroup, MRAM.NewSeg, MRAM.Name, MRAM.a12mf, MRAM.Frequency, MRAM.ComboID,MRAM.Recency,       
- MRAM.CustomerSegmentFnl, MRAM.CustomerSegmentFnlPrior, MRAM.NewsegPrior, MRAM.NamePrior, MRAM.A12mfPrior, MRAM.FrequencyPrior,      
- Case when MRAM.custgroup = 'Control' then 'Active' when MRAM.custgroup = 'TEST' Then 'Inactive' end Pricing,       
- E.Adcode IntlAdcode, @Senddate as IntlStartDate,0 as FlagRemoved,'Email' IntlContact,null as DateRemoved,null as AdcodeRemoved       
- from datawarehouse.staging.EPC_EmailPull E      
- inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
- on E.CustomerID = MRAM.CustomerID      
- left join DataWarehouse.Archive.RAM_CustomerCohort RAM      
- on RAM.CustomerID = MRAM.CustomerID      
- where RAM.CustomerID  is null       
- and MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
-*/
-       
- END      
-      
---------------------------------------------------------------------------------------------------------------------------------------------                        
---------------------------------------------------------------------------------------------------------------------------------------------                        
----------------------------------------------------------RAM Process End--------------------------------------------------------------------      
---------------------------------------------------------------------------------------------------------------------------------------------                        
+                      
 --------------------------------------------------------------------------------------------------------------------------------------------         
 --------------------------------------------------------------------------------------------------------------------------------------------        
 ---------------------------------------------------Price Test Match for catalog 2/27/2017---------------------------------------------------                        
@@ -1361,7 +1364,7 @@ If @CountryCode in ('US','CA','ROW')
 BEGIN
 
 declare @MovedtoSwamp int = 0                       
-select @MovedtoSwamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
+select @MovedtoSwamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode              
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'US'                        
 select '@MovedtoSwamp', @MovedtoSwamp 
 
@@ -1414,7 +1417,7 @@ set a.CatalogName = case when map.SegmentGroup = ('Active Control') and map.Coun
        when map.SegmentGroup = ('Inquirers')            then 'Swamp_Control'                         
     when map.SegmentGroup = ('Active match')   then 'Active_CustomerIDMatch'                   
     when map.SegmentGroup = ('Active Nomatch')  then 'Active_NoMatch'                  
-    when map.SegmentGroup = ('EPC Active')   then 'Active_EPC'            
+   when map.SegmentGroup = ('EPC Active')   then 'Active_EPC'            
     when map.SegmentGroup = ('EPC Test')   then 'Test_EPC'                   
     when map.SegmentGroup = ('Swamp Match')   then 'Swamp_Match'          
     when map.SegmentGroup = ('RAM Control')   then 'RAM_Control'          
@@ -1439,7 +1442,10 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull', datawarehouse
 /* Delete adcodes that are not in mapping and moved to default 0*/                  
 Delete from staging.EPC_EmailPull                  
 where Adcode = 0                  
-                        
+
+		  
+				  
+				                          
 --Update userid information.                        
 update a                        
 set a.userid = cast( a.CustomerID + '_' + CONVERT(varchar, a.Adcode) + '_'+ EmailAddress as nvarchar(51) ) --a.CustomerID + '_' + CONVERT(varchar, a.Adcode) + '_'+  CatalogName                        
@@ -1484,7 +1490,7 @@ End
 --set @sql = 'select * into staging.EPC_'+ @EmailID +   ' from staging.EPC_EmailPull'      /*Removed EPC_ on 20151019 for future email pulls*/                  
 set @sql = 'select * into staging.'+ @EmailID +   ' from staging.EPC_EmailPull'                        
 exec (@sql)                        
-                        
+              
 set @table = @EmailID            
                         
 --Create Email Table in lstmgr                        
@@ -1518,4 +1524,6 @@ End
 
 
 
+
+				   
 GO

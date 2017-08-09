@@ -9,15 +9,27 @@ Begin
 
 	/*************** Tables list ****************/
 
---Source  Tables:  TestSummary.dbo.US_MBA_RecommendList
+--Source  Tables:  TestSummary.dbo.US_MBA_RecommendList New table: staging.TGC_upsell_MBA_CourseRank
 
 --Final Tables:  Staging.Logic3CustomerList	 Staging.Logic3ListCourseRank
 
+--Logic Moved to new Datamart Staging.Calc_TGC_Upsell_MBA  New table: staging.TGC_upsell_MBA_CourseRank
+
 	/*************** Tables list ****************/
+
+	--Calculate ranking
+	exec Staging.Calc_TGC_Upsell_MBA
+
+	select 'Default' as Segment,
+			PrimaryCourseid as CourseView,
+			SecondaryCourseid as CourseRec,
+			FinalRank as Rank
+		into #MBA
+	from staging.TGC_upsell_MBA_CourseRank
 
 		SELECT segment
 		Into #segment
-		FROM testsummary.dbo.US_MBA_RecommendList
+		FROM #MBA--testsummary.dbo.US_MBA_RecommendList
 		group by segment
 
 	
@@ -87,7 +99,7 @@ Begin
 					 c.CourseView, 
 					 row_number() over(partition by listid,c.CourseView order by c.rank),
 					 c.CourseRec
-			FROM testsummary.dbo.US_MBA_RecommendList C
+			FROM #MBA C --testsummary.dbo.US_MBA_RecommendList C
 			JOIN mapping.tgc_upsell_logic_list LL 
 			ON C.segment = LL.listname AND LL.logicid = 3 
 			where  c.CourseView <> c.CourseRec

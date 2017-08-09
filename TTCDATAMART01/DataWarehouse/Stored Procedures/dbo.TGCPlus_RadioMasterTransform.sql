@@ -3,9 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
-
-
-create PROC [dbo].[TGCPlus_RadioMasterTransform]
+CREATE PROC [dbo].[TGCPlus_RadioMasterTransform]
 
 
 AS
@@ -329,17 +327,13 @@ begin
 	if object_id('marketing.TGCPlus_RadioMasterTrnsfrm')  is not null 
 	drop table marketing.TGCPlus_RadioMasterTrnsfrm
 	
-	select *
+	select *, getdate() as DMlastupdated
 	into marketing.TGCPlus_RadioMasterTrnsfrm
 	from Staging.TempTGCPlus_RadioMasterTrnsfrm
 
 	truncate table Staging.TempTGCPlus_RadioMasterTrnsfrm
 
 end
-
-
-
-
-
+ 
 
 GO

@@ -16,27 +16,27 @@ Begin
 	update  Staging.Tracker_ssis_KeySurvey
 	set PROFPRESENTSAT_Value = replace(PROFPRESENTSAT_Value,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
-	set GUIDEBOOKSAT_Value = replace(PROFPRESENTSAT_Value,'.00','')
+	set GUIDEBOOKSAT_Value = replace(GUIDEBOOKSAT_Value,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
-	set LEARN_New_or_Valuable_Value = replace(PROFPRESENTSAT_Value,'.00','')
+	set LEARN_New_or_Valuable_Value = replace(LEARN_New_or_Valuable_Value,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
-	set COURSESAT = replace(PROFPRESENTSAT_Value,'.00','')
+	set COURSESAT = replace(COURSESAT,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
-	set Course_Price_Value = replace(PROFPRESENTSAT_Value,'.00','')
+	set Course_Price_Value = replace(Course_Price_Value,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
-	set VISUALSAT_Value = replace(PROFPRESENTSAT_Value,'.00','')
+	set VISUALSAT_Value = replace(VISUALSAT_Value,'.00','')
 	update  Staging.Tracker_ssis_KeySurvey
 	set PROFPRESENTSAT_Value = replace(PROFPRESENTSAT_Value,'','9999')
 	update  Staging.Tracker_ssis_KeySurvey
-	set GUIDEBOOKSAT_Value = replace(PROFPRESENTSAT_Value,'','9999')
+	set GUIDEBOOKSAT_Value = replace(GUIDEBOOKSAT_Value,'','9999')
 	update  Staging.Tracker_ssis_KeySurvey
-	set LEARN_New_or_Valuable_Value = replace(PROFPRESENTSAT_Value,'','9999')
+	set LEARN_New_or_Valuable_Value = replace(LEARN_New_or_Valuable_Value,'','9999')
 	update  Staging.Tracker_ssis_KeySurvey
-	set COURSESAT = replace(PROFPRESENTSAT_Value,'','9999')
+	set COURSESAT = replace(COURSESAT,'','9999')
 	update  Staging.Tracker_ssis_KeySurvey
-	set Course_Price_Value = replace(PROFPRESENTSAT_Value,'','9999')
+	set Course_Price_Value = replace(Course_Price_Value,'','9999')
 	update  Staging.Tracker_ssis_KeySurvey
-	set VISUALSAT_Value = replace(PROFPRESENTSAT_Value,'','9999')
+	set VISUALSAT_Value = replace(VISUALSAT_Value,'','9999')
  
 
 	select 

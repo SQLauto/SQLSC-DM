@@ -76,9 +76,8 @@ CREATE TABLE [Staging].[TempUpdateMailHistory]
 [RAMSelect] [int] NULL,
 [Decile] [int] NULL,
 [DemiDecile] [int] NULL,
-[LastOrderDate] [date] NULL,
-[SelectFlag] [int] NULL,
 [Flag12m] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LastOrderDate] [date] NULL,
 [SubjRank] [varchar] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO

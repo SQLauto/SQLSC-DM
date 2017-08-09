@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 CREATE VIEW [dbo].[Vw_TGCPlus_ConsumptionDashboard]
 AS
 SELECT        TOP 100 PERCENT
@@ -36,19 +37,20 @@ FROM            (SELECT        a.id, a.email, b.SeqNum, a.joined, a.entitled_dt,
                                                     Datawarehouse.Mapping.DMCourse(nolock) CourseLkp ON c.course_id = CourseLkp.CourseID
                           WHERE        a.email NOT LIKE '%+%' AND a.email NOT LIKE '%plustest%' AND a.email NOT LIKE '%viewlift%' AND a.subscription_plan_id IN
                                                         (SELECT        id
-                                                          FROM            datawarehouse.mapping.Vw_TGCPlus_ValidSubscriptionPlan) AND year(tstamp) = 2016) AS Main LEFT JOIN
+                                                          FROM            datawarehouse.mapping.Vw_TGCPlus_ValidSubscriptionPlan) AND year(tstamp) >= 2016) AS Main LEFT JOIN
                              (SELECT        id, courseid, min(tstamp) mintstamp, DENSE_RANK() OVER (partition BY id
                                ORDER BY min(SeqNum) ASC) AS SeqNum_XCourseID
 FROM            Marketing.TGCplus_VideoEvents_Smry
-WHERE        year(tstamp) = 2016
+WHERE        year(tstamp) >= 2016
 GROUP BY id, courseid) CourseAgg ON Main.ID = CourseAgg.id AND Main.courseid = CourseAgg.courseid LEFT JOIN
     (SELECT        Summary.id, FilmLkp.Genre, min(tstamp) mintstamp, DENSE_RANK() OVER (partition BY Summary.id
       ORDER BY min(SeqNum) ASC) AS SeqNum_XGenre
 FROM            Marketing.TGCplus_VideoEvents_Smry(nolock) Summary LEFT JOIN
                          Archive.TGCPlus_Film(nolock) FilmLkp ON Summary.vid = FilmLkp.uuid
-WHERE        year(tstamp) = 2016
+WHERE        year(tstamp) >= 2016
 GROUP BY Summary.id, FilmLkp.genre) GenreAgg ON Main.ID = GenreAgg.ID AND Main.genre = GenreAgg.genre) Final
 ORDER BY ID, SeqNum_XTime
+
 GO
 EXEC sp_addextendedproperty N'MS_DiagramPane1', N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
 Begin DesignProperties = 
