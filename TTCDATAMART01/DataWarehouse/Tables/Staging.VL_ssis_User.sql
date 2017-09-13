@@ -36,6 +36,9 @@ CREATE TABLE [Staging].[VL_ssis_User]
 [offer_applied_method] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [payment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[email_notification] [int] NULL,
+[country_of_registration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[email_consent_visible] [int] NULL
 ) ON [PRIMARY]
 GO

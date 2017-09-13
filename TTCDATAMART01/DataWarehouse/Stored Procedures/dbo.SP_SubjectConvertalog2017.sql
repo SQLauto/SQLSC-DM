@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE Proc [dbo].[SP_SubjectConvertalog2017]     @RunSecondPortion bit = 0   
 as        
 Begin        
@@ -138,7 +139,11 @@ Begin
 					'update Datawarehouse.Staging.SubConvertalog        
 					set CustGroup = ''TEST''        
 					where CustomerID in         
-					( select top ' + @Cnt + ' customerid from Datawarehouse.Staging.SubConvertalog where isnull(PreferredCategory2,''FW'')  = ''' +@PreferredCategory2 +''' and  isnull(HVLVGroup,''HV'') = ''' + @HVLVGroup  + ''' ) '        
+					( select top ' + @Cnt + ' customerid from Datawarehouse.Staging.SubConvertalog 
+					where isnull(PreferredCategory2,''FW'')  = ''' 
+					+@PreferredCategory2 +''' and  isnull(HVLVGroup,''HV'') = ''' + @HVLVGroup  + ''' 
+					order by newid()
+					) '        
         
 					exec (@SQL)        
         
@@ -497,6 +502,7 @@ Exec (@SQL)
 end
         
 End        
+
 
 
 

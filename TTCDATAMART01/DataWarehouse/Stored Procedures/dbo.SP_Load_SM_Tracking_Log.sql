@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-CREATE Proc [dbo].[SP_Load_SM_Tracking_Log]
+CREATE Proc [dbo].[SP_Load_SM_Tracking_Log] @OverRide bit = 0
 as
 
 Begin
@@ -18,6 +18,8 @@ select @vDest_max_dt '@vDest_max_dt'
 
 DECLARE @p_body as nvarchar(max), @p_subject as nvarchar(max), @p_recipients as nvarchar(max), @p_profile_name as nvarchar(max)
 
+If @OverRide =  0 
+Begin
 if exists 
  (select DATESTAMP, count(Hours)as Hours, Sum(Counts)as Counts 
 			from ( select cast(DATESTAMP as date)DATESTAMP,DATEPART(hh,DATESTAMP)Hours
@@ -66,6 +68,8 @@ Begin
 			  @importance ='High'
 
 Return 0
+
+End
 
 End
 

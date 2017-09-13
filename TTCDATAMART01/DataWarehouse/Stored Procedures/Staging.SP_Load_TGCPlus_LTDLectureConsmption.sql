@@ -52,7 +52,8 @@ BEGIN
 
 	-- if they watched more than 95% of the course, then flag as completed.
 	update staging.TempTGCPlus_LTDLectureConsumption
-	set FlagCompletedLecture = case when isnull(FINALStreamedMins,0)*1./nullif(LectureRunMins,0) >.95  then 1 else 0 end,
+	--set FlagCompletedLecture = case when isnull(FINALStreamedMins,0)*1./nullif(LectureRunMins,0) >.95  then 1 else 0 end,
+	set FlagCompletedLecture = case when isnull(FINALStreamedMins,0)*1./nullif(LectureRunMins,0) >= .90  then 1 else 0 end,
 		LectureCompletedPrcnt  = isnull(isnull(FINALStreamedMins,0)*1./nullif(LectureRunMins,0),0)
 
 	If object_id ('Marketing.TGCPlus_LTDLectureConsumption') is not null 
@@ -105,7 +106,8 @@ BEGIN
 
 	-- if they watched more than 95% of the course, then flag as completed.
 	update staging.TempTGCPlus_LTDCourseConsumption
-	set FlagCompletedCourse = case when isnull(FINALStreamedMins,0)*1./nullif(CourseRunTimeMins,0) >.95  then 1 else 0 end,
+	--set FlagCompletedCourse = case when isnull(FINALStreamedMins,0)*1./nullif(CourseRunTimeMins,0) >.95  then 1 else 0 end,
+	set FlagCompletedCourse = case when isnull(FINALStreamedMins,0)*1./nullif(CourseRunTimeMins,0) >= .90  then 1 else 0 end,
 		CourseCompletedPrcnt  = isnull(isnull(FINALStreamedMins,0)*1./nullif(CourseRunTimeMins,0),0)
 
 	-- Load into final table

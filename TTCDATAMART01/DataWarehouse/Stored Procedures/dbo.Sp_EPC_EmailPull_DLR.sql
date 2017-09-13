@@ -2,6 +2,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
+
     
 CREATE proc [dbo].[Sp_EPC_EmailPull_DLR]                        
 as                        
@@ -840,7 +842,30 @@ END
 -------------------------------------------------------DLR Updates Completed----------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                     
+/*Dormant Customer HoldOuts*/
+
+declare @DormantHolder int = 0    
                   
+select @DormantHolder = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Dormant Holdout' and countrycode= 'US'                        
+select '@DormantHolder', @DormantHolder   
+
+If @DormantHolder>0
+Begin
+
+  insert into Archive.Email_DormantCustomer_Holdout_20170816 
+  select distinct CustomerID,@DormantHolder as Adcode,cast(A.startdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated
+  from Datawarehouse.staging.EPC_EmailPull E
+  join datawarehouse.Mapping.Email_Adcode A
+  on A.adcode = E.adcode
+  where E.customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)                  
+
+
+  Delete from Datawarehouse.staging.EPC_EmailPull
+  where customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)   
+
+
+End
 
 --------------------------------------------------------------------------------------------------------------------------------------------     
 --------------------------------------------------------------------------------------------------------------------------------------------                        
@@ -849,14 +874,14 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------                
       
 Declare  @Senddate  datetime   /* Send date is used for the RAM adcode date */      
-select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode                 
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                   
+--select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode                 
+--where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                   
    
 
          
---Declare @RAMTestAdcode int = 0                   
-select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'         
+----Declare @RAMTestAdcode int = 0                   
+--select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode                        
+--where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'         
                   
 
 select  '@RAMControlAdcode', @RAMControlAdcode , '@RAMTestAdcode', @RAMTestAdcode   ,'@Senddate' ,  @Senddate      
@@ -1526,4 +1551,5 @@ End
 
 
 				   
+
 GO

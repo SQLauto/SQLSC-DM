@@ -676,7 +676,10 @@ begin
 											else '6: Unknown'
 										  End ,
         a.Education = isnull(b.Education,'NoInfo'),
-        a.EducationConfidence = 'NoInfo'
+        a.EducationConfidence = 'NoInfo',
+		a.NetWorth = isnull(b.NetWorth,'NoInfo'),
+		a.PresenceOfChildren = isnull(b.PresenceOfChildren,'NoInfo'),
+		a.MailOrderBuyer = b.MailOrderBuyer
     FROM Staging.TempCampaignCustomerSignature a left outer join
         Mapping.CustomerOverlay_WD b on a.customerid = b.customerid
         

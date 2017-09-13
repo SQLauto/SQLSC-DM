@@ -4,11 +4,33 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE proc [dbo].[Sp_EPC_EmailPull_CYC]        
 as        
 Begin        
         
 Declare @EmailID varchar(50),@sql varchar(500),@CountryCode varchar(20),@table varchar(100)        
+
+
+/* Duplicate dormant emails  */
+
+select Customerid, Emailaddress, Row_number() over(partition by customerid order by MaxOpendate desc) Rank ,FlagDormantCustomer
+into #Cust
+from marketing.vw_epc_emailpull
+order by 1
+
+select c1.*,DistinctEmailsCount,EngagedDistinctEmailCount, case when DistinctEmailsCount >=1 and EngagedDistinctEmailCount = 0 then 1
+                     when rank <= EngagedDistinctEmailCount then 1 else 0 end as Keep    
+into #CustFinal
+from #Cust c1
+left join (select Customerid, sum(case when  FlagDormantCustomer = 0 then 1 else 0 end)EngagedDistinctEmailCount, Count(Emailaddress) DistinctEmailsCount
+from #Cust group by Customerid ) c2
+on c1.customerid = c2.customerid  
+
+
+/* Duplicate dormant emails  */
+
+
         
 while exists (select top 1 EmailID from mapping.Email_adcode_CYC where EmailCompletedFlag = 0  order by EmailID)        
 Begin        
@@ -723,7 +745,7 @@ and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_adcod
   */          
           
         
-declare @Swamp int = 0       
+declare @Swamp int = 0       , @RAMControlAdcode int = 0   ,@RAMTestAdcode int = 0    
 select @Swamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_CYC        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'US'     and CYC = 1    
 select '@Swamp', @Swamp        
@@ -738,6 +760,10 @@ where a.customersegmentnew in ('NewToFile_PM5','NewToFile_PM8')
 and a.adcode  in (select distinct Adcode from  datawarehouse.Mapping.Email_adcode_CYC        
     where EmailID = @EmailID and DLRFlag = 0 and SegmentGroup in ('Active Control') and countrycode= 'US')        
  end       
+
+    set @RAMControlAdcode = @Swamp
+	set @RAMTestAdcode = @Swamp
+
 --CA NewToFile_PM5        
 select @Swamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_CYC        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'CA'   and CYC = 1     
@@ -1030,6 +1056,16 @@ End
 --------------------------------------------------------Block ends for Prospect New EPC Emails--------------------------------------------------------                  
 ----------------------------------------------------------------------------------------------------------------------------------------------------   
 
+print 'Before keep'                    
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse    
+                  
+delete E from staging.EPC_EmailPullCYC E
+join #CustFinal f
+on f.emailaddress = e.emailaddress
+where F.keep = 0
+
+print 'After keep'                        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse    		
 
 --------------------------------------------------------------------------------------------------------------------------------------------        
 --------------------------------------------------------------------------------------------------------------------------------------------        
@@ -1296,17 +1332,23 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse
 ---------------------------------------------------------RAM Process Start------------------------------------------------------------------      
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                
-/*      
-Declare @RAMControlAdcode int = 0   ,@Senddate  datetime   /* Send date is used for the RAM adcode date */      
-select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.mapping.Email_adcode_CYC                         
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US' and cyc=1                  
+
+
       
-      
-Declare @RAMTestAdcode int = 0                   
-select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.mapping.Email_adcode_CYC    
-where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'    and cyc=1     
-                  
+Declare  @Senddate  datetime   /* Send date is used for the RAM adcode date */      
+--select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.Mapping.Email_adcode_CYC                 
+--where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'  --Ram roll out on 7/26/2016 VB                   
+--   and CYC = 1
+
+         
+----Declare @RAMTestAdcode int = 0                   
+--select @RAMTestAdcode = isnull(Adcode,0) from   datawarehouse.Mapping.Email_adcode_CYC                        
+--where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US'         
+--     and CYC = 1              
+
 select  '@RAMControlAdcode', @RAMControlAdcode , '@RAMTestAdcode', @RAMTestAdcode   ,'@Senddate' ,  @Senddate      
+
+
       
 If @RAMControlAdcode>0 and @RAMTestAdcode>0      
       
@@ -1322,24 +1364,7 @@ on E.CustomerID = MRAM.CustomerID
 where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
     
       
-/*Remove Expired RAM Customers*/      
---VB Removing Ram archiving process 1/4/2017
-/* 
-Update RAM      
-set Ram.FlagRemoved=1,       
- DateRemoved = getdate(),      
- RAM.AdcodeRemoved= Case when RAM.custgroup = 'Control' then @RAMControlAdcode      
-     when RAM.custgroup = 'TEST' Then @RAMTestAdcode      
-    end      
-from datawarehouse.staging.EPC_EmailPullCYC E      
-inner join DataWarehouse.Archive.RAM_CustomerCohort RAM      
-on E.CustomerID = RAM.CustomerID      
-inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
-on E.CustomerID = MRAM.CustomerID      
-where MRAM.CustomerSegmentFnlPrior in ('Active_Multi') /* Expired RAM Customer based on Current status*/      
-and MRAM.newseg in (3,4,5,8,9,10)       
-and FlagRemoved=0 /* And not yet expired */      
-*/      
+
       
 /* update Email table with RAMControl and RAMTest Adcodes*/      
       
@@ -1350,22 +1375,11 @@ set E.Adcode = Case when RAM.custgroup = 'Control' then @RAMControlAdcode
  E.Comboidprior = RAM.Comboidprior      
 from datawarehouse.staging.EPC_EmailPullCYC E       
 inner join (      
-select customerid,custgroup,Comboidprior from DataWarehouse.mapping.RAM_CustomerCohort      
---VB Removing Ram archiving process 1/4/2017
-/* 
-select distinct dm.customerid,dm.custgroup,M.Comboid as Comboidprior from DataWarehouse.Archive.RAM_CustomerCohort  DM    
-left join Mapping.RFMComboLookup M      
-on DM.NewsegPrior=M.Newseg and DM.NamePrior=M.Name and isnull(DM.A12mfPrior,0)=M.A12mf --and DM.ConcatenatedPrior = M.Concatenated    
-where FlagRemoved=0      
-union      
-select MRAM.customerid,MRAM.custgroup,Comboidprior from DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
-left join DataWarehouse.Archive.RAM_CustomerCohort RAM      
-on Ram.customerid = MRAM.customerid      
-where MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
-and RAM.customerid is null    
-*/  
+select customerid,custgroup,Comboidprior 
+from DataWarehouse.Mapping.RAM_CustomerCohort      
 )RAM      
 on Ram.customerid = E.CustomerID      
+      
 
 
 print 'Before RAM CYC'        
@@ -1379,47 +1393,27 @@ on  a.PreferredCategory = m.SubjectCategory
 and a.CountryCode=m.CountryCode  
 where a.adcode = @RAMControlAdcode    
 and  EmailID = @EmailID   
-and  m.SegmentGroup  = 'RAM' 
 
-update a  
-set a.adcode = m.Adcode  
-from DataWarehouse.Staging.EPC_EmailPullCYC a  
-inner join DataWarehouse.Mapping.Email_adcode_CYC m   
-on a.PreferredCategory = m.SubjectCategory  
-and a.CountryCode=m.CountryCode  
-where a.adcode = @RAMTestAdcode    
-and  EmailID = @EmailID   
-and  m.SegmentGroup  = 'RAM' 
+
+--update a  
+--set a.adcode = m.Adcode  
+--from DataWarehouse.Staging.EPC_EmailPullCYC a  
+--inner join DataWarehouse.Mapping.Email_adcode_CYC m   
+--on a.PreferredCategory = m.SubjectCategory  
+--and a.CountryCode=m.CountryCode  
+--where a.adcode = @RAMTestAdcode    
+--and  EmailID = @EmailID   
+
   
 print 'After RAM CYC'        
-exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse     
 
 
+
+
+END      
       
-/* update Email table with RAMControl and RAMTest Adcodes*/      
-      
---VB Removing Ram archiving process 1/4/2017
-/*    
- insert into DataWarehouse.Archive.RAM_CustomerCohort      
-   
- select distinct E.CustomerID, getdate() as InsertDate, MRAM.CustGroup, MRAM.NewSeg, MRAM.Name, MRAM.a12mf, MRAM.Frequency, MRAM.ComboID,MRAM.Recency,       
- MRAM.CustomerSegmentFnl, MRAM.CustomerSegmentFnlPrior, MRAM.NewsegPrior, MRAM.NamePrior, MRAM.A12mfPrior, MRAM.FrequencyPrior,      
- Case when MRAM.custgroup = 'Control' then 'Active' when MRAM.custgroup = 'TEST' Then 'Inactive' end Pricing,       
- E.Adcode IntlAdcode, @Senddate as IntlStartDate,0 as FlagRemoved,'Email' IntlContact,null as DateRemoved,null as AdcodeRemoved       
- from datawarehouse.staging.EPC_EmailPullCYC E      
- inner join DataWarehouse.Mapping.RAM_CustomerCohort MRAM      
- on E.CustomerID = MRAM.CustomerID      
- left join DataWarehouse.Archive.RAM_CustomerCohort RAM      
- on RAM.CustomerID = MRAM.CustomerID      
- where RAM.CustomerID  is null       
- and MRAM.CustomerSegmentFnlPrior <>'Active_Multi'      
-*/
 
-       
- END      
-
- */
-      
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 ---------------------------------------------------------RAM Process End--------------------------------------------------------------------      
@@ -1542,6 +1536,7 @@ drop table  staging.EPC_EmailPullCYC
         
 End        
         
+
 
 
 

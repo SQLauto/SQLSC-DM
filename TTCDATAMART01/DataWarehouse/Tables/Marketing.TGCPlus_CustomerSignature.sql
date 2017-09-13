@@ -68,3 +68,5 @@ CREATE TABLE [Marketing].[TGCPlus_CustomerSignature]
 [IntlPaidDate] [date] NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCPlus_CustomerSignature_Temp1] ON [Marketing].[TGCPlus_CustomerSignature] ([IntlMD_Country], [IntlMD_Channel], [IntlSubPlanID], [SubType]) INCLUDE ([uuid]) ON [PRIMARY]
+GO

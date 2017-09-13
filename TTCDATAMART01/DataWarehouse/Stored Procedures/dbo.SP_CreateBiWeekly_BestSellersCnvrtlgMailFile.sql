@@ -2,9 +2,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-
-  
-  
 CREATE Proc [dbo].[SP_CreateBiWeekly_BestSellersCnvrtlgMailFile]  
 As  
   
@@ -68,15 +65,29 @@ AND CCS.PublicLibrary = 0
 AND CCS.FlagValidRegionUS = 1  
 AND ISNULL(CCS.Frequency,'F1') = 'F1'  
   
+  
 
 /* PM8 moved to PM5 due to count issues one time*/
 
+declare @pm5 int, @pm8 int
+
+select top 1 @pm5 = adcode from Temp_CnvtBestSeller
+where HVLVGroup ='MV'
+
+select top 1 @pm8 = adcode from Temp_CnvtBestSeller
+where HVLVGroup ='LV'
+
+select @pm5'@pm5',@pm8'@pm8'
+
+--if exists (select count(*) from Temp_CnvtBestSeller where HVLVGroup ='LV' having count(*) between 1 and 200) 
+if not exists  (select count(*) from Temp_CnvtBestSeller where HVLVGroup ='LV' having count(*) > 200) 
+begin
 	Update Temp_CnvtBestSeller
 	set HVLVGroup ='MV', 
 		VersionName ='Best Seller Convertalog_PM5', 
-		adcode =142315
-	where AdCode = 142316
-
+		adcode =@pm5
+	where AdCode = @pm8
+end
 
   select AdCode,AcquisitionWeek,HVLVGroup,count(*) from Temp_CnvtBestSeller
   group by AdCode,AcquisitionWeek,HVLVGroup
@@ -343,4 +354,5 @@ END
   
   
   
+
 GO

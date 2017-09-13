@@ -63,7 +63,7 @@ AS
 		from DAXImports..DAX_OrderExport do left join
 			(select distinct DaxStatus, Description
 				from DataWarehouse.Mapping.LegacyDAX_OrderStatus)c on do.OrderStatus = c.DAXStatus 
-			where orderdate >= DATEADD(month,-6,getdate()))a 
+			where orderdate >= DATEADD(month,-18,getdate()))a 
 		join 
 		DAXImports..DAX_OrderItemExport b on a.orderid = b.orderid 
 		left join

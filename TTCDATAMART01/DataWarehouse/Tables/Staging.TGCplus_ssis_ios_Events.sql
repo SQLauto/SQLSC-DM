@@ -1,0 +1,30 @@
+CREATE TABLE [Staging].[TGCplus_ssis_ios_Events]
+(
+[AppName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AppAppleID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubscriptionName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubscriptionAppleID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubscriptionGroupID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SubscriptionDuration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PreservedPricing] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ProceedsReason] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Client] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Device] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[State] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Country] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EventDate] [datetime] NULL,
+[Event] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Trial] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TrialDuration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MarketingOptIn] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MarketingOptInDuration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ConsecutivePaidPeriods] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[OriginalStartDate] [datetime] NULL,
+[PreviousSubscriptionName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PreviousSubscriptionAppleID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DaysBeforeCanceling] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CancellationReason] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DaysCanceled] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Quantity] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+) ON [PRIMARY]
+GO

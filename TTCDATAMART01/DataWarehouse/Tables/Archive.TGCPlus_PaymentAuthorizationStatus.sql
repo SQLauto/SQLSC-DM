@@ -11,7 +11,8 @@ CREATE TABLE [Archive].[TGCPlus_PaymentAuthorizationStatus]
 [pas_uuid] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [pas_payment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [pas_subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DMLastUpdateESTDateTime] [datetime] NOT NULL CONSTRAINT [DF__TGCPlus_P__DMLas__1E043CF0] DEFAULT (getdate())
+[DMLastUpdateESTDateTime] [datetime] NOT NULL CONSTRAINT [DF__TGCPlus_P__DMLas__1E043CF0] DEFAULT (getdate()),
+[country_of_subscription] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_TGCplus_PaymentAuthorizationStatus] ON [Archive].[TGCPlus_PaymentAuthorizationStatus] ([pas_id]) ON [PRIMARY]

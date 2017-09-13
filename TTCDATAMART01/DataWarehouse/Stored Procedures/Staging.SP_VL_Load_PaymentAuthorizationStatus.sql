@@ -52,11 +52,11 @@ WHERE A.pas_id NOT IN ( SELECT pas_id FROM [Staging].VL_ssis_PaymentAuthorizatio
 /*Inserts*/    
     
 INSERT INTO [Archive].[TGCPlus_PaymentAuthorizationStatus]     
- (pa_id,pa_user_id,pas_id,pas_version,pas_created_at,pas_plan_id,pas_state,pas_updated_at,pas_uuid,pas_payment_handler,pas_subscribed_via_platform,DMLastUpdateESTDateTime)    
+ (pa_id,pa_user_id,pas_id,pas_version,pas_created_at,pas_plan_id,pas_state,pas_updated_at,pas_uuid,pas_payment_handler,pas_subscribed_via_platform,DMLastUpdateESTDateTime,country_of_subscription   )    
     
 SELECT  DISTINCT  
 CAST(pa_id AS BIGINT) pa_id,CAST(pa_user_id AS BIGINT) pa_user_id,pas_id,CAST(pas_version AS BIGINT) pas_version,CAST(pas_created_at AS DATETIME) pas_created_at    
-,pas_plan_id,pas_state,CAST(pas_updated_at AS DATETIME) pas_updated_at,pas_uuid,pas_payment_handler,pas_subscribed_via_platform,  GETDATE() AS DMLastUpdateESTDateTime     
+,pas_plan_id,pas_state,CAST(pas_updated_at AS DATETIME) pas_updated_at,pas_uuid,pas_payment_handler,pas_subscribed_via_platform,  GETDATE() AS DMLastUpdateESTDateTime,country_of_subscription        
 FROM [Staging].VL_ssis_PaymentAuthorizationStatus 
 WHERE pas_id NOT IN ( SELECT pas_id FROM [Staging].VL_ssis_PaymentAuthorizationStatus GROUP BY pas_id HAVING COUNT(*)>1)
 

@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
   
 CREATE Proc [dbo].[Sp_EmailPull_LandingPageUpdate]  @emailid varchar(200)      
 as      
@@ -244,7 +245,7 @@ group by CategoryID
 order by 1      
       
 Set @SQL = 'insert into reports..mktwebcategorycourses        
-   select PreferredCategory as CategoryID,       
+   select distinct PreferredCategory as CategoryID,       
     CourseID,      
     RANK as DisplayOrder,      
     blnMarkdown,      
@@ -349,5 +350,6 @@ end
   
   
   
+
 
 GO

@@ -9,3 +9,5 @@ CREATE TABLE [Archive].[Stripe_AllTransactions_Report]
 [DMlastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_Stripe_AllTransactions_Report_Temp] ON [Archive].[Stripe_AllTransactions_Report] ([userId_metadata]) INCLUDE ([CardFunding], [created]) ON [PRIMARY]
+GO

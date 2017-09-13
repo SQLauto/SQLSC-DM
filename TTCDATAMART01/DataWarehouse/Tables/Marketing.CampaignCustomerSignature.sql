@@ -89,7 +89,10 @@ CREATE TABLE [Marketing].[CampaignCustomerSignature]
 [FlagOkToShare] [tinyint] NULL,
 [CustomerSegment2] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CustomerSegmentFnl] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[EducationBin] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[EducationBin] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[NetWorth] [varchar] (22) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PresenceOfChildren] [varchar] (23) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MailOrderBuyer] [varchar] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [IX_CampaignCustomerSignature_CountryCode] ON [Marketing].[CampaignCustomerSignature] ([CountryCode]) INCLUDE ([CustomerID]) ON [PRIMARY]

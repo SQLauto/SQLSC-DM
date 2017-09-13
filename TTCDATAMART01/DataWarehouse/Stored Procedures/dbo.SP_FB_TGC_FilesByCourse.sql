@@ -90,10 +90,12 @@ print '@CountrySql = ' + @CountrySql
 
 set @SQL =	'select distinct a.CourseID
 			,replace(b.Email,''|'','''') EmailAddress
-			,c.CountryCode
+			,replace(c.FirstName,''|'','''') FirstName
+			,replace(c.LastName,''|'','''') LastName
 			,replace(c.State,''|'','''') State
 			,replace(c.City,''|'','''') City
 			,c.PostalCode as ZipCode
+			,c.CountryCode
 		into rfm..' + @FnlTable + char(10) +-- char(13) +
 		' from DataWarehouse.marketing.DMPurchaseOrderItems a left join
 			DataWarehouse.marketing.epc_preference b on a.CustomerID = b.CustomerID left join

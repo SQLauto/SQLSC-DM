@@ -4,10 +4,13 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE Proc [Staging].[SP_VL_Load_TGCPLus_Daily]
 as
 
 Begin
+
+--return(0)
 
 
 exec  staging.SP_VL_Load_Film
@@ -76,6 +79,9 @@ Print 'Executed [Staging].[SP_VL_Load_TGCplus_ConsumptionByPlatform]'
 Exec [Staging].[SP_TGCPlus_ConsumptionFreeMonthChurn]
 Print 'Executed Staging.SP_TGCPlus_ConsumptionFreeMonthChurn'
 
+exec [Staging].[SP_Load_TGCPlus_LTDLectureConsmption]
+Print 'Executed [Staging].[SP_Load_TGCPlus_LTDLectureConsmption]'
+
 Exec [dbo].[SP_Calc_TGCplus_VideoEvents_Smry_TestAccts]
 Print 'Executed dbo.SP_Calc_TGCplus_VideoEvents_Smry_TestAccts'
 
@@ -89,6 +95,7 @@ end
 
 
 END
+
 
 
 

@@ -39,7 +39,10 @@ CREATE TABLE [Archive].[TGCPlus_User]
 [subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DMLastUpdateESTDateTime] [datetime] NOT NULL CONSTRAINT [DF__TGCPlus_U__DMLas__11F5CDCB] DEFAULT (getdate()),
 [registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[VL_entitled_dt] [datetime] NULL
+[VL_entitled_dt] [datetime] NULL,
+[email_notification] [int] NULL,
+[country_of_registration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[email_consent_visible] [int] NULL
 ) ON [PRIMARY]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UC_TGCPlus_User_id] ON [Archive].[TGCPlus_User] ([id]) ON [PRIMARY]

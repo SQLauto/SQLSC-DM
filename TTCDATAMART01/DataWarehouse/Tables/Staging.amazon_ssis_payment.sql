@@ -2,6 +2,7 @@ CREATE TABLE [Staging].[amazon_ssis_payment]
 (
 [Platform] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Country] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CurrencyCode] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Category] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SubscriptionName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BillingAmount] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

@@ -70,15 +70,15 @@ begin
 		sum(fmt.TotalMerchandizeParts) TotalMerchandizeParts,
 		sum(fmt.Adj_CDSales) as Adj_CDSales,
 		sum(fmt.Adj_DVDSales) as Adj_DVDSales,
-		sum(Adj_AudioTapeSales) as Adj_AudioTapeSales,
-		sum(Adj_VHSSales) as Adj_VHSSales,
-		sum(Adj_AudioDLSales) as Adj_AudioDLSales,
-		sum(Adj_VideoDLSales) as Adj_VideoDLSales,
-		sum(Adj_TranscriptSales) as Adj_TranscriptSales,
-		sum(Adj_DigitalTranscriptSales) as Adj_DigitalTranscriptSales,
-		sum(Adj_DigitalSales) as Adj_DigitalSales,
-		sum(Adj_PhysicalSales) as Adj_PhysicalSales,
-		sum(Adj_TotalMerchandizeSales) as Adj_TotalMerchandizeSales,
+		sum(fmt.Adj_AudioTapeSales) as Adj_AudioTapeSales,
+		sum(fmt.Adj_VHSSales) as Adj_VHSSales,
+		sum(fmt.Adj_AudioDLSales) as Adj_AudioDLSales,
+		sum(fmt.Adj_VideoDLSales) as Adj_VideoDLSales,
+		sum(fmt.Adj_TranscriptSales) as Adj_TranscriptSales,
+		sum(fmt.Adj_DigitalTranscriptSales) as Adj_DigitalTranscriptSales,
+		sum(fmt.Adj_DigitalSales) as Adj_DigitalSales,
+		sum(fmt.Adj_PhysicalSales) as Adj_PhysicalSales,
+		sum(fmt.Adj_TotalMerchandizeSales) as Adj_TotalMerchandizeSales,
         GETDATE() as ReportDate,
         a.AgeBin,
         isnull(left(co.Gender,1),'U') as Gender,
@@ -112,10 +112,9 @@ begin
         vac.IPR_Channel
     into Staging.DailyToplineReportIgnoreReturns
     from Marketing.DMPurchaseOrdersIgnoreReturns a left join
-  --		Mapping.CustomerOverLay co on co.CustomerID = a.CustomerID  left join
-		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
+ 		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
 		Mapping.vwAdcodesAll vac on a.AdCode = vac.AdCode left join
-		Marketing.DMSOUPByFormat fmt on a.OrderID = fmt.Orderid
+		Marketing.DMSOUPByFormatIgnoreReturns fmt on a.OrderID = fmt.Orderid
     where year(a.DateOrdered) >= YEAR(getdate())-1
     group by YEAR(a.DateOrdered),
         MONTH(a.DateOrdered),

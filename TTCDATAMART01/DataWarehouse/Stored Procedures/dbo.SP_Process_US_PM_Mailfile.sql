@@ -11,10 +11,17 @@ declare @table_nm varchar(200), @subjectFlg bit
         
 Truncate table datawarehouse.archive.ToMH_PM_MailFile        
         
-/*  delete invalid adcodes*/        
+/*  delete invalid adcodes*/   
+
+update     datawarehouse.archive.ToMH_PM_MailFile_test 
+set  CustomerID = replace(CustomerID,'"',''),
+AdCode = replace(AdCode,'"','')
+ 
+
+
 delete from datawarehouse.archive.ToMH_PM_MailFile_test        
 where adcode in (99993,99994,99995,99996,99997,99998,99999,11844,12205,12345)        
-        
+      
         
 /*  delete for customerid 12345678 */        
 delete from datawarehouse.archive.ToMH_PM_MailFile_test        

@@ -39,6 +39,9 @@ CREATE TABLE [Staging].[TGCPlus_PrevDay_User]
 [subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DMLastUpdateESTDateTime] [datetime] NOT NULL,
 [registered_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[VL_entitled_dt] [datetime] NULL
+[VL_entitled_dt] [datetime] NULL,
+[email_notification] [int] NULL,
+[country_of_registration] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[email_consent_visible] [int] NULL
 ) ON [PRIMARY]
 GO

@@ -10,6 +10,7 @@ CREATE TABLE [Staging].[VL_ssis_PaymentAuthorizationStatus]
 [pas_updated_at] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [pas_uuid] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [pas_payment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[pas_subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[pas_subscribed_via_platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[country_of_subscription] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

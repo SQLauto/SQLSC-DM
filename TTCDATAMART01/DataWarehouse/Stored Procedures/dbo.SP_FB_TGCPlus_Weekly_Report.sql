@@ -42,10 +42,10 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 
 /*Subscribers who have Cancelled more than 30 days ago*/
 set @SQL =	'
-			IF OBJECT_ID (''RFM..FB_TGCP_UnSubscribes_before30days_' + @Date +''')IS NOT NULL
-			DROP TABLE rfm..FB_TGCP_UnSubscribes_before30days_' + @Date +'
+			IF OBJECT_ID (''RFM..FB_TGCP_UnSubscribes_Morethan30days_' + @Date +''')IS NOT NULL
+			DROP TABLE rfm..FB_TGCP_UnSubscribes_Morethan30days_' + @Date +'
 			select distinct rtrim(ltrim(C.EmailAddress)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
-			into rfm..FB_TGCP_UnSubscribes_before30days_' + @Date +'
+			into rfm..FB_TGCP_UnSubscribes_Morethan30days_' + @Date +'
 			from DataWarehouse.Marketing.TGCPlus_CustomerSignature  c
 			left join datawarehouse.mapping.tgcplus_customeroverlay o 
 			on o.customerid = c.customerid
@@ -54,7 +54,7 @@ set @SQL =	'
 			'
 Print @SQL
 Exec  (@SQL)
-set @File = 'FB_TGCP_UnSubscribes_before30days_' + @Date
+set @File = 'FB_TGCP_UnSubscribes_Morethan30days_' + @Date
 
 /*Export @File to @Dest*/
 exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
@@ -110,10 +110,10 @@ exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest
 
 /* So that we exclude test accounts and any other emails that we dont consider for TGCplus_Customersignature before 30 days*/
 set @SQL =	'
-			IF OBJECT_ID (''RFM..FB_TGCP_Registrations_before30days_' + @Date +''')IS NOT NULL
-			DROP TABLE rfm..FB_TGCP_Registrations_before30days_' + @Date +'
+			IF OBJECT_ID (''RFM..FB_TGCP_Registrations_Morethan30days_' + @Date +''')IS NOT NULL
+			DROP TABLE rfm..FB_TGCP_Registrations_Morethan30days_' + @Date +'
 			select distinct rtrim(ltrim(U.email)) as EmailAddress, o.FirstName,o.LastName,o.City,o.State,o.ZIP
-			into rfm..FB_TGCP_Registrations_before30days_' + @Date +'
+			into rfm..FB_TGCP_Registrations_Morethan30days_' + @Date +'
 			from DataWarehouse.Archive.TGCPlus_user U
 			left join DataWarehouse.Marketing.TGCPlus_CustomerSignature tcs
 			on tcs.EmailAddress = u.Email 
@@ -127,7 +127,7 @@ set @SQL =	'
 
 Print @SQL
 Exec  (@SQL)
-set @File = 'FB_TGCP_Registrations_before30days_' + @Date
+set @File = 'FB_TGCP_Registrations_Morethan30days_' + @Date
 
 /*Export @File to @Dest*/
 exec staging.ExportTableToPipeText rfm, dbo, @File, @Dest

@@ -145,7 +145,7 @@ insert into [Archive].[TGCPlus_User]
 (id,version,active,city,email,first_name,full_name,gender,joined,large_profile_pic,last_login_date,last_name,original_profile_pic,password            
 ,profile_pic,registration_type,state,verified_email,parental_control_enabled,player_settings_id,site_id,uuid,privacy_settings_id,facebook_id            
 ,google_id,twitter_id,facebook_access_token,update_date,campaign,TGCPluscampaign,VL_entitled_dt,subscription_plan_id,offer_name,offer_code_used,offer_applied_method            
-,payment_handler,subscribed_via_platform,registered_via_platform,DMLastUpdateESTDateTime)            
+,payment_handler,subscribed_via_platform,registered_via_platform,DMLastUpdateESTDateTime,email_notification,country_of_registration,email_consent_visible)            
             
 select    distinct          
 id,Cast(version as BigInt)version,Cast(active as Bit)active,city,email,first_name,full_name,gender,Cast(joined as DateTime) joined            
@@ -157,6 +157,7 @@ id,Cast(version as BigInt)version,Cast(active as Bit)active,city,email,first_nam
 ,Cast(entitled_dt as DateTime) entitled_dt            
 ,Cast(subscription_plan_id as BigInt)subscription_plan_id,offer_name,offer_code_used,offer_applied_method,payment_handler,subscribed_via_platform,registered_via_platform            
 ,GETDATE() as DMLastUpdateESTDateTime             
+,email_notification,country_of_registration,email_consent_visible
 from [Staging].VL_ssis_User  
 WHERE uuid NOT IN (
 SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User
@@ -187,17 +188,17 @@ from DataWarehouse.Archive.TGCPlus_PaymentAuthorizationStatus a join
                                     and a.pas_state = b.pas_state
                                     and a.pas_id = b.pas_id
 
-select pa_user_id
-from #tempPas
-group by pa_user_id
-having count(*) > 1
+--select pa_user_id
+--from #tempPas
+--group by pa_user_id
+--having count(*) > 1
 
-select a.email, a.entitled_dt, a.vl_entitled_dt, 
-      a.subscribed_via_platform, a.subscription_plan_id,
-      b.pas_created_at, b.pas_subscribed_via_platform,
-      b.pas_plan_id, b.pas_payment_handler
-from DataWarehouse.Archive.TGCPlus_User a join
-      #tempPas b on a.id = b.pa_user_id
+--select a.email, a.entitled_dt, a.vl_entitled_dt, 
+--      a.subscribed_via_platform, a.subscription_plan_id,
+--      b.pas_created_at, b.pas_subscribed_via_platform,
+--      b.pas_plan_id, b.pas_payment_handler
+--from DataWarehouse.Archive.TGCPlus_User a join
+--      #tempPas b on a.id = b.pa_user_id
 --where a.subscription_plan_id is null
 
 

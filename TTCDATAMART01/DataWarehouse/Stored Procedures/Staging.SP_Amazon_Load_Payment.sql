@@ -7,13 +7,23 @@ CREATE Proc [Staging].[SP_Amazon_Load_Payment]
 as
 Begin
 
-/* Only Inserting Values*/
 
- insert into Archive.Amazon_payment (Platform,Country,Category,SubscriptionName,BillingAmount,Subscribers,LicenseFee,BadDebt,NetRoyaltyPayment,CaptionCost,NetPayment,
+--Deletes 
+	delete A from Archive.Amazon_payment A
+	join staging.Amazon_ssis_payment S
+	On A.Platform = S.Platform
+	and A.Country = S.Country
+	and A.Category = S.Category
+	and A.ReportDate = S.ReportDate
+
+
+--Inserts
+ insert into Archive.Amazon_payment (Platform,Country,CurrencyCode,Category,SubscriptionName,BillingAmount,Subscribers,LicenseFee,BadDebt,NetRoyaltyPayment,CaptionCost,NetPayment,
 			EligibleCaptionCost,RemainingBalance,PaymentTerms,PaymentDate,ReportDate)
 
 	select  Platform,
 			Country,
+			CurrencyCode,
 			Category,
 			SubscriptionName,
 			cast(BillingAmount as float)BillingAmount,
@@ -29,7 +39,7 @@ Begin
 			case when isdate(PaymentDate) = 1 then PaymentDate else null end as PaymentDate,
 			ReportDate 
 	 from staging.Amazon_ssis_payment
-	 where ReportDate is not null
+ 
 
  
 End 
