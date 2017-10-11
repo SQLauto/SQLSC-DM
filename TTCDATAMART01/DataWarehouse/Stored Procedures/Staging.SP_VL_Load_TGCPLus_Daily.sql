@@ -46,6 +46,10 @@ Print 'Executed staging.SP_VL_Load_Seriescategories'
 Exec [Staging].[SP_Load_TGCPlus_Transaction]  
 Print 'Executed staging.SP_Load_TGCPlus_Transaction'
 
+/*Refresh Datawarehouse.archive.tgcplus_ds table*/
+Exec [dbo].[SP_TGCPLus_Load_DS]
+Print 'Executed [dbo].[SP_TGCPLus_Load_DS]'
+
 /*Refresh TGCPlus Daily orders table and TGCPluscustomerSignature table*/
 
 Exec Staging.SP_Load_TGCplus_StatusHistory
@@ -84,6 +88,7 @@ Print 'Executed [Staging].[SP_Load_TGCPlus_LTDLectureConsmption]'
 
 Exec [dbo].[SP_Calc_TGCplus_VideoEvents_Smry_TestAccts]
 Print 'Executed dbo.SP_Calc_TGCplus_VideoEvents_Smry_TestAccts'
+
 
 
 if @@ERROR = 0 

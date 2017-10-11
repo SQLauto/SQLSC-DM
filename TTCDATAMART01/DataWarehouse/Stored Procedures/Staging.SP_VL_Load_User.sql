@@ -157,7 +157,13 @@ id,Cast(version as BigInt)version,Cast(active as Bit)active,city,email,first_nam
 ,Cast(entitled_dt as DateTime) entitled_dt            
 ,Cast(subscription_plan_id as BigInt)subscription_plan_id,offer_name,offer_code_used,offer_applied_method,payment_handler,subscribed_via_platform,registered_via_platform            
 ,GETDATE() as DMLastUpdateESTDateTime             
-,email_notification,country_of_registration,email_consent_visible
+,case when email_notification = 'true' then 1 
+	  when email_notification = 'false' then 0 
+	  else null end email_notification
+,country_of_registration
+,case when email_consent_visible = 'true' then 1 
+	  when email_consent_visible = 'false' then 0 
+	  else null end as email_consent_visible  
 from [Staging].VL_ssis_User  
 WHERE uuid NOT IN (
 SELECT uuid FROM DataWarehouse.Staging.VL_ssis_User

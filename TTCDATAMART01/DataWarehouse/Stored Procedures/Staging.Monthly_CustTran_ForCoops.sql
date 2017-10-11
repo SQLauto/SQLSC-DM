@@ -24,6 +24,7 @@ GO
 -- PR			2/2/2015	Add initial Order channel for all co-op customer files as per new request for rentals..
 -- PR			2/2/2015    needto send files to Datalogix, Ibehavior along with Wiland. So, loading to generic Co_Op names instead of Wiland
 -- PR			2/4/2015    Remove initial Order channel from final table. Not required now. 
+-- VB			9/25/2017   Added replace(a.XXXX,'"',' ') scrpt for '"' issues
 /*-*/
 
 CREATE  PROC [Staging].[Monthly_CustTran_ForCoops] 
@@ -35,19 +36,19 @@ begin
 
 	if object_id('Staging.Temp_Abacus_CustomerFile') is not null drop table Staging.Temp_Abacus_CustomerFile
 
-	select CAST(getdate() as date) AsOfDate,
+	select CAST(getdate() as date) AsOfDate, 
 		a.CustomerID,
-		a.Prefix,
-		a.FirstName,
-		a.MiddleName,
-		a.LastName,
-		a.Suffix,
-		a.Address1,
-		a.Address2,
-		a.Address3,
-		a.City,
-		a.State,
-		a.PostalCode,
+		replace(a.Prefix,'"',' ')Prefix,-- VB			9/25/2017   Added replace(a.XXXX,'"',' ') scrpt for '"' issues 
+		replace(a.FirstName,'"',' ')FirstName,
+		replace(a.MiddleName,'"',' ')MiddleName,
+		replace(a.LastName,'"',' ')LastName,
+		replace(a.Suffix,'"',' ')Suffix,
+		replace(a.Address1,'"',' ')Address1,
+		replace(a.Address2,'"',' ')Address2,
+		replace(a.Address3,'"',' ')Address3,
+		replace(a.City,'"',' ')City,
+		replace(a.State,'"',' ')State,
+		replace(a.PostalCode,'"',' ')PostalCode, -- VB			9/25/2017   Added replace(a.XXXX,'"',' ') scrpt for '"' issues
 		a.CountryCode,
 		case when a.FlagMail = 1 then 0 else 1 end as FlagDoNotMail,
 		case when a.FlagOkToShare = 1 then 0 else 1 end as FlagDoNotShare,
@@ -391,4 +392,5 @@ begin
 	drop table Staging.Temp_Wiland_Working
 
 end
+
 GO

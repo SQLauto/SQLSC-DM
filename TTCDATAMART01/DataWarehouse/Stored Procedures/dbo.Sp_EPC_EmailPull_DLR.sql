@@ -27,6 +27,10 @@ left join (select Customerid, sum(case when  FlagDormantCustomer = 0 then 1 else
 from #Cust group by Customerid ) c2
 on c1.customerid = c2.customerid  
 
+select  Customerid 
+into #Email_DormantCustomer_Holdout
+from Archive.Email_DormantCustomer_Holdout_20170816 
+group by Customerid
 
 /* Duplicate dormant emails  */
 
@@ -431,7 +435,7 @@ select
 ccs.CustomerID,                        
 ccs.LastName,                        
 ccs.FirstName,       
-ccs.EmailAddress,                 
+ccs.EmailAddress,        
 'N' as Unsubscribe,                        
 cast('VALID' as varchar(15)) as EmailStatus,                        
 map.SubjectLine,                        
@@ -477,7 +481,7 @@ WHERE 1 = 1 /*Removed due to EPC*/
 AND EmailAddress LIKE '%@%'                        
 AND ccs.PublicLibrary = 0                        
 AND ccs.CountryCode in ('GB')    
-and ccs.comboid in ('NoRFM','highschool')                    
+and ccs.comboid in ('NoRFM','highschool')     
 and ccs.NewSeg is null                        
 and map.DLRFlag = 0                        
 and map.EmailID = @EmailID                        
@@ -844,25 +848,29 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------                     
 /*Dormant Customer HoldOuts*/
 
-declare @DormantHolder int = 0    
+declare @DormantHolder int = 0  ,  @DormantStartdate date = null
                   
-select @DormantHolder = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
+select @DormantHolder = isnull(Adcode,0),@DormantStartdate = Startdate from   datawarehouse.Mapping.Email_Adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Dormant Holdout' and countrycode= 'US'                        
-select '@DormantHolder', @DormantHolder   
+select '@DormantHolder', @DormantHolder   ,'@DormantStartdate', @DormantStartdate
 
 If @DormantHolder>0
 Begin
 
+CREATE NONCLUSTERED INDEX [IX_EPC_EmailPull_temp]
+ON [Staging].[EPC_EmailPull] ([AdCode])
+INCLUDE ([CustomerID],[EmailAddress],[PreferredCategory],[ComboID])
+
   insert into Archive.Email_DormantCustomer_Holdout_20170816 
-  select distinct CustomerID,@DormantHolder as Adcode,cast(A.startdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated
+  select distinct CustomerID,@DormantHolder as Adcode,cast(@DormantStartdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated
   from Datawarehouse.staging.EPC_EmailPull E
-  join datawarehouse.Mapping.Email_Adcode A
-  on A.adcode = E.adcode
-  where E.customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)                  
+  --join datawarehouse.Mapping.Email_Adcode A
+  --on A.adcode = E.adcode
+  where E.customerid in (select  Customerid from #Email_DormantCustomer_Holdout)                  
 
 
   Delete from Datawarehouse.staging.EPC_EmailPull
-  where customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)   
+  where customerid in (select  Customerid from #Email_DormantCustomer_Holdout)   
 
 
 End
@@ -922,7 +930,7 @@ END
       
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 --------------------------------------------------------------------------------------------------------------------------------------------                        
----------------------------------------------------------RAM Process End--------------------------------------------------------------------      
+---------------------------------------------------------RAM Process End--------------------------------------------------------------------  
 --------------------------------------------------------------------------------------------------------------------------------------------                    
                   
                   
@@ -999,7 +1007,7 @@ and e.CountryCode = 'US'
                   
 print 'Deleting extra swamp emails where CountryCode<>US'                  
 delete e                  
-from Staging.EPC_EmailPull e                  
+from Staging.EPC_EmailPull e       
 inner join #SNI s                  
 on s.EmailAddress=e.EmailAddress and s.CustomerID=e.CustomerID                  
 where e.CountryCode<>'US'                  
@@ -1076,7 +1084,7 @@ DROP table #Nomatch
 End                  
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  
 --------------------------------------------------------Block Ends for adding New EPC Emails--------------------------------------------------------                  
-----------------------------------------------------------------------------------------------------------------------------------------------------                  
+----------------------------------------------------------------------------------------------------------------------------------------------------   
                         
                   
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  
@@ -1236,10 +1244,10 @@ group by primary_adcode having COUNT(*)>1
    ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(distinct customerid) Cnt                  
             From                  
             (                  
-               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory, EmailCnt                        
+               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory,1 as EmailCnt                        
                From staging.EPC_EmailPull                        
                Where adcode = @primary_adcode                     
-               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')   ,EmailCnt                     
+               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')   --,EmailCnt             /*test 9/26/2017 */        
             )  a                  
  Group by coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx') ,EmailCnt                  
  having COUNT(*)>1                 
@@ -1272,11 +1280,14 @@ group by primary_adcode having COUNT(*)>1
       exec ('update staging.EPC_EmailPull                         
           set adcode = '+ @adcode +                        
         ' where adcode = '+ @PrimaryAdcode +' and customerID in (select top ' + @Cnt + '  customerID   from staging.EPC_EmailPull where adcode = '+ @PrimaryAdcode +                   
-        ' and comboid= '''+ @comboid + ''' and EmailCnt= '''+ @Emailcnt + ''' and  preferredcategory  = ''' + @preferredcategory + ''' order by NEWID() )')                        
+        ' and comboid= '''+ @comboid + 
+		--''' and EmailCnt= '''+ @Emailcnt + 
+		''' and  preferredcategory  = ''' + @preferredcategory + 
+		''' order by NEWID() )')                        
                         
       update #splitter                        
       set processed=1       
-      where adcode=@adcode and comboid=@comboid and preferredcategory = @preferredcategory  and Emailcnt  = @Emailcnt                  
+     where adcode=@adcode and comboid=@comboid and preferredcategory = @preferredcategory  and Emailcnt  = @Emailcnt                  
                         
       END                        
                         
@@ -1363,7 +1374,7 @@ where ccs.CountryCode<>'AU'
 END                        
              
 if @CountryCode  in ('GB')                        
-Begin                        
+Begin 
                         
 delete GB                         
 from datawarehouse.staging.EPC_EmailPull GB                        

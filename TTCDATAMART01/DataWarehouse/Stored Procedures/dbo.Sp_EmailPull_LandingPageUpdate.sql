@@ -235,8 +235,8 @@ set @sql = 'update a
    exec (@sql)  
   
 ---new landing page process      
-print 'new landing page process'      
-select * from reports..mktwebcategorycourses      
+--print 'new landing page process'      
+--select * from reports..mktwebcategorycourses      
       
 print 'new landing page process by category Id'      
 select CategoryID, COUNT(*)       
@@ -256,9 +256,9 @@ Set @SQL = 'insert into reports..mktwebcategorycourses
    order by 1,3'      
 exec (@SQL)      
       
-print 'Inserted mktwebcategorycourses ordered by rank'      
-select * from reports..mktwebcategorycourses      
-order by 3      
+--print 'Inserted mktwebcategorycourses ordered by rank'      
+--select * from reports..mktwebcategorycourses      
+--order by 3      
       
       
 print 'Count records from mktwebcategorycourses by CategoryID'      

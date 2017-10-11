@@ -1,11 +1,12 @@
 CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 (
+[TGCPLus_AppsFlyer_AppEvents_id] [int] NOT NULL IDENTITY(1, 1),
 [AttributedTouchType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AttributedTouchTime] [datetime] NULL,
 [InstallTime] [datetime] NULL,
 [EventTime] [datetime] NULL,
 [EventName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[EventValue] [varchar] (2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EventValue] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EventRevenue] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EventRevenueCurrency] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EventRevenueUSD] [real] NULL,
@@ -22,7 +23,7 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [Ad] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AdID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AdType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[SiteID] [varchar] (2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SiteID] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SubSiteID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SubParam1] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SubParam2] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -49,8 +50,8 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [Contributor3TouchTime] [datetime] NULL,
 [Region] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CountryCode] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[State] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[City] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[State] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[City] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PostalCode] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DMA] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IP] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -65,13 +66,13 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [CustomerUserID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IMEI] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IDFV] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Platform] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DeviceType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[OSVersion] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AppVersion] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[SDKVersion] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AppID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AppName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Platform] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DeviceType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[OSVersion] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AppVersion] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SDKVersion] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AppID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AppName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BundleID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IsRetargeting] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RetargetingConversionType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -79,8 +80,10 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [ReengagementWindow] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IsPrimaryAttribution] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UserAgent] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[HTTPReferrer] [varchar] (2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[OriginalURL] [varchar] (2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DMLastupdated] [datetime] NULL CONSTRAINT [DF__TGCPLus_A__DMLas__23C8989C] DEFAULT (getdate())
+[HTTPReferrer] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[OriginalURL] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DMLastupdated] [datetime] NULL CONSTRAINT [DF__TGCPLus_A__DMLas__018A25DF] DEFAULT (getdate())
 ) ON [PRIMARY]
+GO
+ALTER TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents] ADD CONSTRAINT [PK__TGCPLus___B50ADEC67384D7F5] PRIMARY KEY CLUSTERED  ([TGCPLus_AppsFlyer_AppEvents_id]) ON [PRIMARY]
 GO

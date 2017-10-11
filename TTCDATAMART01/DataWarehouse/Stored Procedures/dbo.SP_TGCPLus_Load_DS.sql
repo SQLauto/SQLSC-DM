@@ -2,12 +2,18 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-Create Proc [dbo].[SP_TGCPLus_Load_DS]
+
+
+
+
+
+CREATE Proc [dbo].[SP_TGCPLus_Load_DS]
 As
 
 Begin
 --drop table #tgcplus_userbilling_Payments
 select a.*,Row_number() over(partition by user_id order by service_period_from , completed_at) BillingRank,
+--select a.*,Row_number() over(partition by user_id order by completed_at,service_period_from ) BillingRank, --VB 10/5/2017 test for billing rank fix
 --service_period_to as Adjusted_Service_period_to,
 Cast(0 as Bit) Refunded ,
 Cast(0 as Money) RefundedAmount,
@@ -25,6 +31,9 @@ Cast(null as datetime) PAS_Suspended_date,
 Cast(0 as Bit) PAS_Suspended,
 Cast(0 as Int) BillingDupes,
 Cast(0 as Bit) UBIssue,
+Cast(null as int) uso_offer_id,
+Cast(null as varchar(255)) uso_offer_code_applied,
+Cast(null as datetime) uso_applied_at,
 Cast(null as varchar(255)) Final_Status
 into #tgcplus_userbilling_Payments
 From  (
@@ -72,7 +81,7 @@ min(subscription_plan_id)subscription_plan_id,min(payment_handler) payment_handl
 Cast(0 as Money) RefundedAmount,Cast(null as datetime) Refunded_Completed_at,Cast(0 as Bit) Changed_RefundedService_period_to, Cast(0 as Bit) Changed_Service_period_to ,
 Cast(0 as Bit) Changed_Billing_cycle_period_type ,Cast(0 as Bit) Changed_Subscription_plan_id,Cast(0 as Bit)Changed_Payment_handler,Cast(null as datetime) PAS_Cancelled_date,
 Cast(0 as Bit) PAS_Cancelled,Cast(null as datetime) PAS_DeferredSuspension_date,Cast(0 as Bit) PAS_DeferredSuspension,Cast(null as datetime) PAS_Suspended_date,
-Cast(0 as Bit) PAS_Suspended,Count(*) as BillingDupes,Cast(1 as Bit)UBIssue,Cast(null as varchar(255)) Final_Status
+Cast(0 as Bit) PAS_Suspended,Count(*) as BillingDupes,Cast(1 as Bit)UBIssue,Cast(0 as int) uso_offer_id,Cast(0 as varchar(255)) uso_offer_code_applied,Cast(null as datetime) uso_applied_at,Cast(null as varchar(255)) Final_Status
 Into #UB_dupes
 from  
  #tgcplus_userbilling_Payments ub
@@ -109,9 +118,11 @@ on Ub.user_id = dupes.user_id
 
 insert into #tgcplus_userbilling_Payments
  select User_id,completed_at,billing_cycle_period_type,Type,Cast(pre_tax_amount as Money)pre_tax_amount,service_period_from,service_period_to ,service_period_to as actual_service_period_to ,subscription_plan_id,payment_handler
- ,Row_number() over(partition by user_id order by service_period_from , completed_at) BillingRank
+ ,Row_number() over(partition by user_id order by service_period_from , completed_at) BillingRank 
+ --,Row_number() over(partition by user_id order by completed_at,service_period_from) BillingRank --VB 10/5/2017 test for billing rank fix
+ 
  ,Refunded , RefundedAmount, Refunded_Completed_at,Changed_RefundedService_period_to, Changed_Service_period_to ,Changed_Billing_cycle_period_type ,Changed_Subscription_plan_id,
-Changed_Payment_handler, PAS_Cancelled_date,PAS_Cancelled, PAS_DeferredSuspension_date,PAS_DeferredSuspension, PAS_Suspended_date,PAS_Suspended,BillingDupes,UBIssue, Final_Status
+Changed_Payment_handler, PAS_Cancelled_date,PAS_Cancelled, PAS_DeferredSuspension_date,PAS_DeferredSuspension, PAS_Suspended_date,PAS_Suspended,BillingDupes,UBIssue,uso_offer_id,uso_offer_code_applied, uso_applied_at, Final_Status
  from #UB_dupes UB
  order by 1,2
 
@@ -185,6 +196,25 @@ on a.user_id = b.user_id and a.billingrank + 1 = b.Billingrank
  on UB.user_id=UB1.user_id
  and UB.billingRank  = UB1.billingRank 
 
+ --Used offercode update
+
+ --drop table #USO 
+	select uo.pa_user_id,uso_offer_id,uo.uso_id,uso_applied_at,uso_offer_code_applied,uso_redeemed_at, Row_number() over(partition by pa_user_id order by uso_applied_at ,uso_redeemed_at desc) USORank 
+	 into #USO 
+	from datawarehouse.[Archive].[TGCPlus_PaymentAuthorizationUsedOffer] uo
+	left join [Archive].[TGCPlus_SubscriptionOffer] so
+	on uo.uso_offer_id = so.id
+
+ update UB
+ set UB.uso_offer_id = uso.uso_offer_id,
+ UB.uso_offer_code_applied = uso.uso_offer_code_applied,
+ UB.uso_applied_at = uso.uso_applied_at
+ from #tgcplus_userbilling_Payments UB
+ left join #USO uso
+ on ub.user_id = uso.pa_user_id and uso.uso_applied_at between service_period_from	and service_period_to  and USORank  = 1
+ --where user_id = 3191975
+
+ 
 
  --drop table #DS
  select *,cast(null as int)DS into #DS
@@ -234,27 +264,26 @@ on a.user_id = b.user_id and a.billingrank + 1 = b.Billingrank
    order by 2,1
 
 
-
   
   
  --drop table #DS_Final
 
- select User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,max(D.Date)As DSDate
+ select User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,year,max(D.Date)As DSDate
  into #DS_Final
  from Datawarehouse.mapping.date d
  join #DS_Calc E
  On d.date between E.Service_period_from and Cast(service_period_to as date)
  and Datepart(d,d.date) <= Datepart(D,Cast(service_period_to as date))
  where MonthDiff >1
- group by User_id,Days,Service_period_from,service_period_to,MonthDiff,Month;
+ group by User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,year;
 
  insert into #DS_Final
- select User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,max(D.Date)As DSDate
+ select User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,year,max(D.Date)As DSDate
  from Datawarehouse.mapping.date d
  join #DS_Calc E
  On d.date = Cast(service_period_to as date)
   where MonthDiff <=1
- group by User_id,Days,Service_period_from,service_period_to,MonthDiff,Month;
+ group by User_id,Days,Service_period_from,service_period_to,MonthDiff,Month,year;
 
  
 
@@ -274,6 +303,15 @@ on a.user_id = b.user_id and a.billingrank + 1 = b.Billingrank
 
     
  --drop table #DS_ALL
+
+ -- DS_Entitled (0,1) 
+ -- if DS_Entitled = 1 Has Entitlement 
+
+ --DS_ValidDS (0,1,2)
+ --if DS_Entitled = 1  DS calculated based on Entitlement Dates 
+ --if DS_Entitled = 2  DS Dates have been padded for gaps of subscription
+ --if DS_Entitled = 0  DS Dates have been padded for gaps of subscription but, these will not have a DS # as the gaps are incomeplete for DS Calculations
+
 
  select User_id,Days,Service_period_from,Service_period_to,MonthDiff,Month,DSDate,1 as ValidDS,1 as DS_Entitled
  into #DS_ALL
@@ -475,6 +513,11 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
  from #DSPAS
 
 
+
+ --select * from Datawarehouse.Staging.TGCplus_DS_Working
+ --where DS = 0 and 
+ --pas_Cancelled_date between DS_Service_period_from and Dateadd(d,7,DS_Service_period_to)
+ 
  --issues with ds is null blanks
  --select DS,* from Datawarehouse.Staging.TGCplus_DS_Working 
  --where CustomerID  in (  select CustomerID from Datawarehouse.Staging.TGCplus_DS_Working  where ds is null )
@@ -493,6 +536,22 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
 	--						 )
  --order by 3,2
 
+ --Additional Issues DS Dupes due to 0 days entitlement and change in plans
+	update DSW
+	set DSW.DS_ValidDS  = 0,
+		DS = null
+	--select dsw.ds,* 
+	from Datawarehouse.Staging.TGCplus_DS_Working DSW
+	join (select customerid,DS,count(*) cnt ,max(BillingRank)BillingRank
+	from Datawarehouse.Staging.TGCplus_DS_Working  
+	where DS>0
+	group by customerid,DS
+	having count(*)>1
+	) err
+	on err.customerid = DSW.customerid 
+	and err.DS  = DSW.DS 
+	and err.BillingRank <> DSW.BillingRank
+
 
 
   drop table Datawarehouse.Archive.TGCplus_DS
@@ -501,23 +560,63 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
   DS_Month,DS_ValidDS,DS_Entitled,completed_at,billing_cycle_period_type,Type,pre_tax_amount,service_period_from,service_period_to,actual_service_period_to,subscription_plan_id,
   payment_handler,BillingRank,Refunded,RefundedAmount,Refunded_Completed_at,Changed_Service_period_to,Changed_Billing_cycle_period_type,Changed_Subscription_plan_id,
   Changed_Payment_handler,PAS_Cancelled_date,PAS_DeferredSuspension_date,PAS_Suspended_date,
-  Case when PAS_Cancelled_date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end Cancelled,
-  Case when PAS_Suspended_Date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end Suspended,
-  Case when PAS_DeferredSuspension_Date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end DeferredSuspension,
+  --Case when PAS_Cancelled_date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end Cancelled,
+  --Case when PAS_Suspended_Date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end Suspended,
+  --Case when PAS_DeferredSuspension_Date between Coalesce_DSDate and Dateadd(d,7,Coalesce_DSDate) then 1 else 0 end DeferredSuspension, /*changed to capture cancels and others*/
+  Case when PAS_Cancelled_date between DS_Service_period_from and Dateadd(d,7,DS_Service_period_to) then 1 else 0 end Cancelled,
+  Case when PAS_Suspended_Date between DS_Service_period_from and Dateadd(d,7,DS_Service_period_to) then 1 else 0 end Suspended,
+  Case when PAS_DeferredSuspension_Date between DS_Service_period_from and Dateadd(d,7,DS_Service_period_to) then 1 else 0 end DeferredSuspension,
   lag( billing_cycle_period_type, 1) over(partition by DS.customerid order by BillingRank )Prior_billing_cycle_period_type,
   lag( subscription_plan_id, 1) over(partition by DS.customerid order by BillingRank )Prior_subscription_plan_id,
   lag( payment_handler, 1) over(partition by DS.customerid order by BillingRank )Prior_payment_handler,
-  Amount,NetAmount,DSSplits,PaidFlag,BillingDupes,	UBIssue ,MinDSDate,MaxDSDate, Case when Coalesce_DSDate = MaxDSDate then 1 else 0 end as MaxDS,
+  Amount,NetAmount,DSSplits,PaidFlag,BillingDupes,	UBIssue, MinDS,MinDSDate,MaxDS,MaxDSDate,LTDAmount,LTDNetAmount,
+  IntlDSbilling_cycle_period_type,IntlDSsubscription_plan_id,IntlDSpayment_handler,IntlDSAmount,IntlDSuso_offer_id,
+  SubDSbilling_cycle_period_type,SubDSsubscription_plan_id,SubDSpayment_handler,SubDSAmount,SubDSuso_offer_id,
+  Case when Coalesce_DSDate = MaxDSDate and DS is not null then 1 else 0 end as CurrentDS,uso_offer_id,uso_offer_code_applied,uso_applied_at,
   getdate() as DMLastupdated
   into Datawarehouse.Archive.TGCplus_DS
   from Datawarehouse.Staging.TGCplus_DS_Working DS
-  Left join (select CustomerID,cast(Min(DS_Service_period_from) as Date) MinDSDate,cast(Max(Coalesce_DSDate) as date)as MaxDSDate 
-  from Datawarehouse.Staging.TGCplus_DS_Working
-  group by CustomerID) DSMinMax on DS.CustomerID = DSMinMax.CustomerID
+  Left join 
+  (
+	/*	  select distinct MinMax.*,
+		  IntlDS.billing_cycle_period_type as IntlDSbilling_cycle_period_type,IntlDS.subscription_plan_id as IntlDSsubscription_plan_id,
+		  IntlDS.payment_handler as IntlDSpayment_handler,IntlDS.pre_tax_amount as IntlDSAmount,IntlDS.uso_offer_id as IntlDSuso_offer_id,
+		  SubDS.billing_cycle_period_type as SubDSbilling_cycle_period_type,SubDS.subscription_plan_id as SubDSsubscription_plan_id,
+		  SubDS.payment_handler as SubDSpayment_handler,SubDS.pre_tax_amount as SubDSAmount,SubDS.uso_offer_id as SubDSuso_offer_id
+		  from 
+		  (select Customerid,min(DS)MinDS,cast(Min(DS_Service_period_from) as Date) MinDSDate,Max(DS)MaxDS,cast(Max(Coalesce_DSDate) as date)as MaxDSDate, Sum(Amount) As LTDAmount ,Sum(NetAmount) As LTDNetAmount 
+		  from Datawarehouse.Staging.TGCplus_DS_Working
+		  group by Customerid)MinMax
+		  join Datawarehouse.Staging.TGCplus_DS_Working IntlDS
+		  on MinMax.customerid = IntlDS.Customerid
+		  and IntlDS.DS = MinDS --and IntlDS.EntitlementDays >0
+		  join Datawarehouse.Staging.TGCplus_DS_Working SubDS
+		  on MinMax.customerid = SubDS.Customerid
+		  and SubDS.DS = MaxDS --and SubDS.EntitlementDays >0
+		  */
+
+ select   MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount,
+		  min(IntlDS.billing_cycle_period_type) as IntlDSbilling_cycle_period_type,min(IntlDS.subscription_plan_id) as IntlDSsubscription_plan_id,
+		  min(IntlDS.payment_handler) as IntlDSpayment_handler,min(IntlDS.pre_tax_amount) as IntlDSAmount,min(IntlDS.uso_offer_id) as IntlDSuso_offer_id,
+		  min(SubDS.billing_cycle_period_type) as SubDSbilling_cycle_period_type,min(SubDS.subscription_plan_id) as SubDSsubscription_plan_id,
+		  min(SubDS.payment_handler) as SubDSpayment_handler,min(SubDS.pre_tax_amount) as SubDSAmount,min(SubDS.uso_offer_id) as SubDSuso_offer_id
+		  from 
+		  (select Customerid,min(DS)MinDS,cast(Min(DS_Service_period_from) as Date) MinDSDate,Max(DS)MaxDS,cast(Max(Coalesce_DSDate) as date)as MaxDSDate, Sum(Amount) As LTDAmount ,Sum(NetAmount) As LTDNetAmount 
+		  from Datawarehouse.Staging.TGCplus_DS_Working
+		  group by Customerid)MinMax
+		  join Datawarehouse.Staging.TGCplus_DS_Working IntlDS
+		  on MinMax.customerid = IntlDS.Customerid
+		  and IntlDS.DS = MinDS --and IntlDS.EntitlementDays >0
+		  join Datawarehouse.Staging.TGCplus_DS_Working SubDS
+		  on MinMax.customerid = SubDS.Customerid
+		  and SubDS.DS = MaxDS --and SubDS.EntitlementDays >0
+		  group by MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount
+
+  ) DSMinMax on DS.CustomerID = DSMinMax.CustomerID
   --where DS.CustomerID in (1399220, 1216192,2342155,956855,1085427,1216137,1216192,1216406,1216469,1219363,1219423,1220932,1221129,1221171,956855,1216137,2376383  )
   order by 1,2
 
-
+ 
   --select * from  Datawarehouse.Archive.TGCplus_DS
   --where  CustomerID in (1399220, 1216192,2342155,956855,1085427,1216137,1216192,1216406,1216469,1219363,1219423,1220932,1221129,1221171,956855,1216137,2376383  )
   --order by 1,2
@@ -538,9 +637,47 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
 	--order by 3,4
 
 
+	
+update a
+set	PAS_Cancelled_date = pas_created_at,
+	Cancelled  = 1
+from Archive.TGCPlus_DS a
+left join archive.TGCPlus_paymentAuthorizationstatus b 
+on a.customerid = b.pa_user_id and (b.pas_created_at between DS_Service_period_from and DS_Service_period_to or b.pas_created_at>DS_Service_period_to )
+and a.payment_handler=b.pas_payment_handler and a.subscription_plan_id =  b.pas_plan_id
+where CurrentDS = 1 --and DS = 0 
+and Cancelled+Suspended+DeferredSuspension = 0
+and Dateadd(d,7,DS_Service_period_to) < getdate()
+and pas_state in ('Cancelled')
+ 
 
 
+update a
+set	PAS_Suspended_date = pas_created_at,
+	Suspended  = 1
+from Archive.TGCPlus_DS a
+left join archive.TGCPlus_paymentAuthorizationstatus b 
+on a.customerid = b.pa_user_id and (b.pas_created_at between DS_Service_period_from and DS_Service_period_to or b.pas_created_at>DS_Service_period_to )
+and a.payment_handler=b.pas_payment_handler and a.subscription_plan_id =  b.pas_plan_id
+where CurrentDS = 1 --and DS = 0 
+and Cancelled+Suspended+DeferredSuspension = 0
+and  Dateadd(d,7,DS_Service_period_to) < getdate()
+and pas_state in ('suspended')
 
+--Fix for people who come back afterwards and get a free trial again so have not paid yet and ltdamount = 0.
+update a
+set DS = Case when DS is null then null else 0 end
+from Archive.TGCPlus_DS a
+where isnull(ltdamount,0) = 0
+and DS>0 
 
 END
+
+
+
+
+
+
+
+
 GO

@@ -244,10 +244,7 @@ begin
 					a.RunStartDate, 
 					a.RunStopDate)b on a.OfferIDUnq = b.OfferIDUnq
 
-	select * from Staging.TempTGCPlus_RadioMasterTrnsfrm
-
-	exec sp_help 'Staging.TempTGCPlus_RadioMasterTrnsfrm'
-
+	
 	update a
 	set a.MinIntlSubDate_SrcMain = b.MinIntlSubDate_SrcMain,
 		a.MaxIntlSubDate_SrcMain = b.MaxIntlSubDate_SrcMain,

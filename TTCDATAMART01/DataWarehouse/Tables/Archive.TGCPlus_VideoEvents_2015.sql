@@ -33,3 +33,5 @@ CREATE TABLE [Archive].[TGCPlus_VideoEvents_2015]
 [DMLastUpdateESTDateTime] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCPlus_VideoEvents_2015_Tstamp] ON [Archive].[TGCPlus_VideoEvents_2015] ([tstamp]) ON [PRIMARY]
+GO

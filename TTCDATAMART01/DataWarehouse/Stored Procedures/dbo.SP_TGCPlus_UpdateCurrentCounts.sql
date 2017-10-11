@@ -2,9 +2,16 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 CREATE Proc [dbo].[SP_TGCPlus_UpdateCurrentCounts] @TGCPlusTableName varchar(100)
 As
 Begin
+
+If not exists (select 1 from Mapping.TGCplus_QC where TGCPlusTableName= @TGCPlusTableName )
+Begin
+insert into Mapping.TGCplus_QC (TGCPlusTableName,LastUpdatedDate)
+select @TGCPlusTableName,getdate()
+End
 
 --Declare @TGCPlusTableName varchar(100) = 'TGCPlus_Film'
 Declare @SQL Nvarchar(1000)

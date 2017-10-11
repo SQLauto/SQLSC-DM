@@ -21,6 +21,14 @@ and A.EventValue = S.EventValue
        
  -- inserts
 insert into Archive.TGCPLus_AppsFlyer_AppEvents
+(AttributedTouchType, AttributedTouchTime, InstallTime, EventTime, EventName, EventValue, EventRevenue, EventRevenueCurrency, EventRevenueUSD, EventSource, IsReceiptValidated, 
+Partner, MediaSource, Channel, Keywords, Campaign, CampaignID, Adset, AdsetID, Ad, AdID, AdType, SiteID, SubSiteID, SubParam1, SubParam2, SubParam3, SubParam4, SubParam5, 
+CostModel, CostValue, CostCurrency, Contributor1Partner, Contributor1MediaSource, Contributor1Campaign, Contributor1TouchType, Contributor1TouchTime, Contributor2Partner, 
+Contributor2MediaSource, Contributor2Campaign, Contributor2TouchType, Contributor2TouchTime, Contributor3Partner, Contributor3MediaSource, Contributor3Campaign, 
+Contributor3TouchType, Contributor3TouchTime, Region, CountryCode, State, City, PostalCode, DMA, IP, WIFI, Operator, Carrier, Language, AppsFlyerID, AdvertisingID, 
+IDFA, AndroidID, CustomerUserID, IMEI, IDFV, Platform, DeviceType, OSVersion, AppVersion, SDKVersion, AppID, AppName, BundleID, IsRetargeting, RetargetingConversionType, 
+AttributionLookback, ReengagementWindow, IsPrimaryAttribution, UserAgent, HTTPReferrer, OriginalURL, DMLastupdated)
+
 select AttributedTouchType, AttributedTouchTime, InstallTime, EventTime, EventName, EventValue, EventRevenue, EventRevenueCurrency, EventRevenueUSD, EventSource, 
 IsReceiptValidated, Partner, MediaSource, Channel, Keywords, Campaign, CampaignID, Adset, AdsetID, Ad, AdID, AdType, SiteID, SubSiteID, SubParam1, SubParam2, 
 SubParam3, SubParam4, SubParam5, CostModel, CostValue, CostCurrency, Contributor1Partner, Contributor1MediaSource, Contributor1Campaign, Contributor1TouchType, 

@@ -33,3 +33,5 @@ CREATE TABLE [Archive].[TGCPlus_VideoEvents]
 [DMLastUpdateESTDateTime] [datetime] NOT NULL CONSTRAINT [DF__TGCPlus_V__DMLas__3AA07B9E] DEFAULT (getdate())
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCPlus_VideoEvents_Tstamp] ON [Archive].[TGCPlus_VideoEvents] ([tstamp]) ON [PRIMARY]
+GO

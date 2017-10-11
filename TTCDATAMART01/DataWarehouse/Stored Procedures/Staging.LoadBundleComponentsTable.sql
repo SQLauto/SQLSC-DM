@@ -14,7 +14,7 @@ begin
 	declare @counter int
 	set @counter = 1
 	-- drop table staging.TempBundleComponents
-	truncate table staging.TempBundleComponents
+	--truncate table staging.TempBundleComponents
 
 	while @counter <= 14
 	begin
@@ -26,7 +26,7 @@ begin
 			DataWarehouse.dbo.Wordparser(a.set_course_ids,@counter,',') CourseID,
 			c.CourseName,
 			c.CourseParts,
-			convert(int,null) Total,
+			convert(money,null) Total,
 			convert(float,null) Portion
 		--into staging.TempBundleComponents
 		from Imports.Magento.Sets a left join
@@ -40,7 +40,8 @@ begin
 						WHERE II.ITEMCATEGORYID LIKE 'BUNDLE' 
 						AND DMBC.BUNDLEID IS NULL 
 						AND II.InvStatusID = 'Active'
-						and ii.CourseID not in (570,1369,1786,1787,1788,1789,1790,6100,8509,9275))
+						and ii.CourseID not in (570,1369,6100,8509,9275,1940))
+			--and c.ReleaseDate <= dateadd(month,1,getdate())
 
 		set @counter = @counter + 1
 
@@ -57,6 +58,9 @@ begin
 	set Portion = CourseParts/Total
 
 	select * from staging.TempBundleComponents
+	order by 1,4
+
+
 
 	--insert into Mapping.BundleComponents
 	--select BundleID

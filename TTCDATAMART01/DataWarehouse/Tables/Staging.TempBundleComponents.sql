@@ -6,7 +6,7 @@ CREATE TABLE [Staging].[TempBundleComponents]
 [CourseID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CourseName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CourseParts] [dbo].[udtCourseParts] NULL,
-[Total] [int] NULL,
+[Total] [money] NULL,
 [Portion] [float] NULL
 ) ON [PRIMARY]
 GO

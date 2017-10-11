@@ -5,6 +5,7 @@ GO
 
 
 
+
 CREATE proc [dbo].[Sp_EPC_EmailPull_CYC2]        
 as        
 Begin        
@@ -1486,6 +1487,7 @@ where map.EmailID = @EmailID
   
   
 --Update Message information based of PreferredCategory.    
+/*
 update a  
 set   
 subject =  case when PreferredCategory = 'AH' then 'History'  
@@ -1516,6 +1518,43 @@ subject =  case when PreferredCategory = 'AH' then 'History'
      when PreferredCategory = 'MH' then Replace (subjectline, '##Subject Category## ' , 'history')   
      when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject Category## ' , 'music')        
 	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject Category## ' , 'fine arts')   
+     End  
+  
+from staging.EPC_EmailPullCYC a  
+*/
+
+update a  
+set   
+subject =  case when PreferredCategory = 'AH' then 'History'  
+    when PreferredCategory = 'FW' then  'Better Living'  
+    when PreferredCategory = 'EC' then  'Professional & Economics'  
+    when PreferredCategory = 'LIT' then 'Literature, Language, Art, and Music'  
+    when PreferredCategory = 'MTH' then 'Mathematics & Science'  
+    when PreferredCategory = 'PH' then  'Religion & Philosophy'  
+    when PreferredCategory = 'RL' then  'Religion & Philosophy'   
+    when PreferredCategory = 'SCI' then 'Mathematics & Science'  
+    when PreferredCategory = 'PR' then  'Professional & Economics'  
+    when PreferredCategory = 'VA' then  'Literature, Language, Art, and Music'  
+    when PreferredCategory = 'MH' then  'History'  
+    when PreferredCategory = 'MSC' then 'Literature, Language, Art, and Music'  
+	when PreferredCategory = 'FA' then  'Literature, Language, Art, and Music'  
+	when PreferredCategory = 'GEN' then 'Better Living'  
+    End  
+  
+,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject Category## ' , 'history')  
+     when PreferredCategory = 'FW' then Replace (subjectline, '##Subject Category##' ,  'Better Living')  
+     when PreferredCategory = 'EC' then Replace (subjectline, '##Subject Category## ' , 'Professional & Economics')  
+     when PreferredCategory = 'LIT' then Replace (subjectline, '##Subject Category## ' ,'Literature, Language, Art, and Music')  
+     when PreferredCategory = 'MTH' then Replace (subjectline, '##Subject Category## ' ,'Mathematics & Science')  
+     when PreferredCategory = 'PH' then Replace (subjectline, '##Subject Category## ' , 'Religion & Philosophy')  
+     when PreferredCategory = 'RL' then Replace (subjectline, '##Subject Category## ' , 'Religion & Philosophy')   
+     when PreferredCategory = 'SCI' then Replace (subjectline, '##Subject Category## ' ,'Mathematics & Science')   
+     when PreferredCategory = 'PR' then Replace (subjectline, '##Subject Category## ' , 'Professional & Economics')   
+     when PreferredCategory = 'VA' then Replace (subjectline, '##Subject Category## ' , 'Literature, Language, Art, and Music')   
+     when PreferredCategory = 'MH' then Replace (subjectline, '##Subject Category## ' , 'history')   
+     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject Category## ' ,'Literature, Language, Art, and Music')        
+	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject Category## ' , 'Literature, Language, Art, and Music')   
+	 when PreferredCategory = 'GEN' then Replace (subjectline, '##Subject Category## ' ,'Better Living')  
      End  
   
 from staging.EPC_EmailPullCYC a  
@@ -1563,6 +1602,7 @@ drop table  staging.EPC_EmailPullCYC
         
 End        
         
+
 
 
 

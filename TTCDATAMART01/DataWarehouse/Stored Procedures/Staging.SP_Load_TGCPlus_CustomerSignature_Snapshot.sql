@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE Proc [Staging].[SP_Load_TGCPlus_CustomerSignature_Snapshot] @SnapshotDate Date = null
 as
 
@@ -257,7 +258,7 @@ Insert into #TGCPlus_Customer
 		from #TGCPlus_CustomerFinal a
 		join DataWarehouse.Marketing.CampaignCustomerSignature b
 		on a.TGCCustomerID=b.CustomerID
-		--(8915 row(s) affected)
+
 
 
 	/*Load to Final table*/
@@ -343,7 +344,7 @@ Insert into #TGCPlus_Customer
 		RegDate, 		-- PR 10/25/2016 added Registration Date to Signature Table
 		RegMonth,		-- PR 10/25/2016 added Registration Date to Signature Table
 		RegYear			-- PR 10/25/2016 added Registration Date to Signature Table
-		--(18427 row(s) affected)
+
 
 		update a
 		set SubPlanID = b.SubPlanID,
@@ -423,7 +424,7 @@ left Join (select customerid,SubPaymentHandler
 			on P.id =b.SubPlanID
 			--where b.SubPlanID in (39,40,43,44,57,58,42,55,67,68,71) /* Added mapping table to filter planid's Mapping.Vw_TGCPlus_ValidSubscriptionPlan*/
 
---(326 row(s) affected)
+
 
 /*Update Downstream dates for TransactionType 'Cancelled' */
 		Update DataWarehouse.#TGCPlus_CustomerDaily 
@@ -435,13 +436,13 @@ left Join (select customerid,SubPaymentHandler
 				 THEN 0 ELSE DATEDIFF(M,IntlSubDate,dateadd(day,-1,SubDate))END )
 				 ELSE DATEDIFF(M,IntlSubDate,dateadd(day,-1,SubDate))-1 end
 			where TransactionType in ('Cancelled')
-		--(8387 row(s) affected)
+
 
 /*Update DSDayDeferred dates for TransactionType 'Deferred Suspension' */
 		Update DataWarehouse.#TGCPlus_CustomerDaily 
 		set DSDayDeferred=DATEDIFF(d,IntlSubDate,SubDate)
 		where TransactionType in ('Deferred Suspension')
-		--(397 row(s) affected)
+
 
 
 /*Calculate PreTax amounts for refund and Payments*/
@@ -475,7 +476,8 @@ left Join (select customerid,SubPaymentHandler
 		from Datawarehouse.#TGCPlus_CustomerDaily t1
 		join (select a.user_id, sum(pre_tax_amount) LTDPaidAmt 
 				from #TGCPlus_Billing a
-				where a.pre_tax_amount>8 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners
+				where a.pre_tax_amount>0 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners
+										--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017
 				group by a.user_id) t2
 		on t1.CustomerID=t2.user_id
 
@@ -485,7 +487,8 @@ left Join (select customerid,SubPaymentHandler
 		SELECT user_id,completed_at, pre_tax_amount, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY completed_at)AS PaySeq
 		INTO #TGCPlus_Billing_payments
 		FROM DataWarehouse.Archive.TGCPlus_UserBilling
-		WHERE Type = 'Payment' AND pre_tax_amount>8 -- Intl Payment only if greater than $8 
+		WHERE Type = 'Payment' AND pre_tax_amount>0 -- Intl Payment only if greater than $8 
+													--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017
 
 		Update t1
 		set IntlPaidAmt=t2.pre_tax_amount,
@@ -499,7 +502,8 @@ left Join (select customerid,SubPaymentHandler
 /* Update Paid flag if not cancelled and paid amount >$10 */
 		Update Datawarehouse.#TGCPlus_CustomerDaily 
 		set PaidFlag=1
-		where LTDPaidAmt >8 and PaidFlag=0 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners
+		where LTDPaidAmt >0 and PaidFlag=0 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners
+											--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017
 		and TransactionType not in ('Cancelled')
 
 
@@ -536,10 +540,12 @@ left Join (select customerid,SubPaymentHandler
 		from #TGCPlus_Billing a
 		join (select user_id, max(service_period_from) as MaxPaidDate 
 						from #TGCPlus_Billing
-						where pre_tax_amount>8 -- add pre_tax_amount filter
+						where pre_tax_amount>0 -- add pre_tax_amount filter
+											--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017
 						group by user_id) b
 		on a.user_id=b.user_id and a.service_period_from=b.MaxPaidDate
-		where a.pre_tax_amount>8          --change pre_tax_amount from >10 to >8, because we charge $9.99 for partners	
+		where a.pre_tax_amount>0          --change pre_tax_amount from >10 to >8, because we charge $9.99 for partners
+											--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017	
 
 
 
@@ -722,6 +728,7 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 
 
 End
+
 
 
 
