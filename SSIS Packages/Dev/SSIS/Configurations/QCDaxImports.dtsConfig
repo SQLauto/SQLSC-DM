@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="QCDaxImports" GeneratedFromPackageID="{5CC3B1C1-032E-4979-8070-BC48BD7F8332}" GeneratedDate="2/26/2016 2:45:22 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADO.DaxImports].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DaxImports;Integrated Security=True;Application Name=SSIS-QCDaxImports-{E278C8A7-E1F6-4855-9B7C-7BFEBFAA6C07}TTCDatamart01\DMDAxDev.DaxImports1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADO.DaxImports].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DaxImports;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-QCDaxImports-{40B46864-E500-4A82-9562-21E8100BAF94}DaxImports;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[Excel Connection Manager].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\file1\ServerRepo\DatamartETL\QC\QC_file.xls;Extended Properties="EXCEL 8.0;HDR=YES";</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[Excel Connection Manager].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>\\file1\ServerRepo\DatamartETL\QC\QC_file.xls</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[QC_file.xls].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>\\file1\ServerRepo\DatamartETL\QC\QC_file.xls</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SampleQC_file.xls].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>\\file1\ServerRepo\DatamartETL\QC\Sample\QC_file.xls</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+		<ConfiguredValue>192.168.0.65</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

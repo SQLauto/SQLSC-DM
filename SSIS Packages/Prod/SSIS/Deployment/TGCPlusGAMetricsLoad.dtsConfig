@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="TGCPlusGAMetricsLoad" GeneratedFromPackageID="{B3B477FF-8B32-4DBF-96B1-F3AAB179B014}" GeneratedDate="4/8/2016 2:59:51 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+		<ConfiguredValue>192.168.0.65</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-TGCPlusGAVisitorLoad-{9F8BC765-210A-4045-99D0-6511680A2A67}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-TGCPlusGAVisitorLoad-{8CA2B72E-FE76-4081-9DD7-8E2264EFF7E9}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

@@ -1,0 +1,425 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/27/2011 10:47:36 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC372LPT"
+  DTS:CreatorName="TEACHCO\jonest"
+  DTS:Description="For Development - delete target tables and copy"
+  DTS:DTSID="{1E2D4F9D-9848-40E3-98E3-1EBA1B09B877}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:FailParentOnFailure="True"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="DaxLoadPrep"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="99"
+  DTS:VersionGUID="{D22D2D44-C792-48CD-B67C-63E1FED115D5}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5E081D1A-EFAE-40B0-8207-4D77C0C7BA61}"
+      DTS:ObjectName="DestinationConnectionOLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCSSRS01\DMDAXDEV;Initial Catalog=DaxImports;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=false;Application Name=SSIS-Copy Exports to Datamart DMDaxDev-{5E081D1A-EFAE-40B0-8207-4D77C0C7BA61}DestinationConnectionOLEDB;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{AC1CB858-E9C2-49FE-90E4-331C2B5FB5E8}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceConnectionADONet]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{F5342AC0-E13E-41B9-BF9C-D8C10CE8ECB0}"
+      DTS:ObjectName="SourceConnectionADONet">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCSQL-RR;Initial Catalog=Datamart_DAXImports;Integrated Security=True;Application Name=SSIS-Datamart Prod - Copy Exports to Datamart-{F5342AC0-E13E-41B9-BF9C-D8C10CE8ECB0}TTCSQL-RR.Datamart_DAXImports;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceConnectionOLEDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{289EB52C-74F5-4A83-BF2D-F86CE74EE9D3}"
+      DTS:ObjectName="SourceConnectionOLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCSQL-RR;Initial Catalog=Datamart_DAXImports;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=false;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D963C5E1-6F1E-4B98-9350-CB5029506BF1}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Proceed">
+      <DTS:VariableValue
+        DTS:DataType="2">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Check if Database is updated today"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4A17766B-0FA9-4597-9C9E-C02EC302BBD0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Check if Database is updated today"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F5342AC0-E13E-41B9-BF9C-D8C10CE8ECB0}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;select @vproceed = case when cast(getdate() as date) = max(cast(backup_finish_date as date)) then 1 else 0 end  &#xA;from ( select database_name,&#xA;        backup_type = case type when 'D' then 'database'&#xA;                                                       when 'L' then 'log'&#xA;                                                       when 'I' then 'differential'&#xA;                                                       else 'other'&#xA;                                         end,&#xA;        backup_finish_date,&#xA;        rownum = row_number() over(partition by database_name, type order by backup_finish_date desc)&#xA;              from msdb.dbo.backupset&#xA;       )a&#xA;where rownum = 1 and database_name = 'TTCPROD2009'&#xA;group by database_name&#xA;order by database_name&#xA;&#xA;select @vproceed&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@vproceed"
+            SQLTask:DtsVariableName="User::Proceed"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="10"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Dax to Datamart_DAXImports ETL Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{58a84c4e-2648-4e54-bf79-e17ac3922676}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Dax to Datamart_DAXImports ETL Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AC1CB858-E9C2-49FE-90E4-331C2B5FB5E8}"
+          SendMailTask:From="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:To="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:Subject="Dax to Datamart_DAXImports ETL Process Failed!!!"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Dax to Datamart_DAXImports ETL Success Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{43624815-7aae-4141-a8c3-3c2db67ed4d1}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Dax to Datamart_DAXImports ETL Success Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AC1CB858-E9C2-49FE-90E4-331C2B5FB5E8}"
+          SendMailTask:From="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:To="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:Subject="Dax to Datamart_DAXImports ETL Process Completed"
+          SendMailTask:Priority="Low" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Preparation SQL Task Run Most SPs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{29251098-C012-46D9-A6D6-2851BB002E10}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Preparation SQL Task Run Most SPs"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{289EB52C-74F5-4A83-BF2D-F86CE74EE9D3}"
+          SQLTask:SqlStatementSource="Exec Staging.SP_TTCProd_to_DaxImportsStage" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Raise error"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AF9117C9-BD5F-4C4C-8F43-18B54772CFB7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
+      DTS:FailParentOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="0"
+      DTS:ObjectName="Raise error"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5E081D1A-EFAE-40B0-8207-4D77C0C7BA61}"
+          SQLTask:SqlStatementSource=" select * from abc.xyz" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{97862380-A547-4856-B190-B77AF6D65D35}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{AC1CB858-E9C2-49FE-90E4-331C2B5FB5E8}"
+          SendMailTask:From="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:To="DLApplicationSupport@TEACHCO.com"
+          SendMailTask:CC="DLDatamartAlerts@TEACHCO.com"
+          SendMailTask:Subject="TTCSQL-RR: TTCPROD2009 Database Not Restored Today!!!!!"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{68DC0B4A-9429-4F3C-BD5A-AAC06FA3BEF7}"
+      DTS:From="Package\Send Mail Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Raise error" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9539D57B-1D1F-4D07-A5B7-C5E8C22DBB25}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::Proceed]==1"
+      DTS:From="Package\Check if Database is updated today"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Preparation SQL Task Run Most SPs" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{04502593-8D2F-43E1-8C3C-7F5638BC87AA}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::Proceed]==0"
+      DTS:From="Package\Check if Database is updated today"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Send Mail Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{81F70E6B-922E-4830-9A27-77AF2B1A74C7}"
+      DTS:From="Package\Preparation SQL Task Run Most SPs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Dax to Datamart_DAXImports ETL Success Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{DDEF2579-1204-4139-920B-44E50803F4E4}"
+      DTS:From="Package\Preparation SQL Task Run Most SPs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Dax to Datamart_DAXImports ETL Failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Check if Database is updated today"
+          TopLeft="401,100" />
+        <NodeLayout
+          Size="293,42"
+          Id="Package\Dax to Datamart_DAXImports ETL Failure Email"
+          TopLeft="554,342" />
+        <NodeLayout
+          Size="291,42"
+          Id="Package\Dax to Datamart_DAXImports ETL Success Email"
+          TopLeft="230,343" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Preparation SQL Task Run Most SPs"
+          TopLeft="407,222" />
+        <NodeLayout
+          Size="132,42"
+          Id="Package\Raise error"
+          TopLeft="881,103" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="697,99" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="849,122">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32,0"
+              Start="0,0"
+              End="24.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="24.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="528.25,142">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,28.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="648,120.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="49,0"
+              Start="0,0"
+              End="41.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="41.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="12.75,5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="491.666666666667,264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-116.166666666667,79"
+              Start="0,0"
+              End="-116.166666666667,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.9014308426073" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.9014308426073"
+                    Point2="0,31.9014308426073"
+                    Point3="-4,31.9014308426073" />
+                  <mssgle:LineSegment
+                    End="-112.166666666667,31.9014308426073" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-112.166666666667,31.9014308426073"
+                    Point2="-116.166666666667,31.9014308426073"
+                    Point3="-116.166666666667,35.9014308426073" />
+                  <mssgle:LineSegment
+                    End="-116.166666666667,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="572.333333333333,264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="128.166666666667,78"
+              Start="0,0"
+              End="128.166666666667,70.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.4976152623212" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.4976152623212"
+                    Point2="0,31.4976152623212"
+                    Point3="4,31.4976152623212" />
+                  <mssgle:LineSegment
+                    End="124.166666666667,31.4976152623212" />
+                  <mssgle:CubicBezierSegment
+                    Point1="124.166666666667,31.4976152623212"
+                    Point2="128.166666666667,31.4976152623212"
+                    Point3="128.166666666667,35.4976152623212" />
+                  <mssgle:LineSegment
+                    End="128.166666666667,70.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="48.8419856770834,36.4976152623212,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

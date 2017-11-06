@@ -1,0 +1,1572 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/3/2015 1:40:49 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{B0072636-D6B2-45E5-A466-9449E5D6DC64}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="EPCEmailPreferenceTransferColo"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{614DA35D-1D38-40A6-9790-427ECFA84C09}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[COLO]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E4AA379E-2B79-4194-9F0E-776AE64AC056}"
+      DTS:ObjectName="COLO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=colosql01DEV;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EPCEmailPreferenceTransferColo-{E4AA379E-2B79-4194-9F0E-776AE64AC056}COLO;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BD773B9D-F438-48B9-824B-31C3ED33402D}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EPCEmailPreferenceTransferColo-{BD773B9D-F438-48B9-824B-31C3ED33402D}DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{4509F429-4A2A-4E52-90D7-EFB7BD3B2264}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\EPCEmailPreferenceTransferColo.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{EC9AE224-15C8-4264-B042-C721E9D4955B}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Colo Data Transfer"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{09AEB0DB-DF22-4C93-BF1A-5299E9ECAE90}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Colo Data Transfer">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Colo Data Transfer\Load into Final tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{A88C63A0-4691-4FB7-9881-EA5F57EE64EE}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load into Final tables"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E4AA379E-2B79-4194-9F0E-776AE64AC056}"
+              SQLTask:SqlStatementSource="exec SP_ssis_EPC_Email_log &#xA;&#xA;exec SP_ssis_EPC_Preference" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{41BF5D04-7DFF-4BDC-B0A7-22AD537C01ED}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Move data to EPC Staging on COLO"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Email Log SRC"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[epc_email_log]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[epc_email_log_id]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[epc_email_log_id]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[epc_email_log_id]"
+                          name="epc_email_log_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailTable]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[EmailTable]"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailTable]"
+                          name="EmailTable"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailSendDate]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[EmailSendDate]"
+                          length="10"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailSendDate]"
+                          name="EmailSendDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[DMLastUpdated]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[DMLastUpdated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[DMLastUpdated]"
+                          name="DMLastUpdated"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[Priority]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[Priority]"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[Priority]"
+                          name="Priority"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[epc_email_log_id]"
+                          dataType="i4"
+                          name="epc_email_log_id" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[EmailTable]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="EmailTable" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[EmailSendDate]"
+                          dataType="wstr"
+                          length="10"
+                          name="EmailSendDate" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[DMLastUpdated]"
+                          dataType="dbTimeStamp"
+                          name="DMLastUpdated" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[Priority]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Priority" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[Processed]"
+                          dataType="bool"
+                          name="Processed" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].ExternalColumns[TransferredToCOLO]"
+                          dataType="bool"
+                          name="TransferredToCOLO" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[epc_email_log_id]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[epc_email_log_id]"
+                          name="epc_email_log_id" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[EmailTable]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[EmailTable]"
+                          name="EmailTable" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[Priority]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[Priority]"
+                          name="Priority" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[EmailSendDate]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[EmailSendDate]"
+                          name="EmailSendDate" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[DMLastUpdated]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[DMLastUpdated]"
+                          name="DMLastUpdated" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Email Log Staging"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[epc_ssis_email_log]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLO]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].Columns[epc_email_log_id]"
+                          cachedDataType="i4"
+                          cachedName="epc_email_log_id"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[epc_email_log_id]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[epc_email_log_id]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].Columns[EmailTable]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="EmailTable"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmailTable]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailTable]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].Columns[EmailSendDate]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="EmailSendDate"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmailSendDate]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[EmailSendDate]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].Columns[DMLastUpdated]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="DMLastUpdated"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[DMLastUpdated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[DMLastUpdated]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].Columns[Priority]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Priority"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[Priority]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output].Columns[Priority]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[epc_email_log_id]"
+                          dataType="i4"
+                          name="epc_email_log_id" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmailTable]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="EmailTable" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[Priority]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Priority" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmailSendDate]"
+                          dataType="wstr"
+                          length="10"
+                          name="EmailSendDate" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[DMLastUpdated]"
+                          dataType="dbTimeStamp"
+                          name="DMLastUpdated" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input].ExternalColumns[LastProcessed]"
+                          dataType="dbTimeStamp"
+                          name="LastProcessed" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  localeId="1033"
+                  name="EPC Preference"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Marketing].[epc_preference]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Email]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Email]"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Email]"
+                          name="Email"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_start_date]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[snooze_start_date]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_start_date]"
+                          name="snooze_start_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_end_date]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[snooze_end_date]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_end_date]"
+                          name="snooze_end_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Snoozed]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Snoozed]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Snoozed]"
+                          name="Snoozed"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[NewCourseAnnouncements]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[NewCourseAnnouncements]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[NewCourseAnnouncements]"
+                          name="NewCourseAnnouncements"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[FreeLecturesClipsandInterviews]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[FreeLecturesClipsandInterviews]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[FreeLecturesClipsandInterviews]"
+                          name="FreeLecturesClipsandInterviews"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ExclusiveOffers]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[ExclusiveOffers]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ExclusiveOffers]"
+                          name="ExclusiveOffers"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Frequency]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Frequency]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Frequency]"
+                          name="Frequency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Subscribed]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Subscribed]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Subscribed]"
+                          name="Subscribed"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[HardBounce]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[HardBounce]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[HardBounce]"
+                          name="HardBounce"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Blacklist]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Blacklist]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Blacklist]"
+                          name="Blacklist"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[SoftBounce]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[SoftBounce]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[SoftBounce]"
+                          name="SoftBounce"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          length="20"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[MagentoDaxMapped_Flag]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[MagentoDaxMapped_Flag]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[MagentoDaxMapped_Flag]"
+                          name="MagentoDaxMapped_Flag"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ChildCustomerid]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[ChildCustomerid]"
+                          length="20"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ChildCustomerid]"
+                          name="ChildCustomerid"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Child_Flag]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Child_Flag]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Child_Flag]"
+                          name="Child_Flag"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Reinstated]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Reinstated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Reinstated]"
+                          name="Reinstated"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Lastupdated]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Lastupdated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Lastupdated]"
+                          name="Lastupdated"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[snooze_start_date]"
+                          dataType="dbTimeStamp"
+                          name="snooze_start_date" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[snooze_end_date]"
+                          dataType="dbTimeStamp"
+                          name="snooze_end_date" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Snoozed]"
+                          dataType="i4"
+                          name="Snoozed" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[NewCourseAnnouncements]"
+                          dataType="i4"
+                          name="NewCourseAnnouncements" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[FreeLecturesClipsandInterviews]"
+                          dataType="i4"
+                          name="FreeLecturesClipsandInterviews" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[ExclusiveOffers]"
+                          dataType="i4"
+                          name="ExclusiveOffers" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Frequency]"
+                          dataType="i4"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Subscribed]"
+                          dataType="i4"
+                          name="Subscribed" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[HardBounce]"
+                          dataType="i4"
+                          name="HardBounce" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Blacklist]"
+                          dataType="i4"
+                          name="Blacklist" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[SoftBounce]"
+                          dataType="i4"
+                          name="SoftBounce" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[MagentoDaxMapped_Flag]"
+                          dataType="i4"
+                          name="MagentoDaxMapped_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[ChildCustomerid]"
+                          dataType="wstr"
+                          length="20"
+                          name="ChildCustomerid" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Child_Flag]"
+                          dataType="i4"
+                          name="Child_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Reinstated]"
+                          dataType="bool"
+                          name="Reinstated" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].ExternalColumns[Lastupdated]"
+                          dataType="dbTimeStamp"
+                          name="Lastupdated" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Email]"
+                          name="Email" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[snooze_start_date]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[snooze_start_date]"
+                          name="snooze_start_date" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[snooze_end_date]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[snooze_end_date]"
+                          name="snooze_end_date" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Snoozed]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Snoozed]"
+                          name="Snoozed" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[NewCourseAnnouncements]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[NewCourseAnnouncements]"
+                          name="NewCourseAnnouncements" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[FreeLecturesClipsandInterviews]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[FreeLecturesClipsandInterviews]"
+                          name="FreeLecturesClipsandInterviews" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ExclusiveOffers]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ExclusiveOffers]"
+                          name="ExclusiveOffers" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Frequency]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Frequency]"
+                          name="Frequency" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Subscribed]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Subscribed]"
+                          name="Subscribed" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[HardBounce]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[HardBounce]"
+                          name="HardBounce" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Blacklist]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Blacklist]"
+                          name="Blacklist" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[SoftBounce]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[SoftBounce]"
+                          name="SoftBounce" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[MagentoDaxMapped_Flag]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[MagentoDaxMapped_Flag]"
+                          name="MagentoDaxMapped_Flag" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ChildCustomerid]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ChildCustomerid]"
+                          name="ChildCustomerid" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Child_Flag]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Child_Flag]"
+                          name="Child_Flag" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Reinstated]"
+                          dataType="bool"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Reinstated]"
+                          name="Reinstated" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Lastupdated]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[Lastupdated]"
+                          name="Lastupdated" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  localeId="1033"
+                  name="EPC Preference Staging"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[epc_ssis_preference]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">100000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLO]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Email]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Email"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Email]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[snooze_start_date]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="snooze_start_date"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[snooze_start_date]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_start_date]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[snooze_end_date]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="snooze_end_date"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[snooze_end_date]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[snooze_end_date]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Snoozed]"
+                          cachedDataType="i4"
+                          cachedName="Snoozed"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Snoozed]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Snoozed]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[NewCourseAnnouncements]"
+                          cachedDataType="i4"
+                          cachedName="NewCourseAnnouncements"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[NewCourseAnnouncements]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[NewCourseAnnouncements]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[FreeLecturesClipsandInterviews]"
+                          cachedDataType="i4"
+                          cachedName="FreeLecturesClipsandInterviews"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[FreeLecturesClipsandInterviews]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[FreeLecturesClipsandInterviews]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[ExclusiveOffers]"
+                          cachedDataType="i4"
+                          cachedName="ExclusiveOffers"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[ExclusiveOffers]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ExclusiveOffers]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                          cachedDataType="i4"
+                          cachedName="Frequency"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Frequency]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Subscribed]"
+                          cachedDataType="i4"
+                          cachedName="Subscribed"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Subscribed]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Subscribed]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[HardBounce]"
+                          cachedDataType="i4"
+                          cachedName="HardBounce"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[HardBounce]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[HardBounce]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Blacklist]"
+                          cachedDataType="i4"
+                          cachedName="Blacklist"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Blacklist]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Blacklist]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[SoftBounce]"
+                          cachedDataType="i4"
+                          cachedName="SoftBounce"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[SoftBounce]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[SoftBounce]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[MagentoDaxMapped_Flag]"
+                          cachedDataType="i4"
+                          cachedName="MagentoDaxMapped_Flag"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[MagentoDaxMapped_Flag]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[MagentoDaxMapped_Flag]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[ChildCustomerid]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="ChildCustomerid"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChildCustomerid]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[ChildCustomerid]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Child_Flag]"
+                          cachedDataType="i4"
+                          cachedName="Child_Flag"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Child_Flag]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Child_Flag]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Reinstated]"
+                          cachedDataType="bool"
+                          cachedName="Reinstated"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Reinstated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Reinstated]" />
+                        <inputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].Columns[Lastupdated]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="Lastupdated"
+                          externalMetadataColumnId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Lastupdated]"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output].Columns[Lastupdated]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Email" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[snooze_start_date]"
+                          dataType="dbTimeStamp"
+                          name="snooze_start_date" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[snooze_end_date]"
+                          dataType="dbTimeStamp"
+                          name="snooze_end_date" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Snoozed]"
+                          dataType="i4"
+                          name="Snoozed" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[NewCourseAnnouncements]"
+                          dataType="i4"
+                          name="NewCourseAnnouncements" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[FreeLecturesClipsandInterviews]"
+                          dataType="i4"
+                          name="FreeLecturesClipsandInterviews" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[ExclusiveOffers]"
+                          dataType="i4"
+                          name="ExclusiveOffers" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          dataType="i4"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Subscribed]"
+                          dataType="i4"
+                          name="Subscribed" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[HardBounce]"
+                          dataType="i4"
+                          name="HardBounce" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Blacklist]"
+                          dataType="i4"
+                          name="Blacklist" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[SoftBounce]"
+                          dataType="i4"
+                          name="SoftBounce" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[MagentoDaxMapped_Flag]"
+                          dataType="i4"
+                          name="MagentoDaxMapped_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChildCustomerid]"
+                          dataType="wstr"
+                          length="20"
+                          name="ChildCustomerid" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Child_Flag]"
+                          dataType="i4"
+                          name="Child_Flag" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Reinstated]"
+                          dataType="bool"
+                          name="Reinstated" />
+                        <externalMetadataColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input].ExternalColumns[Lastupdated]"
+                          dataType="dbTimeStamp"
+                          name="Lastupdated" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO.Paths[OLE DB Source Output]"
+                  endId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\Colo Data Transfer\Move data to EPC Staging on COLO.Paths[OLE DB Source Output1]"
+                  endId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Colo Data Transfer\Truncate Stating tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{56102F1C-BD84-4135-BA0F-5550967ACD3A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Stating tables"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E4AA379E-2B79-4194-9F0E-776AE64AC056}"
+              SQLTask:SqlStatementSource="Truncate table [epc_ssis_email_log]&#xA;&#xA;&#xA;Truncate table [epc_ssis_preference]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Colo Data Transfer.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{20D0D4F4-E55D-4D63-8FC3-1BB27F820162}"
+          DTS:From="Package\Colo Data Transfer\Truncate Stating tables"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Colo Data Transfer\Move data to EPC Staging on COLO" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Colo Data Transfer.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{8587EA41-3092-417E-94D7-D7D075259A44}"
+          DTS:From="Package\Colo Data Transfer\Move data to EPC Staging on COLO"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Colo Data Transfer\Load into Final tables" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{6050F11C-B2EE-4750-BD85-FC39F7FDB4DF}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{4509F429-4A2A-4E52-90D7-EFB7BD3B2264}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="DM to COLO Preference Failed"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{1DF07E9B-A5E1-45D0-9C6A-8E094784D4B1}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{4509F429-4A2A-4E52-90D7-EFB7BD3B2264}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="DM to COLO Preference Successful"
+          SendMailTask:Priority="Low" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E00A3EB1-FCEF-46FB-BB0F-01C47826C0F7}"
+      DTS:From="Package\Colo Data Transfer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D5C24E27-FA09-4D09-AD2E-27A386643557}"
+      DTS:From="Package\Colo Data Transfer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="163,47"
+          Id="Package\Colo Data Transfer\Load into Final tables"
+          TopLeft="69.2830188679245,170.660377358491" />
+        <NodeLayout
+          Size="167,50"
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO"
+          TopLeft="66.9433962264151,96.7735849056604" />
+        <NodeLayout
+          Size="162,45"
+          Id="Package\Colo Data Transfer\Truncate Stating tables"
+          TopLeft="69.1698113207547,25.9056603773585" />
+        <EdgeLayout
+          Id="Package\Colo Data Transfer.PrecedenceConstraints[Constraint]"
+          TopLeft="150.037735849057,70.8490566037736">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.264150943396203,25.9245283018868"
+              Start="0,0"
+              End="0.264150943396203,18.4245283018868">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.9433962264151" />
+                  <mssgle:LineSegment
+                    End="0.264150943396203,12.9433962264151" />
+                  <mssgle:LineSegment
+                    End="0.264150943396203,18.4245283018868" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Colo Data Transfer.PrecedenceConstraints[Constraint 1]"
+          TopLeft="150.301886792453,146.698113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.339622641509436,23.9622641509434"
+              Start="0,0"
+              End="0.339622641509436,16.4622641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.9622641509434" />
+                  <mssgle:LineSegment
+                    End="0.339622641509436,11.9622641509434" />
+                  <mssgle:LineSegment
+                    End="0.339622641509436,16.4622641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="315,268"
+          Size="315,312"
+          Id="Package\Colo Data Transfer"
+          TopLeft="182.5,86.5" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Failure Email"
+          TopLeft="453,458" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Success Email"
+          TopLeft="124,458" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="340,398.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-157,59.5"
+              Start="0,0"
+              End="-157,52">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.75"
+                    Point2="0,29.75"
+                    Point3="-4,29.75" />
+                  <mssgle:LineSegment
+                    End="-153,29.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-153,29.75"
+                    Point2="-157,29.75"
+                    Point3="-157,33.75" />
+                  <mssgle:LineSegment
+                    End="-157,52" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="391.166666666667,398.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="132.333333333333,59.5"
+              Start="0,0"
+              End="132.333333333333,52">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.98041692988" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.98041692988"
+                    Point2="0,23.98041692988"
+                    Point3="4,23.98041692988" />
+                  <mssgle:LineSegment
+                    End="128.333333333333,23.98041692988" />
+                  <mssgle:CubicBezierSegment
+                    Point1="128.333333333333,23.98041692988"
+                    Point2="132.333333333333,23.98041692988"
+                    Point3="132.333333333333,27.98041692988" />
+                  <mssgle:LineSegment
+                    End="132.333333333333,52" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="50.9253190104167,28.98041692988,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Colo Data Transfer\Move data to EPC Staging on COLO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging"
+          TopLeft="22.6698113207547,169.462264150943" />
+        <NodeLayout
+          Size="164,62"
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference Staging"
+          TopLeft="276.103773584906,161.349056603774" />
+        <NodeLayout
+          Size="156,63"
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO\EPC Preference"
+          TopLeft="281.047169811321,5.5" />
+        <NodeLayout
+          Size="165,65"
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC"
+          TopLeft="5.5,6.70754716981132" />
+        <EdgeLayout
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO.Paths[OLE DB Source Output1]"
+          TopLeft="87.8396226415094,71.6132075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="2.71698113207547,97.8490566037736"
+              Start="0,0"
+              End="2.71698113207547,90.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.9056603773585" />
+                  <mssgle:LineSegment
+                    End="2.71698113207547,48.9056603773585" />
+                  <mssgle:LineSegment
+                    End="2.71698113207547,90.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Colo Data Transfer\Move data to EPC Staging on COLO.Paths[OLE DB Source Output]"
+          TopLeft="358.896226415094,68.4056603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.943396226415075,92.9433962264151"
+              Start="0,0"
+              End="-0.943396226415075,85.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.4528301886792" />
+                  <mssgle:LineSegment
+                    End="-0.943396226415075,46.4528301886792" />
+                  <mssgle:LineSegment
+                    End="-0.943396226415075,85.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Colo Data Transfer\Move data to EPC Staging on COLO\Email Log SRC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

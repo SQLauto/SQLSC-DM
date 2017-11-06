@@ -1,0 +1,1818 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/27/2017 2:04:07 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{76C04040-3C98-4E09-BC3D-AEB3D7F9F2A7}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FB_TGCPLusToAWS"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{5576F704-DBFF-4806-80E0-99B491E0C5FB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Datawarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8CBA61AD-119A-4C8D-9A59-0954781D6B45}"
+      DTS:ObjectName="Datawarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TGCPlusAWS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{AB76877C-0BE6-44A2-A045-9542E53E3C4D}"
+      DTS:ObjectName="TGCPlusAWS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tgcanalytics.ccskhyvc1fba.us-east-1.rds.amazonaws.com;User ID=analytics_root;Initial Catalog=TGCPlus;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"></DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\TGCPLusToAWS.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{7A79FD9C-7699-4521-9B56-FB964762FF5C}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\AWS Data Transfer"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{D5A26596-B8D3-4CDD-B27F-B81DADD62FC1}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="AWS Data Transfer">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{D266A237-7BEB-40FC-A139-C9C296622FD5}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="FB_TGCPlus_CampaignSummary">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{B965464B-0270-4BDD-B086-9E7409F9CF81}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load FB_TGCPlus_CampaignSummary"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="FB_TGCPlus_CampaignSummary"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[dbo].[FB_TGCPlus_CampaignSummary]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[TGCPlusAWS]"
+                          connectionManagerRefId="Package.ConnectionManagers[TGCPlusAWS]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[IntlCampaignID]"
+                              cachedDataType="i4"
+                              cachedName="IntlCampaignID"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[IntlCampaignID]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignID]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[IntlCampaignName]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="IntlCampaignName"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[IntlCampaignName]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignName]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                              cachedDataType="r8"
+                              cachedName="Impressions"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Impressions]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Clicks]"
+                              cachedDataType="r8"
+                              cachedName="Clicks"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Clicks]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Actions]"
+                              cachedDataType="r8"
+                              cachedName="Actions"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Actions]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[AmountSpent]"
+                              cachedDataType="r8"
+                              cachedName="AmountSpent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[AmountSpent]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Monthly-Actives]"
+                              cachedDataType="i4"
+                              cachedName="Monthly-Actives"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Monthly-Actives]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Actives]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Monthly-Cancels]"
+                              cachedDataType="i4"
+                              cachedName="Monthly-Cancels"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Monthly-Cancels]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Cancels]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Annual-Actives]"
+                              cachedDataType="i4"
+                              cachedName="Annual-Actives"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Annual-Actives]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Actives]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[Annual-Cancels]"
+                              cachedDataType="i4"
+                              cachedName="Annual-Cancels"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Annual-Cancels]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Cancels]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[DMLastupdated]"
+                              cachedDataType="dbTimeStamp"
+                              cachedName="DMLastupdated"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[DMLastupdated]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[DMLastupdated]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[ReportingStarts]"
+                              cachedDataType="dbDate"
+                              cachedName="ReportingStarts"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingStarts]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].Columns[ReportingEnds]"
+                              cachedDataType="dbDate"
+                              cachedName="ReportingEnds"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingEnds]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[IntlCampaignID]"
+                              dataType="i4"
+                              name="IntlCampaignID" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[IntlCampaignName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="IntlCampaignName" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                              dataType="r8"
+                              name="Impressions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                              dataType="r8"
+                              name="Clicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                              dataType="r8"
+                              name="Actions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                              dataType="r8"
+                              name="AmountSpent" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Monthly-Actives]"
+                              dataType="i4"
+                              name="Monthly-Actives" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Monthly-Cancels]"
+                              dataType="i4"
+                              name="Monthly-Cancels" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Annual-Actives]"
+                              dataType="i4"
+                              name="Annual-Actives" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[Annual-Cancels]"
+                              dataType="i4"
+                              name="Annual-Cancels" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[DMLastupdated]"
+                              dataType="dbTimeStamp"
+                              name="DMLastupdated" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                              dataType="dbDate"
+                              name="ReportingStarts" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                              dataType="dbDate"
+                              name="ReportingEnds" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                      description="OLE DB Source"
+                      name="View for FB_TGCPlus_CampaignSummary"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[Marketing].[TGCPlus_CustomerSignature_Snapshot]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">Select A.IntlCampaignID, B.IntlCampaignName,  
+min(A.ReportingStarts) as ReportingStarts, max(A.ReportingEnds) as ReportingEnds, 
+sum(A.Impressions) as Impressions, sum(A.Clicks) as Clicks, sum(A.Actions) as Actions, sum(A.AmountSpent) as AmountSpent, 
+isnull(sum([Monthly-Actives]),0) as [Monthly-Actives], 
+isnull(sum([Monthly-Cancels]),0) as [Monthly-Cancels],
+isnull(sum([Annual-Actives]),0) as [Annual-Actives],
+isnull(sum([Annual-Cancels]),0) as [Annual-Cancels],
+Getdate() as DMLastupdated
+from
+(
+select substring(AdSet, charindex('|', AdSet)+2,(len(AdSet))-charindex('|', AdSet)+1) as IntlCampaignID, 
+min(ReportingStarts) as ReportingStarts, max(ReportingEnds) as ReportingEnds, 
+sum(Impressions) as Impressions, sum(Clicks) as Clicks, sum(AmountSpent) as AmountSpent, sum(Actions) as Actions
+from archive.FB_TGCPlus_Raw (nolock) 
+where (substring(AdSet, charindex('|', AdSet)+2,(len(AdSet))-charindex('|', AdSet)+1)) NOT LIKE '%[^0-9]%'
+group by (substring(AdSet, charindex('|', AdSet)+2,(len(AdSet))-charindex('|', AdSet)+1))
+) A
+left join
+(
+select IntlCampaignName, IntlCampaignID, 
+sum(ISNULL([Monthly-Actives],0)) [Monthly-Actives],
+sum(ISNULL([Monthly-Cancels],0))[Monthly-Cancels],
+sum(ISNULL([Annual-Actives],0)) [Annual-Actives],
+sum(ISNULL([Annual-Cancels],0)) [Annual-Cancels]
+from 
+(
+select IntlCampaignName, IntlCampaignID, IntlSubType,TransactionType
+,Case WHEN IntlSubType = 'MONTH' AND TransactionType IN ('Cancelled', 'Deferred Suspension') THEN 'Monthly-Cancels'
+         WHEN IntlSubType = 'YEAR' AND TransactionType IN ('Cancelled', 'Deferred Suspension') THEN 'Annual-Cancels'
+         WHEN IntlSubType = 'MONTH' THEN 'Monthly-Actives'
+         WHEN IntlSubType = 'YEAR' THEN 'Annual-Actives'
+         ELSE 'NONE' END AS Status
+, count(distinct CustomerID) as Subs
+from marketing.tgcplus_customersignature (nolock)
+group by IntlCampaignName, IntlCampaignID, IntlSubType,TransactionType
+) src
+pivot
+(
+  sum(Subs)
+  for Status in ([Monthly-Actives],[Monthly-Cancels], [Annual-Actives],[Annual-Cancels])
+) piv
+group by IntlCampaignID, IntlCampaignName
+) B on A.IntlCampaignID = B.IntlCampaignID
+group by A.IntlCampaignID, B.IntlCampaignName</property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Datawarehouse]"
+                          connectionManagerRefId="Package.ConnectionManagers[Datawarehouse]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output]"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignID]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[IntlCampaignID]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignID]"
+                              name="IntlCampaignID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignName]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[IntlCampaignName]"
+                              length="50"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[IntlCampaignName]"
+                              name="IntlCampaignName"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Impressions]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Impressions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Impressions]"
+                              name="Impressions"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Clicks]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Clicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Clicks]"
+                              name="Clicks"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Actions]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Actions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Actions]"
+                              name="Actions"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[AmountSpent]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[AmountSpent]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[AmountSpent]"
+                              name="AmountSpent"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Actives]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Monthly-Actives]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Actives]"
+                              name="Monthly-Actives"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Cancels]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Monthly-Cancels]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Monthly-Cancels]"
+                              name="Monthly-Cancels"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Actives]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Annual-Actives]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Actives]"
+                              name="Annual-Actives"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Cancels]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Annual-Cancels]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[Annual-Cancels]"
+                              name="Annual-Cancels"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[DMLastupdated]"
+                              dataType="dbTimeStamp"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[DMLastupdated]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[DMLastupdated]"
+                              name="DMLastupdated"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingStarts]"
+                              dataType="dbDate"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[ReportingStarts]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingStarts]"
+                              name="ReportingStarts"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingEnds]"
+                              dataType="dbDate"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[ReportingEnds]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].Columns[ReportingEnds]"
+                              name="ReportingEnds"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[IntlCampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              name="IntlCampaignID" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[IntlCampaignName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="IntlCampaignName" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Impressions]"
+                              dataType="r8"
+                              name="Impressions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Clicks]"
+                              dataType="r8"
+                              name="Clicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Actions]"
+                              dataType="r8"
+                              name="Actions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[AmountSpent]"
+                              dataType="r8"
+                              name="AmountSpent" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Monthly-Actives]"
+                              dataType="i4"
+                              name="Monthly-Actives" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Monthly-Cancels]"
+                              dataType="i4"
+                              name="Monthly-Cancels" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Annual-Actives]"
+                              dataType="i4"
+                              name="Annual-Actives" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[Annual-Cancels]"
+                              dataType="i4"
+                              name="Annual-Cancels" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[DMLastupdated]"
+                              dataType="dbTimeStamp"
+                              name="DMLastupdated" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[ReportingStarts]"
+                              dataType="dbDate"
+                              name="ReportingStarts" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output].ExternalColumns[ReportingEnds]"
+                              dataType="dbDate"
+                              name="ReportingEnds" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output]"
+                          isErrorOut="true"
+                          name="OLE DB Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[IntlCampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[IntlCampaignID]"
+                              name="IntlCampaignID" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[IntlCampaignName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[IntlCampaignName]"
+                              name="IntlCampaignName" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ReportingStarts]"
+                              dataType="dbDate"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ReportingStarts]"
+                              name="ReportingStarts" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ReportingEnds]"
+                              dataType="dbDate"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ReportingEnds]"
+                              name="ReportingEnds" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Impressions]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Impressions]"
+                              name="Impressions" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Clicks]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Clicks]"
+                              name="Clicks" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Actions]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Actions]"
+                              name="Actions" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[AmountSpent]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[AmountSpent]"
+                              name="AmountSpent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Monthly-Actives]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Monthly-Actives]"
+                              name="Monthly-Actives" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Monthly-Cancels]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Monthly-Cancels]"
+                              name="Monthly-Cancels" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Annual-Actives]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Annual-Actives]"
+                              name="Annual-Actives" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Annual-Cancels]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[Annual-Cancels]"
+                              name="Annual-Cancels" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[DMLastupdated]"
+                              dataType="dbTimeStamp"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[DMLastupdated]"
+                              name="DMLastupdated" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary.Paths[OLE DB Source Output]"
+                      endId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary.Inputs[OLE DB Destination Input]"
+                      name="OLE DB Source Output"
+                      startId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary.Outputs[OLE DB Source Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Truncate FB_TGCPlus_CampaignSummary"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{5675488C-E0CA-4C4B-8147-F1A424560444}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Truncate FB_TGCPlus_CampaignSummary"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{AB76877C-0BE6-44A2-A045-9542E53E3C4D}"
+                  SQLTask:SqlStatementSource="Truncate table FB_TGCPlus_CampaignSummary" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{259FE72D-9A8B-410C-B2C0-97788300DD58}"
+              DTS:From="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Truncate FB_TGCPlus_CampaignSummary"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_Raw"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Sequence Container"
+          DTS:DTSID="{A4512924-7855-44EC-A1C2-D223D222A056}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="FB_TGCPlus_Raw">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{B9EE53A5-366E-43EE-9787-D7AA2A718AB6}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load FB_TGCPlus_Raw"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="OLE DB Destination"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[dbo].[FB_TGCPlus_Raw]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[TGCPlusAWS]"
+                          connectionManagerRefId="Package.ConnectionManagers[TGCPlusAWS]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Campaign"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Campaign]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ReportingStarts]"
+                              cachedDataType="dbDate"
+                              cachedName="ReportingStarts"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingStarts]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ReportingEnds]"
+                              cachedDataType="dbDate"
+                              cachedName="ReportingEnds"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingEnds]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reach]"
+                              cachedDataType="i4"
+                              cachedName="Reach"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Reach]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                              cachedDataType="r8"
+                              cachedName="Frequency"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Frequency]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                              cachedDataType="r8"
+                              cachedName="Impressions"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Impressions]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clicks]"
+                              cachedDataType="r8"
+                              cachedName="Clicks"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Clicks]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UniqueClicks]"
+                              cachedDataType="r8"
+                              cachedName="UniqueClicks"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[UniqueClicks]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Actions]"
+                              cachedDataType="r8"
+                              cachedName="Actions"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Actions]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AmountSpent]"
+                              cachedDataType="r8"
+                              cachedName="AmountSpent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AmountSpent]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Age]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="20"
+                              cachedName="Age"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Age]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gender]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="20"
+                              cachedName="Gender"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Gender]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Account]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="100"
+                              cachedName="Account"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Account]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AdSet]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="255"
+                              cachedName="AdSet"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AdSet]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Ad]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="255"
+                              cachedName="Ad"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Ad]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CompleteRegistrationFacebookPixel]"
+                              cachedDataType="r8"
+                              cachedName="CompleteRegistrationFacebookPixel"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixel]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CompleteRegistrationFacebookPixelby1d_click]"
+                              cachedDataType="r8"
+                              cachedName="CompleteRegistrationFacebookPixelby1d_click"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixelby1d_click]" />
+                            <inputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Dmlastupdated]"
+                              cachedDataType="dbTimeStamp"
+                              cachedName="Dmlastupdated"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Dmlastupdated]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Dmlastupdated]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                              dataType="wstr"
+                              length="255"
+                              name="Campaign" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                              dataType="dbDate"
+                              name="ReportingStarts" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                              dataType="dbDate"
+                              name="ReportingEnds" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                              dataType="i4"
+                              name="Reach" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                              dataType="r8"
+                              name="Frequency" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                              dataType="r8"
+                              name="Impressions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                              dataType="r8"
+                              name="Clicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                              dataType="r8"
+                              name="UniqueClicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                              dataType="r8"
+                              name="Actions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                              dataType="r8"
+                              name="AmountSpent" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="Age" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="Gender" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                              codePage="1252"
+                              dataType="str"
+                              length="100"
+                              name="Account" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              name="AdSet" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              name="Ad" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                              dataType="r8"
+                              name="CompleteRegistrationFacebookPixel" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                              dataType="r8"
+                              name="CompleteRegistrationFacebookPixelby1d_click" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Dmlastupdated]"
+                              dataType="dbTimeStamp"
+                              name="Dmlastupdated" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                      description="OLE DB Source"
+                      name="SQL Query"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset"></property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from Archive.FB_TGCPlus_Raw</property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Datawarehouse]"
+                          connectionManagerRefId="Package.ConnectionManagers[Datawarehouse]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output]"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Campaign]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Campaign]"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Campaign]"
+                              name="Campaign"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingStarts]"
+                              dataType="dbDate"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[ReportingStarts]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingStarts]"
+                              name="ReportingStarts"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingEnds]"
+                              dataType="dbDate"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[ReportingEnds]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[ReportingEnds]"
+                              name="ReportingEnds"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Reach]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Reach]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Reach]"
+                              name="Reach"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Frequency]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Frequency]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Frequency]"
+                              name="Frequency"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Impressions]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Impressions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Impressions]"
+                              name="Impressions"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Clicks]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Clicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Clicks]"
+                              name="Clicks"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[UniqueClicks]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[UniqueClicks]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[UniqueClicks]"
+                              name="UniqueClicks"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Actions]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Actions]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Actions]"
+                              name="Actions"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AmountSpent]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[AmountSpent]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AmountSpent]"
+                              name="AmountSpent"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Age]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Age]"
+                              length="20"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Age]"
+                              name="Age"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Gender]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                              length="20"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Gender]"
+                              name="Gender"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Account]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Account]"
+                              length="100"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Account]"
+                              name="Account"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AdSet]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[AdSet]"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[AdSet]"
+                              name="AdSet"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Ad]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Ad]"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Ad]"
+                              name="Ad"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixel]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixel]"
+                              name="CompleteRegistrationFacebookPixel"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixelby1d_click]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[CompleteRegistrationFacebookPixelby1d_click]"
+                              name="CompleteRegistrationFacebookPixelby1d_click"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Dmlastupdated]"
+                              dataType="dbTimeStamp"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Dmlastupdated]"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].Columns[Dmlastupdated]"
+                              name="Dmlastupdated"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Campaign]"
+                              dataType="wstr"
+                              length="255"
+                              name="Campaign" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[ReportingStarts]"
+                              dataType="dbDate"
+                              name="ReportingStarts" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[ReportingEnds]"
+                              dataType="dbDate"
+                              name="ReportingEnds" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Reach]"
+                              dataType="i4"
+                              name="Reach" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Frequency]"
+                              dataType="r8"
+                              name="Frequency" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Impressions]"
+                              dataType="r8"
+                              name="Impressions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Clicks]"
+                              dataType="r8"
+                              name="Clicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[UniqueClicks]"
+                              dataType="r8"
+                              name="UniqueClicks" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Actions]"
+                              dataType="r8"
+                              name="Actions" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[AmountSpent]"
+                              dataType="r8"
+                              name="AmountSpent" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Age]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="Age" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="Gender" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Account]"
+                              codePage="1252"
+                              dataType="str"
+                              length="100"
+                              name="Account" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[AdSet]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              name="AdSet" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Ad]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              name="Ad" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                              dataType="r8"
+                              name="CompleteRegistrationFacebookPixel" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                              dataType="r8"
+                              name="CompleteRegistrationFacebookPixelby1d_click" />
+                            <externalMetadataColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output].ExternalColumns[Dmlastupdated]"
+                              dataType="dbTimeStamp"
+                              name="Dmlastupdated" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output]"
+                          isErrorOut="true"
+                          name="OLE DB Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Campaign]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Campaign]"
+                              name="Campaign" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ReportingStarts]"
+                              dataType="dbDate"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ReportingStarts]"
+                              name="ReportingStarts" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ReportingEnds]"
+                              dataType="dbDate"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ReportingEnds]"
+                              name="ReportingEnds" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Reach]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Reach]"
+                              name="Reach" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Frequency]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Frequency]"
+                              name="Frequency" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Impressions]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Impressions]"
+                              name="Impressions" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Clicks]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Clicks]"
+                              name="Clicks" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[UniqueClicks]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[UniqueClicks]"
+                              name="UniqueClicks" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Actions]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Actions]"
+                              name="Actions" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[AmountSpent]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[AmountSpent]"
+                              name="AmountSpent" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Age]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Age]"
+                              name="Age" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                              name="Gender" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Account]"
+                              codePage="1252"
+                              dataType="str"
+                              length="100"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Account]"
+                              name="Account" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[AdSet]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[AdSet]"
+                              name="AdSet" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Ad]"
+                              codePage="1252"
+                              dataType="str"
+                              length="255"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Ad]"
+                              name="Ad" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[CompleteRegistrationFacebookPixel]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[CompleteRegistrationFacebookPixel]"
+                              name="CompleteRegistrationFacebookPixel" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[CompleteRegistrationFacebookPixelby1d_click]"
+                              dataType="r8"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[CompleteRegistrationFacebookPixelby1d_click]"
+                              name="CompleteRegistrationFacebookPixelby1d_click" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Dmlastupdated]"
+                              dataType="dbTimeStamp"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[Dmlastupdated]"
+                              name="Dmlastupdated" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw.Paths[OLE DB Source Output]"
+                      endId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      name="OLE DB Source Output"
+                      startId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query.Outputs[OLE DB Source Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_Raw\Truncate FB_TGCPlus_Raw"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{570D2F30-61D5-4E46-A117-4085B05A5F40}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Truncate FB_TGCPlus_Raw"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{AB76877C-0BE6-44A2-A045-9542E53E3C4D}"
+                  SQLTask:SqlStatementSource="Truncate Table FB_TGCPlus_Raw" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\AWS Data Transfer\FB_TGCPlus_Raw.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{088CBA8E-983D-4056-988A-978480063387}"
+              DTS:From="Package\AWS Data Transfer\FB_TGCPlus_Raw\Truncate FB_TGCPlus_Raw"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\AWS Data Transfer.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{E9845AD8-BE9D-45BB-823D-974315514BC6}"
+          DTS:From="Package\AWS Data Transfer\FB_TGCPlus_Raw"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="261,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary"
+          TopLeft="43,106" />
+        <NodeLayout
+          Size="280,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Truncate FB_TGCPlus_CampaignSummary"
+          TopLeft="38,18" />
+        <EdgeLayout
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary.PrecedenceConstraints[Constraint]"
+          TopLeft="175.75,60">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="353,203"
+          Size="353,246"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary"
+          TopLeft="6.50000000000011,274.055555555556" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw"
+          TopLeft="22.5,93.5" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw\Truncate FB_TGCPlus_Raw"
+          TopLeft="13.5,15.5" />
+        <EdgeLayout
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw.PrecedenceConstraints[Constraint]"
+          TopLeft="117.25,57.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="302,190"
+          Size="302,233"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw"
+          TopLeft="31.0000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\AWS Data Transfer.PrecedenceConstraints[Constraint]"
+          TopLeft="182.5,238.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.555555555556"
+              Start="0,0"
+              End="0,28.055555555556">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.055555555556" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="364,580"
+          Size="364,623"
+          Id="Package\AWS Data Transfer"
+          TopLeft="383.5,92.5" />
+        <AnnotationLayout
+          Text="Running in Serial steps so we have better performance on AWS"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="365,42"
+          Id="3821a958-9d48-4638-bf22-be0c85c9889e"
+          TopLeft="778,456" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="277,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary"
+          TopLeft="302,122" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary"
+          TopLeft="326,284" />
+        <EdgeLayout
+          Id="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary.Paths[OLE DB Source Output]"
+          TopLeft="442,164">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,120"
+              Start="0,0"
+              End="0,112.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,112.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\FB_TGCPlus_CampaignSummary">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_CampaignSummary\Load FB_TGCPlus_CampaignSummary\View for FB_TGCPlus_CampaignSummary">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="131,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query"
+          TopLeft="377,228" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination"
+          TopLeft="352,327" />
+        <EdgeLayout
+          Id="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw.Paths[OLE DB Source Output]"
+          TopLeft="440.5,270">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\AWS Data Transfer\FB_TGCPlus_Raw\Load FB_TGCPlus_Raw\SQL Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

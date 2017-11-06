@@ -1,0 +1,948 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2016 12:46:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{C3C4A04F-3C2F-4005-A91E-18CCB12CFBFE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TGCPLus_AppsFlyer_Master_Load"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="123"
+  DTS:VersionGUID="{FAD7DFA7-DCAE-412B-A067-CEAD3DEA33E2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{E2D3444F-450D-4FA6-BC94-C64DF5E02A2C}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{E2D3444F-450D-4FA6-BC94-C64DF5E02A2C}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9DE0AB79-2D64-46A9-8C98-493EBA08A333}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{6625F295-656E-4D68-8B5A-6F764EDD8CEC}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::VSalesReportFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{19914194-B92B-49BF-A40D-8FD57B4751EE}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5AC9CDC6-CDAB-40A8-9D20-702C68E5EF5B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{159F0C66-6630-48AA-A5D9-D6B0384E916E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F48CA52B-C955-49B2-B06E-ADD5C0EFD46C}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Drop Folder"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E9B5A03F-BE5B-4F81-A3FF-451B985F9246}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Drop Folder"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E2D3444F-450D-4FA6-BC94-C64DF5E02A2C}"
+          SQLTask:SqlStatementSource="exec  SP_TGCPlus_AppsFlyer_Master_Directory @DateFolder = @VDateFolder output, @ArchiveFolder =@VArchiveFolder output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VDateFolder"
+            SQLTask:DtsVariableName="User::VDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VArchiveFolder"
+            SQLTask:DtsVariableName="User::VArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{239FE68F-CBA1-49D0-8511-7AB1E4595AD6}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{19914194-B92B-49BF-A40D-8FD57B4751EE}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="Missing TGCPlus AppsFlyer Master File Today!!!!!!"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{189D2C51-17C7-4B9F-8263-C215A1BDBC53}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_TGCPlus_AppsFlyer_Master_Directory">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{B25CF62A-F39F-4A0B-963C-F42CA0387056}"
+        DTS:ObjectName="{B25CF62A-F39F-4A0B-963C-F42CA0387056}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{66423696-60AE-47B8-841A-EA00B931959D}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{C92B089B-91A4-418F-843A-05366F5D7F76}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">AppsFlyerSetup$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Platform]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Platform]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Platform]"
+                          name="Platform"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[MediaSource]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[MediaSource]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[MediaSource]"
+                          name="MediaSource"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          name="Campaign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[AdCode]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[AdCode]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[AdCode]"
+                          name="AdCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Cost]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cost]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Cost]"
+                          name="Cost"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignStart]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[CampaignStart]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignStart]"
+                          name="CampaignStart"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignEnd]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[CampaignEnd]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignEnd]"
+                          name="CampaignEnd"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Platform]"
+                          dataType="wstr"
+                          length="255"
+                          name="Platform" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[MediaSource]"
+                          dataType="wstr"
+                          length="255"
+                          name="MediaSource" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[AdCode]"
+                          dataType="wstr"
+                          length="255"
+                          name="AdCode" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cost]"
+                          dataType="cy"
+                          name="Cost" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[CampaignStart]"
+                          dataType="r8"
+                          name="CampaignStart" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[CampaignEnd]"
+                          dataType="r8"
+                          name="CampaignEnd" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Platform]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Platform]"
+                          name="Platform" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[MediaSource]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[MediaSource]"
+                          name="MediaSource" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          name="Campaign" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[AdCode]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[AdCode]"
+                          name="AdCode" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Cost]"
+                          dataType="cy"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Cost]"
+                          name="Cost" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[CampaignStart]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[CampaignStart]"
+                          name="CampaignStart" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[CampaignEnd]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[CampaignEnd]"
+                          name="CampaignEnd" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[Appsflyer_ssis_master]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Platform]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Platform"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Platform]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Platform]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MediaSource]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="MediaSource"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MediaSource]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[MediaSource]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Campaign"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AdCode]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="AdCode"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[AdCode]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cost]"
+                          cachedDataType="cy"
+                          cachedName="Cost"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cost]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Cost]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CampaignStart]"
+                          cachedDataType="r8"
+                          cachedName="CampaignStart"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CampaignStartYearMonth]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignStart]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CampaignEnd]"
+                          cachedDataType="r8"
+                          cachedName="CampaignEnd"
+                          externalMetadataColumnId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CampaignEndYearMonth]"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[CampaignEnd]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Platform]"
+                          dataType="wstr"
+                          length="255"
+                          name="Platform" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MediaSource]"
+                          dataType="wstr"
+                          length="255"
+                          name="MediaSource" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                          dataType="i4"
+                          name="AdCode" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cost]"
+                          dataType="cy"
+                          name="Cost" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CampaignStartYearMonth]"
+                          dataType="i4"
+                          name="CampaignStartYearMonth" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CampaignEndYearMonth]"
+                          dataType="i4"
+                          name="CampaignEndYearMonth" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table.Paths[Excel Source Output]"
+                  endId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Staging SP_AppsFlyer_Load_Master"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{C9BEEDDC-377B-473C-AA88-62A27D214354}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_AppsFlyer_Load_Master"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{E2D3444F-450D-4FA6-BC94-C64DF5E02A2C}"
+              SQLTask:SqlStatementSource="exec [Staging].[SP_AppsFlyer_Load_Master] " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vsalesreportfile"
+                SQLTask:DtsVariableName="User::VSalesReportFile"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2DDEFA7F-C127-4133-8908-42617431A6D4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9DE0AB79-2D64-46A9-8C98-493EBA08A333}"
+              SQLTask:SqlStatementSource="truncate table staging.Appsflyer_ssis_master " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{AC1199CB-9085-4929-BA53-597052BC061B}"
+          DTS:From="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Staging SP_AppsFlyer_Load_Master"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{2E1447DB-5FEF-4689-9CB6-81E98CE824F8}"
+          DTS:From="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Staging SP_AppsFlyer_Load_Master" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{B7DE337A-AC0F-433B-B285-A8AC7A3C6109}"
+          DTS:From="Package\SP_TGCPlus_AppsFlyer_Master_Directory\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{30E37F61-ADB4-409F-AEDA-046574189AAA}"
+          DTS:ObjectName="{30E37F61-ADB4-409F-AEDA-046574189AAA}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{101D9526-3F78-44F4-A810-56C488BFE530}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_TGCPlus_AppsFlyer_Master_Directory" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{67BBD289-AA60-4CB6-B0F6-E6671C0AAACD}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile]  )&lt;1"
+      DTS:From="Package\SP_TGCPlus_AppsFlyer_Master_Directory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Get Drop Folder"
+          TopLeft="452,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="443,589" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Staging SP_AppsFlyer_Load_Master"
+          TopLeft="107,203" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint]"
+          TopLeft="235,245">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="235,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,382"
+          Size="514,425"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory"
+          TopLeft="265.5,133" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="526.25,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="520.75,558">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,3.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,52"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source"
+          TopLeft="485,105" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination"
+          TopLeft="478,290" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table.Paths[Excel Source Output]"
+          TopLeft="564,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,133"
+              Start="0,0"
+              End="0,125.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,125.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_TGCPlus_AppsFlyer_Master_Directory\Load to Staging table\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

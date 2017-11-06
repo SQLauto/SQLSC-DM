@@ -1,0 +1,2277 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/23/2017 12:51:33 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{08697C02-F6E5-4108-9450-41109C653F95}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="InfluencerMasterFileLoad"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{2ED78407-88E3-4A67-997C-A07D1A613BF1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Datawarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8CBA61AD-119A-4C8D-9A59-0954781D6B45}"
+      DTS:ObjectName="Datawarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{B816A619-FD03-4EDA-B684-E87C327E7D16}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\File1\Marketing\Influencer\InfluencerMaster.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TGCPlusAWS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{AB76877C-0BE6-44A2-A045-9542E53E3C4D}"
+      DTS:ObjectName="TGCPlusAWS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tgcanalytics.ccskhyvc1fba.us-east-1.rds.amazonaws.com;User ID=analytics_root;Initial Catalog=TGCPlus;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"></DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\TGCPLusToAWS.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{1D380C40-D996-4A4A-A62E-F55D6B50B784}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load into datawarehouse"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{9E29F4EF-1A7D-49D2-B1F3-E7CA73F95F13}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load into datawarehouse"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load into datawarehouse\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Master$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load into datawarehouse\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Unique ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique ID]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Unique ID]"
+                      name="Unique ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Program]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Program]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Program]"
+                      name="Program"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[SpotEndDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[SpotEndDate]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[SpotEndDate]"
+                      name="SpotEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Offer ID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Offer ID]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Offer ID]"
+                      name="Offer ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 1 (advertised URL)]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 1 (advertised URL)]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 1 (advertised URL)]"
+                      name="Source Code 1 (advertised URL)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 2 (short URL)]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 2 (short URL)]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 2 (short URL)]"
+                      name="Source Code 2 (short URL)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 3 (TGC Redirect)]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 3 (TGC Redirect)]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 3 (TGC Redirect)]"
+                      name="Source Code 3 (TGC Redirect)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Start Week]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Week]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Start Week]"
+                      name="Start Week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartMonth]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[StartMonth]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartMonth]"
+                      name="StartMonth"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartYear]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[StartYear]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartYear]"
+                      name="StartYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[On Screen Link]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[On Screen Link]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[On Screen Link]"
+                      name="On Screen Link"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Video Description Link]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Video Description Link]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Video Description Link]"
+                      name="Video Description Link"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Redirect/HTML]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Redirect/HTML]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Redirect/HTML]"
+                      name="Redirect/HTML"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description Link (Short URL) Redirects to]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description Link (Short URL) Redirects to]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description Link (Short URL) Redirects to]"
+                      name="Description Link (Short URL) Redirects to"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com URL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[TheGreatCourses#com URL]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com URL]"
+                      name="TheGreatCourses#com URL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com Redirect HTML]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[TheGreatCourses#com Redirect HTML]"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com Redirect HTML]"
+                      name="TheGreatCourses#com Redirect HTML"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date URLs Set Up]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date URLs Set Up]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date URLs Set Up]"
+                      name="Date URLs Set Up"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date IO Signed]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date IO Signed]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date IO Signed]"
+                      name="Date IO Signed"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Invoice #]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Invoice #]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Invoice #]"
+                      name="Invoice #"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date Invoice Passed to Accounting]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date Invoice Passed to Accounting]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date Invoice Passed to Accounting]"
+                      name="Date Invoice Passed to Accounting"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Spot Cost]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Spot Cost]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Spot Cost]"
+                      name="Spot Cost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Month for Budget]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month for Budget]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Month for Budget]"
+                      name="Month for Budget"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Unique ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      dataType="date"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[SpotEndDate]"
+                      dataType="date"
+                      name="SpotEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Offer ID]"
+                      dataType="r8"
+                      name="Offer ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 1 (advertised URL)]"
+                      dataType="r8"
+                      name="Source Code 1 (advertised URL)" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 2 (short URL)]"
+                      dataType="r8"
+                      name="Source Code 2 (short URL)" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Source Code 3 (TGC Redirect)]"
+                      dataType="r8"
+                      name="Source Code 3 (TGC Redirect)" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Week]"
+                      dataType="date"
+                      name="Start Week" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[On Screen Link]"
+                      dataType="wstr"
+                      length="255"
+                      name="On Screen Link" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Video Description Link]"
+                      dataType="wstr"
+                      length="255"
+                      name="Video Description Link" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Redirect/HTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="Redirect/HTML" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description Link (Short URL) Redirects to]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description Link (Short URL) Redirects to" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[TheGreatCourses#com URL]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCourses#com URL" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[TheGreatCourses#com Redirect HTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCourses#com Redirect HTML" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date URLs Set Up]"
+                      dataType="date"
+                      name="Date URLs Set Up" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date IO Signed]"
+                      dataType="date"
+                      name="Date IO Signed" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Invoice #]"
+                      dataType="r8"
+                      name="Invoice #" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date Invoice Passed to Accounting]"
+                      dataType="date"
+                      name="Date Invoice Passed to Accounting" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Spot Cost]"
+                      dataType="cy"
+                      name="Spot Cost" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month for Budget]"
+                      dataType="r8"
+                      name="Month for Budget" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Unique ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Unique ID]"
+                      name="Unique ID" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Program]"
+                      name="Program" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[SpotEndDate]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[SpotEndDate]"
+                      name="SpotEndDate" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Offer ID]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Offer ID]"
+                      name="Offer ID" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 1 (advertised URL)]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 1 (advertised URL)]"
+                      name="Source Code 1 (advertised URL)" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 2 (short URL)]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 2 (short URL)]"
+                      name="Source Code 2 (short URL)" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 3 (TGC Redirect)]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Source Code 3 (TGC Redirect)]"
+                      name="Source Code 3 (TGC Redirect)" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Start Week]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Start Week]"
+                      name="Start Week" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[StartMonth]"
+                      name="StartMonth" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[StartYear]"
+                      name="StartYear" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[On Screen Link]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[On Screen Link]"
+                      name="On Screen Link" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Video Description Link]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Video Description Link]"
+                      name="Video Description Link" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Redirect/HTML]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Redirect/HTML]"
+                      name="Redirect/HTML" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Description Link (Short URL) Redirects to]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Description Link (Short URL) Redirects to]"
+                      name="Description Link (Short URL) Redirects to" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[TheGreatCourses#com URL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[TheGreatCourses#com URL]"
+                      name="TheGreatCourses#com URL" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[TheGreatCourses#com Redirect HTML]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[TheGreatCourses#com Redirect HTML]"
+                      name="TheGreatCourses#com Redirect HTML" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date URLs Set Up]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date URLs Set Up]"
+                      name="Date URLs Set Up" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date IO Signed]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date IO Signed]"
+                      name="Date IO Signed" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Invoice #]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Invoice #]"
+                      name="Invoice #" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date Invoice Passed to Accounting]"
+                      dataType="date"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Date Invoice Passed to Accounting]"
+                      name="Date Invoice Passed to Accounting" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Spot Cost]"
+                      dataType="cy"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Spot Cost]"
+                      name="Spot Cost" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Month for Budget]"
+                      dataType="r8"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[Month for Budget]"
+                      name="Month for Budget" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load into datawarehouse\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Staging].[influencer_ssis_master]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load into datawarehouse\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Datawarehouse]"
+                  connectionManagerRefId="Package.ConnectionManagers[Datawarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Program]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Program"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Program]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Program]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date]"
+                      cachedDataType="date"
+                      cachedName="Date"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SpotEndDate]"
+                      cachedDataType="date"
+                      cachedName="SpotEndDate"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SpotEndDate]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[SpotEndDate]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StartMonth]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StartMonth"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartMonth]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartMonth]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StartYear]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StartYear"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartYear]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[StartYear]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Unique ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Unique ID"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueID]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Unique ID]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Offer ID]"
+                      cachedDataType="r8"
+                      cachedName="Offer ID"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OfferID]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Offer ID]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Source Code 1 (advertised URL)]"
+                      cachedDataType="r8"
+                      cachedName="Source Code 1 (advertised URL)"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode1advertisedURL]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 1 (advertised URL)]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Source Code 2 (short URL)]"
+                      cachedDataType="r8"
+                      cachedName="Source Code 2 (short URL)"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode2shortURL]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 2 (short URL)]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Source Code 3 (TGC Redirect)]"
+                      cachedDataType="r8"
+                      cachedName="Source Code 3 (TGC Redirect)"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode3TGCRedirect]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Source Code 3 (TGC Redirect)]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Start Week]"
+                      cachedDataType="date"
+                      cachedName="Start Week"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartWeek]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Start Week]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[On Screen Link]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="On Screen Link"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OnScreenLink]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[On Screen Link]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Video Description Link]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Video Description Link"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VideoDescriptionLink]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Video Description Link]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Redirect/HTML]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Redirect/HTML"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RedirectHTML]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Redirect/HTML]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Description Link (Short URL) Redirects to]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description Link (Short URL) Redirects to"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Description Link (Short URL) Redirects to]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TheGreatCourses#com URL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TheGreatCourses#com URL"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomURL]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com URL]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TheGreatCourses#com Redirect HTML]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TheGreatCourses#com Redirect HTML"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[TheGreatCourses#com Redirect HTML]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date URLs Set Up]"
+                      cachedDataType="date"
+                      cachedName="Date URLs Set Up"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateURLsSetUp]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date URLs Set Up]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date IO Signed]"
+                      cachedDataType="date"
+                      cachedName="Date IO Signed"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateIOSigned]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date IO Signed]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Invoice #]"
+                      cachedDataType="r8"
+                      cachedName="Invoice #"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Invoice]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Invoice #]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date Invoice Passed to Accounting]"
+                      cachedDataType="date"
+                      cachedName="Date Invoice Passed to Accounting"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Date Invoice Passed to Accounting]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Spot Cost]"
+                      cachedDataType="cy"
+                      cachedName="Spot Cost"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SpotCost]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Spot Cost]" />
+                    <inputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Month for Budget]"
+                      cachedDataType="r8"
+                      cachedName="Month for Budget"
+                      externalMetadataColumnId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MonthforBudget]"
+                      lineageId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output].Columns[Month for Budget]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueID]"
+                      dataType="wstr"
+                      length="255"
+                      name="UniqueID" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                      dataType="dbTimeStamp"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SpotEndDate]"
+                      dataType="dbTimeStamp"
+                      name="SpotEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OfferID]"
+                      dataType="r8"
+                      name="OfferID" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode1advertisedURL]"
+                      dataType="r8"
+                      name="SourceCode1advertisedURL" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode2shortURL]"
+                      dataType="r8"
+                      name="SourceCode2shortURL" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode3TGCRedirect]"
+                      dataType="r8"
+                      name="SourceCode3TGCRedirect" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartWeek]"
+                      dataType="dbTimeStamp"
+                      name="StartWeek" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartYear" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OnScreenLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="OnScreenLink" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VideoDescriptionLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="VideoDescriptionLink" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="RedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      dataType="wstr"
+                      length="255"
+                      name="DescriptionLinkShortURLRedirectsto" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomURL]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomURL" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomRedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateURLsSetUp]"
+                      dataType="dbTimeStamp"
+                      name="DateURLsSetUp" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateIOSigned]"
+                      dataType="dbTimeStamp"
+                      name="DateIOSigned" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Invoice]"
+                      dataType="r8"
+                      name="Invoice" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      dataType="dbTimeStamp"
+                      name="DateInvoicePassedtoAccounting" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SpotCost]"
+                      dataType="cy"
+                      name="SpotCost" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MonthforBudget]"
+                      dataType="r8"
+                      name="MonthforBudget" />
+                    <externalMetadataColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dmlastupdated]"
+                      dataType="dbTimeStamp"
+                      name="dmlastupdated" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load into datawarehouse\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load into datawarehouse\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load into datawarehouse\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load into datawarehouse\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load into datawarehouse.Paths[Excel Source Output]"
+              endId="Package\Load into datawarehouse\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Load into datawarehouse\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transfer to AWS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{d2811fb5-7ebb-447b-8cfc-3669d9d27ccd}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transfer to AWS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transfer to AWS\staging Influencer_ssis_master"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="staging Influencer_ssis_master"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Staging].[Influencer_ssis_master]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transfer to AWS\staging Influencer_ssis_master.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Datawarehouse]"
+                  connectionManagerRefId="Package.ConnectionManagers[Datawarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[UniqueID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[UniqueID]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[UniqueID]"
+                      name="UniqueID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Program]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Program]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Program]"
+                      name="Program"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OfferID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[OfferID]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OfferID]"
+                      name="OfferID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartWeek]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartWeek]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartWeek]"
+                      name="StartWeek"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartMonth]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartMonth]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartMonth]"
+                      name="StartMonth"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartYear]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartYear]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartYear]"
+                      name="StartYear"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OnScreenLink]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[OnScreenLink]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OnScreenLink]"
+                      name="OnScreenLink"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[VideoDescriptionLink]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[VideoDescriptionLink]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[VideoDescriptionLink]"
+                      name="VideoDescriptionLink"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[RedirectHTML]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[RedirectHTML]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[RedirectHTML]"
+                      name="RedirectHTML"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DescriptionLinkShortURLRedirectsto]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DescriptionLinkShortURLRedirectsto]"
+                      name="DescriptionLinkShortURLRedirectsto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateURLsSetUp]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateURLsSetUp]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateURLsSetUp]"
+                      name="DateURLsSetUp"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateIOSigned]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateIOSigned]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateIOSigned]"
+                      name="DateIOSigned"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Invoice]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Invoice]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Invoice]"
+                      name="Invoice"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateInvoicePassedtoAccounting]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateInvoicePassedtoAccounting]"
+                      name="DateInvoicePassedtoAccounting"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotCost]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SpotCost]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotCost]"
+                      name="SpotCost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[MonthforBudget]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[MonthforBudget]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[MonthforBudget]"
+                      name="MonthforBudget"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotEndDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SpotEndDate]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotEndDate]"
+                      name="SpotEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode1advertisedURL]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode1advertisedURL]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode1advertisedURL]"
+                      name="SourceCode1advertisedURL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode2shortURL]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode2shortURL]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode2shortURL]"
+                      name="SourceCode2shortURL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode3TGCRedirect]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode3TGCRedirect]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode3TGCRedirect]"
+                      name="SourceCode3TGCRedirect"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomURL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[TheGreatCoursescomURL]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomURL]"
+                      name="TheGreatCoursescomURL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomRedirectHTML]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomRedirectHTML]"
+                      name="TheGreatCoursescomRedirectHTML"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[dmlastupdated]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[dmlastupdated]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[dmlastupdated]"
+                      name="dmlastupdated"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[UniqueID]"
+                      dataType="wstr"
+                      length="255"
+                      name="UniqueID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      dataType="dbTimeStamp"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[OfferID]"
+                      dataType="r8"
+                      name="OfferID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartWeek]"
+                      dataType="dbTimeStamp"
+                      name="StartWeek" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartYear" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[OnScreenLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="OnScreenLink" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[VideoDescriptionLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="VideoDescriptionLink" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[RedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="RedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      dataType="wstr"
+                      length="255"
+                      name="DescriptionLinkShortURLRedirectsto" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateURLsSetUp]"
+                      dataType="dbTimeStamp"
+                      name="DateURLsSetUp" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateIOSigned]"
+                      dataType="dbTimeStamp"
+                      name="DateIOSigned" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[Invoice]"
+                      dataType="r8"
+                      name="Invoice" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      dataType="dbTimeStamp"
+                      name="DateInvoicePassedtoAccounting" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SpotCost]"
+                      dataType="cy"
+                      name="SpotCost" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[MonthforBudget]"
+                      dataType="r8"
+                      name="MonthforBudget" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SpotEndDate]"
+                      dataType="dbTimeStamp"
+                      name="SpotEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode1advertisedURL]"
+                      dataType="r8"
+                      name="SourceCode1advertisedURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode2shortURL]"
+                      dataType="r8"
+                      name="SourceCode2shortURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[SourceCode3TGCRedirect]"
+                      dataType="r8"
+                      name="SourceCode3TGCRedirect" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[TheGreatCoursescomURL]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomRedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].ExternalColumns[dmlastupdated]"
+                      dataType="dbTimeStamp"
+                      name="dmlastupdated" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[UniqueID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[UniqueID]"
+                      name="UniqueID" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Program]"
+                      name="Program" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SpotEndDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SpotEndDate]"
+                      name="SpotEndDate" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[OfferID]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[OfferID]"
+                      name="OfferID" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode1advertisedURL]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode1advertisedURL]"
+                      name="SourceCode1advertisedURL" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode2shortURL]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode2shortURL]"
+                      name="SourceCode2shortURL" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode3TGCRedirect]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SourceCode3TGCRedirect]"
+                      name="SourceCode3TGCRedirect" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartWeek]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartWeek]"
+                      name="StartWeek" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartMonth]"
+                      name="StartMonth" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[StartYear]"
+                      name="StartYear" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[OnScreenLink]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[OnScreenLink]"
+                      name="OnScreenLink" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[VideoDescriptionLink]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[VideoDescriptionLink]"
+                      name="VideoDescriptionLink" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[RedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[RedirectHTML]"
+                      name="RedirectHTML" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DescriptionLinkShortURLRedirectsto]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DescriptionLinkShortURLRedirectsto]"
+                      name="DescriptionLinkShortURLRedirectsto" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[TheGreatCoursescomURL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[TheGreatCoursescomURL]"
+                      name="TheGreatCoursescomURL" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[TheGreatCoursescomRedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[TheGreatCoursescomRedirectHTML]"
+                      name="TheGreatCoursescomRedirectHTML" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateURLsSetUp]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateURLsSetUp]"
+                      name="DateURLsSetUp" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateIOSigned]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateIOSigned]"
+                      name="DateIOSigned" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Invoice]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[Invoice]"
+                      name="Invoice" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateInvoicePassedtoAccounting]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[DateInvoicePassedtoAccounting]"
+                      name="DateInvoicePassedtoAccounting" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SpotCost]"
+                      dataType="cy"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[SpotCost]"
+                      name="SpotCost" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[MonthforBudget]"
+                      dataType="r8"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[MonthforBudget]"
+                      name="MonthforBudget" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[dmlastupdated]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[dmlastupdated]"
+                      name="dmlastupdated" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transfer to AWS\TGCplus_Influencer_master"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="TGCplus_Influencer_master"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TGCplus_Influencer_master]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transfer to AWS\TGCplus_Influencer_master.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[TGCPlusAWS]"
+                  connectionManagerRefId="Package.ConnectionManagers[TGCPlusAWS]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[UniqueID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="UniqueID"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[UniqueID]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[UniqueID]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[Program]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Program"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Program]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Program]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Date"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[OfferID]"
+                      cachedDataType="r8"
+                      cachedName="OfferID"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[OfferID]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OfferID]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[StartWeek]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="StartWeek"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartWeek]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartWeek]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[StartMonth]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StartMonth"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartMonth]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartMonth]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[StartYear]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StartYear"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartYear]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[StartYear]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[OnScreenLink]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OnScreenLink"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[OnScreenLink]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[OnScreenLink]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[VideoDescriptionLink]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="VideoDescriptionLink"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[VideoDescriptionLink]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[VideoDescriptionLink]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[RedirectHTML]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RedirectHTML"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[RedirectHTML]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[RedirectHTML]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[DescriptionLinkShortURLRedirectsto]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DescriptionLinkShortURLRedirectsto"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DescriptionLinkShortURLRedirectsto]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[DateURLsSetUp]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateURLsSetUp"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateURLsSetUp]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateURLsSetUp]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[DateIOSigned]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateIOSigned"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateIOSigned]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateIOSigned]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[Invoice]"
+                      cachedDataType="r8"
+                      cachedName="Invoice"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Invoice]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[Invoice]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[DateInvoicePassedtoAccounting]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateInvoicePassedtoAccounting"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[DateInvoicePassedtoAccounting]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[SpotCost]"
+                      cachedDataType="cy"
+                      cachedName="SpotCost"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SpotCost]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotCost]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[MonthforBudget]"
+                      cachedDataType="r8"
+                      cachedName="MonthforBudget"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[MonthforBudget]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[MonthforBudget]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[SpotEndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="SpotEndDate"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SpotEndDate]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SpotEndDate]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[SourceCode1advertisedURL]"
+                      cachedDataType="r8"
+                      cachedName="SourceCode1advertisedURL"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode1advertisedURL]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode1advertisedURL]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[SourceCode2shortURL]"
+                      cachedDataType="r8"
+                      cachedName="SourceCode2shortURL"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode2shortURL]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode2shortURL]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[SourceCode3TGCRedirect]"
+                      cachedDataType="r8"
+                      cachedName="SourceCode3TGCRedirect"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode3TGCRedirect]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[SourceCode3TGCRedirect]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[TheGreatCoursescomURL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TheGreatCoursescomURL"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomURL]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomURL]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[TheGreatCoursescomRedirectHTML]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TheGreatCoursescomRedirectHTML"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[TheGreatCoursescomRedirectHTML]" />
+                    <inputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].Columns[dmlastupdated]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="dmlastupdated"
+                      externalMetadataColumnId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[dmlastupdated]"
+                      lineageId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output].Columns[dmlastupdated]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[UniqueID]"
+                      dataType="wstr"
+                      length="255"
+                      name="UniqueID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Program]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                      dataType="dbTimeStamp"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[OfferID]"
+                      dataType="r8"
+                      name="OfferID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartWeek]"
+                      dataType="dbTimeStamp"
+                      name="StartWeek" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartMonth]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartMonth" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[StartYear]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartYear" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[OnScreenLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="OnScreenLink" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[VideoDescriptionLink]"
+                      dataType="wstr"
+                      length="255"
+                      name="VideoDescriptionLink" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[RedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="RedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DescriptionLinkShortURLRedirectsto]"
+                      dataType="wstr"
+                      length="255"
+                      name="DescriptionLinkShortURLRedirectsto" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateURLsSetUp]"
+                      dataType="dbTimeStamp"
+                      name="DateURLsSetUp" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateIOSigned]"
+                      dataType="dbTimeStamp"
+                      name="DateIOSigned" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[Invoice]"
+                      dataType="r8"
+                      name="Invoice" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[DateInvoicePassedtoAccounting]"
+                      dataType="dbTimeStamp"
+                      name="DateInvoicePassedtoAccounting" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SpotCost]"
+                      dataType="cy"
+                      name="SpotCost" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[MonthforBudget]"
+                      dataType="r8"
+                      name="MonthforBudget" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SpotEndDate]"
+                      dataType="dbTimeStamp"
+                      name="SpotEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode1advertisedURL]"
+                      dataType="r8"
+                      name="SourceCode1advertisedURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode2shortURL]"
+                      dataType="r8"
+                      name="SourceCode2shortURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[SourceCode3TGCRedirect]"
+                      dataType="r8"
+                      name="SourceCode3TGCRedirect" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomURL]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomURL" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[TheGreatCoursescomRedirectHTML]"
+                      dataType="wstr"
+                      length="255"
+                      name="TheGreatCoursescomRedirectHTML" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input].ExternalColumns[dmlastupdated]"
+                      dataType="dbTimeStamp"
+                      name="dmlastupdated" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transfer to AWS\TGCplus_Influencer_master.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transfer to AWS\TGCplus_Influencer_master.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transfer to AWS\TGCplus_Influencer_master.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transfer to AWS\TGCplus_Influencer_master.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transfer to AWS.Paths[OLE DB Source Output]"
+              endId="Package\Transfer to AWS\TGCplus_Influencer_master.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Transfer to AWS\staging Influencer_ssis_master.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate AWS table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2696d6ea-9d51-4b87-9638-93a2c9b214e3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate AWS table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{AB76877C-0BE6-44A2-A045-9542E53E3C4D}"
+          SQLTask:SqlStatementSource="truncate table TGCplus_Influencer_master" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{79EA54FA-0531-4C14-8319-67F19C9CAFF0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{8CBA61AD-119A-4C8D-9A59-0954781D6B45}"
+          SQLTask:SqlStatementSource="truncate table Datawarehouse.staging.Influencer_ssis_master" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E9792059-D177-4FE2-9622-885FA153CCEF}"
+      DTS:From="Package\Truncate staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load into datawarehouse" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{EC5F64CF-E7B5-4678-B2E1-03D0BEE4F690}"
+      DTS:From="Package\Load into datawarehouse"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Truncate AWS table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{3ED2A5D4-075D-4A05-87BF-682086EC7A03}"
+      DTS:From="Package\Truncate AWS table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Transfer to AWS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Load into datawarehouse"
+          TopLeft="463,250" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Transfer to AWS"
+          TopLeft="474,424" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Truncate AWS table"
+          TopLeft="465,336" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Truncate staging"
+          TopLeft="469,156" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="550,198">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="551.5,292">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="552.5,378">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load into datawarehouse">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load into datawarehouse\OLE DB Destination"
+          TopLeft="493,183" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load into datawarehouse\Excel Source"
+          TopLeft="505,101" />
+        <EdgeLayout
+          Id="Package\Load into datawarehouse.Paths[Excel Source Output]"
+          TopLeft="577.5,143">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load into datawarehouse\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load into datawarehouse\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Transfer to AWS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Transfer to AWS\staging Influencer_ssis_master"
+          TopLeft="513,293" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Transfer to AWS\TGCplus_Influencer_master"
+          TopLeft="508,419" />
+        <EdgeLayout
+          Id="Package\Transfer to AWS.Paths[OLE DB Source Output]"
+          TopLeft="626.5,335">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-13,84"
+              Start="0,0"
+              End="-13,76.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38"
+                    Point2="0,42"
+                    Point3="-4,42" />
+                  <mssgle:LineSegment
+                    End="-9,42" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9,42"
+                    Point2="-13,42"
+                    Point3="-13,46" />
+                  <mssgle:LineSegment
+                    End="-13,76.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transfer to AWS\staging Influencer_ssis_master">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transfer to AWS\TGCplus_Influencer_master">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

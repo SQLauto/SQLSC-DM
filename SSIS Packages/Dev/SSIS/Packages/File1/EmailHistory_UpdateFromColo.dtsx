@@ -1,0 +1,1577 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/26/2012 12:57:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC427"
+  DTS:CreatorName="TEACHCO\kanovkas"
+  DTS:DTSID="{090B9137-CD4D-4FCB-89DB-ABD71A8E7089}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="EmailHistory_UpdateFromColo"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="156"
+  DTS:VersionGUID="{8B27F8B2-99DF-456D-8267-8FE6FFD8FEE3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADOCOLO]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{30E4F644-43BD-4404-A7F0-877041DB1ACB}"
+      DTS:ObjectName="ADOCOLO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=COLOSQL01;Initial Catalog=LstMgr;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{E210227A-93F4-4BC4-9EC1-56AC5DDED2F6}COLOSQL01.LstMgr;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{55275BCA-4827-40E7-A2DC-D77EE3B1BEC5}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{55275BCA-4827-40E7-A2DC-D77EE3B1BEC5}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADOLstMgr]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{2D3428D6-3DAC-4046-A970-56709A12983D}"
+      DTS:ObjectName="ADOLstMgr">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Lstmgr;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{0851A71E-DAA1-43B9-A7B3-FD6F5CED8B6D}TTCDatamart01\DMDAxDev.Lstmgr;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[COLO]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F21F67A8-58C0-4510-AFC0-3ADCD3396115}"
+      DTS:ObjectName="COLO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{F21F67A8-58C0-4510-AFC0-3ADCD3396115}COLO;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C774CD60-1104-4461-AD72-C850E114F9A5}"
+      DTS:ObjectName="DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{C774CD60-1104-4461-AD72-C850E114F9A5}DataWarehouse1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LstMgr1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8E57055E-3959-4AE3-83AF-2AD625BC06FF}"
+      DTS:ObjectName="LstMgr1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{8E57055E-3959-4AE3-83AF-2AD625BC06FF}LstMgr1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\file1\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\EmailHistory_UpdateFromColo.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{E7E70496-B95F-4314-9F3B-B642B3B060AA}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A5760F15-FF5F-4D96-8577-D7352006CF95}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CampaignDates">
+      <DTS:VariableValue
+        DTS:DataType="8">20120722, 20120724</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{55B78830-923E-4ED2-B8D7-3C282C17A7F6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="oDates">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{66933265-9657-4D1D-993A-841646A6C6C7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="oTablesList">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1D890EBA-70CC-46C0-841C-FB167AF976EF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sDate">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E16A44A2-5858-4C86-AFAF-15F0C0BFA36D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sDestinationTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">Email_staging_COLO</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3B681F76-248F-4C75-8124-C009EFAB5F9A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ServerName">
+      <DTS:VariableValue
+        DTS:DataType="8">TTCDATAMART01\DMDAXDEV</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5EBD6A03-2356-4B3E-B131-F9E472B95A17}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sSourceTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">Email_20150408_AU_MarchCatDLR_02_NEW_Active</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{52974CED-8DF8-41A1-B0D0-7791BF019CB4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="sSQLStatement">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2696C0C5-34D0-4C92-8C8F-1EFAE29FD1FD}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vDate">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get yesterdays Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7530FB28-5A5F-4A5E-ADE9-86AEBFAB12AF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get yesterdays Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{55275BCA-4827-40E7-A2DC-D77EE3B1BEC5}"
+          SQLTask:SqlStatementSource="--declare @vdate nvarchar(8)&#xA;&#xA;--select @vdate = cast (convert(varchar(8), getdate()-3, 112)  as nvarchar(8))&#xA;&#xA;exec SP_EmailHistory_Date @date = @vdate output&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@vdate"
+            SQLTask:DtsVariableName="User::vDate"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{62E15E67-8639-4AF3-BA2B-A0FFAFF7D253}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Foreach Table"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:DelayValidation="True"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{4953C31E-0992-489F-9A67-29DC200AE8C9}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Foreach Table">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachADOEnumerator"
+            DTS:DTSID="{6865F8B6-1A7F-482F-969B-6FDBE1A1C863}"
+            DTS:ObjectName="{3E39366F-743E-4C1D-92F6-9A1B99967B1C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::oTablesList" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Foreach Table\Add Column and update Table with Colo soft deletes"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{1A18713F-AF5B-47A4-90E4-FD1557F24105}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Add Column and update Table with Colo soft deletes"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{2D3428D6-3DAC-4046-A970-56709A12983D}"
+                  SQLTask:SqlStatementSource="Exec SP_Email_Staging_Table_Load_Colo  @table_name= @vSourceTable" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="@vSourceTable"
+                    SQLTask:DtsVariableName="User::sSourceTableName"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="16"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Foreach Table\Data Flow Task"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DelayValidation="True"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{95F3BAD0-E880-49A4-846E-A34F357F7A9E}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Data Flow Task"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  BLOBTempStoragePath=""
+                  bufferTempStoragePath=""
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="OLE DB Destination"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[dbo].[Email_staging_COLO]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">1000000</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[LstMgr1]"
+                          connectionManagerRefId="Package.ConnectionManagers[LstMgr1]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                              cachedDataType="wstr"
+                              cachedLength="20"
+                              cachedName="CustomerID"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AdCode]"
+                              cachedDataType="i4"
+                              cachedName="AdCode"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[AdCode]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastName]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="LastName"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="FirstName"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EmailAddress]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="60"
+                              cachedName="EmailAddress"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Unsubscribe]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="1"
+                              cachedName="Unsubscribe"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Unsubscribe]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EmailStatus]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="15"
+                              cachedName="EmailStatus"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailStatus]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SubjectLine]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="300"
+                              cachedName="SubjectLine"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SubjectLine]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SubjectLine]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CustHTML]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="2000"
+                              cachedName="CustHTML"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustHTML]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustHTML]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[State]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="State"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[State]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PreferredCategory]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="20"
+                              cachedName="PreferredCategory"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PreferredCategory]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ComboID]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="30"
+                              cachedName="ComboID"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ComboID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ComboID]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SendDate]"
+                              cachedDataType="i4"
+                              cachedName="SendDate"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SendDate]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SendDate]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BatchID]"
+                              cachedDataType="ui1"
+                              cachedName="BatchID"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BatchID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BatchID]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ECampaignID]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="30"
+                              cachedName="ECampaignID"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ECampaignID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ECampaignID]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DeadlineDate]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="DeadlineDate"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DeadlineDate]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[DeadlineDate]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Subject]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="Subject"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Subject]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Subject]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CatalogName]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="50"
+                              cachedName="CatalogName"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CatalogName]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CatalogName]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CustomerSegmentNew]"
+                              cachedCodepage="1252"
+                              cachedDataType="str"
+                              cachedLength="20"
+                              cachedName="CustomerSegmentNew"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerSegmentNew]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerSegmentNew]" />
+                            <inputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UserID]"
+                              cachedDataType="wstr"
+                              cachedLength="51"
+                              cachedName="UserID"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserID]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                              dataType="wstr"
+                              length="20"
+                              name="CustomerID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                              dataType="i4"
+                              name="AdCode" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="LastName" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="FirstName" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                              codePage="1252"
+                              dataType="str"
+                              length="60"
+                              name="EmailAddress" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Unsubscribe]"
+                              codePage="1252"
+                              dataType="str"
+                              length="1"
+                              name="Unsubscribe" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailStatus]"
+                              codePage="1252"
+                              dataType="str"
+                              length="15"
+                              name="EmailStatus" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SubjectLine]"
+                              codePage="1252"
+                              dataType="str"
+                              length="300"
+                              name="SubjectLine" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustHTML]"
+                              codePage="1252"
+                              dataType="str"
+                              length="2000"
+                              name="CustHTML" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="State" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PreferredCategory]"
+                              codePage="1252"
+                              dataType="str"
+                              length="8000"
+                              name="PreferredCategory" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ComboID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              name="ComboID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SendDate]"
+                              dataType="i4"
+                              name="SendDate" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BatchID]"
+                              dataType="ui1"
+                              name="BatchID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ECampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              name="ECampaignID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DeadlineDate]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="DeadlineDate" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Subject]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="Subject" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CatalogName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="CatalogName" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerSegmentNew]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="CustomerSegmentNew" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserID]"
+                              dataType="wstr"
+                              length="51"
+                              name="UserID" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                      description="OLE DB Source"
+                      name="OLE DB Source"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[dbo].[Email_20150408_UK_MarchCatDLR_01_NEW_Active]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable">User::sSourceTableName</property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">1</property>
+                        <property
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[COLO]"
+                          connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                              name="CustomerID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                              name="LastName"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                              name="FirstName"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                              length="60"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                              name="EmailAddress"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Unsubscribe]"
+                              length="1"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]"
+                              name="Unsubscribe"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailStatus]"
+                              length="15"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]"
+                              name="EmailStatus"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SubjectLine]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SubjectLine]"
+                              length="300"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SubjectLine]"
+                              name="SubjectLine"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustHTML]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustHTML]"
+                              length="2000"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustHTML]"
+                              name="CustHTML"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[AdCode]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AdCode]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[AdCode]"
+                              name="AdCode"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PreferredCategory]"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]"
+                              name="PreferredCategory"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ComboID]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ComboID]"
+                              length="30"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ComboID]"
+                              name="ComboID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SendDate]"
+                              dataType="i4"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SendDate]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SendDate]"
+                              name="SendDate"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BatchID]"
+                              dataType="ui1"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BatchID]"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[BatchID]"
+                              name="BatchID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ECampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ECampaignID]"
+                              length="30"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ECampaignID]"
+                              name="ECampaignID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[DeadlineDate]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DeadlineDate]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[DeadlineDate]"
+                              name="DeadlineDate"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Subject]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Subject]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Subject]"
+                              name="Subject"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerSegmentNew]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerSegmentNew]"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerSegmentNew]"
+                              name="CustomerSegmentNew"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserID]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserID]"
+                              length="51"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserID]"
+                              name="UserID"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[State]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[State]"
+                              name="State"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CatalogName]"
+                              codePage="1252"
+                              dataType="str"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CatalogName]"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CatalogName]"
+                              name="CatalogName"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                              dataType="wstr"
+                              length="20"
+                              name="CustomerID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="LastName" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="FirstName" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                              codePage="1252"
+                              dataType="str"
+                              length="60"
+                              name="EmailAddress" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Unsubscribe]"
+                              codePage="1252"
+                              dataType="str"
+                              length="1"
+                              name="Unsubscribe" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailStatus]"
+                              codePage="1252"
+                              dataType="str"
+                              length="15"
+                              name="EmailStatus" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SubjectLine]"
+                              codePage="1252"
+                              dataType="str"
+                              length="300"
+                              name="SubjectLine" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustHTML]"
+                              codePage="1252"
+                              dataType="str"
+                              length="2000"
+                              name="CustHTML" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AdCode]"
+                              dataType="i4"
+                              name="AdCode" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PreferredCategory]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="PreferredCategory" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ComboID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              name="ComboID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SendDate]"
+                              dataType="i4"
+                              name="SendDate" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BatchID]"
+                              dataType="ui1"
+                              name="BatchID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ECampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              name="ECampaignID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DeadlineDate]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="DeadlineDate" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Subject]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="Subject" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerSegmentNew]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              name="CustomerSegmentNew" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserID]"
+                              dataType="wstr"
+                              length="51"
+                              name="UserID" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="State" />
+                            <externalMetadataColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CatalogName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              name="CatalogName" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                          isErrorOut="true"
+                          name="OLE DB Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                              dataType="wstr"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                              name="CustomerID" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                              name="LastName" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                              name="FirstName" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                              codePage="1252"
+                              dataType="str"
+                              length="60"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                              name="EmailAddress" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Unsubscribe]"
+                              codePage="1252"
+                              dataType="str"
+                              length="1"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Unsubscribe]"
+                              name="Unsubscribe" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailStatus]"
+                              codePage="1252"
+                              dataType="str"
+                              length="15"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailStatus]"
+                              name="EmailStatus" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SubjectLine]"
+                              codePage="1252"
+                              dataType="str"
+                              length="300"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SubjectLine]"
+                              name="SubjectLine" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustHTML]"
+                              codePage="1252"
+                              dataType="str"
+                              length="2000"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustHTML]"
+                              name="CustHTML" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[State]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[State]"
+                              name="State" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AdCode]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AdCode]"
+                              name="AdCode" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PreferredCategory]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PreferredCategory]"
+                              name="PreferredCategory" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ComboID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ComboID]"
+                              name="ComboID" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SendDate]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SendDate]"
+                              name="SendDate" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BatchID]"
+                              dataType="ui1"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BatchID]"
+                              name="BatchID" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ECampaignID]"
+                              codePage="1252"
+                              dataType="str"
+                              length="30"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ECampaignID]"
+                              name="ECampaignID" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DeadlineDate]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DeadlineDate]"
+                              name="DeadlineDate" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Subject]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Subject]"
+                              name="Subject" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CatalogName]"
+                              codePage="1252"
+                              dataType="str"
+                              length="50"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CatalogName]"
+                              name="CatalogName" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerSegmentNew]"
+                              codePage="1252"
+                              dataType="str"
+                              length="20"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerSegmentNew]"
+                              name="CustomerSegmentNew" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserID]"
+                              dataType="wstr"
+                              length="51"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserID]"
+                              name="UserID" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\Sequence Container\Foreach Table\Data Flow Task.Paths[OLE DB Source Output]"
+                      endId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      name="OLE DB Source Output"
+                      startId="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Foreach Table\Insert Into History"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{E4FF9816-0DA0-49C5-A44C-3FCA5C689835}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Insert Into History"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{C774CD60-1104-4461-AD72-C850E114F9A5}"
+                  SQLTask:SqlStatementSource="exec Staging.EmailHistory_UpdateFromColo @TableName = ?, @Date = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::sSourceTableName"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="1"
+                    SQLTask:DtsVariableName="User::vDate"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Foreach Table\Truncate Staging table"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{02043925-A29A-4793-BD89-D007310A1371}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Truncate Staging table"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{8E57055E-3959-4AE3-83AF-2AD625BC06FF}"
+                  SQLTask:SqlStatementSource="truncate table dbo.Email_staging_COLO " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{14DF01C0-3B88-4A2A-AC4C-3A2DE5265FD6}"
+              DTS:From="Package\Sequence Container\Foreach Table\Truncate Staging table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\Sequence Container\Foreach Table\Data Flow Task" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{AA7B190D-CB0B-4028-9993-2A7A55DA760D}"
+              DTS:From="Package\Sequence Container\Foreach Table\Data Flow Task"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\Sequence Container\Foreach Table\Add Column and update Table with Colo soft deletes" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint 3]"
+              DTS:CreationName=""
+              DTS:DTSID="{1B041EFC-DBCF-4C29-B414-8D60E9DFBF01}"
+              DTS:From="Package\Sequence Container\Foreach Table\Add Column and update Table with Colo soft deletes"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 3"
+              DTS:To="Package\Sequence Container\Foreach Table\Insert Into History" />
+          </DTS:PrecedenceConstraints>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{721FE39A-3C4C-4D2F-969D-74F1E48FAF00}"
+              DTS:ObjectName="{721FE39A-3C4C-4D2F-969D-74F1E48FAF00}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::sSourceTableName" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Get Table Names"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0CB7D127-21A6-443D-BDBF-2B7FB9345D87}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Table Names"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F21F67A8-58C0-4510-AFC0-3ADCD3396115}"
+              SQLTask:SqlStatementSource="select  name&#xA;from sys.tables &#xA;where &#xA;name like '%' + ? + '%'&#xA;and name not like '%DEL'"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::oTablesList" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::vDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{E145F864-12D7-494A-9A54-B33107428157}"
+          DTS:From="Package\Sequence Container\Get Table Names"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Foreach Table" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{286F51FD-95BB-4733-BD14-4B8A145E3B95}"
+      DTS:From="Package\Get yesterdays Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sequence Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="209,52"
+          Id="Package\Get yesterdays Date"
+          TopLeft="175.915094339623,42.5" />
+        <NodeLayout
+          Size="135,44"
+          Id="Package\Sequence Container\Foreach Table\Add Column and update Table with Colo soft deletes"
+          TopLeft="89.2452830188679,182.433962264151" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Sequence Container\Foreach Table\Data Flow Task"
+          TopLeft="89.4716981132076,103.490566037736" />
+        <NodeLayout
+          Size="135,44"
+          Id="Package\Sequence Container\Foreach Table\Insert Into History"
+          TopLeft="89.3584905660377,266.358490566038" />
+        <NodeLayout
+          Size="135,44"
+          Id="Package\Sequence Container\Foreach Table\Truncate Staging table"
+          TopLeft="96.7547169811321,30.2075471698113" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint]"
+          TopLeft="165.11320754717,74.2075471698113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.2830188679246"
+              Start="0,0"
+              End="0,21.7830188679246">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7830188679246" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint 2]"
+          TopLeft="165.971698113208,145.490566037736">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-9.2264150943397,36.9433962264151"
+              Start="0,0"
+              End="-9.2264150943397,29.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.4716981132075" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.4716981132075"
+                    Point2="0,18.4716981132075"
+                    Point3="-4,18.4716981132075" />
+                  <mssgle:LineSegment
+                    End="-5.2264150943397,18.4716981132075" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-5.2264150943397,18.4716981132075"
+                    Point2="-9.2264150943397,18.4716981132075"
+                    Point3="-9.2264150943397,22.4716981132075" />
+                  <mssgle:LineSegment
+                    End="-9.2264150943397,29.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Foreach Table.PrecedenceConstraints[Constraint 3]"
+          TopLeft="136.11320754717,226.358490566038">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="20.9056603773586,40"
+              Start="0,0"
+              End="20.9056603773586,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                  <mssgle:LineSegment
+                    End="20.9056603773586,30" />
+                  <mssgle:LineSegment
+                    End="20.9056603773586,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="335,365"
+          Size="335,409"
+          Id="Package\Sequence Container\Foreach Table"
+          TopLeft="43.6603773584905,150.735849056604" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Sequence Container\Get Table Names"
+          TopLeft="144.226415094339,35.3396226415094" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="211.693396226415,79.3396226415094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71.3962264150946"
+              Start="0,0"
+              End="0,63.8962264150946">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.8962264150946" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="44"
+          IsExpanded="True"
+          PanelSize="437,615"
+          Size="437,659"
+          Id="Package\Sequence Container"
+          TopLeft="60.5,168.61320754717" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="279.707547169812,94.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,74.1132075471698"
+              Start="0,0"
+              End="0,66.6132075471698">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.6132075471698" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Foreach Table\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Destination"
+          TopLeft="320.028301886792,6.51886792452831" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Foreach Table\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="141.27358490566,27.4622641509434">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="178.754716981132,1.01886792452828"
+              Start="0,0"
+              End="171.254716981132,1.01886792452828">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="89.3584905660377,0" />
+                  <mssgle:LineSegment
+                    End="89.3584905660377,1.01886792452828" />
+                  <mssgle:LineSegment
+                    End="171.254716981132,1.01886792452828" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Foreach Table\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

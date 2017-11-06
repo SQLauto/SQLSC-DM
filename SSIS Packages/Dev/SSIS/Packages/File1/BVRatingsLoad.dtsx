@@ -1,0 +1,1602 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/8/2015 9:07:28 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{125996B2-6DA6-40F2-ABA4-358AC4831D2E}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BVRatingsLoad"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{9ED60793-6ABF-49C7-9A9E-B16DAA6766A9}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{6E2CD4F1-7D2A-41F3-8A02-CE6DBEF4456E}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::SrcFilePath]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{88B9B8B7-BABF-44D2-AD8D-0F4850BED7EF}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BVRatingsLoad-{88B9B8B7-BABF-44D2-AD8D-0F4850BED7EF}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse1]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{D6072A14-85B3-4EF3-A91E-CCCD0F270273}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-BVRatingsLoad-{D6072A14-85B3-4EF3-A91E-CCCD0F270273}ttcdatamart01.DataWarehouse1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\file1\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\BVRatingsLoad.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{E2D87AF4-2159-46C1-A837-FA1C66FC3815}"
+      DTS:ObjectName="Configuration" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{156C9B73-93EE-43FE-8AE4-A78B553D5E45}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFilePath">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4B3A7BAE-4D42-4E17-938E-D0E44B88DAC7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DA25188D-039F-4EDF-A29A-4B83556FB0E1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BVDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{26AA157B-FA4E-481B-8AAF-7A170304553C}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ExcelNm">
+      <DTS:VariableValue
+        DTS:DataType="8">BVRatings.xls</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{613B8553-68FF-43D7-A7E0-992F3AD3A3F4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileNM">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{06186161-9F3E-4F6B-9D09-DD2EB7E34D06}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SrcFilePath">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Folder Directory"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1DE59B56-5BFB-40F0-B2E3-EAC7C99F13A4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Folder Directory"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6072A14-85B3-4EF3-A91E-CCCD0F270273}"
+          SQLTask:SqlStatementSource="--declare @BVDropFolder varchar (100)&#xA;exec [SP_Directory_BazaarVoice_DropFolder] @DropFolder = @BVDropFolder output,&#xA;@ArchiveFolder = @ArchiveFolder output&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@BVDropFolder"
+            SQLTask:DtsVariableName="User::BVDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@ArchiveFolder"
+            SQLTask:DtsVariableName="User::ArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{2A7A54CF-AD24-4342-91FE-938242BB9096}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{14D46032-FFC6-421B-9F73-FDF7666B0DF2}"
+        DTS:ObjectName="{14D46032-FFC6-421B-9F73-FDF7666B0DF2}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::BVDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="*.xls" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\File System Task"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{C91EAFEF-4478-4901-BCB1-85D01DFD982C}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="File System Task"
+          DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::SrcFilePath"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::ArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{5B0E46AB-B81B-4D99-9F1E-6D48CF819FC3}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load from excel to staging SSIS_BV_Ratings"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">'All Reviews by Product Report$'</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Product Name]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product Name]"
+                          name="Product Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Product ID]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product ID]"
+                          name="Product ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category]"
+                          name="Category"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category ID]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category ID]"
+                          name="Category ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Top Level Category]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category]"
+                          name="Top Level Category"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Top Level Category ID]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category ID]"
+                          name="Top Level Category ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category_Hierarchy]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category_Hierarchy]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category_Hierarchy]"
+                          name="Category_Hierarchy"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Brand Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Brand Name]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Brand Name]"
+                          name="Brand Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Submitted_Reviews]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Submitted_Reviews]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Submitted_Reviews]"
+                          name="Total Submitted_Reviews"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Approved]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Approved]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Approved]"
+                          name="% Approved"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Rejected]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Rejected]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Rejected]"
+                          name="% Rejected"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Pending]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Pending]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Pending]"
+                          name="% Pending"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Overall_Rating]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Average Overall_Rating]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Overall_Rating]"
+                          name="Average Overall_Rating"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Content]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Course Content]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Content]"
+                          name="Course Content"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Professor Presentation]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Professor Presentation]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Professor Presentation]"
+                          name="Professor Presentation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Value]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Course Value]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Value]"
+                          name="Course Value"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Recommend_to a Friend]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Recommend_to a Friend]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Recommend_to a Friend]"
+                          name="% Recommend_to a Friend"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Estimated_Review Word_Count]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Average Estimated_Review Word_Count]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Estimated_Review Word_Count]"
+                          name="Average Estimated_Review Word_Count"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 5-Star]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 5-Star]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 5-Star]"
+                          name="% 5-Star"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 4-Star]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 4-Star]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 4-Star]"
+                          name="% 4-Star"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 3-Star]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 3-Star]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 3-Star]"
+                          name="% 3-Star"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 2-Star]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 2-Star]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 2-Star]"
+                          name="% 2-Star"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 1-Star]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 1-Star]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 1-Star]"
+                          name="% 1-Star"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Helpfulness_Votes]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Helpfulness_Votes]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Helpfulness_Votes]"
+                          name="Total Helpfulness_Votes"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Yes]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Yes]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Yes]"
+                          name="% Yes"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% No]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% No]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% No]"
+                          name="% No"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Photos]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Number of Uploaded_Photos]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Photos]"
+                          name="Number of Uploaded_Photos"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Videos]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Number of Uploaded_Videos]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Videos]"
+                          name="Number of Uploaded_Videos"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Product Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Product Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Product ID]"
+                          dataType="wstr"
+                          length="255"
+                          name="Product ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category]"
+                          dataType="wstr"
+                          length="255"
+                          name="Category" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category ID]"
+                          dataType="wstr"
+                          length="255"
+                          name="Category ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Top Level Category]"
+                          dataType="wstr"
+                          length="255"
+                          name="Top Level Category" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Top Level Category ID]"
+                          dataType="wstr"
+                          length="255"
+                          name="Top Level Category ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Category_Hierarchy]"
+                          dataType="wstr"
+                          length="255"
+                          name="Category_Hierarchy" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Brand Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Brand Name" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Submitted_Reviews]"
+                          dataType="r8"
+                          name="Total Submitted_Reviews" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Approved]"
+                          dataType="wstr"
+                          length="255"
+                          name="% Approved" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Rejected]"
+                          dataType="wstr"
+                          length="255"
+                          name="% Rejected" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Pending]"
+                          dataType="wstr"
+                          length="255"
+                          name="% Pending" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Average Overall_Rating]"
+                          dataType="wstr"
+                          length="255"
+                          name="Average Overall_Rating" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Course Content]"
+                          dataType="wstr"
+                          length="255"
+                          name="Course Content" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Professor Presentation]"
+                          dataType="wstr"
+                          length="255"
+                          name="Professor Presentation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Course Value]"
+                          dataType="wstr"
+                          length="255"
+                          name="Course Value" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Recommend_to a Friend]"
+                          dataType="wstr"
+                          length="255"
+                          name="% Recommend_to a Friend" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Average Estimated_Review Word_Count]"
+                          dataType="r8"
+                          name="Average Estimated_Review Word_Count" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 5-Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="% 5-Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 4-Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="% 4-Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 3-Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="% 3-Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 2-Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="% 2-Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% 1-Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="% 1-Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Helpfulness_Votes]"
+                          dataType="wstr"
+                          length="255"
+                          name="Total Helpfulness_Votes" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% Yes]"
+                          dataType="wstr"
+                          length="255"
+                          name="% Yes" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[% No]"
+                          dataType="wstr"
+                          length="255"
+                          name="% No" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Number of Uploaded_Photos]"
+                          dataType="wstr"
+                          length="255"
+                          name="Number of Uploaded_Photos" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].ExternalColumns[Number of Uploaded_Videos]"
+                          dataType="wstr"
+                          length="255"
+                          name="Number of Uploaded_Videos" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Product Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Product Name]"
+                          name="Product Name" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Product ID]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Product ID]"
+                          name="Product ID" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category]"
+                          name="Category" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category ID]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category ID]"
+                          name="Category ID" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Top Level Category]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Top Level Category]"
+                          name="Top Level Category" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Top Level Category ID]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Top Level Category ID]"
+                          name="Top Level Category ID" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category_Hierarchy]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Category_Hierarchy]"
+                          name="Category_Hierarchy" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Brand Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Brand Name]"
+                          name="Brand Name" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Total Submitted_Reviews]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Total Submitted_Reviews]"
+                          name="Total Submitted_Reviews" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Approved]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Approved]"
+                          name="% Approved" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Rejected]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Rejected]"
+                          name="% Rejected" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Pending]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Pending]"
+                          name="% Pending" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Average Overall_Rating]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Average Overall_Rating]"
+                          name="Average Overall_Rating" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Course Content]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Course Content]"
+                          name="Course Content" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Professor Presentation]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Professor Presentation]"
+                          name="Professor Presentation" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Course Value]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Course Value]"
+                          name="Course Value" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Recommend_to a Friend]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Recommend_to a Friend]"
+                          name="% Recommend_to a Friend" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Average Estimated_Review Word_Count]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Average Estimated_Review Word_Count]"
+                          name="Average Estimated_Review Word_Count" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 5-Star]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 5-Star]"
+                          name="% 5-Star" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 4-Star]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 4-Star]"
+                          name="% 4-Star" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 3-Star]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 3-Star]"
+                          name="% 3-Star" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 2-Star]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 2-Star]"
+                          name="% 2-Star" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 1-Star]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% 1-Star]"
+                          name="% 1-Star" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Total Helpfulness_Votes]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Total Helpfulness_Votes]"
+                          name="Total Helpfulness_Votes" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Yes]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% Yes]"
+                          name="% Yes" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% No]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[% No]"
+                          name="% No" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Number of Uploaded_Photos]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Number of Uploaded_Photos]"
+                          name="Number of Uploaded_Photos" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Number of Uploaded_Videos]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[Number of Uploaded_Videos]"
+                          name="Number of Uploaded_Videos" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[SSIS_BV_Ratings]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Product Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Product Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Product ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Product ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Product ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Category]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Category"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Category ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Category ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Top Level Category]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Top Level Category"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TopLevelCategory]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Top Level Category ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Top Level Category ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TopLevelCategoryID]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Top Level Category ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Category_Hierarchy]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Category_Hierarchy"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryHierarchy]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Category_Hierarchy]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Brand Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Brand Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BrandName]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Brand Name]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Total Submitted_Reviews]"
+                          cachedDataType="r8"
+                          cachedName="Total Submitted_Reviews"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalSubmittedReviews]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Submitted_Reviews]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% Approved]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% Approved"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctApproved]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Approved]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% Rejected]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% Rejected"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctRejected]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Rejected]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% Pending]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% Pending"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctPending]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Pending]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Average Overall_Rating]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Average Overall_Rating"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AverageOverallRating]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Overall_Rating]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Course Content]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Course Content"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CourseContent]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Content]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Professor Presentation]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Professor Presentation"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProfessorPresentation]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Professor Presentation]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Course Value]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Course Value"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CourseValue]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Course Value]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% Recommend_to a Friend]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% Recommend_to a Friend"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctRecommendtoaFriend]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Recommend_to a Friend]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Average Estimated_Review Word_Count]"
+                          cachedDataType="r8"
+                          cachedName="Average Estimated_Review Word_Count"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AverageEstimatedReviewWordCount]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Average Estimated_Review Word_Count]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% 5-Star]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% 5-Star"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct5Star]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 5-Star]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% 4-Star]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% 4-Star"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct4Star]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 4-Star]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% 3-Star]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% 3-Star"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct3Star]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 3-Star]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% 2-Star]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% 2-Star"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct2Star]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 2-Star]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% 1-Star]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% 1-Star"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct1Star]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% 1-Star]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Total Helpfulness_Votes]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Total Helpfulness_Votes"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalHelpfulnessVotes]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Total Helpfulness_Votes]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% Yes]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% Yes"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctYes]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% Yes]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[% No]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="% No"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctNo]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[% No]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Number of Uploaded_Photos]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Number of Uploaded_Photos"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberofUploadedPhotos]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Photos]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Number of Uploaded_Videos]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Number of Uploaded_Videos"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberofUploadedVideos]"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output].Columns[Number of Uploaded_Videos]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category]"
+                          dataType="wstr"
+                          length="255"
+                          name="Category" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                          dataType="wstr"
+                          length="255"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TopLevelCategory]"
+                          dataType="wstr"
+                          length="255"
+                          name="TopLevelCategory" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TopLevelCategoryID]"
+                          dataType="wstr"
+                          length="255"
+                          name="TopLevelCategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryHierarchy]"
+                          dataType="wstr"
+                          length="255"
+                          name="CategoryHierarchy" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BrandName]"
+                          dataType="wstr"
+                          length="255"
+                          name="BrandName" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalSubmittedReviews]"
+                          dataType="r8"
+                          name="TotalSubmittedReviews" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctApproved]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctApproved" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctRejected]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctRejected" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctPending]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctPending" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AverageOverallRating]"
+                          dataType="wstr"
+                          length="255"
+                          name="AverageOverallRating" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CourseContent]"
+                          dataType="wstr"
+                          length="255"
+                          name="CourseContent" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProfessorPresentation]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProfessorPresentation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CourseValue]"
+                          dataType="wstr"
+                          length="255"
+                          name="CourseValue" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctRecommendtoaFriend]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctRecommendtoaFriend" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AverageEstimatedReviewWordCount]"
+                          dataType="r8"
+                          name="AverageEstimatedReviewWordCount" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct5Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="Pct5Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct4Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="Pct4Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct3Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="Pct3Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct2Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="Pct2Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pct1Star]"
+                          dataType="wstr"
+                          length="255"
+                          name="Pct1Star" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalHelpfulnessVotes]"
+                          dataType="wstr"
+                          length="255"
+                          name="TotalHelpfulnessVotes" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctYes]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctYes" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PctNo]"
+                          dataType="wstr"
+                          length="255"
+                          name="PctNo" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberofUploadedPhotos]"
+                          dataType="wstr"
+                          length="255"
+                          name="NumberofUploadedPhotos" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NumberofUploadedVideos]"
+                          dataType="wstr"
+                          length="255"
+                          name="NumberofUploadedVideos" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings.Paths[Excel Source Output]"
+                  endId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\SET SRC File path and Destination path"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0B6E60DC-F4B7-4294-AE8C-271A92822E04}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SET SRC File path and Destination path"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:DTSID="{A9F694B4-2A9D-476E-A15C-32649EA039FF}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="User"
+              DTS:ObjectName="ArchiveFolder">
+              <DTS:VariableValue
+                DTS:DataType="3">0</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D6072A14-85B3-4EF3-A91E-CCCD0F270273}"
+              SQLTask:SqlStatementSource="select  @SrcFilePath = @BVDropFolder + '\' + @FileNM&#xA;&#xA;select  @ArchiveFilePath = @ArchiveFolder + '\' + @FileNM" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@ArchiveFilePath"
+                SQLTask:DtsVariableName="User::ArchiveFilePath"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@ArchiveFolder"
+                SQLTask:DtsVariableName="User::ArchiveFolder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@FileNM"
+                SQLTask:DtsVariableName="User::FileNM"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@BVDropFolder"
+                SQLTask:DtsVariableName="User::BVDropFolder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@SrcFilePath"
+                SQLTask:DtsVariableName="User::SrcFilePath"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{D13E060D-738F-4D7E-B5AF-E13A3E97F059}"
+          DTS:From="Package\Foreach Loop Container\SET SRC File path and Destination path"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{2BF49049-9CFE-4046-9649-5235078B1B6E}"
+          DTS:From="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\File System Task" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{054FBC01-1CFD-45A9-BF88-D9B2CB4A28F2}"
+          DTS:ObjectName="{054FBC01-1CFD-45A9-BF88-D9B2CB4A28F2}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FileNM" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Staging table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{24947921-7E78-4F89-8CC2-2F70D412F966}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Staging table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88B9B8B7-BABF-44D2-AD8D-0F4850BED7EF}"
+          SQLTask:SqlStatementSource="Truncate table Staging.SSIS_BV_Ratings" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FD683322-E79C-45AB-A3C6-5086C1E55758}"
+      DTS:From="Package\Folder Directory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate Staging table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{697389DB-4BC6-4690-A3CD-62EA60C57C52}"
+      DTS:From="Package\Truncate Staging table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Foreach Loop Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Folder Directory"
+          TopLeft="63.6132075471698,5.5" />
+        <NodeLayout
+          Size="175,50"
+          Id="Package\Foreach Loop Container\File System Task"
+          TopLeft="44.6415094339623,216.735849056604" />
+        <NodeLayout
+          Size="177,51"
+          Id="Package\Foreach Loop Container\Load from excel to staging SSIS_BV_Ratings"
+          TopLeft="45.1320754716981,128.132075471698" />
+        <NodeLayout
+          Size="177,60"
+          Id="Package\Foreach Loop Container\SET SRC File path and Destination path"
+          TopLeft="45.1698113207547,22.2452830188679" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          TopLeft="133.509433962264,82.1698113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.0377358490565882,45.9622641509434"
+              Start="0,0"
+              End="-0.0377358490565882,38.4622641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.9811320754717" />
+                  <mssgle:LineSegment
+                    End="-0.0377358490565882,22.9811320754717" />
+                  <mssgle:LineSegment
+                    End="-0.0377358490565882,38.4622641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="133.471698113208,179.037735849057">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-1.50943396226415,37.6981132075472"
+              Start="0,0"
+              End="-1.50943396226415,30.1981132075472">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8301886792453" />
+                  <mssgle:LineSegment
+                    End="-1.50943396226415,18.8301886792453" />
+                  <mssgle:LineSegment
+                    End="-1.50943396226415,30.1981132075472" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="271,300"
+          Size="271,344"
+          Id="Package\Foreach Loop Container"
+          TopLeft="5.5,197.952830188679" />
+        <NodeLayout
+          Size="167,44"
+          Id="Package\Truncate Staging table"
+          TopLeft="51.2358490566038,100.367924528302" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="131.5,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="3.09433962264151,50.9433962264151"
+              Start="0,0"
+              End="3.09433962264151,43.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.4716981132075" />
+                  <mssgle:LineSegment
+                    End="3.09433962264151,25.4716981132075" />
+                  <mssgle:LineSegment
+                    End="3.09433962264151,43.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="134.594339622642,144.292452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="6.41509433962264,53.6603773584906"
+              Start="0,0"
+              End="6.41509433962264,46.1603773584906">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.8301886792453" />
+                  <mssgle:LineSegment
+                    End="6.41509433962264,26.8301886792453" />
+                  <mssgle:LineSegment
+                    End="6.41509433962264,46.1603773584906" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

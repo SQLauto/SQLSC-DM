@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+  <DTSConfigurationHeading>
+    <DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="OmnitureDataConsumptionLoad" GeneratedFromPackageID="{9819F387-C832-4771-B973-D28688C38937}" GeneratedDate="2/15/2016 1:18:41 PM"/>
+  </DTSConfigurationHeading>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+    <ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+    <ConfiguredValue>192.168.0.65</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-OmnitureDataConsumptionLoad-{9593C401-ED7D-4A13-9572-18CCFCA705E4}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-OmnitureDataConsumptionLoad-{8D9F0EE8-D1D0-4149-928B-B1503450CB97}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+</DTSConfiguration>

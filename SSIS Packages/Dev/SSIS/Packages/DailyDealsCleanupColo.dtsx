@@ -1,0 +1,815 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/27/2015 11:28:58 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{4B7AE5B1-AD1B-4A87-90D9-F5591AE18FB2}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="DailyDealsCleanupColo"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{8EE9B410-16C5-4967-8C92-B1408E258EA4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[COLOSQL01.LstMgr1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4E1D3238-BE7D-470E-A682-629955238075}"
+      DTS:ObjectName="COLOSQL01.LstMgr1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{4E1D3238-BE7D-470E-A682-629955238075}COLOSQL01.LstMgr1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{9450B99D-1A31-41F3-8BC9-D3BF58CA419C}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{49F913D8-C99C-4ABF-97C8-DAF04709A8CD}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{49F913D8-C99C-4ABF-97C8-DAF04709A8CD}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.LstMgr]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{76DC6904-7595-4D2E-A43D-2CE2FB26AC48}"
+      DTS:ObjectName="ttcdatamart01.LstMgr">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{76DC6904-7595-4D2E-A43D-2CE2FB26AC48}ttcdatamart01.LstMgr;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\DailyDealsCleanupColo.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{AC5354B5-C021-4980-ADFB-75C512955D3A}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{096082D7-D4BF-4314-A18D-269D0967CF50}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Daily Delas Cleanup for purchased courses on COLO">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO\Final Clean up on COLO"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{D7D26F38-6D92-435C-BC53-CEE3F3361AF4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Final Clean up on COLO"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{4E1D3238-BE7D-470E-A682-629955238075}"
+              SQLTask:SqlStatementSource="Exec SP_DailyDealsCleanup" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO\Run SP_DailyDealsCleanup"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6DCB336D-DC73-4527-9568-B2AA5662D517}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Run SP_DailyDealsCleanup"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{49F913D8-C99C-4ABF-97C8-DAF04709A8CD}"
+              SQLTask:SqlStatementSource="Exec SP_DailyDealsCleanup" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{9D612F02-A3BA-45E5-B4B3-6EDD80277207}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Transfer Clean up table to COLO"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="COLO LstMgr CleanUp Table"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Email_DailyDealsCleanup]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">10000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLOSQL01.LstMgr1]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLOSQL01.LstMgr1]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].Columns[EmailID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="EmailID"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[EmailID]"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[EmailID]" />
+                        <inputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].Columns[CourseID]"
+                          cachedDataType="i4"
+                          cachedName="CourseID"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[CourseID]"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CourseID]" />
+                        <inputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].Columns[startdate]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="startdate"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[startdate]"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[startdate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[EmailID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="EmailID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[CourseID]"
+                          dataType="i4"
+                          name="CourseID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input].ExternalColumns[startdate]"
+                          dataType="wstr"
+                          length="10"
+                          name="startdate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Datamart LstMgr CleanUp Table"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Email_DailyDealsCleanup]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.LstMgr]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.LstMgr]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[EmailID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[EmailID]"
+                          length="100"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[EmailID]"
+                          name="EmailID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          length="20"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CourseID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[CourseID]"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[CourseID]"
+                          name="CourseID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[startdate]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[startdate]"
+                          length="10"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].Columns[startdate]"
+                          name="startdate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[EmailID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="EmailID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[CourseID]"
+                          dataType="i4"
+                          name="CourseID" />
+                        <externalMetadataColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output].ExternalColumns[startdate]"
+                          dataType="wstr"
+                          length="10"
+                          name="startdate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[EmailID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[EmailID]"
+                          name="EmailID" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[CourseID]"
+                          dataType="i4"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[CourseID]"
+                          name="CourseID" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[startdate]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[startdate]"
+                          name="startdate" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO.Paths[OLE DB Source Output]"
+                  endId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO\Truncate COLO CleanUp table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3B3803DB-8827-4523-8D93-4DC95BC6C3EC}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate COLO CleanUp table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{4E1D3238-BE7D-470E-A682-629955238075}"
+              SQLTask:SqlStatementSource="Truncate table Lstmgr..Email_DailyDealsCleanup " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{13F168E6-5C2B-4135-AF5B-4B876578993F}"
+          DTS:From="Package\Daily Delas Cleanup for purchased courses on COLO\Run SP_DailyDealsCleanup"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Daily Delas Cleanup for purchased courses on COLO\Truncate COLO CleanUp table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4D43A081-47D3-4BFC-A68F-22168431C89E}"
+          DTS:From="Package\Daily Delas Cleanup for purchased courses on COLO\Truncate COLO CleanUp table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{D91F0061-33B4-440D-BC89-1C03D45B39C3}"
+          DTS:From="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Daily Delas Cleanup for purchased courses on COLO\Final Clean up on COLO" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{E3BA6086-A2B0-4201-9069-8E45377C7980}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{9450B99D-1A31-41F3-8BC9-D3BF58CA419C}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="COLO Daily Deals Course Purchased Clean up Failure"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{F07B7D0B-E6A7-4146-BED5-070E17BF6B5D}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{9450B99D-1A31-41F3-8BC9-D3BF58CA419C}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="COLO Daily Deals Course Purchased Clean up Success" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{764DF25F-9054-4165-A480-E144D4A740F9}"
+      DTS:From="Package\Daily Delas Cleanup for purchased courses on COLO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Success Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{CB5ACD99-EC31-41CD-A271-A878AE7124FB}"
+      DTS:From="Package\Daily Delas Cleanup for purchased courses on COLO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="225,44"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Final Clean up on COLO"
+          TopLeft="7.54716981132077,347.905660377359" />
+        <NodeLayout
+          Size="214,66"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Run SP_DailyDealsCleanup"
+          TopLeft="10.5283018867925,8.47169811320754" />
+        <NodeLayout
+          Size="224,56"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO"
+          TopLeft="7.54716981132077,229.11320754717" />
+        <NodeLayout
+          Size="209,55"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Truncate COLO CleanUp table"
+          TopLeft="14.5283018867925,119.301886792453" />
+        <EdgeLayout
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint]"
+          TopLeft="158.867924528302,74.3584905660377">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="1.47169811320748,44.9433962264151"
+              Start="0,0"
+              End="1.47169811320748,37.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4528301886792" />
+                  <mssgle:LineSegment
+                    End="1.47169811320748,22.4528301886792" />
+                  <mssgle:LineSegment
+                    End="1.47169811320748,37.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint 1]"
+          TopLeft="160.339622641509,174.207547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.528301886792519,54.9056603773585"
+              Start="0,0"
+              End="0.528301886792519,47.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.4339622641509" />
+                  <mssgle:LineSegment
+                    End="0.528301886792519,27.4339622641509" />
+                  <mssgle:LineSegment
+                    End="0.528301886792519,47.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO.PrecedenceConstraints[Constraint 2]"
+          TopLeft="160.867924528302,285">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.490566037735789,62.9056603773585"
+              Start="0,0"
+              End="0.490566037735789,55.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.4339622641509" />
+                  <mssgle:LineSegment
+                    End="0.490566037735789,31.4339622641509" />
+                  <mssgle:LineSegment
+                    End="0.490566037735789,55.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="247,406"
+          Size="247,450"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO"
+          TopLeft="71.8018867924528,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\failure Email"
+          TopLeft="293.047169811321,538.179245283019" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Success Email"
+          TopLeft="5.5,538.141509433962" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="195.424528301887,455.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-122.037735849057,82.7169811320755"
+              Start="0,0"
+              End="-122.037735849057,75.2169811320755">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.3584905660377" />
+                  <mssgle:LineSegment
+                    End="-122.037735849057,41.3584905660377" />
+                  <mssgle:LineSegment
+                    End="-122.037735849057,75.2169811320755" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="236.933962264151,455.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="124,82.7547169811321"
+              Start="0,0"
+              End="124,75.2547169811321">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.3584905660377" />
+                  <mssgle:LineSegment
+                    End="124,41.3584905660377" />
+                  <mssgle:LineSegment
+                    End="124,75.2547169811321" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="46.75865234375,46.3584905660377,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table"
+          TopLeft="5.50000000000001,5.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table"
+          TopLeft="14,107.5" />
+        <EdgeLayout
+          Id="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO.Paths[OLE DB Source Output]"
+          TopLeft="121,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\COLO LstMgr CleanUp Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Daily Delas Cleanup for purchased courses on COLO\Transfer Clean up table to COLO\Datamart LstMgr CleanUp Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

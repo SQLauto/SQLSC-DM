@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+  <DTSConfigurationHeading>
+    <DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="ImpactRadiusWeeklyReport" GeneratedFromPackageID="{9AE23EBD-8C5D-4E8F-9BBE-D73726DB75A8}" GeneratedDate="2/15/2016 2:57:59 PM"/>
+  </DTSConfigurationHeading>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+    <ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+    <ConfiguredValue>192.168.0.65</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-ImpactRadiusWeeklyReport-{FB9206EA-8875-4061-B992-7FC41F5BD485}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-DRTVWeeklyReport-{6DD699BF-7B98-4D1A-82CF-4CE8EAC8379A}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+</DTSConfiguration>

@@ -1,0 +1,931 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/16/2015 2:53:54 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{9AE23EBD-8C5D-4E8F-9BBE-D73726DB75A8}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ImpactRadiusWeeklyReport"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="33"
+  DTS:VersionGUID="{D3032AFD-B544-439A-8B5F-0A416B667314}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CSV File Connection manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{1AE216B5-4D7C-4514-8FAB-39FA7CFBB39E}"
+      DTS:ObjectName="CSV File Connection manager">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::CSVFileNameConString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="DRTVTestFile.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CampaignId"
+              DTS:DTSID="{FD85834A-BD51-4A32-B5DC-51931748B4A3}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ActionTrackerId"
+              DTS:DTSID="{F8952083-3C82-4294-9C8F-5760E0551B5B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="8000"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OrderId"
+              DTS:DTSID="{E7BB4B84-EEC7-4D01-BB51-C8A937A19875}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="8000"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CustomerId"
+              DTS:DTSID="{149714CA-B919-49F1-A293-5A31E3480D06}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Category"
+              DTS:DTSID="{E61DC261-AA65-4BA0-A815-2CFE40C14767}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="12"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Sku"
+              DTS:DTSID="{4C2E14C1-6446-4A5B-81F0-DA61C25DADE4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="8000"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Amount"
+              DTS:DTSID="{70608FE2-17FA-4637-B62E-FB048F3B6D11}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Quantity"
+              DTS:DTSID="{81932730-3902-471A-97D8-869E1F62EF2D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EventDate"
+              DTS:DTSID="{F8CB3CE8-85B8-4E2A-89D4-B511F9F2C4A1}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{B376FF77-5EEA-4D4D-A80E-7DBF8D32000B}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FB9206EA-8875-4061-B992-7FC41F5BD485}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-ImpactRadiusWeeklyReport-{FB9206EA-8875-4061-B992-7FC41F5BD485}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse1]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{6DD699BF-7B98-4D1A-82CF-4CE8EAC8379A}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-DRTVWeeklyReport-{6DD699BF-7B98-4D1A-82CF-4CE8EAC8379A}ttcdatamart01.DataWarehouse1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\file1\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\ImpactRadiusWeeklyReport.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{3D2CEB04-65A0-4C3F-BFA4-F4BB75C67AE9}"
+      DTS:ObjectName="Configuration" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CDBB59DF-342F-4177-9AC3-6F240C25B698}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSVFileNameConString">
+      <DTS:VariableValue
+        DTS:DataType="8">DRTVTestFile.txt</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{8297670A-5573-4A47-BE99-17925A1D1B87}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{B376FF77-5EEA-4D4D-A80E-7DBF8D32000B}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="ImpactRadius Weekly Report Failed!!!!!!!!!"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ImpactRadius"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{FD3CAAAC-82F0-4CB8-AF3F-779BAC3DD396}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ImpactRadius">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\ImpactRadius\Get Destination File Name"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7CF8C2EB-1CDA-476A-B373-880521A77250}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Destination File Name"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6DD699BF-7B98-4D1A-82CF-4CE8EAC8379A}"
+              SQLTask:SqlStatementSource="exec SP_ImpactRadius_Output_Filename @OutputFilename = @vTxtFileName output&#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vTxtFileName"
+                SQLTask:DtsVariableName="User::CSVFileNameConString"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ImpactRadius\ImpactRadius Report Creation"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{74DC69F4-6C33-4D21-A269-E8851E43E057}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ImpactRadius Report Creation"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="CSV Weekly File">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[CSV File Connection manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[CSV File Connection manager]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[CampaignId]"
+                          cachedDataType="i4"
+                          cachedName="CampaignId"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[CampaignId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CampaignId]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[ActionTrackerId]"
+                          cachedDataType="i4"
+                          cachedName="ActionTrackerId"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[ActionTrackerId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[ActionTrackerId]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[OrderId]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8000"
+                          cachedName="OrderId"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[OrderId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[OrderId]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[CustomerId]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8000"
+                          cachedName="CustomerId"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[CustomerId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CustomerId]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[Category]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="7"
+                          cachedName="Category"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Category]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Category]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[Sku]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="12"
+                          cachedName="Sku"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Sku]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Sku]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[Amount]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8000"
+                          cachedName="Amount"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Amount]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Amount]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[Quantity]"
+                          cachedDataType="i4"
+                          cachedName="Quantity"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Quantity]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                        <inputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].Columns[EventDate]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="EventDate"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[EventDate]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[EventDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[CampaignId]"
+                          dataType="i4"
+                          name="CampaignId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[ActionTrackerId]"
+                          dataType="i4"
+                          name="ActionTrackerId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[OrderId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="OrderId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[CustomerId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="CustomerId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Category]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="Category" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Sku]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          name="Sku" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Amount]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="Amount" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[Quantity]"
+                          dataType="i4"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input].ExternalColumns[EventDate]"
+                          dataType="wstr"
+                          length="50"
+                          name="EventDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="ImpactRadius Source Vw_ImpactRadius_Weekly"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Archive].[Vw_ImpactRadius_Weekly]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CampaignId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[CampaignId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CampaignId]"
+                          name="CampaignId"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[ActionTrackerId]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[ActionTrackerId]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[ActionTrackerId]"
+                          name="ActionTrackerId"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[OrderId]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[OrderId]"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[OrderId]"
+                          name="OrderId"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CustomerId]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[CustomerId]"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[CustomerId]"
+                          name="CustomerId"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Category]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Category]"
+                          length="7"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Category]"
+                          name="Category"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Sku]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Sku]"
+                          length="12"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Sku]"
+                          name="Sku"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Amount]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Amount]"
+                          name="Amount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Quantity]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[Quantity]"
+                          name="Quantity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[EventDate]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[EventDate]"
+                          length="50"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].Columns[EventDate]"
+                          name="EventDate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[CampaignId]"
+                          dataType="i4"
+                          name="CampaignId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[ActionTrackerId]"
+                          dataType="i4"
+                          name="ActionTrackerId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[OrderId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="OrderId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[CustomerId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="CustomerId" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Category]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="Category" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Sku]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          name="Sku" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="Amount" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                          dataType="i4"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output].ExternalColumns[EventDate]"
+                          dataType="wstr"
+                          length="50"
+                          name="EventDate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[CampaignId]"
+                          dataType="i4"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[CampaignId]"
+                          name="CampaignId" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ActionTrackerId]"
+                          dataType="i4"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ActionTrackerId]"
+                          name="ActionTrackerId" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[OrderId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[OrderId]"
+                          name="OrderId" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[CustomerId]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[CustomerId]"
+                          name="CustomerId" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Category]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Category]"
+                          name="Category" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Sku]"
+                          codePage="1252"
+                          dataType="str"
+                          length="12"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Sku]"
+                          name="Sku" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                          name="Amount" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                          dataType="i4"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                          name="Quantity" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[EventDate]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[EventDate]"
+                          name="EventDate" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\ImpactRadius\ImpactRadius Report Creation.Paths[OLE DB Source Output]"
+                  endId="Package\ImpactRadius\ImpactRadius Report Creation\CSV Weekly File.Inputs[Flat File Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\ImpactRadius\ImpactRadius Report Creation\ImpactRadius Source Vw_ImpactRadius_Weekly.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ImpactRadius\Insert into History"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2E952324-4D76-4AAB-B9FC-0A7729C81643}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Insert into History"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6DD699BF-7B98-4D1A-82CF-4CE8EAC8379A}"
+              SQLTask:SqlStatementSource="Exec SP_Archive_ImpactRadius_Weekly" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ImpactRadius.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{48B78952-BAFE-40BB-BD7E-B62FB4933B72}"
+          DTS:From="Package\ImpactRadius\Get Destination File Name"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\ImpactRadius\ImpactRadius Report Creation" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ImpactRadius.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{2AC58954-22E8-4647-B57A-083A64A1F3B6}"
+          DTS:From="Package\ImpactRadius\ImpactRadius Report Creation"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\ImpactRadius\Insert into History" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{755800CD-CCCC-4A09-9524-AE27B71C7905}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{B376FF77-5EEA-4D4D-A80E-7DBF8D32000B}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="ImpactRadius Weekly Report Successful" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{5C74EA6A-A1BB-473A-8DC4-D4294F75E4CB}"
+      DTS:From="Package\ImpactRadius"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Send Mail Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{22CCB2F3-87B6-41DB-8F53-C805BB9C03BA}"
+      DTS:From="Package\ImpactRadius"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Failure Email"
+          TopLeft="245.141509433962,405.783018867925" />
+        <NodeLayout
+          Size="208,70"
+          Id="Package\ImpactRadius\Get Destination File Name"
+          TopLeft="11.4716981132075,13.8301886792453" />
+        <NodeLayout
+          Size="221,55"
+          Id="Package\ImpactRadius\ImpactRadius Report Creation"
+          TopLeft="7.54716981132074,116.811320754717" />
+        <NodeLayout
+          Size="208,70"
+          Id="Package\ImpactRadius\Insert into History"
+          TopLeft="10.5283018867924,207.566037735849" />
+        <EdgeLayout
+          Id="Package\ImpactRadius.PrecedenceConstraints[Constraint]"
+          TopLeft="115.283018867925,83.7169811320755">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="2.56603773584908,33.0943396226415"
+              Start="0,0"
+              End="2.56603773584908,25.5943396226415">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5283018867925" />
+                  <mssgle:LineSegment
+                    End="2.56603773584908,16.5283018867925" />
+                  <mssgle:LineSegment
+                    End="2.56603773584908,25.5943396226415" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ImpactRadius.PrecedenceConstraints[Constraint 1]"
+          TopLeft="117.849056603774,171.716981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-3.50943396226415,35.8490566037736"
+              Start="0,0"
+              End="-3.50943396226415,28.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-3.50943396226415,17.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-3.50943396226415,28.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="325,303"
+          Size="325,347"
+          Id="Package\ImpactRadius"
+          TopLeft="44.7830188679245,5.5" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="5.5,407.877358490566" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="154.449685534591,352.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-72.9496855345912,55.377358490566"
+              Start="0,0"
+              End="-72.9496855345912,47.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.3137182405342" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.3137182405342"
+                    Point2="0,22.3137182405342"
+                    Point3="-4,22.3137182405342" />
+                  <mssgle:LineSegment
+                    End="-68.9496855345912,22.3137182405342" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-68.9496855345912,22.3137182405342"
+                    Point2="-72.9496855345912,22.3137182405342"
+                    Point3="-72.9496855345912,26.3137182405342" />
+                  <mssgle:LineSegment
+                    End="-72.9496855345912,47.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="260.116352201258,352.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="53.0251572327042,53.283018867925"
+              Start="0,0"
+              End="53.0251572327042,45.783018867925">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.469826341148" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.469826341148"
+                    Point2="0,21.469826341148"
+                    Point3="4,21.469826341148" />
+                  <mssgle:LineSegment
+                    End="49.0251572327042,21.469826341148" />
+                  <mssgle:CubicBezierSegment
+                    Point1="49.0251572327042,21.469826341148"
+                    Point2="53.0251572327042,21.469826341148"
+                    Point3="53.0251572327042,25.469826341148" />
+                  <mssgle:LineSegment
+                    End="53.0251572327042,45.783018867925" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="11.2712309601021,26.469826341148,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,901 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/16/2015 2:53:54 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{D4301A98-D737-4284-B718-C528E6902F60}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="DRTVWeeklyReport"
+  DTS:PackageType="5"
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{8AFA3467-2CF9-48AF-8C41-462F734E8E22}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DRTVTestFile.txt]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F70594D7-EFEE-4384-ADF9-5A9B78FAB785}"
+      DTS:ObjectName="DRTVTestFile.txt">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::TxtFileNameConString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="DRTVTestFile.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 0"
+              DTS:DTSID="{499F9C3B-81AE-4A87-9F00-0CFD2ECC638F}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{47F16C62-3B01-4A4C-AA67-71E4B9F39717}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SubscriptionTestFile.txt]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{74DCD0C4-35F7-4463-94D2-24FE5320443C}"
+      DTS:ObjectName="SubscriptionTestFile.txt">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::SubscriptionTxtFileName]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="SubscriptionTestFile.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 0"
+              DTS:DTSID="{549B2966-D194-459A-9B13-4A23D4424436}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{723E648C-566F-447C-AC71-9116F1ECE9FE}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DRTVWeeklyReport-{723E648C-566F-447C-AC71-9116F1ECE9FE}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse1]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{F83E9B08-F840-4306-A875-D611A5BA4FB8}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-DRTVWeeklyReport-{F83E9B08-F840-4306-A875-D611A5BA4FB8}ttcdatamart01.DataWarehouse1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\DRTVWeeklyReport.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{F54BE654-093F-4C19-8B69-552F2ABCECC1}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{85A89D43-9ED2-4A58-A2AF-529926563F82}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SubscriptionTxtFileName">
+      <DTS:VariableValue
+        DTS:DataType="8">SubscriptionTestFile.txt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1248E1F1-938B-4C7B-BEA0-3F744F790E4D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TxtFileNameConString">
+      <DTS:VariableValue
+        DTS:DataType="8">DRTVTestFile.txt</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{D933C1A0-9C49-45B2-8D7D-23AC95E4BF72}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{47F16C62-3B01-4A4C-AA67-71E4B9F39717}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="DRTV Weekly Report Failed!!!!!!!!!"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{952288D3-00EF-4CA9-819B-0EA7F4692F19}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FileAttachments">@[User::TxtFileNameConString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{47F16C62-3B01-4A4C-AA67-71E4B9F39717}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="DRTV Weekly Report Successful" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask">
+          <SendMailTask:Attachments
+            SendMailTask:FileName="DRTVTestFile.txt" />
+        </SendMailTask:SendMailTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{19ADF5BB-2466-4645-9243-F66563FA6B79}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\DRTV Report Creation"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{99B94D56-BDAC-4253-A12D-567FD578E145}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DRTV Report Creation"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="DRTV Source Vw_DRTV_Weekly"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Archive].[Vw_DRTV_Weekly]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].Columns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Output]"
+                          length="8000"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].Columns[Output]"
+                          name="Output"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Telemarketer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Telemarketer" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[TollFreeNum]"
+                          dataType="numeric"
+                          name="TollFreeNum"
+                          precision="10" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[MilitaryTime]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="MilitaryTime" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Response]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Response" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[TotalCounts]"
+                          codePage="1252"
+                          dataType="str"
+                          length="6"
+                          name="TotalCounts" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[DNISCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="6"
+                          name="DNISCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[ZIP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5"
+                          name="ZIP" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[AreaCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="AreaCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="Output" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Error Output].Columns[Output]"
+                          name="Output" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  localeId="1033"
+                  name="DRTV Source Vw_subscription_Weekly"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Archive].[Vw_Subscription_Weekly]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].Columns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Output]"
+                          length="8000"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].Columns[Output]"
+                          name="Output"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Telemarketer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Telemarketer" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[TollFreeNum]"
+                          dataType="numeric"
+                          name="TollFreeNum"
+                          precision="10" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[MilitaryTime]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="MilitaryTime" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Response]"
+                          codePage="1252"
+                          dataType="str"
+                          length="4"
+                          name="Response" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[TotalCounts]"
+                          codePage="1252"
+                          dataType="str"
+                          length="6"
+                          name="TotalCounts" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[DNISCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="6"
+                          name="DNISCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[ZIP]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5"
+                          name="ZIP" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[AreaCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="AreaCode" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].ExternalColumns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          name="Output" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                        <outputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[Output]"
+                          codePage="1252"
+                          dataType="str"
+                          length="8000"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Error Output].Columns[Output]"
+                          name="Output" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DRTVTestFile.txt]"
+                      connectionManagerRefId="Package.ConnectionManagers[DRTVTestFile.txt]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Inputs[Flat File Destination Input].Columns[Output]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8000"
+                          cachedName="Output"
+                          externalMetadataColumnId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output].Columns[Output]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Column 0" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination 1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SubscriptionTestFile.txt]"
+                      connectionManagerRefId="Package.ConnectionManagers[SubscriptionTestFile.txt]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Inputs[Flat File Destination Input].Columns[Output]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="8000"
+                          cachedName="Output"
+                          externalMetadataColumnId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          lineageId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output].Columns[Output]"
+                          name="Output" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Column 0" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\DRTV Report Creation.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\DRTV Report Creation\Flat File Destination.Inputs[Flat File Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_DRTV_Weekly.Outputs[OLE DB Source Output]" />
+                <path
+                  refId="Package\Sequence Container\DRTV Report Creation.Paths[OLE DB Source Output1]"
+                  endId="Package\Sequence Container\DRTV Report Creation\Flat File Destination 1.Inputs[Flat File Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\DRTV Report Creation\DRTV Source Vw_subscription_Weekly.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Get Destination File Name"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8425F1CA-113A-4AA3-923A-399620EFA43D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Destination File Name"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F83E9B08-F840-4306-A875-D611A5BA4FB8}"
+              SQLTask:SqlStatementSource="exec SP_DRTV_Output_Filename   @OutputFilename = @vTxtFileName output&#xA; ,@SubscriptionOutputFilename = @vSubscriptionTxtFileName output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vTxtFileName"
+                SQLTask:DtsVariableName="User::TxtFileNameConString"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vSubscriptionTxtFileName"
+                SQLTask:DtsVariableName="User::SubscriptionTxtFileName"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Insert into History"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{39F1C52B-F3C9-42AD-9754-1B0C1FD5F279}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Insert into History"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F83E9B08-F840-4306-A875-D611A5BA4FB8}"
+              SQLTask:SqlStatementSource="Exec SP_Archive_DRTV_Weekly" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{75D4F028-52FB-4501-8DF1-DEC46BAA0D6D}"
+          DTS:From="Package\Sequence Container\Get Destination File Name"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\DRTV Report Creation" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{6644ABE4-6BC2-41C2-9255-D2B1F3D0C9F8}"
+          DTS:From="Package\Sequence Container\DRTV Report Creation"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Sequence Container\Insert into History" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AE0D568F-FC66-43C3-A653-51A3B73D368D}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Send Mail Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{731DC405-5B4D-4E2D-AEC5-278CBC5CB8CF}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Failure Email"
+          TopLeft="185.198113207547,397.801886792453" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Send Mail Task"
+          TopLeft="5.5,399.915094339623" />
+        <NodeLayout
+          Size="221,55"
+          Id="Package\Sequence Container\DRTV Report Creation"
+          TopLeft="7.54716981132075,116.811320754717" />
+        <NodeLayout
+          Size="208,70"
+          Id="Package\Sequence Container\Get Destination File Name"
+          TopLeft="11.4716981132075,13.8301886792453" />
+        <NodeLayout
+          Size="208,70"
+          Id="Package\Sequence Container\Insert into History"
+          TopLeft="10.5283018867924,207.566037735849" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="115.283018867925,83.7169811320755">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="2.56603773584905,33.0943396226415"
+              Start="0,0"
+              End="2.56603773584905,25.5943396226415">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5283018867924" />
+                  <mssgle:LineSegment
+                    End="2.56603773584905,16.5283018867924" />
+                  <mssgle:LineSegment
+                    End="2.56603773584905,25.5943396226415" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="117.849056603774,171.716981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-3.50943396226415,35.8490566037736"
+              Start="0,0"
+              End="-3.50943396226415,28.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-3.50943396226415,17.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-3.50943396226415,28.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="245,299"
+          Size="245,343"
+          Id="Package\Sequence Container"
+          TopLeft="40.8207547169811,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="121.952830188679,348.028301886792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-48.5660377358491,51.8867924528302"
+              Start="0,0"
+              End="-48.5660377358491,44.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-48.5660377358491,25.9245283018868" />
+                  <mssgle:LineSegment
+                    End="-48.5660377358491,44.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="204.971698113208,348.028301886792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="48.1132075471698,49.7735849056604"
+              Start="0,0"
+              End="48.1132075471698,42.2735849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.8679245283019" />
+                  <mssgle:LineSegment
+                    End="48.1132075471698,24.8679245283019" />
+                  <mssgle:LineSegment
+                    End="48.1132075471698,42.2735849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="8.81525611733491,29.8679245283019,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

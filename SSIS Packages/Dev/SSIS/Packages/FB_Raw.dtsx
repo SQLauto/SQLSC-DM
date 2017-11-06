@@ -1,0 +1,2001 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/15/2017 11:02:13 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{AF390BC6-F8D2-4990-A6B1-C1626BBC09D0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FB_Raw"
+  DTS:PackageType="5"
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{648EBCBC-D406-4230-BE32-34DB62F5325C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[PLusExcelFile]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{D6FE3D4D-D3AF-4317-9BD8-9049F0EA12B5}"
+      DTS:ObjectName="PLusExcelFile">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\TTCDMFS01\ServerRepo\DatamartETL\Facebook\DropFolder\Plus FB Ad Data.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TGC]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{979186D6-49DE-49D6-8958-6836520B1715}"
+      DTS:ObjectName="TGC">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\TTCDMFS01\ServerRepo\DatamartETL\Facebook\DropFolder\TGC FB Ad Data.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{85625175-1D99-487B-82F9-0D9A724E40E6}"
+      DTS:ObjectName="TTCDATAMART01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Plus Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{A28206E9-6EA1-469A-8438-E1EA0D2F622A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Plus Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Plus Container\Execute SQL Task 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{75F084D6-8A1C-4D69-BBAA-C54E8B632765}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task 1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{85625175-1D99-487B-82F9-0D9A724E40E6}"
+              SQLTask:SqlStatementSource="&#xA;&#xA;INSERT INTO Archive.[FB_TGCPlus_Raw]&#xA;&#xA;SELECT [Campaign], &#xA;  CAST([ReportingStarts] AS DATE) [ReportingStarts], &#xA;  CAST([ReportingEnds] AS DATE) [ReportingEnds],&#xA;  CAST([Reach] AS int) [Reach],&#xA;  [Frequency],&#xA;  [Impressions],&#xA;  [Clicks],&#xA;  [UniqueClicks],&#xA;  [Actions],&#xA;  [AmountSpent],&#xA;  CAST([Age] AS VARCHAR(20)) [Age],&#xA;  CAST([Gender] AS VARCHAR(20)) [Gender],&#xA;  CAST([Account] AS VARCHAR(100)) [Account],&#xA;  CAST([AdSet] AS VARCHAR(255)) [AdSet] ,&#xA;  CAST([Ad] AS VARCHAR(255) ) [Ad] ,&#xA;  CAST([CompleteRegistrationFacebookPixel] AS float) [CompleteRegistrationFacebookPixel],&#xA;  CAST([CompleteRegistrationFacebookPixelby1d_click] AS float) [CompleteRegistrationFacebookPixelby1d_click],&#xA;  GETDATE()&#xA;FROM staging.[ssis_FB_TGCPLus_Raw]&#xA;WHERE Campaign IS NOT NULL&#xA;&#xA;&#xA;/*&#xA;SELECT  CAST([ReportingStarts] AS DATE) [ReportingStarts],   CAST([ReportingEnds] AS DATE) [ReportingEnds]&#xA;FROM staging.[ssis_FB_TGCPLus_Raw]&#xA;WHERE Campaign IS NOT NULL&#xA;INTERSECT&#xA;SELECT ReportingStarts&#x9;,ReportingEnds FROM Archive.[FB_TGCPlus_Raw]&#xA;WHERE Campaign IS NOT NULL&#xA;*/" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Plus Container\TGCPlus"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{9ffd25b3-558e-4036-a471-98d50a26db10}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="TGCPlus"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Plus Container\TGCPlus\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Data$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Plus Container\TGCPlus\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[PLusExcelFile]"
+                      connectionManagerRefId="Package.ConnectionManagers[PLusExcelFile]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          name="Campaign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          name="Reporting Starts"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          name="Reporting Ends"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          name="Reach"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          name="Frequency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          name="Impressions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          name="Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          name="Actions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          name="Amount Spent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          name="Age"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          name="Gender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          name="Account"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          name="Ad Set"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          name="Ad"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]"
+                          name="Complete Registration (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          name="Complete Registration (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          dataType="date"
+                          name="Reporting Starts" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          dataType="date"
+                          name="Reporting Ends" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          dataType="r8"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          dataType="r8"
+                          name="Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          dataType="r8"
+                          name="Unique Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          dataType="r8"
+                          name="Amount Spent" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad Set" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Complete Registration (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Complete Registration (Facebook Pixel)/1d_click" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          name="Campaign" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          name="Reporting Starts" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          name="Ad Set" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          name="Ad" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          name="Reporting Ends" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          name="Reach" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          name="Frequency" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          name="Impressions" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          name="Clicks (All)" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          name="Actions" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          name="Amount Spent" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          name="Age" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          name="Gender" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          name="Account" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)]"
+                          name="Complete Registration (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          name="Complete Registration (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Plus Container\TGCPlus\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[ssis_FB_TGCPlus_Raw]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Plus Container\TGCPlus\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                      connectionManagerRefId="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Campaign"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Campaign]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reach]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Reach"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reach]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                          cachedDataType="r8"
+                          cachedName="Frequency"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Frequency]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                          cachedDataType="r8"
+                          cachedName="Impressions"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Impressions]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Actions]"
+                          cachedDataType="r8"
+                          cachedName="Actions"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Actions]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Age]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Age"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Age]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gender]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Gender"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Gender]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Account]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Account]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Ad]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reporting Starts]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Reporting Starts"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reporting Ends]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Reporting Ends"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Clicks (All)"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Unique Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Unique Clicks (All)"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Amount Spent]"
+                          cachedDataType="r8"
+                          cachedName="Amount Spent"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Ad Set]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad Set"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Complete Registration (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]" />
+                        <inputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Complete Registration (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Complete Registration (Facebook Pixel)"
+                          externalMetadataColumnId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                          lineageId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          dataType="wstr"
+                          length="255"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingStarts" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingEnds" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          dataType="r8"
+                          name="Clicks" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          dataType="r8"
+                          name="UniqueClicks" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          dataType="r8"
+                          name="AmountSpent" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          dataType="wstr"
+                          length="255"
+                          name="AdSet" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="CompleteRegistrationFacebookPixelby1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="CompleteRegistrationFacebookPixel" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Plus Container\TGCPlus\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Plus Container\TGCPlus\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Plus Container\TGCPlus\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Plus Container\TGCPlus\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Plus Container\TGCPlus.Paths[Excel Source Output]"
+                  endId="Package\Plus Container\TGCPlus\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\Plus Container\TGCPlus\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Plus Container\truncate stage"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2E649A79-546D-4898-999A-74A51196E7BE}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate stage"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{85625175-1D99-487B-82F9-0D9A724E40E6}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE staging.[ssis_FB_TGCPLus_Raw]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Plus Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{CFC129E7-BD49-4260-A6B7-BAC899057089}"
+          DTS:From="Package\Plus Container\truncate stage"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Plus Container\TGCPlus" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Plus Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{969E8022-C40E-4515-AE2D-F6B76989A321}"
+          DTS:From="Package\Plus Container\TGCPlus"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Plus Container\Execute SQL Task 1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TGC Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{A0D0CA9C-CC9B-46DC-8F6A-C3E457BD9766}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TGC Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\TGC Container\Execute SQL Task 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{d7feae69-38e2-4718-92b3-4c0c51657a5f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task 1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{85625175-1D99-487B-82F9-0D9A724E40E6}"
+              SQLTask:SqlStatementSource="INSERT INTO Archive.[FB_TGC_Raw]&#xA;&#xA;SELECT [Campaign], &#xA;  CAST([ReportingStarts] AS DATE) [ReportingStarts], &#xA;  CAST([ReportingEnds] AS DATE) [ReportingEnds],&#xA;  CAST([Reach] AS int) [Reach],&#xA;  [Frequency],&#xA;  [Impressions],&#xA;  [Clicks],&#xA;  [UniqueClicks],&#xA;  [Actions],&#xA;  [AmountSpent],&#xA;  CAST([PurchaseConversionValueFacebookPixel] AS float) [PurchaseConversionValueFacebookPixel],&#xA;  CAST([PurchaseConversionValueFacebookPixelby1d_click] AS float) [PurchaseConversionValueFacebookPixelby1d_click],&#xA;  CAST([PurchaseFacebookPixel] AS float) [PurchaseFacebookPixel],&#xA;  CAST([PurchaseFacebookPixelby1d_click] AS float) [PurchaseFacebookPixelby1d_click],&#xA;  CAST([Age] AS VARCHAR(20)) [Age],&#xA;  CAST([Gender] AS VARCHAR(20)) [Gender],&#xA;  CAST([Account] AS VARCHAR(100)) [Account],&#xA;  [AdSet],&#xA;  Ad,&#xA;  GETDATE()&#xA;  FROM staging.[ssis_FB_TGC_Raw]&#xA;  WHERE Campaign IS NOT NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TGC Container\TGC"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{7430E67E-5224-4942-8900-E1C286451983}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="TGC"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\TGC Container\TGC\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Sheet1$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\TGC Container\TGC\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[TGC]"
+                      connectionManagerRefId="Package.ConnectionManagers[TGC]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          name="Campaign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          name="Reporting Starts"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          name="Reporting Ends"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          name="Reach"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          name="Frequency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          name="Impressions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          name="Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          name="Actions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          name="Amount Spent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          name="Purchase Conversion Value (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]"
+                          name="Purchase (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          name="Purchase (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          name="Age"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          name="Gender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          name="Account"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          name="Ad Set"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          name="Ad"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          dataType="date"
+                          name="Reporting Starts" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          dataType="date"
+                          name="Reporting Ends" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          dataType="r8"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          dataType="r8"
+                          name="Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          dataType="r8"
+                          name="Unique Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          dataType="r8"
+                          name="Amount Spent" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase Conversion Value (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase (Facebook Pixel)/1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad Set" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          name="Campaign" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          name="Reporting Starts" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          name="Reporting Ends" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          name="Reach" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          name="Frequency" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          name="Impressions" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          name="Clicks (All)" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          name="Actions" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          name="Amount Spent" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          name="Purchase Conversion Value (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)]"
+                          name="Purchase (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          name="Purchase (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          name="Age" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          name="Gender" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          name="Account" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          name="Ad Set" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          name="Ad" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\TGC Container\TGC\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[ssis_FB_TGC_Raw]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\TGC Container\TGC\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                      connectionManagerRefId="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Campaign"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Campaign]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reach]"
+                          cachedDataType="r8"
+                          cachedName="Reach"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reach]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                          cachedDataType="r8"
+                          cachedName="Frequency"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Frequency]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Actions]"
+                          cachedDataType="r8"
+                          cachedName="Actions"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Actions]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gender]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Gender"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Gender]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Account]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Account]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Ad]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reporting Starts]"
+                          cachedDataType="date"
+                          cachedName="Reporting Starts"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reporting Ends]"
+                          cachedDataType="date"
+                          cachedName="Reporting Ends"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                          cachedDataType="r8"
+                          cachedName="Impressions"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Impressions]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Clicks (All)"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Unique Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Unique Clicks (All)"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Amount Spent]"
+                          cachedDataType="r8"
+                          cachedName="Amount Spent"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase Conversion Value (Facebook Pixel)"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixel]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase Conversion Value (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixelby1d_click]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Purchase (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase (Facebook Pixel)"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixel]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixelby1d_click]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Age]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Age"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Age]" />
+                        <inputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Ad Set]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad Set"
+                          externalMetadataColumnId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          lineageId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingStarts" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingEnds" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          dataType="wstr"
+                          length="255"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          dataType="r8"
+                          name="Clicks" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          dataType="r8"
+                          name="UniqueClicks" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          dataType="r8"
+                          name="AmountSpent" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseConversionValueFacebookPixel" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseConversionValueFacebookPixelby1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseFacebookPixel" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseFacebookPixelby1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          dataType="wstr"
+                          length="255"
+                          name="AdSet" />
+                        <externalMetadataColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\TGC Container\TGC\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\TGC Container\TGC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\TGC Container\TGC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\TGC Container\TGC\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\TGC Container\TGC.Paths[Excel Source Output]"
+                  endId="Package\TGC Container\TGC\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\TGC Container\TGC\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TGC Container\truncate stage"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{62f3f000-951d-4d59-aa71-3e8cc375af6d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate stage"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{85625175-1D99-487B-82F9-0D9A724E40E6}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE staging.[ssis_FB_TGC_Raw]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\TGC Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{92C2E0B7-D3C7-4648-B333-4F048910B98C}"
+          DTS:From="Package\TGC Container\truncate stage"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\TGC Container\TGC" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\TGC Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{28000533-179D-498E-9B31-45A58AB7485C}"
+          DTS:From="Package\TGC Container\TGC"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\TGC Container\Execute SQL Task 1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Plus Container\Execute SQL Task 1"
+          TopLeft="16,168" />
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Plus Container\TGCPlus"
+          TopLeft="45,90.5" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Plus Container\truncate stage"
+          TopLeft="29,12.5" />
+        <EdgeLayout
+          Id="Package\Plus Container.PrecedenceConstraints[Constraint]"
+          TopLeft="104.25,54.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Plus Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="104,132.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.5"
+              Start="0,0"
+              End="0,28">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="273,327"
+          Size="273,370"
+          Id="Package\Plus Container"
+          TopLeft="508,155" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\TGC Container\Execute SQL Task 1"
+          TopLeft="25,213" />
+        <NodeLayout
+          Size="101,42"
+          Id="Package\TGC Container\TGC"
+          TopLeft="59,146" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\TGC Container\truncate stage"
+          TopLeft="35,58" />
+        <EdgeLayout
+          Id="Package\TGC Container.PrecedenceConstraints[Constraint]"
+          TopLeft="109.5,100">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\TGC Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="110.75,188">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="299,334"
+          Size="299,377"
+          Id="Package\TGC Container"
+          TopLeft="182,150" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Plus Container\TGCPlus">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Plus Container\TGCPlus\OLE DB Destination"
+          TopLeft="286,338" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Plus Container\TGCPlus\Excel Source"
+          TopLeft="291,253" />
+        <EdgeLayout
+          Id="Package\Plus Container\TGCPlus.Paths[Excel Source Output]"
+          TopLeft="361.5,295">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11,43"
+              Start="0,0"
+              End="11,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.5"
+                    Point2="0,21.5"
+                    Point3="4,21.5" />
+                  <mssgle:LineSegment
+                    End="7,21.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7,21.5"
+                    Point2="11,21.5"
+                    Point3="11,25.5" />
+                  <mssgle:LineSegment
+                    End="11,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Plus Container\TGCPlus\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Plus Container\TGCPlus\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\TGC Container\TGC">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\TGC Container\TGC\OLE DB Destination"
+          TopLeft="303,245" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\TGC Container\TGC\Excel Source"
+          TopLeft="311,143" />
+        <EdgeLayout
+          Id="Package\TGC Container\TGC.Paths[Excel Source Output]"
+          TopLeft="381.5,185">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8,60"
+              Start="0,0"
+              End="8,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="4,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4,30"
+                    Point2="8,30"
+                    Point3="8,34" />
+                  <mssgle:LineSegment
+                    End="8,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\TGC Container\TGC\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\TGC Container\TGC\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,2461 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2016 12:46:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{4240346A-B1C2-4BAC-93E9-84DC065244C8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Facebook_TGC_TGCPlus_Raw_Load"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="114"
+  DTS:VersionGUID="{CEF15C18-8118-4FD3-ADED-BB3E751ADB7A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{4D771B4D-C9F3-461B-A2FC-64CB7CFC53B4}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{4D771B4D-C9F3-461B-A2FC-64CB7CFC53B4}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{915B0234-200E-406C-8E60-2994F227688C}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Plus]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{8C64FDA5-1F00-49CF-B9B0-1D1A06292BF1}"
+      DTS:ObjectName="Plus">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::VSalesReportFile2]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{20A9BC8D-9BA0-496A-931B-34AF0023A078}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TGC]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{6A46991A-D0E0-4C22-B7C1-3AC8716B81A5}"
+      DTS:ObjectName="TGC">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::VSalesReportFile1]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{31207AE6-91F9-4CE6-8162-E204D6801A5D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7A53A050-9555-4C2F-8DA2-58E8B9A642BA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5BEB042F-EA32-409F-8EDE-CF05B874CE60}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile1">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5AB686A4-E9E6-4FB7-B001-79BE45E08BFE}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile2">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Drop Folder"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EF6171A1-3EF6-4FD4-BC20-CF2EA9A3BFB1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Drop Folder"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4D771B4D-C9F3-461B-A2FC-64CB7CFC53B4}"
+          SQLTask:SqlStatementSource="exec  SP_Facebook_Directory @DateFolder = @VDateFolder output, @ArchiveFolder =@VArchiveFolder output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VDateFolder"
+            SQLTask:DtsVariableName="User::VDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VArchiveFolder"
+            SQLTask:DtsVariableName="User::VArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{62CB298F-BF74-4946-A9BE-C4C90FB639BF}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{20A9BC8D-9BA0-496A-931B-34AF0023A078}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="bondugulav@TEACHCO.com"
+          SendMailTask:Subject="NO Facebook TGC Raw File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task 1"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{0650d7ee-71b5-4074-a843-9d4f52613f51}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task 1"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{20A9BC8D-9BA0-496A-931B-34AF0023A078}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="bondugulav@TEACHCO.com"
+          SendMailTask:Subject="NO Facebook TGCPlus Raw File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_Facebook_Directory Plus"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{5e4fe294-5a00-4b22-a08e-35682600cfa8}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_Facebook_Directory Plus">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{4f21a2e0-9d75-438b-b6f1-7670925ac0dc}"
+        DTS:ObjectName="{2428E319-90FC-4885-9DC1-B03C91C60D1E}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="Plus*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="-1" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory Plus\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{d9878c6e-b786-473b-a7b8-6ab0a682915a}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile2"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory Plus\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{40d851d4-bda6-467f-87f9-af4e1be6500d}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Data$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Plus]"
+                      connectionManagerRefId="Package.ConnectionManagers[Plus]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          name="Account"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          name="Campaign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          name="Ad Set"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          name="Ad"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          name="Age"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          name="Gender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          name="Reporting Starts"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          name="Reporting Ends"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          name="Reach"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          name="Frequency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          name="Impressions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          name="Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          name="Actions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          name="Amount Spent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]"
+                          name="Complete Registration (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          name="Complete Registration (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad Set" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          dataType="date"
+                          name="Reporting Starts" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          dataType="date"
+                          name="Reporting Ends" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          dataType="r8"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          dataType="r8"
+                          name="Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          dataType="r8"
+                          name="Unique Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          dataType="r8"
+                          name="Amount Spent" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Complete Registration (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Complete Registration (Facebook Pixel)/1d_click" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          name="Account" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          name="Campaign" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          name="Ad Set" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          name="Ad" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          name="Age" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          name="Gender" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          name="Reporting Starts" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          name="Reporting Ends" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          name="Reach" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          name="Frequency" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          name="Impressions" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          name="Clicks (All)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          name="Actions" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          name="Amount Spent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)]"
+                          name="Complete Registration (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          name="Complete Registration (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Staging ssis_FB_TGCPLus_Raw"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[ssis_FB_TGCPlus_Raw]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Account]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Campaign"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Ad]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Age]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Age"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Gender]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Gender"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Reach]"
+                          cachedDataType="r8"
+                          cachedName="Reach"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                          cachedDataType="r8"
+                          cachedName="Frequency"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                          cachedDataType="r8"
+                          cachedName="Impressions"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Actions]"
+                          cachedDataType="r8"
+                          cachedName="Actions"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Reporting Starts]"
+                          cachedDataType="date"
+                          cachedName="Reporting Starts"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Reporting Ends]"
+                          cachedDataType="date"
+                          cachedName="Reporting Ends"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Clicks (All)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Unique Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Unique Clicks (All)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Amount Spent]"
+                          cachedDataType="r8"
+                          cachedName="Amount Spent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Ad Set]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad Set"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Complete Registration (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Complete Registration (Facebook Pixel)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].Columns[Complete Registration (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Complete Registration (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Complete Registration (Facebook Pixel)/1d_click]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingStarts" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingEnds" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          dataType="wstr"
+                          length="255"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          dataType="r8"
+                          name="Clicks" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          dataType="r8"
+                          name="UniqueClicks" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          dataType="r8"
+                          name="AmountSpent" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          dataType="wstr"
+                          length="255"
+                          name="AdSet" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="CompleteRegistrationFacebookPixel" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input].ExternalColumns[CompleteRegistrationFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="CompleteRegistrationFacebookPixelby1d_click" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_Facebook_Directory Plus\Load to Staging table.Paths[Excel Source Output]"
+                  endId="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory Plus\Staging SP_FB_TGCPlus_Raw_Load"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4062ee6e-4cad-4594-8137-39d2d0dc4dae}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_FB_TGCPlus_Raw_Load"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{4D771B4D-C9F3-461B-A2FC-64CB7CFC53B4}"
+              SQLTask:SqlStatementSource="exec Staging.SP_FB_TGCPlus_Raw_Load" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory Plus\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4e118c7b-e574-4e7e-97ae-0b343e8f840a}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{915B0234-200E-406C-8E60-2994F227688C}"
+              SQLTask:SqlStatementSource="truncate table staging.ssis_FB_TGCPLus_Raw" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3bccafb0-904e-4a0d-bae4-0a58ff96ca5d}"
+          DTS:From="Package\SP_Facebook_Directory Plus\Staging SP_FB_TGCPlus_Raw_Load"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_Facebook_Directory Plus\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{ddb772ea-7434-4690-ba4e-2a9ddab04337}"
+          DTS:From="Package\SP_Facebook_Directory Plus\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_Facebook_Directory Plus\Staging SP_FB_TGCPlus_Raw_Load" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{162aef5f-cbca-4534-a9fb-1150aac80dbf}"
+          DTS:From="Package\SP_Facebook_Directory Plus\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_Facebook_Directory Plus\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{60BBD1FB-5257-4D99-B928-E910D8B41BF9}"
+          DTS:ObjectName="{60BBD1FB-5257-4D99-B928-E910D8B41BF9}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile2" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_Facebook_Directory TGC"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{637C65FA-0BFA-479F-95C2-F4E554C5ED71}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_Facebook_Directory TGC">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{2428E319-90FC-4885-9DC1-B03C91C60D1E}"
+        DTS:ObjectName="{2428E319-90FC-4885-9DC1-B03C91C60D1E}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="TGC*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="-1" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory TGC\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{209A05DB-6B9C-4A1D-84B1-2CB60A8FCBE0}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile1"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory TGC\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{0AA989B7-123C-46A9-90BE-B47F516E4F7C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Sheet1$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[TGC]"
+                      connectionManagerRefId="Package.ConnectionManagers[TGC]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]"
+                          name="Campaign"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]"
+                          name="Reporting Starts"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]"
+                          name="Reporting Ends"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]"
+                          name="Reach"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]"
+                          name="Frequency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]"
+                          name="Impressions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]"
+                          name="Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]"
+                          name="Actions"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]"
+                          name="Amount Spent"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          name="Purchase Conversion Value (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]"
+                          name="Purchase (Facebook Pixel)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)/1d_click]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          name="Purchase (Facebook Pixel)/1d_click"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]"
+                          name="Age"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]"
+                          name="Gender"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]"
+                          name="Account"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]"
+                          name="Ad Set"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]"
+                          name="Ad"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Starts]"
+                          dataType="date"
+                          name="Reporting Starts" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reporting Ends]"
+                          dataType="date"
+                          name="Reporting Ends" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reach]"
+                          dataType="r8"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clicks (All)]"
+                          dataType="r8"
+                          name="Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Unique Clicks (All)]"
+                          dataType="r8"
+                          name="Unique Clicks (All)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Amount Spent]"
+                          dataType="r8"
+                          name="Amount Spent" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase Conversion Value (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase (Facebook Pixel)" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="Purchase (Facebook Pixel)/1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad Set" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Campaign]"
+                          name="Campaign" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          dataType="date"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Starts]"
+                          name="Reporting Starts" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          dataType="date"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reporting Ends]"
+                          name="Reporting Ends" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Reach]"
+                          name="Reach" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Frequency]"
+                          name="Frequency" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Impressions]"
+                          name="Impressions" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Clicks (All)]"
+                          name="Clicks (All)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Unique Clicks (All)]"
+                          name="Unique Clicks (All)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Actions]"
+                          name="Actions" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          dataType="r8"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Amount Spent]"
+                          name="Amount Spent" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          name="Purchase Conversion Value (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          name="Purchase Conversion Value (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)]"
+                          name="Purchase (Facebook Pixel)" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          name="Purchase (Facebook Pixel)/1d_click" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Age]"
+                          name="Age" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Gender]"
+                          name="Gender" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Account]"
+                          name="Account" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad Set]"
+                          name="Ad Set" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[Ad]"
+                          name="Ad" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="staging ssis_FB_TGC_Raw"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[ssis_FB_TGC_Raw]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Campaign]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Campaign"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Campaign]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Reach]"
+                          cachedDataType="r8"
+                          cachedName="Reach"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reach]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Frequency]"
+                          cachedDataType="r8"
+                          cachedName="Frequency"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Frequency]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Impressions]"
+                          cachedDataType="r8"
+                          cachedName="Impressions"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Impressions]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Gender]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Gender"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Gender]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Account]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Account]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Ad]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Reporting Starts]"
+                          cachedDataType="date"
+                          cachedName="Reporting Starts"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Starts]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Reporting Ends]"
+                          cachedDataType="date"
+                          cachedName="Reporting Ends"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Reporting Ends]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Clicks (All)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Unique Clicks (All)]"
+                          cachedDataType="r8"
+                          cachedName="Unique Clicks (All)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Unique Clicks (All)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Actions]"
+                          cachedDataType="r8"
+                          cachedName="Actions"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Actions]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Amount Spent]"
+                          cachedDataType="r8"
+                          cachedName="Amount Spent"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Amount Spent]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Purchase Conversion Value (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase Conversion Value (Facebook Pixel)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixel]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase Conversion Value (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixelby1d_click]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase Conversion Value (Facebook Pixel)/1d_click]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Purchase (Facebook Pixel)]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase (Facebook Pixel)"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixel]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Purchase (Facebook Pixel)/1d_click]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Purchase (Facebook Pixel)/1d_click"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixelby1d_click]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Purchase (Facebook Pixel)/1d_click]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Age]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Age"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Age]" />
+                        <inputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].Columns[Ad Set]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Ad Set"
+                          externalMetadataColumnId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[Ad Set]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Campaign]"
+                          dataType="wstr"
+                          length="255"
+                          name="Campaign" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingStarts]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingStarts" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[ReportingEnds]"
+                          dataType="wstr"
+                          length="255"
+                          name="ReportingEnds" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Reach]"
+                          dataType="wstr"
+                          length="255"
+                          name="Reach" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Frequency]"
+                          dataType="r8"
+                          name="Frequency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Impressions]"
+                          dataType="r8"
+                          name="Impressions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Clicks]"
+                          dataType="r8"
+                          name="Clicks" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[UniqueClicks]"
+                          dataType="r8"
+                          name="UniqueClicks" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Actions]"
+                          dataType="r8"
+                          name="Actions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AmountSpent]"
+                          dataType="r8"
+                          name="AmountSpent" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseConversionValueFacebookPixel" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseConversionValueFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseConversionValueFacebookPixelby1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixel]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseFacebookPixel" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseFacebookPixelby1d_click]"
+                          dataType="wstr"
+                          length="255"
+                          name="PurchaseFacebookPixelby1d_click" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="255"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                          dataType="wstr"
+                          length="255"
+                          name="Gender" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Account]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[AdSet]"
+                          dataType="wstr"
+                          length="255"
+                          name="AdSet" />
+                        <externalMetadataColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input].ExternalColumns[Ad]"
+                          dataType="wstr"
+                          length="255"
+                          name="Ad" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_Facebook_Directory TGC\Load to Staging table.Paths[Excel Source Output]"
+                  endId="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory TGC\Staging SP_FB_TGC_Raw_Load"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{646B2346-2D8F-4BB4-9B67-A194BCCCCCC7}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_FB_TGC_Raw_Load"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{4D771B4D-C9F3-461B-A2FC-64CB7CFC53B4}"
+              SQLTask:SqlStatementSource="Exec Staging.SP_FB_TGC_Raw_Load" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_Facebook_Directory TGC\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{98DFF8D5-6631-4F03-B8E7-42AC1ADF3784}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{915B0234-200E-406C-8E60-2994F227688C}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE staging.ssis_FB_TGC_Raw" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{290B43DA-6475-481A-934B-1205399DA007}"
+          DTS:From="Package\SP_Facebook_Directory TGC\Staging SP_FB_TGC_Raw_Load"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_Facebook_Directory TGC\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4665EC3F-E861-4E7C-A377-055F3419926E}"
+          DTS:From="Package\SP_Facebook_Directory TGC\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_Facebook_Directory TGC\Staging SP_FB_TGC_Raw_Load" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{8FFB09A3-002B-4FB7-88FD-22597BB90364}"
+          DTS:From="Package\SP_Facebook_Directory TGC\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_Facebook_Directory TGC\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{D91CE72A-4F0E-4EE4-A9E5-C0B31F54DD26}"
+          DTS:ObjectName="{D91CE72A-4F0E-4EE4-A9E5-C0B31F54DD26}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile1" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{76A4ED4E-B67F-4AEB-9464-14F7E9DB32D8}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_Facebook_Directory TGC" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7656EEB2-F646-4E17-94DB-0C8845665879}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile1]  )&lt;1"
+      DTS:From="Package\SP_Facebook_Directory TGC"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Send Mail Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{906340F3-4E0F-4756-98A0-9C10984FEF64}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SP_Facebook_Directory Plus" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{81018B4F-01C7-4039-9CC8-9369326A7771}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile2]  )&lt;1"
+      DTS:From="Package\SP_Facebook_Directory Plus"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Send Mail Task 1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Get Drop Folder"
+          TopLeft="485.333333333333,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="219.222222222222,604" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task 1"
+          TopLeft="747.777777777778,604.444444444445" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_Facebook_Directory Plus\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_Facebook_Directory Plus\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\SP_Facebook_Directory Plus\Staging SP_FB_TGCPlus_Raw_Load"
+          TopLeft="112,205" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_Facebook_Directory Plus\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint]"
+          TopLeft="239,247">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="239,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory Plus.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,382"
+          Size="514,425"
+          Id="Package\SP_Facebook_Directory Plus"
+          TopLeft="574.111111111111,132.888888888889" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_Facebook_Directory TGC\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_Facebook_Directory TGC\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\SP_Facebook_Directory TGC\Staging SP_FB_TGC_Raw_Load"
+          TopLeft="123.111111111111,206.111111111111" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_Facebook_Directory TGC\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint]"
+          TopLeft="238.055555555556,248.111111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.8888888888889"
+              Start="0,0"
+              End="0,29.3888888888889">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.3888888888889" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="238.055555555556,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.1111111111111"
+              Start="0,0"
+              End="0,37.6111111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.6111111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory TGC.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,382"
+          Size="514,425"
+          Id="Package\SP_Facebook_Directory TGC"
+          TopLeft="36.7222222222222,130" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="538.666666666666,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-244.944444444444,46"
+              Start="0,0"
+              End="-244.944444444444,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.6802030456853" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.6802030456853"
+                    Point2="0,18.6802030456853"
+                    Point3="-4,18.6802030456853" />
+                  <mssgle:LineSegment
+                    End="-240.944444444444,18.6802030456853" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-240.944444444444,18.6802030456853"
+                    Point2="-244.944444444444,18.6802030456853"
+                    Point3="-244.944444444444,22.6802030456853" />
+                  <mssgle:LineSegment
+                    End="-244.944444444444,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="294.472222222222,555">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,12.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="588,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="243.111111111111,48.888888888889"
+              Start="0,0"
+              End="243.111111111111,41.388888888889">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.8533558939651" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.8533558939651"
+                    Point2="0,19.8533558939651"
+                    Point3="4,19.8533558939651" />
+                  <mssgle:LineSegment
+                    End="239.111111111111,19.8533558939651" />
+                  <mssgle:CubicBezierSegment
+                    Point1="239.111111111111,19.8533558939651"
+                    Point2="243.111111111111,19.8533558939651"
+                    Point3="243.111111111111,23.8533558939651" />
+                  <mssgle:LineSegment
+                    End="243.111111111111,41.388888888889" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="827.444444444445,557.888888888889">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.555555555556"
+              Start="0,0"
+              End="0,39.055555555556">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.055555555556" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,11.527777777778,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SP_Facebook_Directory Plus\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw"
+          TopLeft="365,301" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source"
+          TopLeft="394,149" />
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory Plus\Load to Staging table.Paths[Excel Source Output]"
+          TopLeft="464.5,191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,110"
+              Start="0,0"
+              End="14,102.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,51"
+                    Point2="0,55"
+                    Point3="4,55" />
+                  <mssgle:LineSegment
+                    End="10,55" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,55"
+                    Point2="14,55"
+                    Point3="14,59" />
+                  <mssgle:LineSegment
+                    End="14,102.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_Facebook_Directory Plus\Load to Staging table\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_Facebook_Directory Plus\Load to Staging table\Staging ssis_FB_TGCPLus_Raw">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SP_Facebook_Directory TGC\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="204,42"
+          Id="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw"
+          TopLeft="283,254" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source"
+          TopLeft="315,160" />
+        <EdgeLayout
+          Id="Package\SP_Facebook_Directory TGC\Load to Staging table.Paths[Excel Source Output]"
+          TopLeft="385.25,202">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_Facebook_Directory TGC\Load to Staging table\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_Facebook_Directory TGC\Load to Staging table\staging ssis_FB_TGC_Raw">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

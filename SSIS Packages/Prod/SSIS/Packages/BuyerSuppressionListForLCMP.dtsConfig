@@ -1,0 +1,29 @@
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\ramanujamp" GeneratedFromPackageName="BuyerSuppressionListForLCMP" GeneratedFromPackageID="{88DE255B-33EF-44B3-ABD4-2123C3BE6849}" GeneratedDate="2/15/2016 2:45:15 PM" />
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}COLO;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>COLOSQL01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+		<ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+		<ConfiguredValue>192.168.0.65</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SourceDM_Datawarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{547A406A-5857-4206-AC82-DA9C7DECD6BF}SourceDM_Datawarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SourceDM_Datawarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SuperstarDB].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=SuperstarDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{C8F76BC3-00A2-4272-9731-DB3017C2182B}SuperstarDB;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SuperstarDB].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

@@ -1,0 +1,2025 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/12/2013 4:16:02 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC281"
+  DTS:CreatorName="TEACHCO\ramanujamp"
+  DTS:Description="SSIS Package Description"
+  DTS:DTSID="{88DE255B-33EF-44B3-ABD4-2123C3BE6849}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="BuyerSuppressionListForLCMP"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="49"
+  DTS:VersionGUID="{069017FF-398D-42D4-97DC-37DC8E80F36E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[COLO]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}"
+      DTS:ObjectName="COLO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}COLO;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{50B70939-F087-409B-82CB-DAB8B7FC1D46}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceDM_Datawarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{547A406A-5857-4206-AC82-DA9C7DECD6BF}"
+      DTS:ObjectName="SourceDM_Datawarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{547A406A-5857-4206-AC82-DA9C7DECD6BF}SourceDM_Datawarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SuperstarDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C8F76BC3-00A2-4272-9731-DB3017C2182B}"
+      DTS:ObjectName="SuperstarDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=SuperstarDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-BuyerSuppressionListForLCMP-{C8F76BC3-00A2-4272-9731-DB3017C2182B}SuperstarDB;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\file1\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\BuyerSuppressionListForLCMP.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{75B50212-CD45-4D3C-BA99-C682319D1204}"
+      DTS:ObjectName="Configuration" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DAXUnsubscribesToCOLO"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="DAXUnsubscribesToCOLO"
+      DTS:DTSID="{B0F93C7F-1CED-4004-B9D1-F2EC140E1C23}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DAXUnsubscribesToCOLO">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DAXUnsubscribesToCOLO\Data Flow Task"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{75EB19DD-E5AE-4AD9-8F0D-5E68EA3FADBF}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Data Flow Task"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[DAX_Unsubscribes_Last2Months]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLO]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EmailAddress]"
+                          cachedDataType="wstr"
+                          cachedLength="80"
+                          cachedName="EmailAddress"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PullDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="PullDate"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PullDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PullDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                          dataType="wstr"
+                          length="80"
+                          name="EmailAddress" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PullDate]"
+                          dataType="dbTimeStamp"
+                          name="PullDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[DAX_Unsubscribes_Last2Months]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SourceDM_Datawarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[SourceDM_Datawarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          length="20"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          length="80"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          name="EmailAddress"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PullDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PullDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[PullDate]"
+                          name="PullDate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          dataType="wstr"
+                          length="80"
+                          name="EmailAddress" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PullDate]"
+                          dataType="dbTimeStamp"
+                          name="PullDate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          dataType="wstr"
+                          length="80"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          name="EmailAddress" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PullDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PullDate]"
+                          name="PullDate" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DAXUnsubscribesToCOLO\Data Flow Task.Paths[OLE DB Source Output]"
+                  endId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\DAXUnsubscribesToCOLO\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{78F47918-E555-4EA1-B546-2C03B9BAF069}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MKTAdcodes from Superstar to Colo"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="MKTAdcodes from Superstar"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MktAdCodes]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SuperstarDB]"
+                      connectionManagerRefId="Package.ConnectionManagers[SuperstarDB]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdCode]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[AdCode]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdCode]"
+                          name="AdCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CatalogCode]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[CatalogCode]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CatalogCode]"
+                          name="CatalogCode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          length="50"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Name]"
+                          name="Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Description]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                          length="254"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[FixedCost]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[FixedCost]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[FixedCost]"
+                          name="FixedCost"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[VariableCost]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[VariableCost]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[VariableCost]"
+                          name="VariableCost"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[TotalCostToDate]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[TotalCostToDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[TotalCostToDate]"
+                          name="TotalCostToDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelType]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ChannelType]"
+                          length="20"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelType]"
+                          name="ChannelType"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ChannelName]"
+                          length="50"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelName]"
+                          name="ChannelName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[AdID]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdID]"
+                          name="AdID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[SaleDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[SaleDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[SaleDate]"
+                          name="SaleDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ActiveFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ActiveFlag]"
+                          length="1"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ActiveFlag]"
+                          name="ActiveFlag"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CostPerPiece]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[CostPerPiece]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CostPerPiece]"
+                          name="CostPerPiece"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[PiecesMailed]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[PiecesMailed]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[PiecesMailed]"
+                          name="PiecesMailed"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[MiscLostFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[MiscLostFlag]"
+                          length="1"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[MiscLostFlag]"
+                          name="MiscLostFlag"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[AdCode]"
+                          dataType="i4"
+                          name="AdCode" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[CatalogCode]"
+                          dataType="i4"
+                          name="CatalogCode" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Name" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                          codePage="1252"
+                          dataType="str"
+                          length="254"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[FixedCost]"
+                          dataType="cy"
+                          name="FixedCost" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[VariableCost]"
+                          dataType="cy"
+                          name="VariableCost" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[TotalCostToDate]"
+                          dataType="cy"
+                          name="TotalCostToDate" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ChannelType]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ChannelType" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="ChannelName" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[AdID]"
+                          dataType="i4"
+                          name="AdID" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[SaleDate]"
+                          dataType="dbTimeStamp"
+                          name="SaleDate" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[ActiveFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="ActiveFlag" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[CostPerPiece]"
+                          dataType="cy"
+                          name="CostPerPiece" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[PiecesMailed]"
+                          dataType="i4"
+                          name="PiecesMailed" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].ExternalColumns[MiscLostFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="MiscLostFlag" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[AdCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[AdCode]"
+                          name="AdCode" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[CatalogCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[CatalogCode]"
+                          name="CatalogCode" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          name="Name" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[Description]"
+                          codePage="1252"
+                          dataType="str"
+                          length="254"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[FixedCost]"
+                          dataType="cy"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[FixedCost]"
+                          name="FixedCost" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[VariableCost]"
+                          dataType="cy"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[VariableCost]"
+                          name="VariableCost" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[TotalCostToDate]"
+                          dataType="cy"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[TotalCostToDate]"
+                          name="TotalCostToDate" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ChannelType]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ChannelType]"
+                          name="ChannelType" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ChannelName]"
+                          name="ChannelName" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[AdID]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[AdID]"
+                          name="AdID" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[SaleDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[SaleDate]"
+                          name="SaleDate" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ActiveFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ActiveFlag]"
+                          name="ActiveFlag" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[CostPerPiece]"
+                          dataType="cy"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[CostPerPiece]"
+                          name="CostPerPiece" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[PiecesMailed]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[PiecesMailed]"
+                          name="PiecesMailed" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[MiscLostFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[MiscLostFlag]"
+                          name="MiscLostFlag" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="MKTAdcodes to COL"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[MktAdCodes]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">100000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLO]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[AdCode]"
+                          cachedDataType="i4"
+                          cachedName="AdCode"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdCode]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[CatalogCode]"
+                          cachedDataType="i4"
+                          cachedName="CatalogCode"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[CatalogCode]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CatalogCode]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Name"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Name]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[Description]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="254"
+                          cachedName="Description"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[Description]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[FixedCost]"
+                          cachedDataType="cy"
+                          cachedName="FixedCost"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[FixedCost]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[FixedCost]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[VariableCost]"
+                          cachedDataType="cy"
+                          cachedName="VariableCost"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[VariableCost]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[VariableCost]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[TotalCostToDate]"
+                          cachedDataType="cy"
+                          cachedName="TotalCostToDate"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostToDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[TotalCostToDate]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[ChannelType]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="ChannelType"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ChannelType]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelType]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[ChannelName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="ChannelName"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ChannelName]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ChannelName]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[AdID]"
+                          cachedDataType="i4"
+                          cachedName="AdID"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[AdID]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[AdID]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[SaleDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="SaleDate"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[SaleDate]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[SaleDate]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[ActiveFlag]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="1"
+                          cachedName="ActiveFlag"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFlag]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[ActiveFlag]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[CostPerPiece]"
+                          cachedDataType="cy"
+                          cachedName="CostPerPiece"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[CostPerPiece]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[CostPerPiece]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[PiecesMailed]"
+                          cachedDataType="i4"
+                          cachedName="PiecesMailed"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[PiecesMailed]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[PiecesMailed]" />
+                        <inputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].Columns[MiscLostFlag]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="1"
+                          cachedName="MiscLostFlag"
+                          externalMetadataColumnId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[MiscLostFlag]"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output].Columns[MiscLostFlag]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[AdCode]"
+                          dataType="i4"
+                          name="AdCode" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[CatalogCode]"
+                          dataType="i4"
+                          name="CatalogCode" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Name" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                          codePage="1252"
+                          dataType="str"
+                          length="254"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[FixedCost]"
+                          dataType="cy"
+                          name="FixedCost" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[VariableCost]"
+                          dataType="cy"
+                          name="VariableCost" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[TotalCostToDate]"
+                          dataType="cy"
+                          name="TotalCostToDate" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ChannelType]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="ChannelType" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ChannelName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="ChannelName" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[AdID]"
+                          dataType="i4"
+                          name="AdID" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[SaleDate]"
+                          dataType="dbTimeStamp"
+                          name="SaleDate" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="ActiveFlag" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[CostPerPiece]"
+                          dataType="cy"
+                          name="CostPerPiece" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[PiecesMailed]"
+                          dataType="i4"
+                          name="PiecesMailed" />
+                        <externalMetadataColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input].ExternalColumns[MiscLostFlag]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="MiscLostFlag" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo.Paths[OLE DB Source Output]"
+                  endId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes to COL.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo\MKTAdcodes from Superstar.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DAXUnsubscribesToCOLO\truncate  MKTAdcodes"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{A1A0B63F-C444-4BB9-BC6D-342B3910CF14}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate  MKTAdcodes"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}"
+              SQLTask:SqlStatementSource="truncate table dbo.MKTAdcodes" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DAXUnsubscribesToCOLO\Truncate DAX Unsub Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Truncate DAX Unsub Table"
+          DTS:DTSID="{00A1147C-E97A-49EE-8DF4-903CCC407AFA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate DAX Unsub Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}"
+              SQLTask:BypassPrepare="False"
+              SQLTask:SqlStatementSource="truncate table dbo.DAX_Unsubscribes_Last2Months" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{FD18026C-120B-449E-A3F7-4F96BDC5E3CE}"
+          DTS:From="Package\DAXUnsubscribesToCOLO\Truncate DAX Unsub Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\DAXUnsubscribesToCOLO\Data Flow Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{302E45CB-AB7D-44C0-8C82-F4B93D350F4C}"
+          DTS:From="Package\DAXUnsubscribesToCOLO\Data Flow Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\DAXUnsubscribesToCOLO\truncate  MKTAdcodes" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{B252E4A6-5342-4A5D-9984-383B2526A346}"
+          DTS:From="Package\DAXUnsubscribesToCOLO\truncate  MKTAdcodes"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{A54FA437-8C60-406F-9EF1-92D7932AEDB1}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{50B70939-F087-409B-82CB-DAB8B7FC1D46}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="BuyersList DM-COLO Failed"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Remove unsubscribes daily on COLO"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{ECC966D2-27FA-4C80-A93B-83DF41494EB7}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Remove unsubscribes daily on COLO">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Remove unsubscribes daily on COLO\RemoveUnsubscribes_Daily on COLO"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4F85E5FE-9A45-4C0F-8DCA-9CDC448CD565}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="RemoveUnsubscribes_Daily on COLO"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}"
+              SQLTask:SqlStatementSource="exec RemoveUnsubscribes_Daily" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{37B007F8-FA3E-43A1-A259-51C82909A083}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\LoadDataFromDMtoColo"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DTSID="{28F32D95-DF6C-4BCC-8C4A-B970B6F8DAB6}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="LoadDataFromDMtoColo"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              defaultBufferSize="3145728"
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Destination - vwBuyer_SuppressionList_LCMP2"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[vwBuyer_SuppressionList_LCMP2]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[COLO]"
+                      connectionManagerRefId="Package.ConnectionManagers[COLO]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[AcquisitionWeek]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="AcquisitionWeek"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[AcquisitionWeek]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[customerID]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="customerID"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[customerID]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[customerID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[FMPullDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="FMPullDate"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[FMPullDate]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[FMPullDate]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[NewSeg]"
+                          cachedDataType="i4"
+                          cachedName="NewSeg"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[NewSeg]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[NewSeg]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Name"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[Name]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[Name]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[a12mf]"
+                          cachedDataType="i4"
+                          cachedName="a12mf"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[a12mf]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[a12mf]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].Columns[EmailAddress]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="60"
+                          cachedName="EmailAddress"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[EmailAddress]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[EmailAddress]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          name="AcquisitionWeek" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[customerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="customerID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[FMPullDate]"
+                          dataType="dbTimeStamp"
+                          name="FMPullDate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[NewSeg]"
+                          dataType="i4"
+                          name="NewSeg" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Name" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[a12mf]"
+                          dataType="i4"
+                          name="a12mf" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input].ExternalColumns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          name="EmailAddress" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="Source - vwBuyer_SuppressionList_LCMP2"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[vwBuyer_SuppressionList_LCMP2]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SourceDM_Datawarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[SourceDM_Datawarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionWeek]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]"
+                          name="AcquisitionWeek"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[customerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[customerID]"
+                          length="20"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[customerID]"
+                          name="customerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[FMPullDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[FMPullDate]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[FMPullDate]"
+                          name="FMPullDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[NewSeg]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[NewSeg]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[NewSeg]"
+                          name="NewSeg"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          length="50"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[Name]"
+                          name="Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[a12mf]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[a12mf]"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[a12mf]"
+                          name="a12mf"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          length="60"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          name="EmailAddress"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          name="AcquisitionWeek" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[customerID]"
+                          dataType="wstr"
+                          length="20"
+                          name="customerID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[FMPullDate]"
+                          dataType="dbTimeStamp"
+                          name="FMPullDate" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[NewSeg]"
+                          dataType="i4"
+                          name="NewSeg" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Name" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[a12mf]"
+                          dataType="i4"
+                          name="a12mf" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          name="EmailAddress" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[AcquisitionWeek]"
+                          name="AcquisitionWeek" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[customerID]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[customerID]"
+                          name="customerID" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[FMPullDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[FMPullDate]"
+                          name="FMPullDate" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[NewSeg]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[NewSeg]"
+                          name="NewSeg" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          name="Name" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[a12mf]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[a12mf]"
+                          name="a12mf" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          name="EmailAddress" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\LoadDataFromDMtoColo.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\LoadDataFromDMtoColo\Destination - vwBuyer_SuppressionList_LCMP2.Inputs[Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\LoadDataFromDMtoColo\Source - vwBuyer_SuppressionList_LCMP2.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Truncate vwBuyer_suppression tbl on colo"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{D9E0B495-C10D-45A5-9E06-41F35898214A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate vwBuyer_suppression tbl on colo"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{AAFB4B84-4319-4360-9D0A-F3BEFDA0A217}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[vwBuyer_SuppressionList_LCMP2]&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[{3BD294FB-A65F-4104-9C32-BE2D151EB734\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{1DB46CED-46F5-4199-90D4-B53681132765}"
+          DTS:From="Package\Sequence Container\Truncate vwBuyer_suppression tbl on colo"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{3BD294FB-A65F-4104-9C32-BE2D151EB734}"
+          DTS:To="Package\Sequence Container\LoadDataFromDMtoColo" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Success Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{3F4C9F33-FA0C-4923-89B1-A567356F1865}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Success Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{50B70939-F087-409B-82CB-DAB8B7FC1D46}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:CC="bondugulav@teachco.com"
+          SendMailTask:Subject="BuyersList DM-COLO Successful" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{90C26C8E-01A4-44F8-9781-701F8C7A56CB}"
+      DTS:From="Package\DAXUnsubscribesToCOLO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sequence Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{62AF61CC-8AD8-49FB-BB10-5C1A6C65D3E5}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Success Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{66DA3539-ECFA-4EE5-BD44-7B6E231D6823}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Failure Email"
+      DTS:Value="1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{8BC47DE7-DCF8-4E72-BD2D-B45CA8F8F07C}"
+      DTS:From="Package\Remove unsubscribes daily on COLO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\DAXUnsubscribesToCOLO" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="155,44"
+          Id="Package\DAXUnsubscribesToCOLO\Data Flow Task"
+          TopLeft="22.9433962264151,59.0377358490566" />
+        <NodeLayout
+          Size="168,49"
+          Id="Package\DAXUnsubscribesToCOLO\MKTAdcodes from Superstar to Colo"
+          TopLeft="20.6792452830189,178.698113207547" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\DAXUnsubscribesToCOLO\truncate  MKTAdcodes"
+          TopLeft="29.8867924528302,122.735849056604" />
+        <NodeLayout
+          Size="109,44"
+          Id="Package\DAXUnsubscribesToCOLO\Truncate DAX Unsub Table"
+          TopLeft="44.3018867924529,0.132075471698114" />
+        <EdgeLayout
+          Id="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint]"
+          TopLeft="98.6037735849057,44.0566037735849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="1.62264150943395,14.9811320754717"
+              Start="0,0"
+              End="1.62264150943395,7.4811320754717">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,7.50943396226415" />
+                  <mssgle:LineSegment
+                    End="1.62264150943395,7.50943396226415" />
+                  <mssgle:LineSegment
+                    End="1.62264150943395,7.4811320754717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint 1]"
+          TopLeft="100.22641509434,102.962264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-2.45283018867923,19.7735849056604"
+              Start="0,0"
+              End="-2.45283018867923,12.2735849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.88679245283019" />
+                  <mssgle:LineSegment
+                    End="-2.45283018867923,9.88679245283019" />
+                  <mssgle:LineSegment
+                    End="-2.45283018867923,12.2735849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DAXUnsubscribesToCOLO.PrecedenceConstraints[Constraint 2]"
+          TopLeft="97.7735849056604,166.660377358491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="6.75471698113208,12.0377358490566"
+              Start="0,0"
+              End="6.75471698113208,4.53773584905662">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,6.03773584905662" />
+                  <mssgle:LineSegment
+                    End="6.75471698113208,6.03773584905662" />
+                  <mssgle:LineSegment
+                    End="6.75471698113208,4.53773584905662" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="302,261"
+          Size="302,296"
+          Id="Package\DAXUnsubscribesToCOLO"
+          TopLeft="69.1981132075471,191.801886792453" />
+        <NodeLayout
+          Size="135,44"
+          Id="Package\Failure Email"
+          TopLeft="280.518867924528,857.915094339623" />
+        <NodeLayout
+          Size="263,73"
+          Id="Package\Remove unsubscribes daily on COLO\RemoveUnsubscribes_Daily on COLO"
+          TopLeft="16.0377358490566,13.7547169811321" />
+        <ContainerLayout
+          HeaderHeight="43.698113207547166"
+          IsExpanded="True"
+          PanelSize="296,110"
+          Size="296,154"
+          Id="Package\Remove unsubscribes daily on COLO"
+          TopLeft="70.7830188679245,5.5" />
+        <NodeLayout
+          Size="164,56"
+          Id="Package\Sequence Container\LoadDataFromDMtoColo"
+          TopLeft="59.4716981132076,110.094339622641" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Sequence Container\Truncate vwBuyer_suppression tbl on colo"
+          TopLeft="74.4528301886793,15.9811320754717" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[{3BD294FB-A65F-4104-9C32-BE2D151EB734\}]"
+          TopLeft="142.339622641509,59.9056603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-1.01886792452831,50.188679245283"
+              Start="0,0"
+              End="-1.01886792452831,42.688679245283">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.0943396226415" />
+                  <mssgle:LineSegment
+                    End="-1.01886792452831,25.0943396226415" />
+                  <mssgle:LineSegment
+                    End="-1.01886792452831,42.688679245283" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="307,220"
+          Size="307,264"
+          Id="Package\Sequence Container"
+          TopLeft="72.2169811320754,507.198113207547" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Success Email"
+          TopLeft="5.5,857.009433962264" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="220.066037735849,487.537735849057">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="5.81132075471697,19.6603773584906"
+              Start="0,0"
+              End="5.81132075471697,12.1603773584906">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.811320754717" />
+                  <mssgle:LineSegment
+                    End="5.81132075471697,9.811320754717" />
+                  <mssgle:LineSegment
+                    End="5.81132075471697,12.1603773584906" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184.367924528302,770.707547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-110.981132075472,86.3018867924528"
+              Start="0,0"
+              End="-110.981132075472,78.8018867924528">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.132075471698" />
+                  <mssgle:LineSegment
+                    End="-110.981132075472,43.132075471698" />
+                  <mssgle:LineSegment
+                    End="-110.981132075472,78.8018867924528" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="267.38679245283,770.707547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="80.5283018867925,87.2075471698113"
+              Start="0,0"
+              End="80.5283018867925,79.7075471698113">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5849056603773" />
+                  <mssgle:LineSegment
+                    End="80.5283018867925,43.5849056603773" />
+                  <mssgle:LineSegment
+                    End="80.5283018867925,79.7075471698113" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="25.0228032871462,48.5849056603773,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="218.669811320755,159.009433962264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="1.39622641509436,32.7924528301887"
+              Start="0,0"
+              End="1.39622641509436,25.2924528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4150943396226" />
+                  <mssgle:LineSegment
+                    End="1.39622641509436,16.4150943396226" />
+                  <mssgle:LineSegment
+                    End="1.39622641509436,25.2924528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

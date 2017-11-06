@@ -1,0 +1,2038 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/12/2017 4:40:19 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{5B1F3B62-9993-4491-9235-CE6A52E65D1B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="CTMonitorLoadCallSummary"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{CF55CFED-BE53-4032-AA50-7DFF65C8CB9E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CTMonitor]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{9B467111-85FC-4FA9-AAA6-4EC1D4AEB359}"
+      DTS:ObjectName="CTMonitor">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCSQLPROD03;Initial Catalog=CTMonitor;Integrated Security=True;Application Name=SSIS-Package1-{9B467111-85FC-4FA9-AAA6-4EC1D4AEB359}TTCSQLPROD03.CTMonitor1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CTMonitor Oledb]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DACB68D2-AEE5-43EB-BF50-5B84A5FA27FD}"
+      DTS:ObjectName="CTMonitor Oledb">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCSQLPROD03;Initial Catalog=CTMonitor;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{7231DC4A-E056-45BF-A47C-A1B01F108992}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-CTMonitorCallSummary-{7231DC4A-E056-45BF-A47C-A1B01F108992}TTCDATAMART01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{4468C956-4117-437E-A31F-FA33BCD254F8}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DD5CBBA2-9301-4FF5-96D9-940C8B98AB55}"
+      DTS:ObjectName="TTCDATAMART01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8E287D08-6E08-4012-AED7-136075FED8C9}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CallSummaryId">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get last CallSummaryId in Datamart and truncate staging table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B6F0D0C1-340B-4E51-9D52-8518FF36C4A9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get last CallSummaryId in Datamart and truncate staging table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7231DC4A-E056-45BF-A47C-A1B01F108992}"
+          SQLTask:SqlStatementSource="select @CallSummaryId =  isnull(max(CallSummaryId),0)&#xA;from datawarehouse.archive.CTMonitor_CallSummary&#xA;&#xA;truncate table datawarehouse.staging.CTMonitor_ssis_CallSummary&#xA;&#xA;/* to update last 500 calls that might have not finished completely*/&#xA;if @CallSummaryId &gt;0&#xA;begin &#xA;set @CallSummaryId = @CallSummaryId - 500&#xA;End &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@CallSummaryId"
+            SQLTask:DtsVariableName="User::CallSummaryId"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="12"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load data into Archive CTMonitor_CallSummary"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{957c1612-224b-4e46-adf4-d5ffa71fdd8b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load data into Archive CTMonitor_CallSummary"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7231DC4A-E056-45BF-A47C-A1B01F108992}"
+          SQLTask:SqlStatementSource="exec Staging.SP_CTMonitor_Load_CallSummary" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transfer records from CTMonitor to Datamart"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{FFE767D8-FFC6-4D49-8146-B1D8BE2233C7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transfer records from CTMonitor to Datamart"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CTMonitor CallSummary"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select CallSummaryId,SwitchId,CallDirectionId,AlertingDateTime,CallStartDateTime,CallQueuedDateTime,CallAnswerDateTime,CallEndDateTime,AlertingNumber,
+CallFromNumber,CallToNumber,TrunkGroupDeviceId,TrunkGroupMemberId,SplitDeviceId,EnteredCodeData,EnteredCodeVDN,DistributingDevice,DistributingVDN,
+UserData,UCID,NewUCID,OldUCID,Abandon,CallId,PrimaryCallId,SecondaryCallId,Agent1DeviceId,Station1DeviceId,Agent2DeviceId,Station2DeviceId,Call2Type,
+Agent3DeviceId,Station3DeviceId,Call3Type,Agent4DeviceId,Station4DeviceId,Call4Type,Agent5DeviceId,Station5DeviceId,Call5Type,Agent6DeviceId,Station6DeviceId,Call6Type
+from CallSummary (nolock)
+where CallSummaryId &gt; = ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"Parameter0:Input",{8E287D08-6E08-4012-AED7-136075FED8C9};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[CTMonitor Oledb]"
+                  connectionManagerRefId="Package.ConnectionManagers[CTMonitor Oledb]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallSummaryId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallSummaryId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallSummaryId]"
+                      name="CallSummaryId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SwitchId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SwitchId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SwitchId]"
+                      name="SwitchId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallDirectionId]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallDirectionId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallDirectionId]"
+                      name="CallDirectionId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingDateTime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[AlertingDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingDateTime]"
+                      name="AlertingDateTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallStartDateTime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallStartDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallStartDateTime]"
+                      name="CallStartDateTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallQueuedDateTime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallQueuedDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallQueuedDateTime]"
+                      name="CallQueuedDateTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallAnswerDateTime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallAnswerDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallAnswerDateTime]"
+                      name="CallAnswerDateTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallEndDateTime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallEndDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallEndDateTime]"
+                      name="CallEndDateTime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[AlertingNumber]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingNumber]"
+                      name="AlertingNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallFromNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallFromNumber]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallFromNumber]"
+                      name="CallFromNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallToNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallToNumber]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallToNumber]"
+                      name="CallToNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[TrunkGroupDeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupDeviceId]"
+                      name="TrunkGroupDeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupMemberId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[TrunkGroupMemberId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupMemberId]"
+                      name="TrunkGroupMemberId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SplitDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SplitDeviceId]"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SplitDeviceId]"
+                      name="SplitDeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeData]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[EnteredCodeData]"
+                      length="16"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeData]"
+                      name="EnteredCodeData"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[EnteredCodeVDN]"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeVDN]"
+                      name="EnteredCodeVDN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingDevice]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[DistributingDevice]"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingDevice]"
+                      name="DistributingDevice"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[DistributingVDN]"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingVDN]"
+                      name="DistributingVDN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UserData]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[UserData]"
+                      length="96"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UserData]"
+                      name="UserData"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UCID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[UCID]"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UCID]"
+                      name="UCID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[NewUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[NewUCID]"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[NewUCID]"
+                      name="NewUCID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[OldUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[OldUCID]"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[OldUCID]"
+                      name="OldUCID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Abandon]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Abandon]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Abandon]"
+                      name="Abandon"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallId]"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallId]"
+                      name="CallId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[PrimaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[PrimaryCallId]"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[PrimaryCallId]"
+                      name="PrimaryCallId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SecondaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SecondaryCallId]"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SecondaryCallId]"
+                      name="SecondaryCallId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent1DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent1DeviceId]"
+                      name="Agent1DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station1DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station1DeviceId]"
+                      name="Station1DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent2DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent2DeviceId]"
+                      name="Agent2DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station2DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station2DeviceId]"
+                      name="Station2DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call2Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call2Type]"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call2Type]"
+                      name="Call2Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent3DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent3DeviceId]"
+                      name="Agent3DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station3DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station3DeviceId]"
+                      name="Station3DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call3Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call3Type]"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call3Type]"
+                      name="Call3Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent4DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent4DeviceId]"
+                      name="Agent4DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station4DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station4DeviceId]"
+                      name="Station4DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call4Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call4Type]"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call4Type]"
+                      name="Call4Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent5DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent5DeviceId]"
+                      name="Agent5DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station5DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station5DeviceId]"
+                      name="Station5DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call5Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call5Type]"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call5Type]"
+                      name="Call5Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent6DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent6DeviceId]"
+                      name="Agent6DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station6DeviceId]"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station6DeviceId]"
+                      name="Station6DeviceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call6Type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call6Type]"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call6Type]"
+                      name="Call6Type"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallSummaryId]"
+                      dataType="i4"
+                      name="CallSummaryId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SwitchId]"
+                      dataType="i4"
+                      name="SwitchId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallDirectionId]"
+                      dataType="ui1"
+                      name="CallDirectionId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[AlertingDateTime]"
+                      dataType="dbTimeStamp"
+                      name="AlertingDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallStartDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallStartDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallQueuedDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallQueuedDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallAnswerDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallAnswerDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallEndDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallEndDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[AlertingNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="AlertingNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallFromNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="CallFromNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallToNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="CallToNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[TrunkGroupDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="TrunkGroupDeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[TrunkGroupMemberId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="TrunkGroupMemberId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SplitDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="SplitDeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[EnteredCodeData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="EnteredCodeData" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[EnteredCodeVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="EnteredCodeVDN" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[DistributingDevice]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="DistributingDevice" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[DistributingVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="DistributingVDN" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[UserData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="96"
+                      name="UserData" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[UCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="UCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[NewUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="NewUCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[OldUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="OldUCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Abandon]"
+                      dataType="bool"
+                      name="Abandon" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[CallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[PrimaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="PrimaryCallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[SecondaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SecondaryCallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent1DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station1DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent2DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station2DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call2Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call2Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent3DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station3DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call3Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call3Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent4DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station4DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call4Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call4Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent5DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station5DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call5Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call5Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Agent6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent6DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Station6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station6DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].ExternalColumns[Call6Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call6Type" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallSummaryId]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallSummaryId]"
+                      name="CallSummaryId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SwitchId]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SwitchId]"
+                      name="SwitchId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallDirectionId]"
+                      dataType="ui1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallDirectionId]"
+                      name="CallDirectionId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[AlertingDateTime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[AlertingDateTime]"
+                      name="AlertingDateTime" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallStartDateTime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallStartDateTime]"
+                      name="CallStartDateTime" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallQueuedDateTime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallQueuedDateTime]"
+                      name="CallQueuedDateTime" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallAnswerDateTime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallAnswerDateTime]"
+                      name="CallAnswerDateTime" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallEndDateTime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallEndDateTime]"
+                      name="CallEndDateTime" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[AlertingNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[AlertingNumber]"
+                      name="AlertingNumber" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallFromNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallFromNumber]"
+                      name="CallFromNumber" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallToNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallToNumber]"
+                      name="CallToNumber" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[TrunkGroupDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[TrunkGroupDeviceId]"
+                      name="TrunkGroupDeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[TrunkGroupMemberId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[TrunkGroupMemberId]"
+                      name="TrunkGroupMemberId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SplitDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SplitDeviceId]"
+                      name="SplitDeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[EnteredCodeData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[EnteredCodeData]"
+                      name="EnteredCodeData" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[EnteredCodeVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[EnteredCodeVDN]"
+                      name="EnteredCodeVDN" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[DistributingDevice]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[DistributingDevice]"
+                      name="DistributingDevice" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[DistributingVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[DistributingVDN]"
+                      name="DistributingVDN" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[UserData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="96"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[UserData]"
+                      name="UserData" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[UCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[UCID]"
+                      name="UCID" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[NewUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[NewUCID]"
+                      name="NewUCID" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[OldUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[OldUCID]"
+                      name="OldUCID" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Abandon]"
+                      dataType="bool"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Abandon]"
+                      name="Abandon" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[CallId]"
+                      name="CallId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[PrimaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[PrimaryCallId]"
+                      name="PrimaryCallId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SecondaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[SecondaryCallId]"
+                      name="SecondaryCallId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent1DeviceId]"
+                      name="Agent1DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station1DeviceId]"
+                      name="Station1DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent2DeviceId]"
+                      name="Agent2DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station2DeviceId]"
+                      name="Station2DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call2Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call2Type]"
+                      name="Call2Type" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent3DeviceId]"
+                      name="Agent3DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station3DeviceId]"
+                      name="Station3DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call3Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call3Type]"
+                      name="Call3Type" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent4DeviceId]"
+                      name="Agent4DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station4DeviceId]"
+                      name="Station4DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call4Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call4Type]"
+                      name="Call4Type" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent5DeviceId]"
+                      name="Agent5DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station5DeviceId]"
+                      name="Station5DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call5Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call5Type]"
+                      name="Call5Type" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Agent6DeviceId]"
+                      name="Agent6DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Station6DeviceId]"
+                      name="Station6DeviceId" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call6Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[Call6Type]"
+                      name="Call6Type" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Datawarehouse archive CTMonitor_SSIS_CallSummary"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Staging].[CTMonitor_SSIS_CallSummary]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                  connectionManagerRefId="Package.ConnectionManagers[TTCDATAMART01.DataWarehouse1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallSummaryId]"
+                      cachedDataType="i4"
+                      cachedName="CallSummaryId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallSummaryId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallSummaryId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[SwitchId]"
+                      cachedDataType="i4"
+                      cachedName="SwitchId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SwitchId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SwitchId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallDirectionId]"
+                      cachedDataType="ui1"
+                      cachedName="CallDirectionId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallDirectionId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallDirectionId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[AlertingDateTime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="AlertingDateTime"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[AlertingDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingDateTime]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallStartDateTime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CallStartDateTime"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallStartDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallStartDateTime]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallQueuedDateTime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CallQueuedDateTime"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallQueuedDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallQueuedDateTime]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallAnswerDateTime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CallAnswerDateTime"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallAnswerDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallAnswerDateTime]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallEndDateTime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CallEndDateTime"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallEndDateTime]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallEndDateTime]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[AlertingNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="AlertingNumber"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[AlertingNumber]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[AlertingNumber]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallFromNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="CallFromNumber"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallFromNumber]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallFromNumber]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallToNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="CallToNumber"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallToNumber]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallToNumber]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[TrunkGroupDeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="TrunkGroupDeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[TrunkGroupDeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupDeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[TrunkGroupMemberId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="TrunkGroupMemberId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[TrunkGroupMemberId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[TrunkGroupMemberId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[SplitDeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="SplitDeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SplitDeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SplitDeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[EnteredCodeData]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="16"
+                      cachedName="EnteredCodeData"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[EnteredCodeData]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeData]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[EnteredCodeVDN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="EnteredCodeVDN"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[EnteredCodeVDN]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[EnteredCodeVDN]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[DistributingDevice]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="DistributingDevice"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[DistributingDevice]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingDevice]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[DistributingVDN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="DistributingVDN"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[DistributingVDN]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[DistributingVDN]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[UserData]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="96"
+                      cachedName="UserData"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[UserData]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UserData]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[UCID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="UCID"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[UCID]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[UCID]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[NewUCID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="NewUCID"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[NewUCID]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[NewUCID]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[OldUCID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="OldUCID"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[OldUCID]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[OldUCID]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Abandon]"
+                      cachedDataType="bool"
+                      cachedName="Abandon"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Abandon]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Abandon]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[CallId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="CallId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[CallId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[PrimaryCallId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="PrimaryCallId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryCallId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[PrimaryCallId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[SecondaryCallId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="SecondaryCallId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SecondaryCallId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[SecondaryCallId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent1DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent1DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent1DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent1DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station1DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station1DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station1DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station1DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent2DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent2DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent2DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent2DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station2DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station2DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station2DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station2DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Call2Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Call2Type"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call2Type]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call2Type]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent3DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent3DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent3DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent3DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station3DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station3DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station3DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station3DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Call3Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Call3Type"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call3Type]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call3Type]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent4DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent4DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent4DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent4DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station4DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station4DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station4DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station4DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Call4Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Call4Type"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call4Type]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call4Type]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent5DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent5DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent5DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent5DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station5DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station5DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station5DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station5DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Call5Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Call5Type"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call5Type]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call5Type]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Agent6DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Agent6DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent6DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Agent6DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Station6DeviceId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedName="Station6DeviceId"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station6DeviceId]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Station6DeviceId]" />
+                    <inputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].Columns[Call6Type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Call6Type"
+                      externalMetadataColumnId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call6Type]"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output].Columns[Call6Type]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallSummaryId]"
+                      dataType="i4"
+                      name="CallSummaryId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SwitchId]"
+                      dataType="i4"
+                      name="SwitchId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallDirectionId]"
+                      dataType="ui1"
+                      name="CallDirectionId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[AlertingDateTime]"
+                      dataType="dbTimeStamp"
+                      name="AlertingDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallStartDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallStartDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallQueuedDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallQueuedDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallAnswerDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallAnswerDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallEndDateTime]"
+                      dataType="dbTimeStamp"
+                      name="CallEndDateTime" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[AlertingNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="AlertingNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallFromNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="CallFromNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallToNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="CallToNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[TrunkGroupDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="TrunkGroupDeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[TrunkGroupMemberId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="TrunkGroupMemberId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SplitDeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="SplitDeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[EnteredCodeData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="16"
+                      name="EnteredCodeData" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[EnteredCodeVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="EnteredCodeVDN" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[DistributingDevice]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="DistributingDevice" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[DistributingVDN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="DistributingVDN" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[UserData]"
+                      codePage="1252"
+                      dataType="str"
+                      length="96"
+                      name="UserData" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[UCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="UCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[NewUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="NewUCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[OldUCID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="OldUCID" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Abandon]"
+                      dataType="bool"
+                      name="Abandon" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[CallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[PrimaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="PrimaryCallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[SecondaryCallId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="SecondaryCallId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent1DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station1DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station1DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent2DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station2DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station2DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call2Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call2Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent3DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station3DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station3DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call3Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call3Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent4DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station4DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station4DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call4Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call4Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent5DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station5DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station5DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call5Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call5Type" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Agent6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Agent6DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Station6DeviceId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="24"
+                      name="Station6DeviceId" />
+                    <externalMetadataColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input].ExternalColumns[Call6Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Call6Type" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transfer records from CTMonitor to Datamart.Paths[OLE DB Source Output]"
+              endId="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{26B57D7F-8689-4EF3-AA7D-114C25DD709A}"
+      DTS:From="Package\Get last CallSummaryId in Datamart and truncate staging table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Transfer records from CTMonitor to Datamart" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8BBDFBB7-522E-4E6C-A9FD-7F48E48171AA}"
+      DTS:From="Package\Transfer records from CTMonitor to Datamart"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load data into Archive CTMonitor_CallSummary" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="251,42"
+          Id="Package\Get last CallSummaryId in Datamart and truncate staging table"
+          TopLeft="427,156" />
+        <NodeLayout
+          Size="305,42"
+          Id="Package\Load data into Archive CTMonitor_CallSummary"
+          TopLeft="404,324" />
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Transfer records from CTMonitor to Datamart"
+          TopLeft="409,243" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="554.5,198">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="556.5,285">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Transfer records from CTMonitor to Datamart">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary"
+          TopLeft="396,206" />
+        <NodeLayout
+          Size="338,42"
+          Id="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary"
+          TopLeft="326,390" />
+        <EdgeLayout
+          Id="Package\Transfer records from CTMonitor to Datamart.Paths[OLE DB Source Output]"
+          TopLeft="494,248">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,142"
+              Start="0,0"
+              End="0,134.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,134.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transfer records from CTMonitor to Datamart\CTMonitor CallSummary">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transfer records from CTMonitor to Datamart\Datawarehouse archive CTMonitor_SSIS_CallSummary">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="TGCPLusToAWS" GeneratedFromPackageID="{0F7DE425-3458-4342-B58B-A88DF3BB1471}" GeneratedDate="1/27/2017 2:12:28 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[TGCPlusAWS].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=tgcanalytics.ccskhyvc1fba.us-east-1.rds.amazonaws.com;User ID=analytics_root;Initial Catalog=TGCPlus;Provider=SQLNCLI11.1;Auto Translate=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[TGCPlusAWS].Properties[Password]" ValueType="String">
+		<ConfiguredValue>wCF9235dXd5HaRTs56gSDF</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

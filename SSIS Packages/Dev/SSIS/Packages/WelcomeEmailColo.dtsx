@@ -1,0 +1,1529 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/17/2015 2:53:34 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{DA0B0108-D35F-422E-816B-F3BAFCA73C48}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="WelcomeEmailColo"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{F2D4FA88-3650-4F80-8A5C-75D588FEE04D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ColoLCMData]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B95BD353-0C93-46E0-8C9A-62C06EB55FC6}"
+      DTS:ObjectName="ColoLCMData">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=COLOSQL01;Initial Catalog=LCMData;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-WelcomeEmailColo-{B95BD353-0C93-46E0-8C9A-62C06EB55FC6}ColoLCMData;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CA623B07-AA39-4BA2-BF64-244030C4EA29}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Lstmgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-WelcomeEmailColo-{CA623B07-AA39-4BA2-BF64-244030C4EA29}DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{E2E96B3C-61E9-4AC6-937A-2CD072B340B9}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\WelcomeEmailColo.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{5F55FF6C-6AE7-47DC-BEDC-050A03EDE49F}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Failure Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{A36F6E2E-8E99-4A4C-B2B2-45A7E927AC8D}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Failure Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{E2E96B3C-61E9-4AC6-937A-2CD072B340B9}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="WelcomeEmailLCMtoColo Failed"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{E39C511B-988F-43CD-BF19-99DA2836D3A3}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Run the SP for Welcome Email"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{91A30F0C-D7C4-48CA-9D2E-D3F60912D7DD}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Run the SP for Welcome Email"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{CA623B07-AA39-4BA2-BF64-244030C4EA29}"
+              SQLTask:SqlStatementSource="Exec staging.SP_LCM_WelcomeEmail" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{A74E63FB-7645-4788-A6D4-94DD36F5FB9B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Welcome Email Data transfer from Datamart to COLO"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Colo LCM_WelcomeEmails2015"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[LCM_WelcomeEmails2015]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">100000</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ColoLCMData]"
+                      connectionManagerRefId="Package.ConnectionManagers[ColoLCMData]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                          cachedDataType="i4"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAddress]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="60"
+                          cachedName="EmailAddress"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="FirstName"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[LastName]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="LastName"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[PreferredCategory]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="7"
+                          cachedName="PreferredCategory"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[PreferredCategory]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[CustGroup]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="10"
+                          cachedName="CustGroup"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CustGroup]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustGroup]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[HVLVGroup]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="2"
+                          cachedName="HVLVGroup"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[HVLVGroup]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[HVLVGroup]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[AcquisitionWeek]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="AcquisitionWeek"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionWeek]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode1]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode1"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode1]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode1]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode1]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode1"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode1]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode1]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode2]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode2"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode2]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode2]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode2]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode2"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode2]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode2]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode3]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode3"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode3]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode3]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode3]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode3"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode3]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode3]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode4]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode4"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode4]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode4]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode4]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode4"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode4]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode4]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode5]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode5"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode5]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode5]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode5]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode5"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode5]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode5]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode6]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode6"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode6]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode6]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode6]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode6"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode6]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode6]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailAdcode7]"
+                          cachedDataType="i4"
+                          cachedName="EmailAdcode7"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode7]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode7]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailCouponCode7]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailCouponCode7"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode7]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode7]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[Unsubscribe]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="1"
+                          cachedName="Unsubscribe"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[Unsubscribe]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EmailStatus]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="EmailStatus"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailStatus]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[EcampaignID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="EcampaignID"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EcampaignID]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EcampaignID]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[FlagDigitalPhysical]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="FlagDigitalPhysical"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FlagDigitalPhysical]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagDigitalPhysical]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[FlagAudioVideo]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="15"
+                          cachedName="FlagAudioVideo"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FlagAudioVideo]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagAudioVideo]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].Columns[CountryCode]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="3"
+                          cachedName="CountryCode"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                          dataType="i4"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          name="EmailAddress" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="FirstName" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="LastName" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[PreferredCategory]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="PreferredCategory" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CustGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="10"
+                          name="CustGroup" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[HVLVGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="HVLVGroup" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          name="AcquisitionWeek" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode1]"
+                          dataType="i4"
+                          name="EmailAdcode1" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode1" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode2]"
+                          dataType="i4"
+                          name="EmailAdcode2" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode2" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode3]"
+                          dataType="i4"
+                          name="EmailAdcode3" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode3]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode3" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode4]"
+                          dataType="i4"
+                          name="EmailAdcode4" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode4]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode4" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode5]"
+                          dataType="i4"
+                          name="EmailAdcode5" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode5]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode5" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode6]"
+                          dataType="i4"
+                          name="EmailAdcode6" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode6]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode6" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailAdcode7]"
+                          dataType="i4"
+                          name="EmailAdcode7" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailCouponCode7]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode7" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[Unsubscribe]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="Unsubscribe" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EmailStatus]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailStatus" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[EcampaignID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="EcampaignID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FlagDigitalPhysical]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="FlagDigitalPhysical" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[FlagAudioVideo]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="FlagAudioVideo" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="CountryCode" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select *
+from  lstmgr.dbo.LCM_WelcomeEmails2015 (nolock)
+where DATEDIFF(week,acquisitionweek, getdate()) = 1
+
+/*
+select *
+from  lstmgr.dbo.TEMPLCM_WelcomeEmails2015_test (nolock)
+where DATEDIFF(week,acquisitionweek, getdate()) = 1
+*/</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          length="60"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAddress]"
+                          name="EmailAddress"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                          length="50"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                          name="FirstName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                          length="50"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                          name="LastName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PreferredCategory]"
+                          length="7"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[PreferredCategory]"
+                          name="PreferredCategory"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustGroup]"
+                          length="10"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustGroup]"
+                          name="CustGroup"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[HVLVGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HVLVGroup]"
+                          length="2"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[HVLVGroup]"
+                          name="HVLVGroup"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionWeek]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcquisitionWeek]"
+                          name="AcquisitionWeek"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode1]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode1]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode1]"
+                          name="EmailAdcode1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode1]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode1]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode1]"
+                          name="EmailCouponCode1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode2]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode2]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode2]"
+                          name="EmailAdcode2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode2]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode2]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode2]"
+                          name="EmailCouponCode2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode3]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode3]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode3]"
+                          name="EmailAdcode3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode3]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode3]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode3]"
+                          name="EmailCouponCode3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode4]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode4]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode4]"
+                          name="EmailAdcode4"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode4]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode4]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode4]"
+                          name="EmailCouponCode4"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode5]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode5]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode5]"
+                          name="EmailAdcode5"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode5]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode5]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode5]"
+                          name="EmailCouponCode5"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode6]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode6]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode6]"
+                          name="EmailAdcode6"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode6]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode6]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode6]"
+                          name="EmailCouponCode6"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode7]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode7]"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailAdcode7]"
+                          name="EmailAdcode7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode7]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode7]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailCouponCode7]"
+                          name="EmailCouponCode7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Unsubscribe]"
+                          length="1"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[Unsubscribe]"
+                          name="Unsubscribe"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailStatus]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EmailStatus]"
+                          name="EmailStatus"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EcampaignID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EcampaignID]"
+                          length="30"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[EcampaignID]"
+                          name="EcampaignID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagDigitalPhysical]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FlagDigitalPhysical]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagDigitalPhysical]"
+                          name="FlagDigitalPhysical"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagAudioVideo]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FlagAudioVideo]"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[FlagAudioVideo]"
+                          name="FlagAudioVideo"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CountryCode]"
+                          length="3"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]"
+                          name="CountryCode"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                          dataType="i4"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          name="EmailAddress" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="FirstName" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="LastName" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PreferredCategory]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          name="PreferredCategory" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="10"
+                          name="CustGroup" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HVLVGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          name="HVLVGroup" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          name="AcquisitionWeek" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode1]"
+                          dataType="i4"
+                          name="EmailAdcode1" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode1" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode2]"
+                          dataType="i4"
+                          name="EmailAdcode2" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode2" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode3]"
+                          dataType="i4"
+                          name="EmailAdcode3" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode3]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode3" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode4]"
+                          dataType="i4"
+                          name="EmailAdcode4" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode4]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode4" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode5]"
+                          dataType="i4"
+                          name="EmailAdcode5" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode5]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode5" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode6]"
+                          dataType="i4"
+                          name="EmailAdcode6" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode6]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode6" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailAdcode7]"
+                          dataType="i4"
+                          name="EmailAdcode7" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailCouponCode7]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailCouponCode7" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Unsubscribe]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          name="Unsubscribe" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EmailStatus]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="EmailStatus" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[EcampaignID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="EcampaignID" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FlagDigitalPhysical]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="FlagDigitalPhysical" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FlagAudioVideo]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          name="FlagAudioVideo" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CountryCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="CountryCode" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          codePage="1252"
+                          dataType="str"
+                          length="60"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAddress]"
+                          name="EmailAddress" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                          name="FirstName" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                          name="LastName" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PreferredCategory]"
+                          codePage="1252"
+                          dataType="str"
+                          length="7"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PreferredCategory]"
+                          name="PreferredCategory" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="10"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustGroup]"
+                          name="CustGroup" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HVLVGroup]"
+                          codePage="1252"
+                          dataType="str"
+                          length="2"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HVLVGroup]"
+                          name="HVLVGroup" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcquisitionWeek]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcquisitionWeek]"
+                          name="AcquisitionWeek" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode1]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode1]"
+                          name="EmailAdcode1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode1]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode1]"
+                          name="EmailCouponCode1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode2]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode2]"
+                          name="EmailAdcode2" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode2]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode2]"
+                          name="EmailCouponCode2" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode3]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode3]"
+                          name="EmailAdcode3" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode3]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode3]"
+                          name="EmailCouponCode3" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode4]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode4]"
+                          name="EmailAdcode4" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode4]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode4]"
+                          name="EmailCouponCode4" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode5]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode5]"
+                          name="EmailAdcode5" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode5]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode5]"
+                          name="EmailCouponCode5" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode6]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode6]"
+                          name="EmailAdcode6" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode6]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode6]"
+                          name="EmailCouponCode6" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode7]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailAdcode7]"
+                          name="EmailAdcode7" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode7]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailCouponCode7]"
+                          name="EmailCouponCode7" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Unsubscribe]"
+                          codePage="1252"
+                          dataType="str"
+                          length="1"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Unsubscribe]"
+                          name="Unsubscribe" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailStatus]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EmailStatus]"
+                          name="EmailStatus" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EcampaignID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[EcampaignID]"
+                          name="EcampaignID" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FlagDigitalPhysical]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FlagDigitalPhysical]"
+                          name="FlagDigitalPhysical" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FlagAudioVideo]"
+                          codePage="1252"
+                          dataType="str"
+                          length="15"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FlagAudioVideo]"
+                          name="FlagAudioVideo" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CountryCode]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CountryCode]"
+                          name="CountryCode" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO.Paths[OLE DB Source Output]"
+                  endId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{EC627546-9E3D-4348-8EC0-40EA5A0B593D}"
+          DTS:From="Package\Sequence Container\Run the SP for Welcome Email"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sucess Email"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{D85A19A2-2EA8-4762-AD64-73EA93C2D20D}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sucess Email"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{E2E96B3C-61E9-4AC6-937A-2CD072B340B9}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="WelcomeEmailLCMtoColo successful"
+          SendMailTask:MessageSource="Run QC and Report" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{EB407233-E8C1-43FB-AB84-470A92CBEAE1}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sucess Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{691B5044-6695-4F54-AA8D-9503FE325FFE}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Failure Email"
+      DTS:Value="1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Failure Email"
+          TopLeft="297.669811320755,499.72641509434" />
+        <NodeLayout
+          Size="246,66"
+          Id="Package\Sequence Container\Run the SP for Welcome Email"
+          TopLeft="130.339622641509,20.6981132075472" />
+        <NodeLayout
+          Size="361,120"
+          Id="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO"
+          TopLeft="71.4339622641509,177.490566037736" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="253.132075471698,86.6226415094339">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-1.01886792452831,90.8679245283019"
+              Start="0,0"
+              End="-1.01886792452831,83.3679245283019">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.433962264151" />
+                  <mssgle:LineSegment
+                    End="-1.01886792452831,45.433962264151" />
+                  <mssgle:LineSegment
+                    End="-1.01886792452831,83.3679245283019" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="545,382"
+          Size="545,426"
+          Id="Package\Sequence Container"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Sucess Email"
+          TopLeft="126.009433962264,500.707547169811" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="191.254716981132,431.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,69.2075471698111"
+              Start="0,0"
+              End="0,61.7075471698111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.7075471698111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="366.584905660378,431.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.2264150943399"
+              Start="0,0"
+              End="0,60.7264150943399">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.7264150943399" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.24134765625,25.48869582842,30.4826953125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="218,75"
+          Id="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\OLE DB Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="228,78"
+          Id="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015"
+          TopLeft="358.971698113208,6.51886792452829" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO.Paths[OLE DB Source Output]"
+          TopLeft="223.160377358491,42.9339622641509">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="135.811320754717,2.52830188679243"
+              Start="0,0"
+              End="128.311320754717,2.52830188679243">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="67.8867924528302,0" />
+                  <mssgle:LineSegment
+                    End="67.8867924528302,2.52830188679243" />
+                  <mssgle:LineSegment
+                    End="128.311320754717,2.52830188679243" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Welcome Email Data transfer from Datamart to COLO\Colo LCM_WelcomeEmails2015">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

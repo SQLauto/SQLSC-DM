@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTSDeploymentManifest GeneratedBy="TEACHCO\bondugulav" GeneratedFromProjectName="Migration2014" GeneratedDate="2016-01-28T13:43:24.2559626-05:00" AllowConfigurationChanges="true">
+  <Package>TGCPLus_AWS.dtsx</Package>
+  <ConfigurationFile>TGCPLus_AWS.dtsConfig</ConfigurationFile>
+</DTSDeploymentManifest>
