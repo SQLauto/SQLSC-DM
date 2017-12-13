@@ -30,6 +30,8 @@ CREATE TABLE [Archive].[EmailOrders_Summary]
 [Flag_DoublePunch] [int] NULL,
 [FrequencyByCampiagn] [int] NULL,
 [PriorRunDate] [datetime] NULL,
-[DMlastupdated] [datetime] NULL CONSTRAINT [DF__EmailOrde__DMlas__6A7BA634] DEFAULT (getdate())
-) ON [PRIMARY]
+[DMlastupdated] [datetime] NULL
+) ON [YearRangePartitionScheme] ([StartDate])
+GO
+CREATE CLUSTERED INDEX [IX_EmailOrders_Summary_Startdate] ON [Archive].[EmailOrders_Summary] ([StartDate]) ON [YearRangePartitionScheme] ([StartDate])
 GO

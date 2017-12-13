@@ -8,6 +8,7 @@ CREATE TABLE [Marketing].[DMmailContactDownStream]
 [DS6momailContacts] [int] NULL,
 [DS12momailContacts] [int] NULL,
 [DS18momailContacts] [int] NULL,
-[DS24momailContacts] [int] NULL
+[DS24momailContacts] [int] NULL,
+[DMlastupdated] [datetime] NULL CONSTRAINT [DF__DMmailCon__DMlas__38311AAA] DEFAULT (getdate())
 ) ON [PRIMARY]
 GO

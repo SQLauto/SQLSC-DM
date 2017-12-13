@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-    
 CREATE proc [dbo].[Sp_EPC_EmailPull_DailyDeals]                        
 as                        
 Begin                        
@@ -27,17 +26,21 @@ left join (select Customerid, sum(case when  FlagDormantCustomer = 0 then 1 else
 from #Cust group by Customerid ) c2
 on c1.customerid = c2.customerid  
 
+select  Customerid 
+into #Email_DormantCustomer_Holdout
+from Archive.Email_DormantCustomer_Holdout_20170816 
+group by Customerid
 
 /* Duplicate dormant emails  */
 
---Using MaxCourses as Course id for daily deals                        
+--Using MaxCourses as Course id for daily deals                             
 while exists (select top 1 EmailID from mapping.Email_adcode where EmailCompletedFlag = 0 and MaxCourses <> 0 order by EmailID)                        
 Begin                        
                         
 select top 1 @EmailID = EmailID,@CountryCode = Countrycode                         
 from mapping.Email_adcode                        
 where EmailCompletedFlag = 0                   
-and MaxCourses <> 0                       
+and MaxCourses <> 0                      
 order by EmailID,Countrycode desc                      
 select @EmailID                        
                         
@@ -88,8 +91,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode             
-,ccs.NewSeg             
-,map.MaxCourses as courseId          
+,ccs.NewSeg       
+,map.MaxCourses as courseId                
 into staging.EPC_EmailPull_DailyDeals                        
 from mapping.Email_adcode map (nolock)                   
 inner join mapping.Country_segment_group csg (nolock)                         
@@ -144,8 +147,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                  
-,ccs.NewSeg     
-,map.MaxCourses as courseId                      
+,ccs.NewSeg        
+,map.MaxCourses as courseId                   
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
 on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode                         
@@ -212,8 +215,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                   
-,ccs.NewSeg            
-,map.MaxCourses as courseId              
+,ccs.NewSeg     
+,map.MaxCourses as courseId                     
 FROM mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
 on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode                         
@@ -282,8 +285,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                  
-,ccs.NewSeg           
-,map.MaxCourses as courseId                
+,ccs.NewSeg        
+,map.MaxCourses as courseId                   
 into staging.EPC_EmailPull_DailyDeals                        
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
@@ -341,8 +344,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                    
-,ccs.NewSeg        
-,map.MaxCourses as courseId                 
+,ccs.NewSeg          
+,map.MaxCourses as courseId               
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
 on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode                         
@@ -413,8 +416,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                    
-,ccs.NewSeg       
-,map.MaxCourses as courseId                  
+,ccs.NewSeg                
+,map.MaxCourses as courseId         
 into staging.EPC_EmailPull_DailyDeals                        
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
@@ -471,8 +474,8 @@ ccs.CustomerSegmentNew,
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/                        
 cast('' as nvarchar(51)) as UserID                        
 ,csg.CountryCode                   
-,ccs.NewSeg          
-,map.MaxCourses as courseId                
+,ccs.NewSeg    
+,map.MaxCourses as courseId                      
 from mapping.Email_adcode map (nolock)                        
 inner join mapping.Country_segment_group csg (nolock)                         
 on map.segmentgroup = csg.segmentgroup and map.CountryCode = csg.CountryCode                         
@@ -851,25 +854,29 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------                     
 /*Dormant Customer HoldOuts*/
 
-declare @DormantHolder int = 0    
+declare @DormantHolder int = 0  ,  @DormantStartdate date = null
                   
-select @DormantHolder = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode                        
+select @DormantHolder = isnull(Adcode,0),@DormantStartdate = Startdate from   datawarehouse.Mapping.Email_Adcode                        
 where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Dormant Holdout' and countrycode= 'US'                        
-select '@DormantHolder', @DormantHolder   
+select '@DormantHolder', @DormantHolder   ,'@DormantStartdate', @DormantStartdate
 
 If @DormantHolder>0
 Begin
 
+CREATE NONCLUSTERED INDEX [IX_EPC_EmailPull_DailyDeals_temp]
+ON  Staging .EPC_EmailPull_DailyDeals ([AdCode])
+INCLUDE ([CustomerID],[EmailAddress],[PreferredCategory],[ComboID])
+
   insert into Archive.Email_DormantCustomer_Holdout_20170816 
-  select distinct CustomerID,@DormantHolder as Adcode,cast(A.startdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated
+  select distinct CustomerID,@DormantHolder as Adcode,cast(@DormantStartdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated
   from Datawarehouse.staging.EPC_EmailPull_DailyDeals E
-  join datawarehouse.Mapping.Email_Adcode A
-  on A.adcode = E.adcode and A.EmailID = @EmailID
-  where E.customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)                  
+  --join datawarehouse.Mapping.Email_Adcode A
+  --on A.adcode = E.adcode
+  where E.customerid in (select  Customerid from #Email_DormantCustomer_Holdout)                  
 
 
   Delete from Datawarehouse.staging.EPC_EmailPull_DailyDeals
-  where customerid in (select distinct Customerid from Archive.Email_DormantCustomer_Holdout_20170816)   
+  where customerid in (select  Customerid from #Email_DormantCustomer_Holdout)   
 
 
 End
@@ -1128,7 +1135,7 @@ drop table  staging.EPC_EmailPull_DailyDeals_PRSPCT
  [CustomerSegmentNew] [varchar](20) NULL,                
  [UserID] [nvarchar](51) NOT NULL,                
  [Priority] [varchar](250) NULL,
- [CourseId] int                
+ Courseid int null                
                 
 ) ON [PRIMARY]                
                 
@@ -1153,8 +1160,8 @@ Insert into staging.EPC_EmailPull_DailyDeals_PRSPCT
  'Prospect' CatalogName,                 
  'Prospect' CustomerSegmentNew,                 
  cast( '999999999' + '_' + CONVERT(varchar, Map.Adcode) + '_'+ EmailAddress as nvarchar(51) ) UserID,                 
- Map.Priority as Priority ,
- map.maxcourses as CourseId               
+ Map.Priority as Priority   
+ ,map.MaxCourses as courseId              
   from #prospect P                 
   ,(select top 1 * from DataWarehouse.Mapping.Email_adcode where EmailId = @EmailID and SegmentGroup = 'Prospects') map                
   where emailaddress not like '%teachco%'                
@@ -1245,10 +1252,10 @@ group by primary_adcode having COUNT(*)>1
    ( select coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory ,EmailCnt,COUNT(distinct customerid) Cnt                  
             From                  
             (                  
-               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory, EmailCnt                        
+               select Customerid,coalesce(comboid,'yyy') as comboid,coalesce(preferredcategory,'xxx') as preferredcategory,1 as EmailCnt                        
                From staging.EPC_EmailPull_DailyDeals                        
                Where adcode = @primary_adcode                     
-               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')   ,EmailCnt                     
+               group by Customerid,coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx')   --,EmailCnt             /*test 9/26/2017 */        
             )  a                  
  Group by coalesce(comboid,'yyy'),coalesce(preferredcategory,'xxx') ,EmailCnt                  
  having COUNT(*)>1                 
@@ -1281,7 +1288,10 @@ group by primary_adcode having COUNT(*)>1
       exec ('update staging.EPC_EmailPull_DailyDeals                         
           set adcode = '+ @adcode +                        
         ' where adcode = '+ @PrimaryAdcode +' and customerID in (select top ' + @Cnt + '  customerID   from staging.EPC_EmailPull_DailyDeals where adcode = '+ @PrimaryAdcode +                   
-        ' and comboid= '''+ @comboid + ''' and EmailCnt= '''+ @Emailcnt + ''' and  preferredcategory  = ''' + @preferredcategory + ''' order by NEWID() )')                        
+        ' and comboid= '''+ @comboid + 
+		--''' and EmailCnt= '''+ @Emailcnt + 
+		''' and  preferredcategory  = ''' + @preferredcategory + 
+		''' order by NEWID() )')                        
                         
       update #splitter                        
       set processed=1       
@@ -1464,11 +1474,36 @@ a.Subjectline = map.Subjectline,
 a.Priority = map.Priority                        
 from staging.EPC_EmailPull_DailyDeals a                        
 left join mapping.Email_adcode map                        
-on a.Adcode=map.primary_adcode --Adcode vik 2017/09/07 changed so we can add adcodes and seperate them by primary_adcode to split segments                        
+on a.Adcode=map.Adcode                        
 left join Mapping.StateZone sz (nolock)                   
 on sz.[State] = a.[State]                       
 where map.EmailID = @EmailID                        
-                  
+
+--DailyDeals Updates
+
+Declare  @Adcode_US_Swamp int = 0, @Adcode_Canada_ALL int = 0
+
+select @Adcode_US_Swamp '@Adcode_US_Swamp',@Adcode_Canada_ALL '@Adcode_Canada_ALL'
+           
+select @Adcode_US_Swamp = isnull(Adcode,0) from  datawarehouse.mapping.Email_adcode                        
+where   EmailID = @EmailID and SegmentGroup = 'Swamp Control' and Countrycode='US'                   
+select '@Adcode_US_Swamp', @Adcode_US_Swamp    
+		   
+select @Adcode_Canada_ALL = isnull(Adcode,0) from  datawarehouse.mapping.Email_adcode                        
+where   EmailID = @EmailID and SegmentGroup = 'Active Control' and Countrycode='CA'                        
+select '@Adcode_Canada_ALL', @Adcode_Canada_ALL    
+		               
+select @Adcode_US_Swamp '@Adcode_US_Swamp',@Adcode_Canada_ALL '@Adcode_Canada_ALL'
+
+Update staging.EPC_EmailPull_DailyDeals
+set adcode = @Adcode_US_Swamp
+where Catalogname in ('Swamp_Control','Swamp_CEPM5','Swamp_CEPM8','Deep_Swamp')
+
+Update staging.EPC_EmailPull_DailyDeals
+set adcode = @Adcode_Canada_ALL
+where Catalogname in ('Swamp_Canada')
+
+
 
 print 'Before Daily Deals deletes Emails droppped where pref does not match and CustomerSegmentNew =  DeepInactive'
 exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull_DailyDeals', datawarehouse   
@@ -1477,12 +1512,24 @@ if @CountryCode in ('US','CA')
 begin 
 --/*Daily Deals deletes Emails droppped where pref does not match*/
 print 'Daily Deals deletes  where pref does not match'
+--Delete E from staging.EPC_EmailPull_DailyDeals E
+--Join DataWarehouse.Mapping.DMCourse C
+--on E.courseId = C.CourseID
+--where (E.CustomerSegmentNew = 'DeepInactive')
+--and E.PreferredCategory <> C.SubjectCategory2
+--end  
+
+
+-- PR 11/28/2017 - Based on Lisa's request
 Delete E from staging.EPC_EmailPull_DailyDeals E
 Join DataWarehouse.Mapping.DMCourse C
 on E.courseId = C.CourseID
+join Marketing.CampaignCustomerSignature ccs 
+on E.CustomerID = ccs.CustomerID
 where (E.CustomerSegmentNew = 'DeepInactive')
-and E.PreferredCategory <> C.SubjectCategory2
-end  
+and (E.PreferredCategory <> C.SubjectCategory2
+and ccs.SecondarySubjPref <> C.SubjectCategory2)
+end
 
 --/*Daily Deals deletes where Customer has already purchased*/
 print 'Daily Deals deletes where Customer has already purchased the Course'
@@ -1490,8 +1537,7 @@ Delete E from staging.EPC_EmailPull_DailyDeals E
 Join DataWarehouse.Marketing.CompleteCoursePurchase C
 on E.courseId = C.CourseID
 and E.CustomerID = C.CustomerID
-
-
+                  
 
 print 'Before Delete adcodes that are not in mapping and which were moved to default 0'                        
 exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull_DailyDeals', datawarehouse    
@@ -1503,11 +1549,18 @@ where Adcode = 0
 		  
 				  
 				                          
---Update userid information.                        
+--Update Adcode related information again after new changes.                        
 update a                        
-set a.userid = cast( a.CustomerID + '_' + CONVERT(varchar, a.Adcode) + '_'+ EmailAddress as nvarchar(51) ) --a.CustomerID + '_' + CONVERT(varchar, a.Adcode) + '_'+  CatalogName                        
+set a.userid = cast( a.CustomerID + '_' + CONVERT(varchar, a.Adcode) + '_'+ EmailAddress as nvarchar(51) ),
+a.ECampaignID = 'Email'+ cast(a.Adcode as varchar(10))+'_' + convert(varchar(8), map.startdate, 112),
+a.Subjectline = map.Subjectline,
+a.Priority = map.Priority    
 from staging.EPC_EmailPull_DailyDeals a                        
-                        
+left join mapping.Email_adcode map                        
+on a.Adcode=map.Adcode                        
+where map.EmailID = @EmailID    
+                       
+                       
 alter table staging.EPC_EmailPull_DailyDeals alter column [UserID] [nvarchar](51) NOT NULL                       
                         
 /*********************Frequency Test customers ending in 3, 5 and customer since < 1/1/2017*************************************/
@@ -1553,7 +1606,8 @@ set @table = @EmailID
 --Create Email Table in lstmgr                        
                         
 Exec [Staging].[CampaignEmail_SplitTable_new] @TableName = @table ,@EmailName = 'NEW'                        
-                        
+
+                     
 
 /*Load into Mapping Table*/
 
@@ -1562,7 +1616,6 @@ select top 1 EmailID,maxCourses	as CourseId,Startdate
 from mapping.Email_adcode
 where emailid = @Emailid and maxCourses<>0
 and Countrycode not in ('CA','ROW')
-
                         
 update  mapping.Email_adcode                        
 set  EmailCompletedFlag = 1                         
@@ -1574,7 +1627,8 @@ exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPull_DailyDeals', datawarehou
 END                        
                         
 if OBJECT_ID('staging.EPC_EmailPull_DailyDeals') is not null                        
-drop table  staging.EPC_EmailPull_DailyDeals                        
+--drop table  staging.EPC_EmailPull_DailyDeals    
+                    select top 10 * from staging.EPC_EmailPull_DailyDeals    
                         
 End                        
                         

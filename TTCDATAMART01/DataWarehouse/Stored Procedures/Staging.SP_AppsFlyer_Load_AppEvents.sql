@@ -3,6 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
 CREATE Proc [Staging].[SP_AppsFlyer_Load_AppEvents] 
 as      
 Begin      
@@ -44,5 +45,21 @@ from staging.AppsFlyer_ssis_AppEvents
 /*Update Counts*/
 --exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName =  
       
-END      
+
+/*Insert only the initial Status*/
+
+insert into marketing.TGCPLus_AppsFlyer_AppEvents
+select Rnk.* 
+from 
+(
+select A.*  ,Row_number() over(partition by  A.CustomerUserID order by  A.Eventtime, A.Eventname, A.installTime) as Rank
+from Archive.TGCPLus_AppsFlyer_AppEvents A
+left join marketing.TGCPLus_AppsFlyer_AppEvents m
+on	a.CustomerUserID = m.CustomerUserID
+where isnull(a.CustomerUserID,'') <>''
+and m.CustomerUserID is null
+)Rnk
+where Rnk.Rank = 1 
+
+END    
 GO

@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
 CREATE proc [dbo].[Sp_EPC_EmailPull_CYC]        
 as        
 Begin        
@@ -1257,75 +1256,11 @@ Update staging.EPC_EmailPullCYC
 Set preferredcategory =replace(preferredcategory,' ','')        
 where PreferredCategory like '% %'        
   
-  
-  
-----------------------------------------------------------------------------------------------------------------------------------------------------  
---------------------------------------------------------Block for adding CYC---------------------------------------------------------------------  
-----------------------------------------------------------------------------------------------------------------------------------------------------  
-  
-/*Updates HS*/  
-  
-If exists (select top 1 * from DataWarehouse.Mapping.Email_adcode_CYC where SubjectCategory='MTH')    
-begin   
-Update DataWarehouse.staging.EPC_EmailPullCYC  
-set PreferredCategory='MTH'  
-where PreferredCategory = 'HS'  
-END  
-  
-Else   
-  
-Begin  
-Update DataWarehouse.staging.EPC_EmailPullCYC  
-set PreferredCategory='GEN'  
-where PreferredCategory = 'HS'  
-END  
-  
- /*
-update a  
-set PreferredCategory =     case --when PreferredCategory = 'PR' then 'EC'  
-                                          --when PreferredCategory in ('SCI','GEN','VA','MSC','X') then 'FW'  
-                                          --when PreferredCategory is null then 'FW'  
-                                          --when PreferredCategory = 'MH' then 'AH'  
-                                          when PreferredCategory = 'FA' then 'VA'  
-										  when PreferredCategory = 'MSC' then 'VA'  
-                                          when PreferredCategory in ('GEN','X') then 'SCI'  
-                                          else PreferredCategory  
-                                    end  
-from DataWarehouse.Staging.EPC_EmailPullCYC a  
-where isnull(a.PreferredCategory,'') not in (select distinct SubjectCategory from DataWarehouse.Mapping.Email_adcode_CYC )  
-*/
 
-update a  
-set PreferredCategory =     case --when PreferredCategory = 'PR' then 'EC'  
-                                          --when PreferredCategory in ('SCI','GEN','VA','MSC','X') then 'FW'  
-                                          --when PreferredCategory is null then 'FW'  
-                                          when PreferredCategory = 'MH' then 'AH'  
-                                          when PreferredCategory = 'FA' then 'VA'  
-										  --when PreferredCategory = 'MSC' then 'VA'  
-                                          when PreferredCategory in ('GEN','X') then 'FW'  
-                                          else PreferredCategory  
-                                    end  
-from DataWarehouse.Staging.EPC_EmailPullCYC a  
-where isnull(a.PreferredCategory,'') not in (select distinct SubjectCategory from DataWarehouse.Mapping.Email_adcode_CYC )  
-  
-print 'Before CYC'        
-exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse     
-/*Update adcodes based on CYCs*/  
-update a  
-set a.adcode = m.Adcode  
-from DataWarehouse.Staging.EPC_EmailPullCYC a  
-inner join DataWarehouse.Mapping.Email_adcode_CYC m   
-on  a.CatalogName = m.SegmentGroup  
-and a.PreferredCategory = m.SubjectCategory  
-and a.CountryCode=m.CountryCode  
-where m.EmailID = @EmailID    
-  
-print 'After CYC'        
-exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse        
-----------------------------------------------------------------------------------------------------------------------------------------------------  
---------------------------------------------------------End Block for adding CYC-----------------------------------------------------------------  
-----------------------------------------------------------------------------------------------------------------------------------------------------  
-
+  /* Canada CANSPAM Clean up Can not send them any email after 24 months*/  
+Delete from staging.EPC_EmailPullCYC  
+where CountryCode = 'CA'  
+and isnull(Newseg,20)>15  
 
 --------------------------------------------------------------------------------------------------------------------------------------------     
 --------------------------------------------------------------------------------------------------------------------------------------------                        
@@ -1418,7 +1353,77 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 ---------------------------------------------------------RAM Process End--------------------------------------------------------------------      
 --------------------------------------------------------------------------------------------------------------------------------------------                        
---------------------------------------------------------------------------------------------------------------------------------------------                                
+--------------------------------------------------------------------------------------------------------------------------------------------        
+  
+----------------------------------------------------------------------------------------------------------------------------------------------------  
+--------------------------------------------------------Block for adding CYC---------------------------------------------------------------------  
+----------------------------------------------------------------------------------------------------------------------------------------------------  
+  
+/*Updates HS*/  
+  
+If exists (select top 1 * from DataWarehouse.Mapping.Email_adcode_CYC where SubjectCategory='MTH')    
+begin   
+Update DataWarehouse.staging.EPC_EmailPullCYC  
+set PreferredCategory='MTH'  
+where PreferredCategory = 'HS'  
+END  
+  
+Else   
+  
+Begin  
+Update DataWarehouse.staging.EPC_EmailPullCYC  
+set PreferredCategory='GEN'  
+where PreferredCategory = 'HS'  
+END  
+  
+ /*
+update a  
+set PreferredCategory =     case --when PreferredCategory = 'PR' then 'EC'  
+                                          --when PreferredCategory in ('SCI','GEN','VA','MSC','X') then 'FW'  
+                                          --when PreferredCategory is null then 'FW'  
+                                          --when PreferredCategory = 'MH' then 'AH'  
+                                          when PreferredCategory = 'FA' then 'VA'  
+										  when PreferredCategory = 'MSC' then 'VA'  
+                                          when PreferredCategory in ('GEN','X') then 'SCI'  
+                                          else PreferredCategory  
+                                    end  
+from DataWarehouse.Staging.EPC_EmailPullCYC a  
+where isnull(a.PreferredCategory,'') not in (select distinct SubjectCategory from DataWarehouse.Mapping.Email_adcode_CYC )  
+*/
+
+update a  
+set PreferredCategory =     case --when PreferredCategory = 'PR' then 'EC'  
+                                          --when PreferredCategory in ('SCI','GEN','VA','MSC','X') then 'FW'  
+                                          --when PreferredCategory is null then 'FW'  
+                                          when PreferredCategory = 'MH' then 'AH'  
+                                          when PreferredCategory = 'FA' then 'VA'  
+										  --when PreferredCategory = 'MSC' then 'VA'  
+                                          when PreferredCategory in ('GEN','X') then 'FW'  
+                                          else PreferredCategory  
+                                    end  
+from DataWarehouse.Staging.EPC_EmailPullCYC a  
+where isnull(a.PreferredCategory,'') not in (select distinct SubjectCategory from DataWarehouse.Mapping.Email_adcode_CYC )  
+  
+print 'Before CYC'        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse     
+/*Update adcodes based on CYCs*/  
+update a  
+set a.adcode = m.Adcode  
+from DataWarehouse.Staging.EPC_EmailPullCYC a  
+inner join DataWarehouse.Mapping.Email_adcode_CYC m   
+on  a.CatalogName = m.SegmentGroup  
+and a.PreferredCategory = m.SubjectCategory  
+and a.CountryCode=m.CountryCode  
+where m.EmailID = @EmailID    
+  
+print 'After CYC'        
+exec staging.GetAdcodeInfo_test  'staging.EPC_EmailPullCYC', datawarehouse        
+----------------------------------------------------------------------------------------------------------------------------------------------------  
+--------------------------------------------------------End Block for adding CYC-----------------------------------------------------------------  
+----------------------------------------------------------------------------------------------------------------------------------------------------  
+
+
+                          
    
   
 alter table staging.EPC_EmailPullCYC add [Priority] [varchar](250) NULL             
@@ -1476,19 +1481,19 @@ subject =  case when PreferredCategory = 'AH' then 'History'
 	when PreferredCategory = 'FA' then 'Fine Arts'  
     End  
   
-,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject Category## ' , 'history')  
+,subjectline = case when PreferredCategory = 'AH' then Replace (subjectline, '##Subject Category##' , 'history')  
      when PreferredCategory = 'FW' then Replace (subjectline, '##Subject Category##' , 'better living')  
-     when PreferredCategory = 'EC' then Replace (subjectline, '##Subject Category## ' , 'business and economics')  
-     when PreferredCategory = 'LIT' then Replace (subjectline, '##Subject Category## ' , 'literature-language')  
-     when PreferredCategory = 'MTH' then Replace (subjectline, '##Subject Category## ' , 'mathematics')  
-     when PreferredCategory = 'PH' then Replace (subjectline, '##Subject Category## ' , 'philosophy-intellectual-history')  
-     when PreferredCategory = 'RL' then Replace (subjectline, '##Subject Category## ' , 'religion')   
-     when PreferredCategory = 'SCI' then Replace (subjectline, '##Subject Category## ' , 'science')   
-     when PreferredCategory = 'PR' then Replace (subjectline, '##Subject Category## ' , 'professional')   
-     when PreferredCategory = 'VA' then Replace (subjectline, '##Subject Category## ' , 'fine arts and music')   
-     when PreferredCategory = 'MH' then Replace (subjectline, '##Subject Category## ' , 'history')   
-     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject Category## ' , 'music')        
-	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject Category## ' , 'fine arts')   
+     when PreferredCategory = 'EC' then Replace (subjectline, '##Subject Category##' , 'business and economics')  
+     when PreferredCategory = 'LIT' then Replace (subjectline, '##Subject Category##' , 'literature-language')  
+     when PreferredCategory = 'MTH' then Replace (subjectline, '##Subject Category##' , 'mathematics')  
+     when PreferredCategory = 'PH' then Replace (subjectline, '##Subject Category##' , 'philosophy-intellectual-history')  
+     when PreferredCategory = 'RL' then Replace (subjectline, '##Subject Category##' , 'religion')   
+     when PreferredCategory = 'SCI' then Replace (subjectline, '##Subject Category##' , 'science')   
+     when PreferredCategory = 'PR' then Replace (subjectline, '##Subject Category##' , 'professional')   
+     when PreferredCategory = 'VA' then Replace (subjectline, '##Subject Category##' , 'fine arts and music')   
+     when PreferredCategory = 'MH' then Replace (subjectline, '##Subject Category##' , 'history')   
+     when PreferredCategory = 'MSC' then Replace (subjectline, '##Subject Category##' , 'music')        
+	 when PreferredCategory = 'FA' then Replace (subjectline, '##Subject Category##' , 'fine arts')   
      End  
   
 from staging.EPC_EmailPullCYC a  
@@ -1536,8 +1541,6 @@ drop table  staging.EPC_EmailPullCYC
         
 End        
         
-
-
 
 
 GO

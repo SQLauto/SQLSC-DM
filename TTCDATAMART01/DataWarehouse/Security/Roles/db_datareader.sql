@@ -1,4 +1,6 @@
 
+EXEC sp_addrolemember N'db_datareader', N'TEACHCO\badrai'
+
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\vagnera'
 EXEC sp_addrolemember N'db_datareader', N'DatamartReadOnly'
 GO
@@ -18,13 +20,9 @@ EXEC sp_addrolemember N'db_datareader', N'TEACHCO\carrt'
 GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\chouiniereb'
 GO
-EXEC sp_addrolemember N'db_datareader', N'TEACHCO\codad'
-GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\durmusm'
 GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\gelfondk'
-GO
-EXEC sp_addrolemember N'db_datareader', N'TEACHCO\gracek'
 GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\hagopianj'
 GO
@@ -77,8 +75,6 @@ GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\wiggins'
 GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\xuj'
-GO
-EXEC sp_addrolemember N'db_datareader', N'TEACHCO\yangh'
 GO
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\zappoloc'
 GO

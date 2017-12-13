@@ -48,6 +48,8 @@ CREATE TABLE [Archive].[TGCplus_DS]
 [MaxDSDate] [date] NULL,
 [LTDAmount] [money] NULL,
 [LTDNetAmount] [money] NULL,
+[LTDPaymentRank] [int] NULL,
+[LTDNetPaymentRank] [int] NULL,
 [IntlDSbilling_cycle_period_type] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IntlDSsubscription_plan_id] [bigint] NULL,
 [IntlDSpayment_handler] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -62,6 +64,7 @@ CREATE TABLE [Archive].[TGCplus_DS]
 [uso_offer_id] [int] NULL,
 [uso_offer_code_applied] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [uso_applied_at] [datetime] NULL,
+[Reactivated] [bit] NULL,
 [DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO

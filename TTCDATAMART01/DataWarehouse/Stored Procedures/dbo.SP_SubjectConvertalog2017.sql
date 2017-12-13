@@ -5,6 +5,7 @@ GO
 
 
 
+
 CREATE Proc [dbo].[SP_SubjectConvertalog2017]     @RunSecondPortion bit = 0   
 as        
 Begin        
@@ -248,7 +249,7 @@ Begin
 				--having COUNT(customerid) <193      
   
 				Print 'Only First portion has been run, need to manually 
-				Customer Cnts that are less than Minimum Category Mailing
+				Move Customer Cnts that are less than Minimum Category Mailing
 				 '
 				Return 0
 				END        

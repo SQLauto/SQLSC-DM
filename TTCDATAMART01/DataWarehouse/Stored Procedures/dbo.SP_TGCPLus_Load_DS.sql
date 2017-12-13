@@ -4,9 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
-
-
 CREATE Proc [dbo].[SP_TGCPLus_Load_DS]
 As
 
@@ -569,10 +566,10 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
   lag( billing_cycle_period_type, 1) over(partition by DS.customerid order by BillingRank )Prior_billing_cycle_period_type,
   lag( subscription_plan_id, 1) over(partition by DS.customerid order by BillingRank )Prior_subscription_plan_id,
   lag( payment_handler, 1) over(partition by DS.customerid order by BillingRank )Prior_payment_handler,
-  Amount,NetAmount,DSSplits,PaidFlag,BillingDupes,	UBIssue, MinDS,MinDSDate,MaxDS,MaxDSDate,LTDAmount,LTDNetAmount,
+  Amount,NetAmount,DSSplits,PaidFlag,BillingDupes,	UBIssue, MinDS,MinDSDate,MaxDS,MaxDSDate,LTDAmount,LTDNetAmount,LTDPaymentRank,LTDNetPaymentRank,
   IntlDSbilling_cycle_period_type,IntlDSsubscription_plan_id,IntlDSpayment_handler,IntlDSAmount,IntlDSuso_offer_id,
   SubDSbilling_cycle_period_type,SubDSsubscription_plan_id,SubDSpayment_handler,SubDSAmount,SubDSuso_offer_id,
-  Case when Coalesce_DSDate = MaxDSDate and DS is not null then 1 else 0 end as CurrentDS,uso_offer_id,uso_offer_code_applied,uso_applied_at,
+  Case when Coalesce_DSDate = MaxDSDate and DS is not null then 1 else 0 end as CurrentDS,uso_offer_id,uso_offer_code_applied,uso_applied_at,Cast(0 as bit) Reactivated,
   getdate() as DMLastupdated
   into Datawarehouse.Archive.TGCplus_DS
   from Datawarehouse.Staging.TGCplus_DS_Working DS
@@ -595,13 +592,16 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
 		  and SubDS.DS = MaxDS --and SubDS.EntitlementDays >0
 		  */
 
- select   MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount,
+ select   MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount,LTDPaymentRank,LTDNetPaymentRank,
 		  min(IntlDS.billing_cycle_period_type) as IntlDSbilling_cycle_period_type,min(IntlDS.subscription_plan_id) as IntlDSsubscription_plan_id,
 		  min(IntlDS.payment_handler) as IntlDSpayment_handler,min(IntlDS.pre_tax_amount) as IntlDSAmount,min(IntlDS.uso_offer_id) as IntlDSuso_offer_id,
 		  min(SubDS.billing_cycle_period_type) as SubDSbilling_cycle_period_type,min(SubDS.subscription_plan_id) as SubDSsubscription_plan_id,
 		  min(SubDS.payment_handler) as SubDSpayment_handler,min(SubDS.pre_tax_amount) as SubDSAmount,min(SubDS.uso_offer_id) as SubDSuso_offer_id
 		  from 
-		  (select Customerid,min(DS)MinDS,cast(Min(DS_Service_period_from) as Date) MinDSDate,Max(DS)MaxDS,cast(Max(Coalesce_DSDate) as date)as MaxDSDate, Sum(Amount) As LTDAmount ,Sum(NetAmount) As LTDNetAmount 
+		  (select Customerid,min(DS)MinDS,cast(Min(DS_Service_period_from) as Date) MinDSDate,Max(DS)MaxDS,cast(Max(Coalesce_DSDate) as date)as MaxDSDate
+		  , Sum(Amount) As LTDAmount ,Sum(NetAmount) As LTDNetAmount, 
+		  count(distinct case when PaidFlag =  1 and Amount	> 0 then  BillingRank end) as LTDPaymentRank,
+		  count(distinct case when PaidFlag =  1 and NetAmount> 0 then  BillingRank end)LTDNetPaymentRank
 		  from Datawarehouse.Staging.TGCplus_DS_Working
 		  group by Customerid)MinMax
 		  join Datawarehouse.Staging.TGCplus_DS_Working IntlDS
@@ -610,7 +610,7 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
 		  join Datawarehouse.Staging.TGCplus_DS_Working SubDS
 		  on MinMax.customerid = SubDS.Customerid
 		  and SubDS.DS = MaxDS --and SubDS.EntitlementDays >0
-		  group by MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount
+		  group by MinMax.Customerid, MinDS,  MinDSDate, MaxDS,  MaxDSDate,   LTDAmount ,  LTDNetAmount,LTDPaymentRank,LTDNetPaymentRank
 
   ) DSMinMax on DS.CustomerID = DSMinMax.CustomerID
   --where DS.CustomerID in (1399220, 1216192,2342155,956855,1085427,1216137,1216192,1216406,1216469,1219363,1219423,1220932,1221129,1221171,956855,1216137,2376383  )
@@ -670,6 +670,16 @@ set DS = Case when DS is null then null else 0 end
 from Archive.TGCPlus_DS a
 where isnull(ltdamount,0) = 0
 and DS>0 
+
+--Update ReActivated
+update Archive.TGCPlus_DS
+set Reactivated =  1 
+where CurrentDS =  1
+and customerid in 
+(select Customerid 
+from Archive.TGCPlus_DS 
+where DS>0 and DS_Entitled = 0 and EntitlementDays >= 8
+group by Customerid)
 
 END
 

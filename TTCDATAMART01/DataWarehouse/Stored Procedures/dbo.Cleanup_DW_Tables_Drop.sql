@@ -17,13 +17,13 @@ DECLARE @ecampaignsTableName VARCHAR(100), @Qry VARCHAR(8000), @NewTable varchar
 
 DECLARE MyCursor insensitive CURSOR
 FOR
-SELECT '['+SCHEMA_NAME(schema_id)+'].['+name+']'--, create_date
+SELECT '['+SCHEMA_NAME(schema_id)+'].['+name+']'-- as TableName, create_date
 AS SchemaTable
 FROM sys.tables
-where name like 'welcomeEmail%2016%'
+where name like 'OrdAllctn_BudCodeAssignWkOf%set'
 -- where name like 'House%AllCust'
 -- where name like 'Email_2016%'
-and create_date <= dateadd(month,-3,getdate())
+and create_date <= dateadd(month,-15,getdate())
 order by 1
 
 --- BEGIN Cursor for each table

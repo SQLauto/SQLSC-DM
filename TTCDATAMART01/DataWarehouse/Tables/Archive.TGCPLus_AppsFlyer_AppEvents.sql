@@ -15,7 +15,7 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [Partner] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MediaSource] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Channel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Keywords] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Keywords] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Campaign] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CampaignID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Adset] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -56,8 +56,8 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 [DMA] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IP] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [WIFI] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Operator] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Carrier] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Operator] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Carrier] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Language] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AppsFlyerID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AdvertisingID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -86,4 +86,6 @@ CREATE TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents]
 ) ON [PRIMARY]
 GO
 ALTER TABLE [Archive].[TGCPLus_AppsFlyer_AppEvents] ADD CONSTRAINT [PK__TGCPLus___B50ADEC67384D7F5] PRIMARY KEY CLUSTERED  ([TGCPLus_AppsFlyer_AppEvents_id]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_TGCPLus_AppsFlyer_AppEvents_CustomerUserID] ON [Archive].[TGCPLus_AppsFlyer_AppEvents] ([CustomerUserID]) ON [PRIMARY]
 GO

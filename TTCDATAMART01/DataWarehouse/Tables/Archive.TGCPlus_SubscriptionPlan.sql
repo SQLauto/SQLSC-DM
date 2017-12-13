@@ -18,3 +18,7 @@ CREATE TABLE [Archive].[TGCPlus_SubscriptionPlan]
 [DMLastUpdateESTDateTime] [datetime] NOT NULL CONSTRAINT [DF__TGCPlus_S__DMLas__2881CB63] DEFAULT (getdate())
 ) ON [PRIMARY]
 GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_TGCPlus_SubscriptionPlan_id] ON [Archive].[TGCPlus_SubscriptionPlan] ([id]) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_TGCPlus_SubscriptionPlan_uuid] ON [Archive].[TGCPlus_SubscriptionPlan] ([uuid]) ON [PRIMARY]
+GO

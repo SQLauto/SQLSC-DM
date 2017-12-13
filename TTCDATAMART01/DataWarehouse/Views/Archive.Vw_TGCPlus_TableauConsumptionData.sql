@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE View [Archive].[Vw_TGCPlus_TableauConsumptionData]
 as
 
@@ -30,6 +31,11 @@ as
 			b.plays,
 			b.pings,
 			b.StreamedMins, 
+			case
+			   when b.Plays > 0 and b.StreamedMins = 0 then 'Extreme2' 
+			   when cast(b.tstamp as date) < d.IntlSubDate then 'Extreme3' 
+			   when b.StreamedMins > (b.lectureRunTime/60) * 1.5 then 'Extreme1'
+			else 'Regular' end as ExtremeIndicator,
 			b.MinTstamp as FirstStreamDate,
 			d.TGCCustomerID, d.IntlCampaignName, d.IntlMD_Audience, d.IntlMD_Channel, 
 			d.IntlMD_PromotionType, d.IntlMD_Year, d.IntlSubDate, d.IntlSubWeek, d.IntlSubMonth, d.IntlSubYear, 
@@ -46,6 +52,7 @@ as
 		a.subscription_plan_id in (select id from datawarehouse.mapping.Vw_TGCPlus_ValidSubscriptionPlan) and
 		isnull(b.uip,'') NOT IN ('207.239.38.226', '10.11.244.209')
 		and year(b.tstamp) >= 2016
+
 
 
 

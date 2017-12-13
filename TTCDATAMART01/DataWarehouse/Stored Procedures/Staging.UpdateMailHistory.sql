@@ -10,6 +10,18 @@ AS
      @SQLStatement nvarchar(300)  
 BEGIN  
     set nocount on  
+
+		/* Update Adcode Startdate from Vwadcodesall*/
+	set @SQLStatement = '	
+					Update a  
+					Set a.startdate = cast(v.startdate as date)
+					from RFM..' +  @TableName +' a 
+					join datawarehouse.mapping.Vwadcodesall v 
+					on a.adcode = v.adcode 
+					where a.adcode >10
+					'
+	Exec sp_executesql @SQLStatement
+	set @SQLStatement = ''
   
     if object_id('Staging.TempUpdateMailHistory') is not null drop table Staging.TempUpdateMailHistory  
     set @SQLStatement = 'select distinct *'  
@@ -78,5 +90,5 @@ BEGIN
                     --where b.name like '%drop%')  
   
     if object_id('Staging.TempUpdateMailHistory') is not null drop table Staging.TempUpdateMailHistory      
-END  
+END 
 GO
