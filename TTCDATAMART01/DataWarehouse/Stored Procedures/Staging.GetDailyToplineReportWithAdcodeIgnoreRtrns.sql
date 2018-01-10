@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-create PROCEDURE [Staging].[GetDailyToplineReportWithAdcodeIgnoreRtrns] 
+CREATE PROCEDURE [Staging].[GetDailyToplineReportWithAdcodeIgnoreRtrns] 
 AS
 	-- Preethi Ramanujam    2/6/2012 - Get daily top line report
 begin
@@ -120,7 +120,8 @@ begin
   		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
 		Mapping.vwAdcodesAll vac on a.AdCode = vac.AdCode left join
 		Marketing.DMSOUPByFormatIgnoreReturns fmt on a.OrderID = fmt.Orderid
-    where year(a.DateOrdered) >= YEAR(getdate())-1
+    --where year(a.DateOrdered) >= YEAR(getdate())-1
+	where cast(a.DateOrdered as date) >= dateadd(month, -24, DATEADD(mm, DATEDIFF(mm,0,cast(getdate() as date)), 0))
     group by YEAR(a.DateOrdered),
         MONTH(a.DateOrdered),
         DataWarehouse.Staging.GetMonday(a.DateOrdered),

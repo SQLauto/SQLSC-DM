@@ -103,8 +103,9 @@ begin
 		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
 		Mapping.vwAdcodesAll vac on a.AdCode = vac.AdCode left join
 		Staging.vwDMSOUPByFormat fmt on a.OrderID = fmt.Orderid
-    where year(a.DateOrdered) >= YEAR(getdate())-1
-    group by YEAR(a.DateOrdered),
+       -- where year(a.DateOrdered) >= YEAR(getdate())-1		-- changed based on Joe's request on 1/3/2018
+   where cast(a.DateOrdered as date) >= dateadd(month, -24, DATEADD(mm, DATEDIFF(mm,0,cast(getdate() as date)), 0))
+  group by YEAR(a.DateOrdered),
         MONTH(a.DateOrdered),
         DataWarehouse.Staging.GetMonday(a.DateOrdered),
         cast(a.DateOrdered as date),

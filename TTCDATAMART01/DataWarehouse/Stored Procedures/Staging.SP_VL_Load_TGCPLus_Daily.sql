@@ -61,6 +61,10 @@ Print 'Executed staging.SP_Load_TGCPlus_CustomerSignature'
 Exec SP_Load_TGC_TGCplus --@StartDate = '5/1/2015' ,@EndDate ='4/19/2016'
 Print 'Executed SP_Load_TGC_TGCplus'
 
+exec  Staging.TGCPlus_CustomerChangeTracker_Update -- added on 12/20/2017
+Print 'Executed TGCPlus_CustomerChangeTracker_Update'
+
+
 /*Refresh other consumption reports*/
 
 Exec [Staging].[SP_VL_Load_TGCplus_User]

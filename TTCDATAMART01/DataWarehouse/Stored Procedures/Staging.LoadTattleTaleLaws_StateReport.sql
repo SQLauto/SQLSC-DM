@@ -139,7 +139,10 @@ begin
 							from Mapping.TattletaleTaxLawStates)
 		and a.pre_tax_amount <> 0
 
-
+	delete
+	from Staging.TempTattletaleTaxLawOrders
+	where ShipRegion = 'RI'
+	and Item_DigitalPhysical = 'Digital'
 
 	-- Load it into final table 
 	
