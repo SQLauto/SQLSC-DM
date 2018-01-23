@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+  <DTSConfigurationHeading>
+    <DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="DailyDealsCleanupColo" GeneratedFromPackageID="{4B7AE5B1-AD1B-4A87-90D9-F5591AE18FB2}" GeneratedDate="2/15/2016 2:36:02 PM"/>
+  </DTSConfigurationHeading>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[COLOSQL01.LstMgr1].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{4E1D3238-BE7D-470E-A682-629955238075}COLOSQL01.LstMgr1;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[COLOSQL01.LstMgr1].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>COLOSQL01</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+    <ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+    <ConfiguredValue>192.168.0.65</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{49F913D8-C99C-4ABF-97C8-DAF04709A8CD}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.LstMgr].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-DailyDealsCleanupColo-{76DC6904-7595-4D2E-A43D-2CE2FB26AC48}ttcdatamart01.LstMgr;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.LstMgr].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+</DTSConfiguration>

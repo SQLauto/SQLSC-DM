@@ -1,0 +1,1545 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2016 12:46:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{4D918ABD-35CE-480D-89A7-09F326B87F44}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TGCPLus_Android_Salesreport_Load"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="101"
+  DTS:VersionGUID="{B761AF8E-258A-472D-BA75-53E549C4470F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{76BAA488-BE65-4671-82DF-131AF4E9A1B9}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{76BAA488-BE65-4671-82DF-131AF4E9A1B9}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{53A1CEB0-9FF2-4C66-B1D7-AB431646B522}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{A55CB52A-03A1-4467-99E0-F3FDD7CCD25D}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::VSalesReportFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Order Number"
+              DTS:DTSID="{DA23C978-D5AB-4B8E-9B28-7B4793BA4F9B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="7"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Order Charged Date"
+              DTS:DTSID="{489C109C-A312-4E3F-BF6F-30E09833F157}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Order Charged Timestamp"
+              DTS:DTSID="{54B4FAFD-6898-4C50-A663-0946BB7BCE07}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Financial Status"
+              DTS:DTSID="{4F1B1A0A-C2A0-4AF7-945A-97235DFF7671}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Device Model"
+              DTS:DTSID="{D744763C-0EB4-4C1A-BDDF-3FFBEBD43582}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Product Title"
+              DTS:DTSID="{89ACEFAF-1FD2-4BE5-AB5F-B62D97CBF689}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Product ID"
+              DTS:DTSID="{7FD3E041-1D1A-4CD1-A4D3-060E125F483F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Product Type"
+              DTS:DTSID="{EC001709-A93A-4FE0-8547-CFA333D0063C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SKU ID"
+              DTS:DTSID="{096A7808-4662-4AC2-B6D0-8DD49543146E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Currency of Sale"
+              DTS:DTSID="{98CB9808-68F5-480C-AF00-BA6A76258471}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Item Price"
+              DTS:DTSID="{CD66DBF9-8AC9-49DD-A140-279D12E11B88}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Taxes Collected"
+              DTS:DTSID="{3F5C566C-80F8-46F5-A1B9-5AC472BBC985}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="4"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Charged Amount"
+              DTS:DTSID="{E9C544E2-7787-4366-8873-AF7491A71CB0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="City of Buyer"
+              DTS:DTSID="{7483B99A-DA2A-43E8-B5A8-95AE8C75E6D2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State of Buyer"
+              DTS:DTSID="{7EA89791-3662-415E-974A-DF2F6468DCCD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Postal Code of Buyer"
+              DTS:DTSID="{B6EAC3A9-D7D7-4E7C-B761-7C766EA242E2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country of Buyer"
+              DTS:DTSID="{593F48C4-80BC-4A6C-9D4D-BE1B073FD8F5}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{49D9EEC8-6562-4E56-8EF9-9D4690A59C6D}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B10FE976-1FBC-4887-B067-86DD4746BDFC}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{082BAFEC-C7EC-4974-BB15-43826FC028B6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E5353B0E-55FF-48EA-8A69-356CFAB53F1F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Drop Folder"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4EDE569E-3057-456D-A733-24616E240955}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Drop Folder"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{76BAA488-BE65-4671-82DF-131AF4E9A1B9}"
+          SQLTask:SqlStatementSource="exec  SP_TGCPlus_Android_Directory @DateFolder = @VDateFolder output, @ArchiveFolder =@VArchiveFolder output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VDateFolder"
+            SQLTask:DtsVariableName="User::VDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VArchiveFolder"
+            SQLTask:DtsVariableName="User::VArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{2E1DC8D8-EC97-437E-8276-F6B4D7DB9467}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{49D9EEC8-6562-4E56-8EF9-9D4690A59C6D}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="NO TGCPlus Android Sales Report File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_TGCPlus_Android_Directory"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{EA7FA192-2FAB-4EE2-BE89-483043EF2EDD}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_TGCPlus_Android_Directory">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{37E4571B-AE76-4E20-8F98-65120832B607}"
+        DTS:ObjectName="{37E4571B-AE76-4E20-8F98-65120832B607}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="Salesreport_*.csv" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="-1" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_Android_Directory\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{0FDB71D3-8A20-4494-AE81-0B0A001E4911}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{BE1F4AAA-51E0-4A2A-9260-1EEDF4D86C93}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="Flat File Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Number]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Number]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Number]"
+                          name="Order Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Date]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Charged Date]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Date]"
+                          name="Order Charged Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Timestamp]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Charged Timestamp]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Timestamp]"
+                          name="Order Charged Timestamp"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Financial Status]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Financial Status]"
+                          length="50"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Financial Status]"
+                          name="Financial Status"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device Model]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device Model]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device Model]"
+                          name="Device Model"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Title]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product Title]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Title]"
+                          name="Product Title"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product ID]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product ID]"
+                          name="Product ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Type]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product Type]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Type]"
+                          name="Product Type"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[SKU ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SKU ID]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[SKU ID]"
+                          name="SKU ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Currency of Sale]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Currency of Sale]"
+                          length="50"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Currency of Sale]"
+                          name="Currency of Sale"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Item Price]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Item Price]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Item Price]"
+                          name="Item Price"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Taxes Collected]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Taxes Collected]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Taxes Collected]"
+                          name="Taxes Collected"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Charged Amount]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Charged Amount]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Charged Amount]"
+                          name="Charged Amount"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[City of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City of Buyer]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[City of Buyer]"
+                          name="City of Buyer"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State of Buyer]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State of Buyer]"
+                          name="State of Buyer"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Code of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Postal Code of Buyer]"
+                          length="50"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Code of Buyer]"
+                          name="Postal Code of Buyer"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country of Buyer]"
+                          length="50"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country of Buyer]"
+                          name="Country of Buyer"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Number]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Order Number" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Charged Date]"
+                          dataType="date"
+                          name="Order Charged Date" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Order Charged Timestamp]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Order Charged Timestamp" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Financial Status]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Financial Status" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device Model]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Device Model" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product Title]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Product Title" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Product ID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Product Type]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Product Type" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SKU ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SKU ID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Currency of Sale]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Currency of Sale" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Item Price]"
+                          dataType="r4"
+                          name="Item Price" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Taxes Collected]"
+                          dataType="r4"
+                          name="Taxes Collected" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Charged Amount]"
+                          dataType="r4"
+                          name="Charged Amount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="City of Buyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="State of Buyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Postal Code of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Postal Code of Buyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country of Buyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Country of Buyer" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[Android_ssis_Salesreport]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Order Number]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Order Number"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderNumber]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Number]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Order Charged Date]"
+                          cachedDataType="date"
+                          cachedName="Order Charged Date"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderChargedDate]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Date]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Order Charged Timestamp]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Order Charged Timestamp"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderChargedTimestamp]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Order Charged Timestamp]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Financial Status]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Financial Status"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FinancialStatus]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Financial Status]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Device Model]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Device Model"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DeviceModel]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device Model]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Product Title]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Product Title"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductTitle]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Title]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Product ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Product ID"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product ID]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Product Type]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Product Type"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductType]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Product Type]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SKU ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="SKU ID"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SKUID]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[SKU ID]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Currency of Sale]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Currency of Sale"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyofSale]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Currency of Sale]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Item Price]"
+                          cachedDataType="r4"
+                          cachedName="Item Price"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemPrice]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Item Price]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Taxes Collected]"
+                          cachedDataType="r4"
+                          cachedName="Taxes Collected"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TaxesCollected]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Taxes Collected]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Charged Amount]"
+                          cachedDataType="r4"
+                          cachedName="Charged Amount"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ChargedAmount]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Charged Amount]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[City of Buyer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="City of Buyer"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CityofBuyer]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[City of Buyer]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[State of Buyer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="State of Buyer"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateofBuyer]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State of Buyer]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Postal Code of Buyer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Postal Code of Buyer"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PostalCodeofBuyer]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Postal Code of Buyer]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Country of Buyer]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Country of Buyer"
+                          externalMetadataColumnId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CountryofBuyer]"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country of Buyer]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderNumber]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="OrderNumber" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderChargedDate]"
+                          dataType="dbTimeStamp"
+                          name="OrderChargedDate" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderChargedTimestamp]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="OrderChargedTimestamp" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FinancialStatus]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="FinancialStatus" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DeviceModel]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="DeviceModel" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductTitle]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ProductTitle" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductType]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ProductType" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SKUID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SKUID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyofSale]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="CurrencyofSale" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemPrice]"
+                          dataType="r4"
+                          name="ItemPrice" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TaxesCollected]"
+                          dataType="r4"
+                          name="TaxesCollected" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ChargedAmount]"
+                          dataType="r4"
+                          name="ChargedAmount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CityofBuyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="CityofBuyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StateofBuyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="StateofBuyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PostalCodeofBuyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="PostalCodeofBuyer" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CountryofBuyer]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="CountryofBuyer" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_TGCPlus_Android_Directory\Load to Staging table.Paths[Flat File Source Output]"
+                  endId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_Android_Directory\Staging SP_Android_Load_Salesreport"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0138D7A3-5E2D-4C4F-93A2-91453F0D0BE2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_Android_Load_Salesreport"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{76BAA488-BE65-4671-82DF-131AF4E9A1B9}"
+              SQLTask:SqlStatementSource="exec [Staging].[SP_Android_Load_Salesreport]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_Android_Directory\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B8CA42F2-720E-4E05-8D2B-6E80FFE8AF27}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{53A1CEB0-9FF2-4C66-B1D7-AB431646B522}"
+              SQLTask:SqlStatementSource="truncate table staging.Android_ssis_Salesreport" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{65B00773-F082-4438-954B-E035626E2BC5}"
+          DTS:From="Package\SP_TGCPlus_Android_Directory\Staging SP_Android_Load_Salesreport"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_TGCPlus_Android_Directory\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{7ED83147-2C7E-4A5F-948F-3CD1B296807F}"
+          DTS:From="Package\SP_TGCPlus_Android_Directory\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_TGCPlus_Android_Directory\Staging SP_Android_Load_Salesreport" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{702AB146-C206-4133-AB14-C9E0DBFFB19B}"
+          DTS:From="Package\SP_TGCPlus_Android_Directory\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_TGCPlus_Android_Directory\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{772A3D62-0F9F-4914-A4B6-2714ABA95E60}"
+          DTS:ObjectName="{772A3D62-0F9F-4914-A4B6-2714ABA95E60}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B7F5AE1F-AE25-4E6E-8EF9-AE1E1B46C4B5}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_TGCPlus_Android_Directory" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{13C7BAD4-0783-42D2-B865-F01728AB0863}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile]  )&lt;1"
+      DTS:From="Package\SP_TGCPlus_Android_Directory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Get Drop Folder"
+          TopLeft="452,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="443,589" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_TGCPlus_Android_Directory\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_TGCPlus_Android_Directory\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\SP_TGCPlus_Android_Directory\Staging SP_Android_Load_Salesreport"
+          TopLeft="103,204" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_TGCPlus_Android_Directory\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint]"
+          TopLeft="236,246">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="236,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_Android_Directory.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,382"
+          Size="514,425"
+          Id="Package\SP_TGCPlus_Android_Directory"
+          TopLeft="265.5,133" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="526.25,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="520.75,558">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,3.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SP_TGCPlus_Android_Directory\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\SP_TGCPlus_Android_Directory\Load to Staging table\Flat File Source"
+          TopLeft="492,206" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination"
+          TopLeft="493,307" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_Android_Directory\Load to Staging table.Paths[Flat File Source Output]"
+          TopLeft="568.5,248">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11,59"
+              Start="0,0"
+              End="11,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="4,29.5" />
+                  <mssgle:LineSegment
+                    End="7,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7,29.5"
+                    Point2="11,29.5"
+                    Point3="11,33.5" />
+                  <mssgle:LineSegment
+                    End="11,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_TGCPlus_Android_Directory\Load to Staging table\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

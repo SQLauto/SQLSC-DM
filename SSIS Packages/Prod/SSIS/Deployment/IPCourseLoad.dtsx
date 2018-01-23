@@ -1,0 +1,494 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/27/2015 12:35:32 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{703B2BB3-3398-4DFE-AA21-D9CFED57E1C6}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="IPCourseLoad"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{DD76A8A6-59B7-431D-977D-B0E2ADDECF41}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{417D384F-BF5E-4182-B56A-23DD39B5F8E9}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\file1\Marketing\IP Course Load\Drop Folder\IP_CourseLoad_PartnerLoad.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6C3266DE-7289-4EAE-8004-A99DA46ECBD2}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-IPCourseLoad-{6C3266DE-7289-4EAE-8004-A99DA46ECBD2}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\IPCourseLoad.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{E76EAC04-4C18-4EB7-8BB3-3470B312BEFD}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load IP Course's and Partner list"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C33FC1EA-0D6C-40AB-9973-881F7CDB3C28}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load IP Course's and Partner list"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Load IP Course's and Partner list\Course List"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Course List"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">CourseList$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IP Course's and Partner list\Course List.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[CourseID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[CourseID]"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[CourseID]"
+                      name="CourseID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[StartDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[StartDate]"
+                      length="255"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[EndDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[EndDate]"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[CourseID]"
+                      dataType="r8"
+                      name="CourseID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[StartDate]"
+                      dataType="wstr"
+                      length="255"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].ExternalColumns[EndDate]"
+                      dataType="date"
+                      name="EndDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[CourseID]"
+                      dataType="r8"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[CourseID]"
+                      name="CourseID" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[StartDate]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[StartDate]"
+                      name="StartDate" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[EndDate]"
+                      dataType="date"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[EndDate]"
+                      name="EndDate" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load IP Course's and Partner list\IPCourseList"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="IPCourseList"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Staging].[IPCourseList]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IP Course's and Partner list\IPCourseList.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                  connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].Columns[CourseID]"
+                      cachedDataType="r8"
+                      cachedName="CourseID"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[CourseID]"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[CourseID]" />
+                    <inputColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].Columns[StartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                      cachedDataType="date"
+                      cachedName="EndDate"
+                      externalMetadataColumnId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output].Columns[EndDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[CourseID]"
+                      dataType="i4"
+                      name="CourseID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="wstr"
+                      length="10"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      dataType="wstr"
+                      length="10"
+                      name="EndDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IP Course's and Partner list\IPCourseList.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IP Course's and Partner list\IPCourseList.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IP Course's and Partner list\IPCourseList.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IP Course's and Partner list\IPCourseList.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load IP Course's and Partner list.Paths[Excel Source Output]"
+              endId="Package\Load IP Course's and Partner list\IPCourseList.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Load IP Course's and Partner list\Course List.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A4D96E04-22B5-45A4-9196-B1A58155EE6B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C3266DE-7289-4EAE-8004-A99DA46ECBD2}"
+          SQLTask:SqlStatementSource="Truncate table staging.IPCourseList&#xA;&#xA;--Truncate table Staging.IPPartnerList" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B59BC69A-37C3-4626-BE51-F07201804C73}"
+      DTS:From="Package\Truncate staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load IP Course's and Partner list" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="217,94"
+          Id="Package\Load IP Course's and Partner list"
+          TopLeft="5.5,177.235849056604" />
+        <NodeLayout
+          Size="186,73"
+          Id="Package\Truncate staging"
+          TopLeft="22.4811320754717,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="115.311320754717,78.3679245283019">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-1.50943396226421,98.8679245283018"
+              Start="0,0"
+              End="-1.50943396226421,91.3679245283018">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.4339622641509" />
+                  <mssgle:LineSegment
+                    End="-1.50943396226421,49.4339622641509" />
+                  <mssgle:LineSegment
+                    End="-1.50943396226421,91.3679245283018" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load IP Course's and Partner list">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Load IP Course's and Partner list\IPCourseList"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Load IP Course's and Partner list\Course List"
+          TopLeft="8.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Load IP Course's and Partner list.Paths[Excel Source Output]"
+          TopLeft="75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IP Course's and Partner list\Course List">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IP Course's and Partner list\IPCourseList">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

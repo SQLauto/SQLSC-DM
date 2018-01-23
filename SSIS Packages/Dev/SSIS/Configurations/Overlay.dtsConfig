@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="Overlay" GeneratedFromPackageID="{B7EEB0C3-137A-4B22-BFB8-D7BBC88D7551}" GeneratedDate="2/15/2016 12:55:58 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Overlay-{15D9900B-80AD-47A7-83D5-B57372C85695}DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{ABD5DD14-ED77-4EDD-8C68-87047D153A95}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

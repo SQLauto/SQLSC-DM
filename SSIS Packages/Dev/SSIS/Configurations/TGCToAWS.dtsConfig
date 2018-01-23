@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="TGCToAWS" GeneratedFromPackageID="{94B4B0B0-24E9-440A-AE79-C6A4E73C1ED5}" GeneratedDate="6/8/2017 10:22:56 AM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[Datawarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[TGCAWS].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=tgcanalytics.ccskhyvc1fba.us-east-1.rds.amazonaws.com;User ID=analytics_root;Initial Catalog=TGC;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[TGCAWS].Properties[Password]" ValueType="String">
+		<ConfiguredValue>wCF9235dXd5HaRTs56gSDF</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

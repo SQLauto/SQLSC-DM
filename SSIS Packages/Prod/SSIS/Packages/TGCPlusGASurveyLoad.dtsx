@@ -1,0 +1,1098 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/21/2015 2:24:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{A71991B9-F61B-4F4F-950D-F73074C87A03}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TGCPlusGASurveyLoad"
+  DTS:PackageType="5"
+  DTS:VersionBuild="51"
+  DTS:VersionGUID="{FE619B8C-2982-4B8F-AFD5-65B3E32F914A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{90316CEE-D8DF-4D73-9141-A33292A5FCA5}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TGC Plus GA Survey file]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{CD645C25-00F4-487B-8632-FBF41939D5F1}"
+      DTS:ObjectName="TGC Plus GA Survey file">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::Filepath]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="UUID"
+              DTS:DTSID="{F59E0B8C-C388-4414-9E51-3C1F93721D76}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Event Label"
+              DTS:DTSID="{6CA89BF8-9A3F-45B4-8950-7914D78C77D9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Device Category"
+              DTS:DTSID="{1FFA0F61-B86B-4504-AEE9-C76479847879}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Users"
+              DTS:DTSID="{6FACFEF1-DD21-4FAE-B5E8-85DA3D99AF29}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CD8BDAD2-9360-4415-8B00-E6941C81A56F}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-TGCPlusGAVisitorLoad-{9F8BC765-210A-4045-99D0-6511680A2A67}ttcdatamart01.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse1]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{D7BAE793-3901-4CE7-B06D-778D2A54C739}"
+      DTS:ObjectName="ttcdatamart01.DataWarehouse1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-TGCPlusGAVisitorLoad-{8CA2B72E-FE76-4081-9DD7-8E2264EFF7E9}ttcdatamart01.DataWarehouse1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="\\TTCDMFS01\ServerRepo\TTCDATAMART01\Dev\SSIS\Configurations\TGCPlusGAMetricsLoad.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{940C1E0C-0085-4C20-9520-596A031C9631}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3391CDFB-910F-4614-8BA1-E283406421A7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1E1A6414-747C-4829-82A1-95B555B1A935}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0D094B90-8EF7-4753-A73E-8FDE8601C322}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileNm">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4B16AB01-674F-48D0-B446-A0D7A769DC91}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Filepath">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Directory Information"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7BA6371A-329A-45A7-AC60-20CF317CE556}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Directory Information"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{7C832E3D-F9BD-4E64-86BF-D1C32C4D178A}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="Variable">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D7BAE793-3901-4CE7-B06D-778D2A54C739}"
+          SQLTask:SqlStatementSource="exec [SP_Directory_TGCPLus_GA_Visitor_DropFolder]  @DropFolder   =@pDrop output,@ArchiveFolder  =@pArchive output&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@pDrop"
+            SQLTask:DtsVariableName="User::DropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@pArchive"
+            SQLTask:DtsVariableName="User::ArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Each file from Drop folder"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{71CB70BC-8C93-48D2-826D-07390AE2E9B8}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Each file from Drop folder">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{F7488155-CDC1-40A3-82B6-17F4A15C1A64}"
+        DTS:ObjectName="{F7488155-CDC1-40A3-82B6-17F4A15C1A64}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::DropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="GA_Survey*" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load Each file from Drop folder\File System Task"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{691DB0CA-3D0A-4255-8708-37EB56FF22BC}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="File System Task"
+          DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::Filepath"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::ArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{3AAAECC7-E4FF-4FBA-8F6B-FA8DBB732DE7}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load from tab file to staging GA_ssis_Survey"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="Flat File Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[TGC Plus GA Survey file]"
+                      connectionManagerRefId="Package.ConnectionManagers[TGC Plus GA Survey file]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Users]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Users]"
+                          length="50"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Users]"
+                          name="Users"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[UUID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UUID]"
+                          length="255"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[UUID]"
+                          name="UUID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Event Label]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Event Label]"
+                          length="255"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Event Label]"
+                          name="Event Label"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Device Category]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device Category]"
+                          length="255"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Device Category]"
+                          name="Device Category"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Users]"
+                          dataType="i4"
+                          name="Users" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[UUID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="UUID" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Event Label]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Event Label" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device Category]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Device Category" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[GA_ssis_Survey]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[ttcdatamart01.DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Users]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Users"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Users]"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Users]" />
+                        <inputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UUID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="UUID"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UUID]"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[UUID]" />
+                        <inputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Event Label]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Event Label"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Event Label]"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Event Label]" />
+                        <inputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Device Category]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Device Category"
+                          externalMetadataColumnId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Device Category]"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output].Columns[Device Category]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UUID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="UUID" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Event Label]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Event Label" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Device Category]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Device Category" />
+                        <externalMetadataColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Users]"
+                          dataType="i4"
+                          name="Users" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey.Paths[Flat File Source Output]"
+                  endId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Each file from Drop folder\Process data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{A87C52AC-D697-48E7-8BBA-552FB96D376F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Process data"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{CD8BDAD2-9360-4415-8B00-E6941C81A56F}"
+              SQLTask:SqlStatementSource="exec Staging.SP_GA_Load_Survey" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Each file from Drop folder\Set drop file and archive file"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B1EBEA84-07A8-4EA0-81C6-828975033DBA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set drop file and archive file"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{D7BAE793-3901-4CE7-B06D-778D2A54C739}"
+              SQLTask:SqlStatementSource="set @pFilepath =  @pDrop + '\' + @pFilenm&#xA;&#xA;--Truncate table Staging.GA_ssis_Survey" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@pFilenm"
+                SQLTask:DtsVariableName="User::FileNm"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@pDrop"
+                SQLTask:DtsVariableName="User::DropFolder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@pArchive"
+                SQLTask:DtsVariableName="User::ArchiveFolder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@pFilepath"
+                SQLTask:DtsVariableName="User::Filepath"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load Each file from Drop folder\Truncate table Staging GA_ssis_Survey 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a9cf0a1b-7382-4aad-8a2c-6320147d432d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate table Staging GA_ssis_Survey 1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{CD8BDAD2-9360-4415-8B00-E6941C81A56F}"
+              SQLTask:SqlStatementSource="Truncate table Staging.GA_ssis_Survey" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{13C0CA4B-EB04-4669-8057-BF5E931F91D9}"
+          DTS:From="Package\Load Each file from Drop folder\Set drop file and archive file"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{851812D3-5089-4B07-A94A-B09B258FFD50}"
+          DTS:From="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load Each file from Drop folder\Process data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{E8602490-D843-4B4E-AD98-3DCEF2173332}"
+          DTS:From="Package\Load Each file from Drop folder\Process data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Load Each file from Drop folder\File System Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{20E7163F-4A64-4584-A13B-5843F27E3290}"
+          DTS:From="Package\Load Each file from Drop folder\File System Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Load Each file from Drop folder\Truncate table Staging GA_ssis_Survey 1" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{0977F1C7-7C6A-4DA2-9546-14E242520AB4}"
+          DTS:ObjectName="{0977F1C7-7C6A-4DA2-9546-14E242520AB4}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FileNm" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{B953C594-4551-4340-A97A-FD4C71B350F9}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{90316CEE-D8DF-4D73-9141-A33292A5FCA5}"
+          SendMailTask:From="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="~dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="NO TGCPlus GA Survey File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate table Staging GA_ssis_Survey"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DFA27455-21B6-4A73-B0D1-B92089436606}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate table Staging GA_ssis_Survey"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CD8BDAD2-9360-4415-8B00-E6941C81A56F}"
+          SQLTask:SqlStatementSource="Truncate table Staging.GA_ssis_Survey" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6B92DB94-26C8-4098-B59B-1CA18F2AD1BA}"
+      DTS:From="Package\Load Directory Information"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate table Staging GA_ssis_Survey" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{C55D507E-3BDB-406B-802E-D8465BBD5F9E}"
+      DTS:From="Package\Truncate table Staging GA_ssis_Survey"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Each file from Drop folder" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{6DDFBE14-9D12-4E7B-9B55-101C53765704}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::Filepath]  )&lt;1"
+      DTS:From="Package\Load Each file from Drop folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="196,56"
+          Id="Package\Load Directory Information"
+          TopLeft="40.7075471698113,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Load Each file from Drop folder\File System Task"
+          TopLeft="73.0754716981132,258.660377358491" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey"
+          TopLeft="50.0566037735849,123.811320754717" />
+        <NodeLayout
+          Size="165,48"
+          Id="Package\Load Each file from Drop folder\Set drop file and archive file"
+          TopLeft="55.9433962264151,33.9245283018868" />
+        <EdgeLayout
+          Id="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint]"
+          TopLeft="137.5,81.924528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.8867924528302"
+              Start="0,0"
+              End="0,34.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load Each file from Drop folder\Process data"
+          TopLeft="67,192" />
+        <EdgeLayout
+          Id="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 1]"
+          TopLeft="137.028301886792,165.811320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.188679245283"
+              Start="0,0"
+              End="0,18.688679245283">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.688679245283" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 2]"
+          TopLeft="139.287735849057,234">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.660377358491"
+              Start="0,0"
+              End="0,17.160377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.160377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Load Each file from Drop folder\Truncate table Staging GA_ssis_Survey 1"
+          TopLeft="37,337" />
+        <EdgeLayout
+          Id="Package\Load Each file from Drop folder.PrecedenceConstraints[Constraint 3]"
+          TopLeft="141.075471698113,302.660377358491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.4245283018868,34.339622641509"
+              Start="0,0"
+              End="28.4245283018868,26.839622641509">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.1698113207545" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.1698113207545"
+                    Point2="0,17.1698113207545"
+                    Point3="4,17.1698113207545" />
+                  <mssgle:LineSegment
+                    End="24.4245283018868,17.1698113207545" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.4245283018868,17.1698113207545"
+                    Point2="28.4245283018868,17.1698113207545"
+                    Point3="28.4245283018868,21.1698113207545" />
+                  <mssgle:LineSegment
+                    End="28.4245283018868,26.839622641509" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="347,434"
+          Size="347,478"
+          Id="Package\Load Each file from Drop folder"
+          TopLeft="26.5,195.292452830189" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="112,691" />
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Truncate table Staging GA_ssis_Survey"
+          TopLeft="25,108" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="138.707547169811,61.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.7924528301887,46.5"
+              Start="0,0"
+              End="18.7924528301887,39">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.25"
+                    Point2="0,23.25"
+                    Point3="4,23.25" />
+                  <mssgle:LineSegment
+                    End="14.7924528301887,23.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.7924528301887,23.25"
+                    Point2="18.7924528301887,23.25"
+                    Point3="18.7924528301887,27.25" />
+                  <mssgle:LineSegment
+                    End="18.7924528301887,39" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="157.5,150">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42.5,45.292452830189"
+              Start="0,0"
+              End="42.5,37.792452830189">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.6462264150945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.6462264150945"
+                    Point2="0,22.6462264150945"
+                    Point3="4,22.6462264150945" />
+                  <mssgle:LineSegment
+                    End="38.5,22.6462264150945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="38.5,22.6462264150945"
+                    Point2="42.5,22.6462264150945"
+                    Point3="42.5,26.6462264150945" />
+                  <mssgle:LineSegment
+                    End="42.5,37.792452830189" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="200,673.292452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="64,38.7075471698111"
+              Start="0,0"
+              End="56.5,38.7075471698111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.7075471698111" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.7075471698111"
+                    Point2="0,38.7075471698111"
+                    Point3="4,38.7075471698111" />
+                  <mssgle:LineSegment
+                    End="56.5,38.7075471698111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="22.25,43.7075471698111,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination"
+          TopLeft="469,224" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\Flat File Source"
+          TopLeft="490.462264150943,79.5" />
+        <EdgeLayout
+          Id="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey.Paths[Flat File Source Output]"
+          TopLeft="556.981132075472,123.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100.5"
+              Start="0,0"
+              End="0,93">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,93" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Each file from Drop folder\Load from tab file to staging GA_ssis_Survey\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

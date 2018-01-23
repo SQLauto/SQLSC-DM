@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DTSConfiguration>
+   <DTSConfigurationHeading>
+      <DTSConfigurationFileInfo GeneratedBy="TEACHCO\kanovkas" GeneratedFromPackageName="Staging" GeneratedFromPackageID="{A2C22845-067F-4B73-B49C-7A3D6D56FF78}" GeneratedDate="1/27/2016 2:12:15 PM" />
+   </DTSConfigurationHeading>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{9C725B48-C32B-4B9F-ACE8-A66EFC7718EB}DataWarehouse;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DaxImports;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{02E6D5AD-7D42-484A-904D-23E46CFA77AA}DaxImports;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Ecampaigns].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Ecampaigns;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{3D7BEC7B-9934-4BC5-BE75-94401EA638C2}Ecampaigns;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Ecampaigns].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Lstmgr].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Lstmgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{47289781-5103-43D3-A193-7A0A1277425B}Lstmgr;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Lstmgr].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=MarketingDM;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{65E4A5BD-AAA3-4B49-97E0-D91E242B664D}MarketingDM;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[RFM].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=RFM;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{C6234AA9-9B5F-4CAB-8BDA-EBF1D88FF3FE}RFM;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[RFM].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=SuperstarDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Staging-{79F92B9D-F5C3-4807-8CE2-814E913FA5CF}Superstar;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+</DTSConfiguration>

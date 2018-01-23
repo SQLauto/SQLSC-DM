@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DTSConfiguration>
+   <DTSConfigurationHeading>
+      <DTSConfigurationFileInfo GeneratedBy="TEACHCO\kanovkas" GeneratedFromPackageName="Prerequisites" GeneratedFromPackageID="{24C72792-80B6-46C6-9E7D-93746E010DAE}" GeneratedDate="1/27/2016 12:06:53 PM" />
+   </DTSConfigurationHeading>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{91D1CD2B-A090-4A1F-AF67-2BB8BE2C2FA1}DataWarehouse;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DaxImports;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{100470DA-D5FD-48BA-902B-5EE5B62FD465}DaxImports;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DaxImports].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Ecampaigns].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Ecampaigns;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{9BE80649-7279-4311-84D2-99DB4E0BA114}Ecampaigns;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Ecampaigns].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=MarketingDM;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{8837AB34-2C7C-42AB-9D4F-BD3DD058A08E}MarketingDM;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[RFM].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=RFM;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{04E02CAA-ACF3-451E-AE9D-3BA4254B9CF0}RFM;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[RFM].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=SuperstarDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Prerequisites-{C3558142-9C39-444E-AA0B-C40D32BBBFCE}Superstar;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+</DTSConfiguration>

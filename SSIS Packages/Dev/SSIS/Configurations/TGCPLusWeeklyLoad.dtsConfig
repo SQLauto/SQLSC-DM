@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DTSConfiguration>
+   <DTSConfigurationHeading>
+      <DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="TGCPLusWeeklyLoad" GeneratedFromPackageID="{342A5ADC-8934-494C-8072-203C60F8F92A}" GeneratedDate="2/10/2016 2:02:21 PM" />
+   </DTSConfigurationHeading>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-TGCPLusBillingAddress-{830E2C1A-168C-4922-867E-0A27FDFDA25A}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-TGCPLusBillingAddress-{5D6F8FC6-A392-48DF-B87C-37E87B541693}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+      <ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+      <ConfiguredValue>192.168.0.65</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package\Copy new folder and files.Properties[Arguments]" ValueType="String">
+      <ConfiguredValue>/c \\TTCDMFS01\ServerRepo\DatamartETL\TGCPLUS\BatchFiles\TGCPlusCopyWeeklyFiles.bat</ConfiguredValue>
+   </Configuration>
+</DTSConfiguration>

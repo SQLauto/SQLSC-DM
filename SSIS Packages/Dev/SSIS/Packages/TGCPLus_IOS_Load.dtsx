@@ -1,0 +1,1678 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2016 12:46:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{1ECD6C94-AB17-4FFB-BB37-920830A7D2EC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TGCPLus_IOS_Load"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="85"
+  DTS:VersionGUID="{246A5EFB-FA34-40AD-B4C8-7041D3AA8AFB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{7A2CE6C6-29B4-4165-B2D1-FDF97B843507}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{7A2CE6C6-29B4-4165-B2D1-FDF97B843507}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B2029CC5-8086-41F5-89ED-86F2FF35D89C}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{D1CCD44E-9578-400B-969B-4ED8C792DA93}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::VSalesReportFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="App Name"
+              DTS:DTSID="{63F7EE37-6C06-48F7-BDBC-BF8B458A18F8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="App Apple ID"
+              DTS:DTSID="{CE67846A-D316-4012-B4B2-EABDCB6F52BF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Subscription Name"
+              DTS:DTSID="{19347227-83E0-4F9A-BC1F-F5C7FD7C6944}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Subscription Apple ID"
+              DTS:DTSID="{F4CE5BF1-133F-4F3D-A01E-D93562CE3E41}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Subscription Group ID"
+              DTS:DTSID="{99EDE4C8-A5BE-4045-BF02-9B62B7719314}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Subscription Duration"
+              DTS:DTSID="{39E6401A-E930-4149-938D-725A9547EE42}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Customer Price"
+              DTS:DTSID="{F5BC9EDF-09D0-4572-8368-659780DFDE2A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Customer Currency"
+              DTS:DTSID="{FBBDACAB-ECB5-40DA-9AFC-95C6BF18D2B5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Developer Proceeds"
+              DTS:DTSID="{C449CA13-2ADB-4A7F-A71B-E309A0D818AB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Proceeds Currency"
+              DTS:DTSID="{31C76715-6792-440F-AB53-9A0A071468BC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Preserved Pricing"
+              DTS:DTSID="{6A9F5177-3845-456D-8A8E-D1EED1DE5612}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Proceeds Reason"
+              DTS:DTSID="{4700D563-366C-48F4-8284-110268605A0C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Client"
+              DTS:DTSID="{086B8F20-944C-4510-9240-B25B3DD1E717}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Device"
+              DTS:DTSID="{4D8244B5-FDDD-4AFF-BC82-9BE1AFAC1F37}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State"
+              DTS:DTSID="{D2D5BD22-995B-4E88-9BF8-36DE8EB63DCF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Country"
+              DTS:DTSID="{55463400-A328-48EF-AD98-DC0D22460AB4}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Active Subscriptions"
+              DTS:DTSID="{F63867BC-626F-4DFC-A105-196DC633D05F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Active Free Trials"
+              DTS:DTSID="{3AB466D0-806B-43E5-9B8B-DE7EAF841735}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Marketing Opt-Ins"
+              DTS:DTSID="{8CCBAE90-A5DF-457D-9900-F78DBE0244C5}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{EC85AD0B-09F3-4849-BB2B-A6CBDB1B2F6F}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B5D18388-6163-4D70-9899-7B0E82ACDFFC}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E9ED0D0F-E440-4507-BCAB-53C9C1DBCAE5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B252D060-286D-4A02-A8B1-676371E7A80E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Drop Folder"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E411386E-066C-4C80-A66E-6332FCF4CEFF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Drop Folder"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7A2CE6C6-29B4-4165-B2D1-FDF97B843507}"
+          SQLTask:SqlStatementSource="exec  SP_TGCPlus_IOS_Directory @DateFolder = @VDateFolder output, @ArchiveFolder =@VArchiveFolder output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VDateFolder"
+            SQLTask:DtsVariableName="User::VDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VArchiveFolder"
+            SQLTask:DtsVariableName="User::VArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{8EB287C2-3E36-45D5-9EE2-055051EC7978}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{EC85AD0B-09F3-4849-BB2B-A6CBDB1B2F6F}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="NO TGCPlus IOS Report File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_IOS_DirectoryFile"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{3C75E140-07A1-4027-A9A7-119F9F6F07F3}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_IOS_DirectoryFile">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{FAAAE9EC-EC1D-47E0-A56D-6AC658487488}"
+        DTS:ObjectName="{FAAAE9EC-EC1D-47E0-A56D-6AC658487488}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="Subscription_85801640*.txt" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="-1" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_IOS_DirectoryFile\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{1AF54304-BED7-45DC-8AF8-1E024D062074}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_IOS_DirectoryFile\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{D1A224D6-D1A0-4B2A-9E6F-F962B67B1494}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source"
+                  componentClassID="Microsoft.FlatFileSource"
+                  contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Source"
+                  localeId="1033"
+                  name="Flat File Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether zero-length columns are treated as null."
+                      name="RetainNulls">true</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                      name="FileNameColumnName"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output]"
+                      name="Flat File Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[App Name]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Name]"
+                          name="App Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Apple ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[App Apple ID]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Apple ID]"
+                          name="App Apple ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Name]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Name]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Name]"
+                          name="Subscription Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Apple ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Apple ID]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Apple ID]"
+                          name="Subscription Apple ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Group ID]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Group ID]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Group ID]"
+                          name="Subscription Group ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Duration]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Duration]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Duration]"
+                          name="Subscription Duration"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Price]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer Price]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Price]"
+                          name="Customer Price"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Currency]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer Currency]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Currency]"
+                          name="Customer Currency"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Developer Proceeds]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Developer Proceeds]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Developer Proceeds]"
+                          name="Developer Proceeds"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Currency]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Proceeds Currency]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Currency]"
+                          name="Proceeds Currency"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Preserved Pricing]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Preserved Pricing]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Preserved Pricing]"
+                          name="Preserved Pricing"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Reason]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Proceeds Reason]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Reason]"
+                          name="Proceeds Reason"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Client]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Client]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Client]"
+                          name="Client"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device]"
+                          name="Device"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State]"
+                          name="State"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Subscriptions]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Active Subscriptions]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Subscriptions]"
+                          name="Active Subscriptions"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Free Trials]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Active Free Trials]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Free Trials]"
+                          name="Active Free Trials"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Marketing Opt-Ins]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Marketing Opt-Ins]"
+                          length="255"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Marketing Opt-Ins]"
+                          name="Marketing Opt-Ins"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the data is in binary format."
+                              name="UseBinaryFormat">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[App Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="App Name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[App Apple ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="App Apple ID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Name]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Subscription Name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Apple ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Subscription Apple ID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Group ID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Subscription Group ID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Subscription Duration]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Subscription Duration" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer Price]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Customer Price" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer Currency]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Customer Currency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Developer Proceeds]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Developer Proceeds" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Proceeds Currency]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Proceeds Currency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Preserved Pricing]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Preserved Pricing" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Proceeds Reason]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Proceeds Reason" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Client]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Client" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Device]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Device" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Active Subscriptions]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Active Subscriptions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Active Free Trials]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Active Free Trials" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Marketing Opt-Ins]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Marketing Opt-Ins" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output]"
+                      isErrorOut="true"
+                      name="Flat File Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          codePage="1252"
+                          dataType="text"
+                          description="Flat File Source Error Output Column"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                          name="Flat File Source Error Output Column" />
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="staging TGCplus_ssis_ios"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[TGCplus_ssis_ios]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Client]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Client"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Client]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Client]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Device]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Device"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Device]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Device]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[State]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="State"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[State]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Country]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[App Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="App Name"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[AppName]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Name]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[App Apple ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="App Apple ID"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[AppAppleID]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[App Apple ID]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Subscription Name]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Subscription Name"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionName]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Name]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Subscription Apple ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Subscription Apple ID"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionAppleID]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Apple ID]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Subscription Group ID]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Subscription Group ID"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionGroupID]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Group ID]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Subscription Duration]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Subscription Duration"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionDuration]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Subscription Duration]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Customer Price]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Customer Price"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[CustomerPrice]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Price]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Customer Currency]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Customer Currency"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[CustomerCurrency]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Customer Currency]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Developer Proceeds]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Developer Proceeds"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[DeveloperProceeds]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Developer Proceeds]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Proceeds Currency]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Proceeds Currency"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ProceedsCurrency]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Currency]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Preserved Pricing]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Preserved Pricing"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[PreservedPricing]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Preserved Pricing]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Proceeds Reason]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Proceeds Reason"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ProceedsReason]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Proceeds Reason]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Active Subscriptions]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Active Subscriptions"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ActiveSubscriptions]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Subscriptions]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Active Free Trials]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Active Free Trials"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFreeTrials]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Active Free Trials]" />
+                        <inputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].Columns[Marketing Opt-Ins]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Marketing Opt-Ins"
+                          externalMetadataColumnId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[MarketingOptIns]"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output].Columns[Marketing Opt-Ins]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Client]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Client" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Device]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Device" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="State" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[AppName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="AppName" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[AppAppleID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="AppAppleID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionName]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SubscriptionName" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionAppleID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SubscriptionAppleID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionGroupID]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SubscriptionGroupID" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionDuration]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="SubscriptionDuration" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[CustomerPrice]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="CustomerPrice" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[CustomerCurrency]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="CustomerCurrency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[DeveloperProceeds]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="DeveloperProceeds" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ProceedsCurrency]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ProceedsCurrency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[PreservedPricing]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="PreservedPricing" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ProceedsReason]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ProceedsReason" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ActiveSubscriptions]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ActiveSubscriptions" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[ActiveFreeTrials]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ActiveFreeTrials" />
+                        <externalMetadataColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input].ExternalColumns[MarketingOptIns]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="MarketingOptIns" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_IOS_DirectoryFile\Load to Staging table.Paths[Flat File Source Output]"
+                  endId="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios.Inputs[OLE DB Destination Input]"
+                  name="Flat File Source Output"
+                  startId="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source.Outputs[Flat File Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_IOS_DirectoryFile\Staging SP_ios_Load_dailyReport"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BEEA20ED-CEB3-4FE2-B2C7-68F9D9C83F9F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_ios_Load_dailyReport"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7A2CE6C6-29B4-4165-B2D1-FDF97B843507}"
+              SQLTask:SqlStatementSource="exec [Staging].[SP_ios_Load_dailyReport]  @vsalesreportfile" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vsalesreportfile"
+                SQLTask:DtsVariableName="User::VSalesReportFile"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_IOS_DirectoryFile\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E7816E55-E765-4DD0-BDFF-2B76BE3E7410}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{B2029CC5-8086-41F5-89ED-86F2FF35D89C}"
+              SQLTask:SqlStatementSource="truncate table staging.TGCplus_ssis_ios " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{FF6D5A61-6306-47C8-920F-DE46F991D914}"
+          DTS:From="Package\SP_IOS_DirectoryFile\Staging SP_ios_Load_dailyReport"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_IOS_DirectoryFile\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{0D33C682-F9E9-4FEA-AD3F-DE251D8757DB}"
+          DTS:From="Package\SP_IOS_DirectoryFile\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_IOS_DirectoryFile\Staging SP_ios_Load_dailyReport" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{F531AAB5-989F-4B88-B720-47D0C847BD14}"
+          DTS:From="Package\SP_IOS_DirectoryFile\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_IOS_DirectoryFile\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{4C44E701-8D41-4EFE-975A-8D7297A2FB08}"
+          DTS:ObjectName="{4C44E701-8D41-4EFE-975A-8D7297A2FB08}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{475C95CD-D38C-431A-A08C-CF000439B634}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_IOS_DirectoryFile" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{524EC258-2280-44A9-AA88-CF43EA938CA5}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile]  )&lt;1"
+      DTS:From="Package\SP_IOS_DirectoryFile"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Get Drop Folder"
+          TopLeft="452,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="446,580" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_IOS_DirectoryFile\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_IOS_DirectoryFile\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\SP_IOS_DirectoryFile\Staging SP_ios_Load_dailyReport"
+          TopLeft="122,204" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_IOS_DirectoryFile\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint]"
+          TopLeft="239.75,246">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="239.75,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_IOS_DirectoryFile.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,358"
+          Size="514,401"
+          Id="Package\SP_IOS_DirectoryFile"
+          TopLeft="265.5,133" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="526.25,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="522.25,534">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,11.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SP_IOS_DirectoryFile\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\SP_IOS_DirectoryFile\Load to Staging table\Flat File Source"
+          TopLeft="599,113" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios"
+          TopLeft="581,232" />
+        <EdgeLayout
+          Id="Package\SP_IOS_DirectoryFile\Load to Staging table.Paths[Flat File Source Output]"
+          TopLeft="678,155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77"
+              Start="0,0"
+              End="0,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_IOS_DirectoryFile\Load to Staging table\staging TGCplus_ssis_ios">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

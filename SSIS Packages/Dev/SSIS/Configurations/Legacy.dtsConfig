@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DTSConfiguration>
+   <DTSConfigurationHeading>
+      <DTSConfigurationFileInfo GeneratedBy="TEACHCO\kanovkas" GeneratedFromPackageName="Legacy" GeneratedFromPackageID="{AD27FA5A-1BA4-4D1E-850D-A4092A0681DD}" GeneratedDate="1/27/2016 1:55:50 PM" />
+   </DTSConfigurationHeading>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[CCQ].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=CCQDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Legacy-{53F3E9BB-BDBC-4DD6-97EC-8CA26AA06AB2}CCQ;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[CCQ].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Legacy-{40135276-5E5F-4293-959D-5BFCC430B540}DataWarehouse;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Lstmgr].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=Lstmgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Legacy-{67D092E2-EDBF-4A51-BB72-A60E267BC5D8}Lstmgr;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Lstmgr].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=MarketingDM;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Legacy-{986DB67E-CB80-4577-B963-D0D583CC1E60}MarketingDM;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[MarketingDM].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ConnectionString]" ValueType="String">
+      <ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=SuperstarDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Legacy-{A90D3522-F089-40E0-A563-0D0F7AA94F9E}Superstar;</ConfiguredValue>
+   </Configuration>
+   <Configuration ConfiguredType="Property" Path="\Package.Connections[Superstar].Properties[ServerName]" ValueType="String">
+      <ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+   </Configuration>
+</DTSConfiguration>

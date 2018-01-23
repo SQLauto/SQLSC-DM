@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="VOCReport" GeneratedFromPackageID="{36640B32-3EDB-4C07-8816-1A6B55BA9C70}" GeneratedDate="3/21/2016 10:51:07 AM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-VOCReport-{914ED250-35C2-48A7-944E-9C319B7476E8}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[Excel Connection Manager].Properties[ExcelFilePath]" ValueType="String">
+		<ConfiguredValue>\\file1\\Marketing\CustomerCareReports\VOC_Report\Weekly File Drop Folder\VOC_Weekly.xls</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

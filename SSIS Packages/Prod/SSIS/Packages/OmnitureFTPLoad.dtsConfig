@@ -1,0 +1,17 @@
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="OmnitureFTPLoad" GeneratedFromPackageID="{98EF74C9-A5EA-4EE3-A288-0159363F4E7F}" GeneratedDate="3/25/2016 10:04:05 AM" />
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+		<ConfiguredValue>192.168.0.65</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-OmnitureFTP-{0F121575-4AC0-46BE-A016-6200D446C301}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

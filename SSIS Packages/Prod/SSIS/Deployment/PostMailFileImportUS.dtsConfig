@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+  <DTSConfigurationHeading>
+    <DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="PostMailFileImportUS" GeneratedFromPackageID="{FA489171-41E1-42B1-827F-B7B5ED8A23AE}" GeneratedDate="2/12/2016 2:54:13 PM"/>
+  </DTSConfigurationHeading>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ADO.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-PostMailFileImportUS-{F82AFC5C-A029-4E84-91CE-5AE2AE99370C}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[ADO.DataWarehouse].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+    <ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-PostMailFileImportUS-{3C95AE77-DB11-4F86-B7D0-026B7C7CC0D9}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+  </Configuration>
+  <Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+    <ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+  </Configuration>
+</DTSConfiguration>

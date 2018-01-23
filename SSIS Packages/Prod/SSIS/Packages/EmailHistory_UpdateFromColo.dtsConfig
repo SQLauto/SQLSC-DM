@@ -1,0 +1,41 @@
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\kanovkas" GeneratedFromPackageName="EmailHistory_UpdateFromColo" GeneratedFromPackageID="{090B9137-CD4D-4FCB-89DB-ABD71A8E7089}" GeneratedDate="2/24/2016 3:31:21 PM" />
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADOCOLO].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=COLOSQL01;Initial Catalog=LstMgr;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{E210227A-93F4-4BC4-9EC1-56AC5DDED2F6}COLOSQL01.LstMgr;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADOCOLO].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>COLOSQL01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADODataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{55275BCA-4827-40E7-A2DC-D77EE3B1BEC5}TTCDMCL01\DMDAXDEV.DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADODataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADOLstMgr].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=Lstmgr;Integrated Security=True;Application Name=SSIS-EmailHistory_UpdateFromColo-{0851A71E-DAA1-43B9-A7B3-FD6F5CED8B6D}TTCDatamart01\DMDAxDev.Lstmgr;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ADOLstMgr].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=COLOSQL01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{F21F67A8-58C0-4510-AFC0-3ADCD3396115}COLO;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>COLOSQL01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{C774CD60-1104-4461-AD72-C850E114F9A5}DataWarehouse1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[LstMgr1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EmailHistory_UpdateFromColo-{8E57055E-3959-4AE3-83AF-2AD625BC06FF}LstMgr1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[LstMgr1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

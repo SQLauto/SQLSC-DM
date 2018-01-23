@@ -1,0 +1,23 @@
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="EPCEmailPreferenceTransferColo" GeneratedFromPackageID="{B0072636-D6B2-45E5-A466-9449E5D6DC64}" GeneratedDate="2/15/2016 2:12:08 PM" />
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=colosql01;Initial Catalog=LstMgr;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EPCEmailPreferenceTransferColo-{E4AA379E-2B79-4194-9F0E-776AE64AC056}COLO;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[COLO].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>colosql01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDATAMART01;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-EPCEmailPreferenceTransferColo-{BD773B9D-F438-48B9-824B-31C3ED33402D}DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDATAMART01</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[Name]" ValueType="String">
+		<ConfiguredValue>SMTP Connection Manager</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String">
+		<ConfiguredValue>192.168.0.65</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

@@ -1,0 +1,1363 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2016 12:46:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="TTC464A"
+  DTS:CreatorName="TEACHCO\bondugulav"
+  DTS:DTSID="{E8D21ECE-FDC5-41D1-B412-0818BB39962F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TGCPLus_Roku_Transactions_Load"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="95"
+  DTS:VersionGUID="{F22D1C52-1C93-4873-9783-03D257040C7B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ADODataWarehouse]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{921ED69B-CB75-45CE-BC82-4FEB16A609FB}"
+      DTS:ObjectName="ADODataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-Package1-{921ED69B-CB75-45CE-BC82-4FEB16A609FB}TTCDMCL01\DMDAXDEV.DataWarehouse;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0FC8F05A-583E-4342-923D-25E2B3E00575}"
+      DTS:ObjectName="DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TTCdatamart01;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{7F1FD213-4012-4EBF-8382-51DDE4E7E3C7}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::VSalesReportFile]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{9F050FA9-93F3-42C9-B106-8001457BBE55}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=192.168.0.65;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F67A567B-4418-4A4D-8DA2-C7755E0AA436}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{172B6B22-6A64-4706-B4B2-A4BF64152CF9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VDropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FA2155D6-7F7E-4BDB-B27F-4F450F9EC474}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VSalesReportFile">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Drop Folder"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{77EEE850-365D-4BCA-B005-0678091C77DD}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Drop Folder"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{921ED69B-CB75-45CE-BC82-4FEB16A609FB}"
+          SQLTask:SqlStatementSource="exec  SP_TGCPlus_ROKU_Directory @DateFolder = @VDateFolder output, @ArchiveFolder =@VArchiveFolder output" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VDateFolder"
+            SQLTask:DtsVariableName="User::VDropFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@VArchiveFolder"
+            SQLTask:DtsVariableName="User::VArchiveFolder"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Send Mail Task"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Send Mail Task"
+      DTS:DTSID="{7E275832-27A2-40D4-B18E-A70CDE557B00}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Send Mail Task"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SendMailTask:SendMailTaskData
+          SendMailTask:SMTPServer="{9F050FA9-93F3-42C9-B106-8001457BBE55}"
+          SendMailTask:From="dldatamartalerts@TEACHCO.com"
+          SendMailTask:To="dldatamartalerts@TEACHCO.com"
+          SendMailTask:Subject="NO TGCPlus Roku Transactions File for today"
+          SendMailTask:Priority="High" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP_TGCPlus_ROKU_Directory"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DelayValidation="True"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{ACF04ABF-8BB1-413D-B281-600F16975323}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP_TGCPlus_ROKU_Directory">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{DD2C630C-7455-4F60-839F-EB8D4A6CEB6C}"
+        DTS:ObjectName="{DD2C630C-7455-4F60-839F-EB8D4A6CEB6C}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::VDropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="" />
+            <FEFEProperty
+              FileSpec="Roku*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="-1" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory\Archive file"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:Description="File System Task"
+          DTS:DTSID="{062D9E26-092D-408E-973A-98473D3A3C25}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive file"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::VSalesReportFile"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::VArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{F69B96CB-CA1E-45BD-AA66-E1DC85F5B95C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load to Staging table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Sheet1$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[event_date]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[event_date]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[event_date]"
+                          name="event_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[invoice_number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[invoice_number]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[invoice_number]"
+                          name="invoice_number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[transaction_type]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[transaction_type]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[transaction_type]"
+                          name="transaction_type"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[developer_transaction_id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[developer_transaction_id]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[developer_transaction_id]"
+                          name="developer_transaction_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_transaction_id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[user_transaction_id]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_transaction_id]"
+                          name="user_transaction_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[user_id]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_id]"
+                          name="user_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[zip_code]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[zip_code]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[zip_code]"
+                          name="zip_code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[channel_name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[channel_name]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[channel_name]"
+                          name="channel_name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_code]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_code]"
+                          name="product_code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_name]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_name]"
+                          name="product_name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[quantity]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[quantity]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[quantity]"
+                          name="quantity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[amount]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[amount]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[amount]"
+                          name="amount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[service_credits]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[service_credits]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[service_credits]"
+                          name="service_credits"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[net_amount]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[net_amount]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[net_amount]"
+                          name="net_amount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[currency]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[currency]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[currency]"
+                          name="currency"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[expiration_date]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[expiration_date]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[expiration_date]"
+                          name="expiration_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[original_transaction_id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[original_transaction_id]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[original_transaction_id]"
+                          name="original_transaction_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[partner_reference_id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[partner_reference_id]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[partner_reference_id]"
+                          name="partner_reference_id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[refund_description]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[refund_description]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[refund_description]"
+                          name="refund_description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[comments]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[comments]"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[comments]"
+                          name="comments"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[event_date]"
+                          dataType="date"
+                          name="event_date" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[F2]"
+                          dataType="date"
+                          name="F2" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[invoice_number]"
+                          dataType="wstr"
+                          length="255"
+                          name="invoice_number" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[transaction_type]"
+                          dataType="wstr"
+                          length="255"
+                          name="transaction_type" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[developer_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="developer_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[user_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="user_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[user_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="user_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[zip_code]"
+                          dataType="r8"
+                          name="zip_code" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[channel_name]"
+                          dataType="wstr"
+                          length="255"
+                          name="channel_name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_code]"
+                          dataType="wstr"
+                          length="255"
+                          name="product_code" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[product_name]"
+                          dataType="wstr"
+                          length="255"
+                          name="product_name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[quantity]"
+                          dataType="r8"
+                          name="quantity" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[amount]"
+                          dataType="r8"
+                          name="amount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[service_credits]"
+                          dataType="r8"
+                          name="service_credits" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[net_amount]"
+                          dataType="r8"
+                          name="net_amount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[currency]"
+                          dataType="wstr"
+                          length="255"
+                          name="currency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[expiration_date]"
+                          dataType="date"
+                          name="expiration_date" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[original_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="original_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[partner_reference_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="partner_reference_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[refund_description]"
+                          dataType="wstr"
+                          length="255"
+                          name="refund_description" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[comments]"
+                          dataType="wstr"
+                          length="255"
+                          name="comments" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].ExternalColumns[F22]"
+                          dataType="wstr"
+                          length="255"
+                          name="F22" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[event_date]"
+                          dataType="date"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[event_date]"
+                          name="event_date" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[invoice_number]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[invoice_number]"
+                          name="invoice_number" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[transaction_type]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[transaction_type]"
+                          name="transaction_type" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[developer_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[developer_transaction_id]"
+                          name="developer_transaction_id" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[user_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[user_transaction_id]"
+                          name="user_transaction_id" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[user_id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[user_id]"
+                          name="user_id" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[zip_code]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[zip_code]"
+                          name="zip_code" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[channel_name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[channel_name]"
+                          name="channel_name" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[product_code]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[product_code]"
+                          name="product_code" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[product_name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[product_name]"
+                          name="product_name" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[quantity]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[quantity]"
+                          name="quantity" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[amount]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[amount]"
+                          name="amount" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[service_credits]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[service_credits]"
+                          name="service_credits" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[net_amount]"
+                          dataType="r8"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[net_amount]"
+                          name="net_amount" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[currency]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[currency]"
+                          name="currency" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[expiration_date]"
+                          dataType="date"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[expiration_date]"
+                          name="expiration_date" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[original_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[original_transaction_id]"
+                          name="original_transaction_id" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[partner_reference_id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[partner_reference_id]"
+                          name="partner_reference_id" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[refund_description]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[refund_description]"
+                          name="refund_description" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[comments]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[comments]"
+                          name="comments" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Staging TGCPLus_ssis_Roku_transactions"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[Staging].[TGCPLus_ssis_Roku_transactions]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[DataWarehouse]"
+                      connectionManagerRefId="Package.ConnectionManagers[DataWarehouse]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[event_date]"
+                          cachedDataType="date"
+                          cachedName="event_date"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[event_date]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[event_date]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[invoice_number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="invoice_number"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[invoice_number]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[invoice_number]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[transaction_type]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="transaction_type"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[transaction_type]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[transaction_type]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[developer_transaction_id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="developer_transaction_id"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[developer_transaction_id]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[developer_transaction_id]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[user_transaction_id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="user_transaction_id"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[user_transaction_id]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_transaction_id]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[user_id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="user_id"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[user_id]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[user_id]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[zip_code]"
+                          cachedDataType="r8"
+                          cachedName="zip_code"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[zip_code]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[zip_code]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[channel_name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="channel_name"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[channel_name]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[channel_name]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[product_code]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="product_code"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[product_code]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_code]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[product_name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="product_name"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[product_name]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[product_name]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[quantity]"
+                          cachedDataType="r8"
+                          cachedName="quantity"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[quantity]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[quantity]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[amount]"
+                          cachedDataType="r8"
+                          cachedName="amount"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[amount]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[amount]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[service_credits]"
+                          cachedDataType="r8"
+                          cachedName="service_credits"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[service_credits]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[service_credits]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[net_amount]"
+                          cachedDataType="r8"
+                          cachedName="net_amount"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[net_amount]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[net_amount]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[currency]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="currency"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[currency]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[currency]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[expiration_date]"
+                          cachedDataType="date"
+                          cachedName="expiration_date"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[expiration_date]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[expiration_date]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[original_transaction_id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="original_transaction_id"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[original_transaction_id]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[original_transaction_id]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[partner_reference_id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="partner_reference_id"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[partner_reference_id]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[partner_reference_id]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[refund_description]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="refund_description"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[refund_description]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[refund_description]" />
+                        <inputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].Columns[comments]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="comments"
+                          externalMetadataColumnId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[comments]"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output].Columns[comments]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[event_date]"
+                          dataType="dbTimeStamp"
+                          name="event_date" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[invoice_number]"
+                          dataType="wstr"
+                          length="255"
+                          name="invoice_number" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[transaction_type]"
+                          dataType="wstr"
+                          length="255"
+                          name="transaction_type" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[developer_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="developer_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[user_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="user_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[user_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="user_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[zip_code]"
+                          dataType="r8"
+                          name="zip_code" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[channel_name]"
+                          dataType="wstr"
+                          length="255"
+                          name="channel_name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[product_code]"
+                          dataType="wstr"
+                          length="255"
+                          name="product_code" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[product_name]"
+                          dataType="wstr"
+                          length="255"
+                          name="product_name" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[quantity]"
+                          dataType="r8"
+                          name="quantity" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[amount]"
+                          dataType="r8"
+                          name="amount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[service_credits]"
+                          dataType="r8"
+                          name="service_credits" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[net_amount]"
+                          dataType="r8"
+                          name="net_amount" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[currency]"
+                          dataType="wstr"
+                          length="255"
+                          name="currency" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[expiration_date]"
+                          dataType="dbTimeStamp"
+                          name="expiration_date" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[original_transaction_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="original_transaction_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[partner_reference_id]"
+                          dataType="wstr"
+                          length="255"
+                          name="partner_reference_id" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[refund_description]"
+                          dataType="wstr"
+                          length="255"
+                          name="refund_description" />
+                        <externalMetadataColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input].ExternalColumns[comments]"
+                          dataType="wstr"
+                          length="255"
+                          name="comments" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table.Paths[Excel Source Output]"
+                  endId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory\Staging SP_Roku_Transactions_Load"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BEBAB74F-2C78-452F-B550-A06D6FAC3350}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Staging SP_Roku_Transactions_Load"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{921ED69B-CB75-45CE-BC82-4FEB16A609FB}"
+              SQLTask:SqlStatementSource="exec Staging.SP_Roku_Transactions_Load" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@vsalesreportfile"
+                SQLTask:DtsVariableName="User::VSalesReportFile"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="16"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory\truncate Staging table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{77C3F40E-6DB6-4F54-B3F2-D57AB4536408}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="truncate Staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{0FC8F05A-583E-4342-923D-25E2B3E00575}"
+              SQLTask:SqlStatementSource="truncate table staging.TGCPLus_ssis_Roku_transactions&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{4EEDB865-362A-46B9-9B2F-AB97A68386BD}"
+          DTS:From="Package\SP_TGCPlus_ROKU_Directory\Staging SP_Roku_Transactions_Load"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SP_TGCPlus_ROKU_Directory\Archive file" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{34872E15-18B9-4F1B-A918-19CAACAEB7BE}"
+          DTS:From="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1 1"
+          DTS:To="Package\SP_TGCPlus_ROKU_Directory\Staging SP_Roku_Transactions_Load" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{0FF686CA-B1D8-470B-AD12-15E9EF7859EF}"
+          DTS:From="Package\SP_TGCPlus_ROKU_Directory\truncate Staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{5DD21B23-0012-4555-8647-4F2E21DEDC9A}"
+          DTS:ObjectName="{5DD21B23-0012-4555-8647-4F2E21DEDC9A}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::VSalesReportFile" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E57801D7-5DE4-4C51-AF04-E78F4AC78CB9}"
+      DTS:From="Package\Get Drop Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SP_TGCPlus_ROKU_Directory" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E4DE5B53-DE56-40D2-9511-C517A1107E59}"
+      DTS:EvalOp="1"
+      DTS:Expression="LEN( @[User::VSalesReportFile]  )&lt;1"
+      DTS:From="Package\SP_TGCPlus_ROKU_Directory"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Send Mail Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Get Drop Folder"
+          TopLeft="452,42" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Send Mail Task"
+          TopLeft="443,589" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\Archive file"
+          TopLeft="172,285" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table"
+          TopLeft="148,119" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\Staging SP_Roku_Transactions_Load"
+          TopLeft="112,205" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\truncate Staging table"
+          TopLeft="147,38" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint]"
+          TopLeft="239,247">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint 1 1]"
+          TopLeft="239,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_ROKU_Directory.PrecedenceConstraints[Constraint 3]"
+          TopLeft="239,80">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="514,382"
+          Size="514,425"
+          Id="Package\SP_TGCPlus_ROKU_Directory"
+          TopLeft="265.5,133" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="526.25,84">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="520.75,558">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,3.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source"
+          TopLeft="537,132" />
+        <NodeLayout
+          Size="276,42"
+          Id="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions"
+          TopLeft="466,274" />
+        <EdgeLayout
+          Id="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table.Paths[Excel Source Output]"
+          TopLeft="605.75,174">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100"
+              Start="0,0"
+              End="0,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SP_TGCPlus_ROKU_Directory\Load to Staging table\Staging TGCPLus_ssis_Roku_transactions">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

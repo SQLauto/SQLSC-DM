@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="IPCourseLoad" GeneratedFromPackageID="{703B2BB3-3398-4DFE-AA21-D9CFED57E1C6}" GeneratedDate="2/15/2016 1:44:13 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[Excel Connection Manager].Properties[ExcelFilePath]" ValueType="String">
+		<ConfiguredValue>\\file1\Marketing\IP Course Load\Drop Folder\IP_CourseLoad_PartnerLoad.xls</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-IPCourseLoad-{6C3266DE-7289-4EAE-8004-A99DA46ECBD2}ttcdatamart01.DataWarehouse;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[ttcdatamart01.DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>

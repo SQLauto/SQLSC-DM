@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="TEACHCO\bondugulav" GeneratedFromPackageName="TGCPLusManualLoad" GeneratedFromPackageID="{CAB5BB3A-B341-4C7C-AD0B-4EE774FEFDCB}" GeneratedDate="2/12/2016 2:47:09 PM"/>
+	</DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Provider=SQLNCLI11;Integrated Security=SSPI;Application Name=SSIS-SnagFilmsETL-{0DB4865F-6DE7-4830-85B5-9F37334C901E}ttcdatamart01.DataWarehouse;Auto Translate=False;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=TTCDMCL01\DMDAXDEV;Initial Catalog=DataWarehouse;Integrated Security=True;Application Name=SSIS-SnagFilmsDailyLoad-{AD6D0E96-122B-43F8-896C-D2B1B78F9BB1}ttcdatamart01.DataWarehouse1;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DataWarehouse1].Properties[ServerName]" ValueType="String">
+		<ConfiguredValue>TTCDMCL01\DMDAXDEV</ConfiguredValue>
+	</Configuration>
+</DTSConfiguration>
