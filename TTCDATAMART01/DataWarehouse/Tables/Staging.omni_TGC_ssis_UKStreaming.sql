@@ -1,9 +1,11 @@
-CREATE TABLE [Staging].[omni_TGC_ssis_UKStreaming]
+CREATE TABLE [Staging].[omni_TGC_ssis_UkStreaming]
 (
 [Date] [datetime] NULL,
 [MarketingCloudVisitorID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MobileDeviceType] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[MobileDevices] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MobileDevice] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Browser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[GeoSegmentationCountries] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MediaName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DeviceConnected] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [MediaViews] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

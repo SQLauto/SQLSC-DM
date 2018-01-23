@@ -12,7 +12,7 @@ CREATE TABLE [Archive].[TGCplus_ios_report]
 [CustomerCurrency] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DeveloperProceeds] [money] NULL,
 [ProceedsCurrency] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PreservedPricing] [money] NULL,
+[PreservedPricing] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ProceedsReason] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Client] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Device] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

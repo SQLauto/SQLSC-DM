@@ -3,6 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
 CREATE Proc [Staging].[SP_FB_TGC_Raw_Load]   
 as      
 Begin      
@@ -32,6 +33,20 @@ SELECT [Campaign],
   GETDATE()
   FROM staging.[ssis_FB_TGC_Raw]
   WHERE Campaign IS NOT NULL
+
+
+
+
+
+INSERT INTO [Archive].[FB_TGC_AdCodes]
+
+SELECT DISTINCT Campaign, Adset, Ad , right(ad,6)
+FROM Archive.[FB_TGC_Raw] a
+WHERE adset NOT IN
+    (SELECT adset 
+     FROM DataWarehouse.Archive.fb_tgc_adcodes)
+	 	 and a.ad not like '%Post:%' and 
+a.ad not like '%Job:%' 
  
 END 
 GO

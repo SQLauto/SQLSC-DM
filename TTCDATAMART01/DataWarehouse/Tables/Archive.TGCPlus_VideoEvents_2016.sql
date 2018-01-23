@@ -1,5 +1,6 @@
 CREATE TABLE [Archive].[TGCPlus_VideoEvents_2016]
 (
+[TGCPlus_VideoEvents_id] [bigint] NOT NULL IDENTITY(1, 1),
 [aid] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [cid] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [pfm] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -32,6 +33,8 @@ CREATE TABLE [Archive].[TGCPlus_VideoEvents_2016]
 [uip] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DMLastUpdateESTDateTime] [datetime] NOT NULL
 ) ON [PRIMARY]
+GO
+ALTER TABLE [Archive].[TGCPlus_VideoEvents_2016] ADD CONSTRAINT [PK__TGCPlus___8EDBDD9EF5FA3FFE] PRIMARY KEY CLUSTERED  ([TGCPlus_VideoEvents_id]) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [IX_TGCPlus_VideoEvents_2016_Tstamp] ON [Archive].[TGCPlus_VideoEvents_2016] ([tstamp]) ON [PRIMARY]
 GO
