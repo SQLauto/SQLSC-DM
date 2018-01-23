@@ -8,6 +8,7 @@ GO
 -- Issue#	Date		Modified By		Details
 ------------------------------------------------------------------------------------------------------------------------------------------
 -- US2564	11/01/2016	BryantJ			Initial
+-- US3912	01/03/2018	BryantJ			Changed Magento.catalog_product_entity_varchar's value_id column to BIGINT
 ------------------------------------------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE [Magento].[P_Import_Courses]
 AS
@@ -88,7 +89,7 @@ BEGIN
 	IF OBJECT_ID('tempdb.dbo.#catalog_product_entity_varchar', 'U') IS NOT NULL 
 		DROP TABLE #catalog_product_entity_varchar
 	CREATE TABLE #catalog_product_entity_varchar 
-		(value_id int NOT NULL,
+		(value_id bigint NOT NULL,
 		entity_type_id int NOT NULL,
 		attribute_id smallint NOT NULL,
 		store_id smallint NOT NULL,
@@ -1183,4 +1184,5 @@ BEGIN
 
 	SET NOCOUNT OFF
 END
+
 GO

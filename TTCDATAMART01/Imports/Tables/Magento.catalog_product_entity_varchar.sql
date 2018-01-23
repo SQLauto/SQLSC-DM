@@ -1,6 +1,6 @@
 CREATE TABLE [Magento].[catalog_product_entity_varchar]
 (
-[value_id] [int] NOT NULL,
+[value_id] [bigint] NOT NULL,
 [entity_type_id] [int] NOT NULL,
 [attribute_id] [smallint] NOT NULL,
 [store_id] [smallint] NOT NULL,
