@@ -32,6 +32,8 @@ CREATE TABLE [Marketing].[DMPurchaseOrderItems]
 [TotalStandardSalePrice] [money] NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_DMPurchaseOrderItems_Cover_1] ON [Marketing].[DMPurchaseOrderItems] ([CourseID], [CustomerID], [DateOrdered]) INCLUDE ([OrderID], [StockItemID]) ON [PRIMARY]
+GO
 CREATE NONCLUSTERED INDEX [IX_DMPurchaseOrderItems_Temp1] ON [Marketing].[DMPurchaseOrderItems] ([FlagReturn], [FlagPaymentRejected], [FlagLegacy]) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [IX_DMPurchaseOrderItems_OrderID_CustomerID] ON [Marketing].[DMPurchaseOrderItems] ([OrderID], [CustomerID]) INCLUDE ([CourseID], [Parts], [TotalSales]) ON [PRIMARY]

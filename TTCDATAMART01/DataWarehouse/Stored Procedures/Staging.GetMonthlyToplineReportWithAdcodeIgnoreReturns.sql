@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-create PROCEDURE [Staging].[GetMonthlyToplineReportIgnoreReturnsIgnoreReturns] 
+CREATE PROCEDURE [Staging].[GetMonthlyToplineReportWithAdcodeIgnoreReturns] 
 AS
 	-- Preethi Ramanujam    2/6/2012 - Get monthly top line report
 	-- PR -- 2/7/2014  -- Include Marketing dimensions as per Amit's request
@@ -11,8 +11,8 @@ AS
 	-- PR -- 6/3/2015 -- Added IPR_Channel to the table.
 begin
 
-    IF EXISTS (SELECT 8 FROM sysobjects WHERE Name = 'MonthlyToplineReportIgnoreReturns')
-        DROP TABLE Marketing.MonthlyToplineReportIgnoreReturns
+      IF EXISTS (SELECT 8 FROM sysobjects WHERE Name = 'MonthlyToplineReportWithAdcodeIgnoreReturns')
+        DROP TABLE Marketing.MonthlyToplineReportWithAdcodeIgnoreReturns
 
 
 
@@ -108,6 +108,12 @@ begin
         a.CustomerSegmentFnlPrior,
         a.NewsegPrior, a.NamePrior, a.A12mfPrior,
        -- fo.CustType,		--PR 9/12 -- This variable is causing confusion. So, removing after discussing with Amit
+         vac.AdCode,
+		vac.AdcodeName,
+		vac.CatalogCode,
+		vac.CatalogName,
+		vac.StartDate,
+		vac.StopDate,
         vac.MD_Audience,
         vac.MD_Year,
         vac.MD_Country,
@@ -119,14 +125,14 @@ begin
         vac.MD_CampaignID,
         vac.MD_CampaignName,
         vac.IPR_Channel
-    into Marketing.MonthlyToplineReportIgnoreReturns	
+    into Marketing.MonthlyToplineReportWithAdcodeIgnoreReturns	
     from Marketing.DMPurchaseOrders a left join
         MarketingCubes..DimPromotionType b on a.PromotionType = b.PromotionTypeID left join 
 		Mapping.CustomerOverlay_WD co on co.CustomerID = a.CustomerID  left join -- PR 8/20 -- Update demographics from WebDecisions table
 		Mapping.vwAdcodesAll vac on a.AdCode = vac.AdCode left join
 		Marketing.DMSOUPByFormatIgnoreReturns fmt on a.OrderID = fmt.Orderid
    -- where year(a.DateOrdered) >= YEAR(getdate())-1
-   where year(a.DateOrdered) >= YEAR(getdate())-7
+   where year(a.DateOrdered) >= YEAR(getdate())-2
     group by YEAR(a.DateOrdered),
         MONTH(a.DateOrdered),
         a.OrderSource, 
@@ -162,17 +168,23 @@ begin
         a.CustomerSegmentFnlPrior,
         a.NewsegPrior, a.NamePrior, a.A12mfPrior,
        -- fo.CustType,  --PR 9/12 -- This variable is causing confusion. So, removing after discussing with Amit
+        vac.AdCode,
+		vac.AdcodeName,
+		vac.CatalogCode,
+		vac.CatalogName,
+		vac.StartDate,
+		vac.StopDate,
         vac.MD_Audience,
         vac.MD_Year,
         vac.MD_Country,
         vac.MD_PriceType,
-        vac.ChannelID ,
+        vac.ChannelID,
         vac.MD_Channel,
         vac.MD_PromotionTypeID,
         vac.MD_PromotionType,
         vac.MD_CampaignID,
-        vac.MD_CampaignName ,
-        vac.IPR_Channel   
+        vac.MD_CampaignName,
+        vac.IPR_Channel  
     order by 1,2	
 
 

@@ -48,7 +48,8 @@ CREATE TABLE [Marketing].[QuarterlyTrackerResults]
 [TrackerQrtr] [varchar] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TrackerQrtrYr] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Last_Updated_Date] [datetime] NOT NULL CONSTRAINT [DF_TGCTracker_UpdateDate] DEFAULT (getdate()),
-[CourseID] [int] NULL
+[CourseID] [int] NULL,
+[TrackerDate] [date] NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [Marketing].[QuarterlyTrackerResults] ADD CONSTRAINT [PK_QTID] PRIMARY KEY CLUSTERED  ([QTID]) ON [PRIMARY]

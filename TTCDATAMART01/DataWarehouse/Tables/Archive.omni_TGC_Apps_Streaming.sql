@@ -18,7 +18,7 @@ CREATE TABLE [Archive].[omni_TGC_Apps_Streaming]
 [MediaCompletes] [int] NULL,
 [App] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [AppId] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[FormatType] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[StreamedFormatType] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Lecture_duration] [int] NULL,
 [GeoSegmentationCountries] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DMlastupdated] [datetime] NULL CONSTRAINT [DF__omni_TGC___DMlas__7C0BE614] DEFAULT (getdate())

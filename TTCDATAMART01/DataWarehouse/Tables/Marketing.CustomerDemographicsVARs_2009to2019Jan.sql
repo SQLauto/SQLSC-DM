@@ -23,6 +23,7 @@ CREATE TABLE [Marketing].[CustomerDemographicsVARs_2009to2019Jan]
 [PurchAmountSubsqMth] [money] NULL,
 [PurchasesSubsqMth] [int] NULL,
 [PartsPurchSubsqMth] [money] NULL,
-[UnitsPurchSubsqMth] [int] NULL
+[UnitsPurchSubsqMth] [int] NULL,
+[FormatMediaPrefDgtlPhyscl] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

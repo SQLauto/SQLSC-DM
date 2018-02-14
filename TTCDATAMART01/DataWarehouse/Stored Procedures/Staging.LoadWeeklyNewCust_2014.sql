@@ -16,6 +16,9 @@ CREATE PROCEDURE [Staging].[LoadWeeklyNewCust_2014]
 -- PR 1/28/2016
 -- Added FlagOther To capture any additional information like BL flag etc.
 
+-- PR 2/12/2018
+-- Added update code for digital only customer split test. Change based on test results needed ###########
+
 AS
 	DECLARE 
     	--@todayDate DATETIME,
@@ -230,7 +233,40 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 		join DataWarehouse.Marketing.DMPurchaseOrderItems b on a.CustomerID = b.CustomerID
 	where b.SubjectCategory2 = 'FW'	
 			
-		
+-- ############## PR New Digital Only customer Split -- 2/12/2018  
+-- ############## New Digital Only customer Split Update Starts here....
+	-- ############## Update for Non Space customers
+	update a
+	set a.HVLVGroup = case when right(a.customerid,1) in (0,1,2) then 'HV'
+							when right(a.customerid,1) in (3,4,5,6) then 'MV'
+							when right(a.customerid,1) in (7,8,9) then 'LV'
+							else null end,
+		a.ItemID = case when right(a.customerid,1) in (0,1,2) then null
+							when right(a.customerid,1) in (3,4,5,6) then 'RM0532'
+							when right(a.customerid,1) in (7,8,9) then 'RM0531'
+						else null end
+	from Staging.NewCustomerWelcomeSeriesTEMP a
+		left join Marketing.DMPurchaseOrders b on a.MinOrderIDinPeriod = b.orderid 
+		left join Mapping.vwAdcodesAll v on b.AdCode = v.AdCode
+	where a.FlagDigitalPhysical = 'Digital Only'
+	and HVLVGroup = 'HV'
+	and v.MD_Channel not like '%space%' 
+
+	-- ############## Update for Space customers
+	update a
+	set a.HVLVGroup = case when v.PriceTypeID = 4 then 'HV'
+							when v.PriceTypeID <> 4 then 'MV'
+							else null end,
+		a.ItemID = case  when v.PriceTypeID = 4 then null
+							when v.PriceTypeID <> 4 then 'RM0532'
+						else null end
+	from Staging.NewCustomerWelcomeSeriesTEMP a
+		left join Marketing.DMPurchaseOrders b on a.MinOrderIDinPeriod = b.orderid 
+		left join Mapping.vwAdcodesAll v on b.AdCode = v.AdCode
+	where v.MD_Channel like '%space%' 
+
+-- ############## New Digital Only customer Split Update ends here....
+			
 -- PR 5/6/2014 save snapshot from the itemsexport table						
 	insert into rfm..QCdaxorderitemexportTable
 	select *, GETDATE() as SaveDate 

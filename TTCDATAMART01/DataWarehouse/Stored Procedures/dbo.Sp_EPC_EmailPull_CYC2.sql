@@ -6,6 +6,7 @@ GO
 
 
 
+
 CREATE proc [dbo].[Sp_EPC_EmailPull_CYC2]        
 as        
 Begin        
@@ -623,7 +624,7 @@ from staging.EPC_EmailPullCYC a
 join        
 (select * from rfm.dbo.WPTest_Random2013         
 where HVLVGroup in ('LV')        
-and JFYEmailDLRDate>= @PM8StartDate        
+--and JFYEmailDLRDate>= @PM8StartDate        /*Removing to match mailing 20180213*/
 ) b on A.customerid=b.CustomerID         
 where A.comboid in ('16sL0','26s30')         
 and A.Adcode in (select distinct Adcode from  datawarehouse.Mapping.Email_adcode_CYC        
@@ -639,7 +640,7 @@ from staging.EPC_EmailPullCYC a
 join        
  (select * from rfm.dbo.WPTest_Random2013         
  where HVLVGroup in ('LV')         
- and JFYEmailDLRDate>= @PM8StartDate        
+ --and JFYEmailDLRDate>= @PM8StartDate        /*Removing to match mailing 20180213*/
  ) b  on A.emailaddress=b.EmailAddress        
 where A.comboid in ('16sL0','26s30')         
 and A.Adcode in (select distinct Adcode from  datawarehouse.Mapping.Email_adcode_CYC        
@@ -680,7 +681,7 @@ from staging.EPC_EmailPullCYC a
 join        
 (select * from rfm.dbo.WPTest_Random2013         
 where HVLVGroup in ('MV')        
-and JFYEmailDLRDate>= @PM5StartDate        
+--and JFYEmailDLRDate>= @PM5StartDate        /*Removing to match mailing 20180213*/
 ) b on A.customerid=b.CustomerID         
 where A.comboid in ('16sL0','26s30')         
 and A.Adcode in (select distinct Adcode from  datawarehouse.mapping.Email_adcode_CYC        
@@ -696,7 +697,7 @@ from staging.EPC_EmailPullCYC a
 join        
  (select * from rfm.dbo.WPTest_Random2013         
  where HVLVGroup in ('MV')         
- and JFYEmailDLRDate>= @PM5StartDate        
+ --and JFYEmailDLRDate>= @PM5StartDate        /*Removing to match mailing 20180213*/
  ) b  on A.emailaddress=b.EmailAddress        
 where A.comboid in ('16sL0','26s30')         
 and A.Adcode in (select distinct Adcode from   datawarehouse.mapping.Email_adcode_CYC        
@@ -1078,7 +1079,49 @@ End
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  
 --------------------------------------------------------Block Ends for adding New EPC Emails--------------------------------------------------------                  
 ----------------------------------------------------------------------------------------------------------------------------------------------------    
+--------------------------------------------------------------------------------------------------------------------------------------------         
+--------------------------------------------------------------------------------------------------------------------------------------------        
+---------------------------------------------------Price Test Match for catalog 2/27/2017---------------------------------------------------                        
+--------------------------------------------------------------------------------------------------------------------------------------------        
+If @CountryCode in ('US','CA','ROW')   
 
+BEGIN
+
+declare @MovedtoSwamp int = 0                       
+select @MovedtoSwamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode_cyc              
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Swamp control' and countrycode= 'US'                        
+select '@MovedtoSwamp', @MovedtoSwamp 
+
+/*10-12mo Active Multis from 12m – Those with CustomerID end with 3-9 (70% of 10-12mo) have been moved to Reactivation 
+(NewSeg in (8,9,10) and Recency in (10,11,12) and right(CustomerID,1) in (3,4,5,6,7,8,9))
+ */
+
+Update a set a.adcode = @MovedtoSwamp 
+--SELECT * 
+FROM staging.EPC_EmailPullCYC a
+JOIN Staging.vwCustomerRecency cr on a.CustomerID = cr.CustomerID
+WHERE (NewSeg in (8,9,10) AND Recency in (10,11,12) )--AND right(a.CustomerID,1) in (3,4,5,6,7,8,9)) /*Removing to match mailing 20180213 Rollout*/
+AND CountryCode = 'US'
+
+declare @MovedtoDeepSwamp int = 0                       
+select @MovedtoDeepSwamp = isnull(Adcode,0) from   datawarehouse.Mapping.Email_Adcode_cyc                        
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Deep Swamp' and countrycode= 'US'                        
+select '@MovedtoDeepSwamp', @MovedtoDeepSwamp 
+
+/*12sL – they have been moved to Deep Swamp*/
+
+Update a set a.adcode = @MovedtoDeepSwamp 
+--SELECT * 
+FROM staging.EPC_EmailPullCYC a
+WHERE a.NewSeg = 6
+AND a.CountryCode = 'US'
+
+END
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------        
+--------------------------------------------------------------------------------------------------------------------------------------------                        
+--------------------------------------------------------------------------------------------------------------------------------------------  
  ----------------------------------------------------------------------------------------------------------------------------------------------------                  
 --------------------------------------------------------Block for Prospect New EPC Emails--------------------------------------------------------                  
 ----------------------------------------------------------------------------------------------------------------------------------------------------                  

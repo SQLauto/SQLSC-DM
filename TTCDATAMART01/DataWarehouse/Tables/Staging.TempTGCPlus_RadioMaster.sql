@@ -56,6 +56,7 @@ CREATE TABLE [Staging].[TempTGCPlus_RadioMaster]
 [DateInvoiceSubmitted] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TestOrRenewal] [float] NULL,
 [ControlURLincludingHTML] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[TGCRedirectURLincludingHTML] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[TGCRedirectURLincludingHTML] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CountryCode] [nvarchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

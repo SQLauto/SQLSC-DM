@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE View [Archive].[Vw_TGCPlus_SchoolAct_Consumption]
 as
 		
@@ -20,6 +21,10 @@ select a.email,
 	--b.AdcodeName as CampaignName,	
 	--b.MD_Channel, b.MD_PromotionType, b.MD_CampaignName,	
 	c.TSTAMP, 	
+	year(c.TSTAMP) StreamYear,
+	month(c.TSTAMP) StreamMonth,
+	convert(varchar,year(c.TSTAMP)) + '-' + convert(varchar,month(c.TSTAMP)) as StreamYrMnth,
+	staging.GetMonday(c.TSTAMP) StreamWeek,
 	c.courseid, 	
 	d.seriestitle as CourseName,	
 	c.episodeNumber as LectureNumber,	
@@ -37,5 +42,6 @@ from DataWarehouse.Archive.TGCPlus_User a left join
 	DataWarehouse.Marketing.TGCplus_VideoEvents_Smry_TestAccts c on a.uuid = c.UUID left join	
 	DataWarehouse.Archive.TGCPlus_Film d on c.Vid = d.uuid	
 where a.email like '%WMPCS%+%' or a.email like '%SSSAS%+%'	or a.email like '%odtgc%+%'	
+
 
 GO

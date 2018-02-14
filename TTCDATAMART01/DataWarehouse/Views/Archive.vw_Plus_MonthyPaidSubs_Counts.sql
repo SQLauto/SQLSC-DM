@@ -5,6 +5,7 @@ GO
 
 
 
+
 CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 
 	-- Get Stripe, Roku and Amazon Payment customers
@@ -14,6 +15,7 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 		,AsOfYrMonth
 		,SubPaymentHandler
 		,SubType
+		,SubType2
 		,sum(CustCount) Customers
 	from Marketing.TGCPlus_Actuals_ForForecastSmry
 	where CustomerStatus = 'Entitled' 
@@ -25,6 +27,7 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 		,AsOfYrMonth
 		,SubPaymentHandler
 		,SubType
+		,SubType2
 	union all
 	-- Get iOS numbers
 	Select ReportDate as AsOfDate
@@ -33,6 +36,7 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 		,convert(varchar,Year(ReportDate)) + '_' + convert(varchar, month(ReportDate)) as AsOfYrMonth
 		,'iOS' as SubPaymentHandler
 		,case when SubscriptionDuration = '1 Year' then 'YEAR' else 'MONTH' end as SubType
+		,case when SubscriptionDuration = '1 Year' then 'YEAR' else 'MONTH' end as SubType2
 		,sum(ActiveSubscriptions) Customers 
 	from archive.tgcplus_ios_report (nolock)
 	where ReportDate in (Select distinct DATEADD(d, -1, DATEADD(m, DATEDIFF(m, 0, ReportDate) + 1, 0)) 
@@ -40,7 +44,8 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 	group by ReportDate
 		,month(ReportDate)
 		,convert(varchar,Year(ReportDate)) + '_' + convert(varchar, month(ReportDate))
-		,SubscriptionDuration
+		,case when SubscriptionDuration = '1 Year' then 'YEAR' else 'MONTH' end 
+		,case when SubscriptionDuration = '1 Year' then 'YEAR' else 'MONTH' end 
 	union all
 	-- Get Android Numbers
 	select cast(DATEADD(d, -1, DATEADD(m, DATEDIFF(m, 0, TransactionDate) + 1, 0)) as date) ReportDate
@@ -49,6 +54,7 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 		,convert(varchar,Year(TransactionDate)) + '_' + convert(varchar,month(TransactionDate)) as AsOfYrMonth
 		   ,'Android' as SubPaymentHandler
 		   ,case when ProductTitle like '%Annual%'  then 'YEAR' else 'MONTH' end as SubType
+		   ,case when ProductTitle like '%Annual%'  then 'YEAR' else 'MONTH' end as SubType2
 		   ,sum(case when TransactionType = 'Charge' then 1 else -1 end ) PaidCustomers
 	--     ,sum(case when TransactionType = 'Charge refund' then 1 else 0 end) RefundCustomers
 	from archive.Tgcplus_Android_PlayApps (nolock)
@@ -57,6 +63,7 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 			,month(TransactionDate)
 			,Year(TransactionDate)
 			,convert(varchar,Year(TransactionDate)) + '_' + convert(varchar,month(TransactionDate))
+			,case when ProductTitle like '%Annual%' then 'YEAR' else 'MONTH' end
 			,case when ProductTitle like '%Annual%' then 'YEAR' else 'MONTH' end
 	-- Get ROKU numbers from Portal
 	union all
@@ -70,6 +77,10 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 			when a.product_code like '%MONTH%' then 'MONTH' 
 			ELSE 'Other'
 		end as SubType
+		,case when a.product_code like '%annual%'  then 'YEAR' 
+			when a.product_code like '%MONTH%' then 'MONTH' 
+			ELSE 'Other'
+		end as SubType2
 		,sum(case when transaction_type = 'Purchase' and amount > 0 then 1 
 			when transaction_type = 'reversal' then -1
 		else 0 end) PaidCustomers
@@ -91,7 +102,12 @@ CREATE VIEW [Archive].[vw_Plus_MonthyPaidSubs_Counts] as
 			when a.product_code like '%MONTH%' then 'MONTH' 
 			else 'Other'
 		end
+		,case when a.product_code like '%annual%'  then 'YEAR' 
+			when a.product_code like '%MONTH%' then 'MONTH' 
+			else 'Other'
+		end
 		,Year(b.AsOfDate)
+
 
 
 

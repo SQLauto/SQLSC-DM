@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
 CREATE Proc [Staging].[SP_FB_TGC_Raw_Load]   
 as      
 Begin      
@@ -45,8 +46,9 @@ FROM Archive.[FB_TGC_Raw] a
 WHERE adset NOT IN
     (SELECT adset 
      FROM DataWarehouse.Archive.fb_tgc_adcodes)
-	 	 and a.ad not like '%Post:%' and 
-a.ad not like '%Job:%' 
+	 	 and a.ad not like 'Post:%' and 
+a.ad not like 'Job:%' 
  
 END 
+
 GO

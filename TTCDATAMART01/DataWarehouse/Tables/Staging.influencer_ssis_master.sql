@@ -24,6 +24,8 @@ CREATE TABLE [Staging].[influencer_ssis_master]
 [DateInvoicePassedtoAccounting] [datetime] NULL,
 [SpotCost] [money] NULL,
 [MonthforBudget] [float] NULL,
-[dmlastupdated] [datetime] NULL CONSTRAINT [DF__influence__dmlas__2D23219A] DEFAULT (getdate())
+[dmlastupdated] [datetime] NULL CONSTRAINT [DF__influence__dmlas__2D23219A] DEFAULT (getdate()),
+[CountryCode] [nvarchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[URL] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

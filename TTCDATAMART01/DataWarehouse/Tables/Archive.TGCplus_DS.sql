@@ -68,3 +68,5 @@ CREATE TABLE [Archive].[TGCplus_DS]
 [DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCplus_DS_Cover1] ON [Archive].[TGCplus_DS] ([CustomerID], [CurrentDS], [DS]) ON [PRIMARY]
+GO

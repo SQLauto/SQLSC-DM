@@ -186,7 +186,9 @@ order by 1,2
 		convert(money,0) as SalesPerWeek
 	into Staging.Temp_BSR_HouseRank		
 	FROM Staging.Temp_BSR_CourseSalesOrders a join
-		SuperStarDW.dbo.MktCourse b on a.CourseID = b.CourseID	where a.Flagnew = 0	ORDER BY a.Sumsales desc, a.parts desc	
+		SuperStarDW.dbo.MktCourse b on a.CourseID = b.CourseID
+	where a.Flagnew = 0
+	ORDER BY a.Sumsales desc, a.parts desc	
 
 	--update Staging.Temp_BSR_HouseRank
 	----set salesperweek = sumsales/weekssincerelease
@@ -225,10 +227,14 @@ order by 1,2
 						else website
 					end
 
-	truncate table MagentoExports..WebBestSellerRank
-	insert into MagentoExports..WebBestSellerRank
-	select *, getdate() from staging.WebBestSellerRank
-	
+	--truncate table MagentoExports..WebBestSellerRank
+	--insert into MagentoExports..WebBestSellerRank
+	--select *, getdate() from staging.WebBestSellerRank
+
+	truncate table Exports.Magento.WebBestSellerRank
+	insert into Exports.Magento.WebBestSellerRank
+	select *, getdate() from staging.WebBestSellerRank	
+
 	drop table staging.Temp_BSR_CourseList
 	drop table staging.Temp_BSR_CourseSalesOrders
 	drop table staging.Temp_BSR_PrspctRank

@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
+
     
 CREATE proc [dbo].[Sp_EPC_EmailPull_DLR]                        
 as                        
@@ -626,7 +627,7 @@ from Staging.EPC_EmailPull a
 join                        
 (select * from rfm.dbo.WPTest_Random2013                         
 where HVLVGroup in ('LV')                        
-and JFYEmailDLRDate>= @PM8StartDate                        
+--and JFYEmailDLRDate>= @PM8StartDate             /*Removing to match mailing 20180213*/           
 ) b on A.customerid=b.CustomerID                         
 where A.comboid in ('16sL0','26s30')                  
 and A.Adcode in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcode                        
@@ -642,7 +643,7 @@ from Staging.EPC_EmailPull a
 join                        
  (select * from rfm.dbo.WPTest_Random2013                         
  where HVLVGroup in ('LV')           
- and JFYEmailDLRDate>= @PM8StartDate                        
+ --and JFYEmailDLRDate>= @PM8StartDate      /*Removing to match mailing 20180213*/                  
  ) b  on A.emailaddress=b.EmailAddress                        
 where A.comboid in ('16sL0','26s30')                         
 and A.Adcode in (select distinct Adcode from  datawarehouse.Mapping.Email_Adcode                        
@@ -690,7 +691,7 @@ from staging.EPC_EmailPull a
 join                        
 (select * from rfm.dbo.WPTest_Random2013                         
 where HVLVGroup in ('MV')                        
-and JFYEmailDLRDate>= @PM5StartDate                        
+--and JFYEmailDLRDate>= @PM5StartDate        /*Removing to match mailing 20180213*/                
 ) b on A.customerid=b.CustomerID                         
 where A.comboid in ('16sL0','26s30')                         
 and A.Adcode in (select distinct Adcode from  datawarehouse.mapping.Email_adcode                        
@@ -706,7 +707,7 @@ from Staging.EPC_EmailPull a
 join                        
  (select * from rfm.dbo.WPTest_Random2013                         
  where HVLVGroup in ('MV')                         
- and JFYEmailDLRDate>= @PM5StartDate                        
+ --and JFYEmailDLRDate>= @PM5StartDate    /*Removing to match mailing 20180213*/                    
  ) b  on A.emailaddress=b.EmailAddress                        
 where A.comboid in ('16sL0','26s30')                         
 and A.Adcode in (select distinct Adcode from   datawarehouse.mapping.Email_adcode                        
@@ -1412,7 +1413,7 @@ Update a set a.adcode = @MovedtoSwamp
 --SELECT * 
 FROM staging.EPC_EmailPull a
 JOIN Staging.vwCustomerRecency cr on a.CustomerID = cr.CustomerID
-WHERE (NewSeg in (8,9,10) AND Recency in (10,11,12) AND right(a.CustomerID,1) in (3,4,5,6,7,8,9))
+WHERE (NewSeg in (8,9,10) AND Recency in (10,11,12) )--AND right(a.CustomerID,1) in (3,4,5,6,7,8,9)) /*Removing to match mailing 20180213 Rollout*/
 AND CountryCode = 'US'
 
 declare @MovedtoDeepSwamp int = 0                       

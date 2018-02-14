@@ -3,6 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
 CREATE VIEW [Staging].[vwWebBestSellerRanking]
 AS
 
@@ -14,7 +15,8 @@ AS
 		a.Website,
 		a.authenticated_bestsellers_rank as HouseRank, 
 		a.UpdateDate
-	 from MagentoExports..WebBestSellerRank a
+	 from Exports.Magento.WebBestSellerRank a
 		join Mapping.DMCourse b on a.course_id = b.CourseID
+
 
 GO

@@ -439,7 +439,7 @@ set @SQL = '
      select * into rfm.dbo.'+ @StopMonth +'_SubConvertalog_' + @CurrentWeekMondayID + '_Quad  from Datawarehouse.staging.SubConvertalogFinal'         
 exec (@SQL)          
       
-set   @SQL = 'exec staging.ExportTableToPipeText rfm, dbo,' + @StopMonth + '_SubConvertalog_' + @CurrentWeekMondayID + '_Quad, ''\\File1\Groups\Marketing\MailFiles\2017\US\Convertalog'''       
+set   @SQL = 'exec staging.ExportTableToPipeText rfm, dbo,' + @StopMonth + '_SubConvertalog_' + @CurrentWeekMondayID + '_Quad, ''\\File1\Groups\Marketing\MailFiles\2018\US\Convertalog'''       
 exec (@SQL)       
         
         

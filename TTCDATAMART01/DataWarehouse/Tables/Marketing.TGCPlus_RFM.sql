@@ -19,3 +19,5 @@ CREATE TABLE [Marketing].[TGCPlus_RFM]
 [DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCPlus_RFM] ON [Marketing].[TGCPlus_RFM] ([CustomerID], [CurrentFlag]) ON [PRIMARY]
+GO

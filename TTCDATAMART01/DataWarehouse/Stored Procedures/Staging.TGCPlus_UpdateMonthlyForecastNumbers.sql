@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-create PROC [Staging].[TGCPlus_UpdateMonthlyForecastNumbers]
+CREATE PROC [Staging].[TGCPlus_UpdateMonthlyForecastNumbers]
 	@AsOfDate Date = null
 AS
 -- Proc Name: 	datawarehouse.staging.TGCPlus_UpdateMonthlyForecastNumbers
@@ -89,10 +89,12 @@ begin
 			RegMonth,
 			RegYear,
 			convert(varchar,RegYear) + '_' + convert(varchar,RegMonth) RegYrMonth,
-			CustomerID, IntlSubType, IntlSubPaymentHandler,
+			CustomerID, IntlSubType, IntlSubPaymentHandler, 
+			convert(varchar,b.billing_cycle_period_multiplier) + '_' +  b.billing_cycle_period_type as IntlSubType2,
 			'Initial Subscription' as customerStatus,
 			null FlagDefferedSuspends,
 			null SubType, null SubPaymentHandler,
+			null SubType2, 
 			PaidFlag,
 			0 as FlagFirstPaid,
 			1 as CustFlag,
@@ -101,7 +103,9 @@ begin
 				else 'NonBeta'
 			end as FlagBeta
 		into Staging.TGCPlus_Actuals_ForForecastTEMP
-		from DataWarehouse.Marketing.TGCPlus_CustomerSignature
+		from DataWarehouse.Marketing.TGCPlus_CustomerSignature a
+			left join Archive.TGCPlus_SubscriptionPlan b on a.IntlSubPlanID = b.id
+			--left join Archive.TGCPlus_SubscriptionPlan c on a.SubPlanID = c.id
 		union
 		select cast(dateadd(day,-1,AsofDate) as date) AsofDate, 
 			day(dateadd(day,-1,AsofDate)) as AsOfDay,
@@ -119,6 +123,7 @@ begin
 			RegYear,
 			convert(varchar,RegYear) + '_' + convert(varchar,RegMonth) RegYrMonth,
 				CustomerID, IntlSubType, IntlSubPaymentHandler,
+			convert(varchar,b.billing_cycle_period_multiplier) + '_' +  b.billing_cycle_period_type as IntlSubType2,
 			case when TransactionType = 'Cancelled' then 'Cancelled'
 				else 'Entitled'
 			end as customerStatus,
@@ -126,6 +131,7 @@ begin
 				else 0
 			end as FlagDefferedSuspends,
 			SubType, SubPaymentHandler,
+			convert(varchar,c.billing_cycle_period_multiplier) + '_' +  c.billing_cycle_period_type as SubType2,
 			PaidFlag,
 			0 as FlagFirstPaid,
 			case when TransactionType = 'Cancelled' then -1
@@ -138,7 +144,9 @@ begin
 			case when IntlCampaignName like '%Beta%' then 'Beta'
 			else 'NonBeta'
 		end as FlagBeta
-		from DataWarehouse.Marketing.TGCPlus_CustomerSignature_Snapshot
+		from DataWarehouse.Marketing.TGCPlus_CustomerSignature_Snapshot a
+			left join Archive.TGCPlus_SubscriptionPlan b on a.IntlSubPlanID = b.id
+			left join Archive.TGCPlus_SubscriptionPlan c on a.SubPlanID = c.id
 		where DATEPART(DAY,AsofDate) = 1
 		union
 		select cast(dateadd(day,-1,AsofDate) as date) AsofDate, 
@@ -157,11 +165,13 @@ begin
 			RegYear,
 			convert(varchar,RegYear) + '_' + convert(varchar,RegMonth) RegYrMonth,
 			CustomerID, IntlSubType, IntlSubPaymentHandler,
+			convert(varchar,b.billing_cycle_period_multiplier) + '_' +  b.billing_cycle_period_type as IntlSubType2,
 			'RegisteredOnly' as customerStatus,
 			case when CustStatusFlag = 0 then 1
 				else 0
 			end as FlagDefferedSuspends,
 			SubType, SubPaymentHandler,
+			convert(varchar,c.billing_cycle_period_multiplier) + '_' +  c.billing_cycle_period_type as SubType2,
 			PaidFlag,
 			0 as FlagFirstPaid,
 			null as CustFlag,
@@ -169,7 +179,9 @@ begin
 			case when IntlCampaignName like '%Beta%' then 'Beta'
 			else 'NonBeta'
 		end as FlagBeta
-		from DataWarehouse.Marketing.TGCPlus_CustomerSignatureRegs_Snapshot
+		from DataWarehouse.Marketing.TGCPlus_CustomerSignatureRegs_Snapshot	a
+			left join Archive.TGCPlus_SubscriptionPlan b on a.IntlSubPlanID = b.id
+			left join Archive.TGCPlus_SubscriptionPlan c on a.SubPlanID = c.id
 		where DATEPART(DAY,AsofDate) = 1
 		order by AsofDate, IntlSubDate, CustomerID
 
@@ -182,6 +194,18 @@ begin
 			and customerStatus <> 'Initial Subscription'
 			group by CustomerID)b on a.CustomerID = b.CustomerID
 							and a.AsofDate = b.AsofDate
+
+
+		update Staging.TGCPlus_Actuals_ForForecastTEMP
+		set IntlSubType2 = case when IntlSubType2 = '1_MONTH' then 'MONTH'
+								when intlsubtype2 = '1_YEAR' then 'YEAR'
+								else Intlsubtype2
+								end,
+			 SubType2 = case when SubType2 = '1_MONTH' then 'MONTH'
+								when SubType2 = '1_YEAR' then 'YEAR'
+								else SubType2
+								end
+
 
 	-- Reload the forecast table
 	   if object_id('marketing.TGCPlus_Actuals_ForForecast') is not null 
@@ -200,10 +224,10 @@ begin
 		select AsofDate, AsOfDay, AsOfMonth, AsOfYear,	AsOfYrMonth,
 			IntlSubDate, IntlSubWeek, IntlSubMonth,	IntlSubYear, 	IntlSubYrMonth,
 			RegDate, 	RegWeek,	RegMonth,	RegYear,	RegYrMonth,
-			IntlSubType, IntlSubPaymentHandler,
+			IntlSubType, IntlSubPaymentHandler, IntlSubType2,
 			customerStatus,
 			FlagDefferedSuspends,
-			SubType, SubPaymentHandler,
+			SubType, SubPaymentHandler, SubType2,
 			PaidFlag,
 			CustFlag,
 			CancelTypes,
@@ -215,10 +239,10 @@ begin
 		group by AsofDate, 	AsOfDay,	AsOfMonth,	AsOfYear,	AsOfYrMonth,
 			IntlSubDate, 	IntlSubWeek,	IntlSubMonth,	IntlSubYear, 	IntlSubYrMonth,
 			RegDate, 	RegWeek,	RegMonth,	RegYear,	RegYrMonth,
-			IntlSubType, IntlSubPaymentHandler,
+			IntlSubType, IntlSubPaymentHandler, IntlSubType2,
 			customerStatus,
 			FlagDefferedSuspends,
-			SubType, SubPaymentHandler,
+			SubType, SubPaymentHandler, SubType2,
 			PaidFlag,
 			CustFlag,
 			CancelTypes,
