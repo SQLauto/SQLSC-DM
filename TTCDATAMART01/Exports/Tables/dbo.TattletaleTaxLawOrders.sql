@@ -41,6 +41,7 @@ CREATE TABLE [dbo].[TattletaleTaxLawOrders]
 [Item_Quantity] [numeric] (28, 12) NULL,
 [Item_Sales] [numeric] (28, 12) NULL,
 [Item_TotalSalesPrice] [real] NULL,
-[ReportDate] [datetime] NOT NULL
+[ReportDate] [datetime] NOT NULL,
+[NetAmountFINALOrderLevel] [money] NULL
 ) ON [PRIMARY]
 GO
