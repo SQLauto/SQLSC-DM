@@ -25,7 +25,7 @@ drop table staging.TGCPlus_CustomerDaily
 		IntlCampaignName,
 		IntlMDChannel,
 		IntlSubDate,
-		DataWarehouse.staging.getmonday(IntlSubDate) as IntlSubWeek,
+		staging.getmonday(IntlSubDate) as IntlSubWeek,
 		IntlSubMonth,
 		IntlSubYear,
 		IntlSubPlanID,
@@ -62,7 +62,7 @@ drop table staging.TGCPlus_CustomerDaily
 		CONVERT(float,null) as IntlPaidAmt,-- VB 3/16/2017 added IntlPaidAmt to Signature Table
 		CONVERT(date, null) as IntlPaidDate-- VB 3/16/2017 added IntlPaidDate to Signature Table
 		into staging.TGCPlus_CustomerDaily
-		from DataWarehouse.Marketing.TGCPlus_StatusHistory
+		from Marketing.TGCPlus_StatusHistory
 		group by
 		AsofDate,
 		CustomerID,
@@ -73,7 +73,7 @@ drop table staging.TGCPlus_CustomerDaily
 		IntlCampaignName,
 		IntlMDChannel,
 		IntlSubDate,
-		DataWarehouse.staging.getmonday(IntlSubDate),
+		staging.getmonday(IntlSubDate),
 		IntlSubMonth,
 		IntlSubYear,
 		IntlSubPlanID,
@@ -91,15 +91,15 @@ drop table staging.TGCPlus_CustomerDaily
 			SubPaymentHandler = b.SubPaymentHandler,
 			TransactionType = b.TransactionType,
 			SubDate = b.SubDate,
-			SubWeek=DataWarehouse.staging.getmonday(b.SubDate) ,
+			SubWeek=staging.getmonday(b.SubDate) ,
 			SubMonth = b.SubMonth,
 			SubYear = b.SubYear,
 			CustStatusFlag = b.CustStatusFlag,
 			TGCCust = b.TGCCust,
 			TGCCustSegmentFcst = b.TGCCustSegmentFcst,
 			TGCCustSegment = b.TGCCustSegment
-			from DataWarehouse.Staging.TGCPlus_CustomerDaily a
-			join DataWarehouse.Marketing.TGCPlus_StatusHistory b
+			from Staging.TGCPlus_CustomerDaily a
+			join Marketing.TGCPlus_StatusHistory b
 			on a.CustomerID=b.CustomerID and a.MaxSeqNum=b.TransSeqNum
 
 
@@ -107,9 +107,9 @@ drop table staging.TGCPlus_CustomerDaily
 
 Update CD
 set IntlSubPaymentHandler = Cust.SubPaymentHandler
-from DataWarehouse.Staging.TGCPlus_CustomerDaily CD
+from Staging.TGCPlus_CustomerDaily CD
 left Join (select customerid,SubPaymentHandler 
-			from DataWarehouse.Marketing.TGCPlus_StatusHistory
+			from Marketing.TGCPlus_StatusHistory
 			where TransSeqNum = 1
 			group by customerid,SubPaymentHandler )Cust
 			On CD.CustomerID = Cust.CustomerID
@@ -120,13 +120,13 @@ left Join (select customerid,SubPaymentHandler
 /*
 		Update a 
 		set IntlSubDate= SubDate,
-			IntlSubWeek= DataWarehouse.staging.getmonday(SubDate),
+			IntlSubWeek= staging.getmonday(SubDate),
 			IntlSubMonth= MONTH(SubDate),
 			IntlSubYear= YEAR(SubDate),
 			IntlSubPlanID= SubPlanID,
 			IntlSubPlanName= SubPlanName,
 			IntlSubType= SubType
-			from DataWarehouse.Staging.TGCPlus_CustomerDaily a
+			from Staging.TGCPlus_CustomerDaily a
 			where IntlSubPlanName='Beta'
 			and SubPlanID in (39,40,43,44,57,58,42,55,67,68) /* Added mapping table to filter planid's Mapping.Vw_TGCPlus_ValidSubscriptionPlan*/
 */
@@ -134,14 +134,14 @@ left Join (select customerid,SubPaymentHandler
 /* Changed after Julia's new code on 4/4/2016*/
 			select CustomerID, TransSeqNum 
 			into #Beta
-			from DataWarehouse.Marketing.TGCPlus_StatusHistory
-			where customerid in (select CustomerID from DataWarehouse.Marketing.TGCPlus_StatusHistory
+			from Marketing.TGCPlus_StatusHistory
+			where customerid in (select CustomerID from Marketing.TGCPlus_StatusHistory
 			where IntlSubPlanName='Beta')
 			and TransactionType in ('PlanChange','DiffPlanReact')
 
 			select a.*
 			into #Beta2
-			from DataWarehouse.Marketing.TGCPlus_StatusHistory a
+			from Marketing.TGCPlus_StatusHistory a
 			join (select CustomerID, min(TransSeqNum) MinSeq
 						  from #Beta
 						  group by CustomerID) b
@@ -149,14 +149,14 @@ left Join (select customerid,SubPaymentHandler
 
 			update a 
 			set IntlSubDate=b.SubDate,
-				IntlSubWeek=DataWarehouse.staging.getmonday(b.SubDate),
+				IntlSubWeek=staging.getmonday(b.SubDate),
 				IntlSubMonth=MONTH(b.SubDate),
 				IntlSubYear=YEAR(b.SubDate),
 				IntlSubPlanID=b.SubPlanID,
 			    IntlSubPlanName=b.SubPlanName,
 			    IntlSubType=b.SubType
 			-- select *
-			from DataWarehouse.Staging.TGCPlus_CustomerDaily a
+			from Staging.TGCPlus_CustomerDaily a
 			join  #Beta2 b
 			on a.customerid=b.customerid
 			join Mapping.Vw_TGCPlus_ValidSubscriptionPlan P
@@ -165,7 +165,7 @@ left Join (select customerid,SubPaymentHandler
 
 
 /*Update Downstream dates for TransactionType 'Cancelled' */
-		Update DataWarehouse.Staging.TGCPlus_CustomerDaily 
+		Update Staging.TGCPlus_CustomerDaily 
 		set  DSDayCancelled=DATEDIFF(d,IntlSubDate,SubDate),
 			DSMonthCancelled=
 			case when SubDate = IntlSubDate then 0
@@ -177,7 +177,7 @@ left Join (select customerid,SubPaymentHandler
 
 
 /*Update DSDayDeferred dates for TransactionType 'Deferred Suspension' */
-		Update DataWarehouse.Staging.TGCPlus_CustomerDaily 
+		Update Staging.TGCPlus_CustomerDaily 
 		set DSDayDeferred=DATEDIFF(d,IntlSubDate,SubDate)
 		where TransactionType in ('Deferred Suspension')
 	
@@ -199,7 +199,7 @@ left Join (select customerid,SubPaymentHandler
 						when type='PAYMENT' then payment_handler_fee
 						end) as payment_handler_fee
 		into #TGCPlus_Billing
-		from DataWarehouse.Archive.TGCPlus_UserBilling
+		from Archive.TGCPlus_UserBilling
 		group by user_id,billing_cycle_period_type,
 		service_period_from,service_period_to,
 		subscription_plan_id
@@ -209,7 +209,7 @@ left Join (select customerid,SubPaymentHandler
 		Update t1
 		set LTDPaidAmt=t2.LTDPaidAmt
 		-- select *
-		from Datawarehouse.staging.TGCPlus_CustomerDaily t1
+		from staging.TGCPlus_CustomerDaily t1
 		join (select a.user_id, sum(pre_tax_amount) LTDPaidAmt 
 				from #TGCPlus_Billing a
 				where a.pre_tax_amount>0 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners
@@ -223,7 +223,7 @@ left Join (select customerid,SubPaymentHandler
 
 		SELECT user_id,completed_at, pre_tax_amount, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY completed_at)AS PaySeq
 		INTO #TGCPlus_Billing_payments
-		FROM DataWarehouse.Archive.TGCPlus_UserBilling
+		FROM Archive.TGCPlus_UserBilling
 		WHERE Type = 'Payment' AND pre_tax_amount>0 -- Intl Payment only if greater than $8 
 													--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans	VB 10/04/2017
 
@@ -231,13 +231,13 @@ left Join (select customerid,SubPaymentHandler
 		set IntlPaidAmt=t2.pre_tax_amount,
 			IntlPaidDate = t2.completed_at
 		-- select *
-		from Datawarehouse.staging.TGCPlus_CustomerDaily t1
+		from staging.TGCPlus_CustomerDaily t1
 		join #TGCPlus_Billing_payments t2
 		on t1.CustomerID=t2.user_id AND t2.PaySeq = 1 
 
 
 /* Update Paid flag if not cancelled and paid amount >$10 */
-		Update Datawarehouse.staging.TGCPlus_CustomerDaily 
+		Update staging.TGCPlus_CustomerDaily 
 		set PaidFlag=1
 		where LTDPaidAmt >0 and PaidFlag=0 -- change LTDPaidAmt from >10 to >8, because we charge $9.99 for partners 
 											--change LTDPaidAmt from >8 to >0, because we charge $.99 for new plans VB 10/04/2017
@@ -245,17 +245,17 @@ left Join (select customerid,SubPaymentHandler
 
 
 /* Cancel Yearly Subscribers who received full refund, set CustStatusFlag = -1 and TransactionType='Cancelled' */
-		Update Datawarehouse.staging.TGCPlus_CustomerDaily  
+		Update staging.TGCPlus_CustomerDaily  
 		set TransactionType='Cancelled',
 			CustStatusFlag=-1
-		where CustomerID in (select CustomerID from Datawarehouse.staging.TGCPlus_CustomerDaily 
+		where CustomerID in (select CustomerID from staging.TGCPlus_CustomerDaily 
 									where TransactionType not in ('Cancelled') and PaidFlag=0 and SubType='Year'
 									and SubPaymentHandler <> 'ROKU'  /* Added this code 8/9/2016 for ROKU Annual Customers whos billing is not showing up Email from Julia*/
 									group by CustomerID)
 
 
 /* Update DS for SubType ='Year' and TransactionType = 'Cancelled' */
-		Update Datawarehouse.staging.TGCPlus_CustomerDaily 
+		Update staging.TGCPlus_CustomerDaily 
 		Set DSDayCancelled=DATEDIFF(d,IntlSubDate,SubDate),
 			DSMonthCancelled= case when SubDate = IntlSubDate 
 								   then 0
@@ -289,30 +289,30 @@ left Join (select customerid,SubPaymentHandler
 /* Update Most recent paid date and paid amounts*/
 		Update t1
 		set LastPaidDate = convert(date, t2.service_period_from),
-		LastPaidWeek = DataWarehouse.staging.getmonday(t2.service_period_from),
+		LastPaidWeek = staging.getmonday(t2.service_period_from),
 		LastPaidMonth = month(t2.service_period_from),
 		LastPaidYear = year(t2.service_period_from),
 		LastPaidAmt = t2.pre_tax_amount
-		from DataWarehouse.Staging.TGCPlus_CustomerDaily t1
+		from Staging.TGCPlus_CustomerDaily t1
 		join #TGCPlus_BillingLast t2
 		on t1.CustomerID=t2.user_id
 
 /*Check users who have paid flag =1 and last paid dates is null*/
-		Select * from DataWarehouse.Archive.TGCPlus_UserBilling
-		where user_id in (select distinct customerid from DataWarehouse.Staging.TGCPlus_CustomerDaily 
+		Select * from Archive.TGCPlus_UserBilling
+		where user_id in (select distinct customerid from Staging.TGCPlus_CustomerDaily 
 		where PaidFlag=1 and LastPaidDate is null)
 		order by user_id, completed_at		
 
 
 /* Set Paidflag=0 for those who got free month again when they switched between Roku and Web*/
-		Update DataWarehouse.staging.TGCPlus_CustomerDaily set PaidFlag=0
+		Update staging.TGCPlus_CustomerDaily set PaidFlag=0
 		where PaidFlag=1 and LastPaidDate is null
 
 
 
 /*Daily Data*/
 		select a.*
-		from DataWarehouse.staging.TGCPlus_CustomerDaily a
+		from staging.TGCPlus_CustomerDaily a
 		join Mapping.Vw_TGCPlus_ValidSubscriptionPlan P
 		on P.id =a.SubPlanID
 		where IntlSubDate between '9/28/2015' and '3/12/2016'
@@ -327,24 +327,26 @@ left Join (select customerid,SubPaymentHandler
 /* Updating Customer status to Renew for customers who have paid and have records in the billing table after the PAS table has a suspend Bondugulav 3/30/2017 */
 update C
 set TransactionType = 'Renew',CustStatusFlag = 1,PaidFlag = 1
-from DataWarehouse.staging.TGCPlus_CustomerDaily c
-join Datawarehouse.Archive.TGCPlus_customerStatus s on c.CustomerID = s.Customerid
+from staging.TGCPlus_CustomerDaily c
+join Archive.TGCPlus_customerStatus s on c.CustomerID = s.Customerid
 where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in ('Initial Payment','Recurring Payment')
 
 
 
 /* Truncate and load TGCPlus_CustomerSignature*/
 	BEGIN 
-		Truncate table Datawarehouse.Marketing.TGCPlus_CustomerSignature
+		 Truncate table staging.TGCPlus_CustomerSignatureTEMP
+		
+		--Truncate table Marketing.TGCPlus_CustomerSignature
 
-		Insert into Datawarehouse.Marketing.TGCPlus_CustomerSignature
+		Insert into staging.TGCPlus_CustomerSignatureTEMP
 		select Distinct
 				AsofDate,
 				a.CustomerID,
 				a.uuid,
 				a.EmailAddress,
 				a.TGCCustomerID,
-				convert(varchar(10),'US') CountryCode,
+				convert(varchar(10),null) CountryCode,
 				a.IntlCampaignID,
 				a.IntlCampaignName,
 				b.MD_Country as IntlMD_Country,
@@ -434,12 +436,12 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 				a.RegYear,		-- PR 10/25/2016 added Registration Date to Signature Table
 				a.IntlPaidAmt,
 				a.IntlPaidDate
-		from DataWarehouse.staging.TGCPlus_CustomerDaily a
-		left join DataWarehouse.mapping.vwadcodesall b
+		from staging.TGCPlus_CustomerDaily a
+		left join mapping.vwadcodesall b
 		on a.IntlCampaignID=b.adcode
-		left join DataWarehouse.Archive.TGCPlus_BillingAddress Ad
+		left join Archive.TGCPlus_BillingAddress Ad
 		on ad.userId = a.UUId
-		left Join DataWarehouse.Mapping.TGCPlus_CustomerOverlay O
+		left Join Mapping.TGCPlus_CustomerOverlay O
 		on O.CustomerID = A.CustomerID
 		join Mapping.Vw_TGCPlus_ValidSubscriptionPlan P
 		on P.id =a.SubPlanID
@@ -450,19 +452,79 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 		and a.IntlMDChannel not like '%OfficeDepot%'
 		order by a.CustomerID, a.IntlSubDate 
 		 
-/* Country update to include Country names from datawarehouse.Mapping.TGCPLusCountry vikram 9/20/2016*/
+/* Country update to include Country names from Mapping.TGCPLusCountry vikram 9/20/2016*/
 
 	 UPDATE C
 	 SET c.country = COALESCE(m.Country,m1.Country,'Unknown') 
-	 FROM  Datawarehouse.Marketing.TGCPlus_CustomerSignature c
-	 LEFT JOIN datawarehouse.Mapping.TGCPLusCountry m
+	 FROM  staging.TGCPlus_CustomerSignatureTEMP c
+	 LEFT JOIN Mapping.TGCPLusCountry m
 	 ON m.Country = c.country
-	 LEFT JOIN datawarehouse.Mapping.TGCPLusCountry m1
+	 LEFT JOIN Mapping.TGCPLusCountry m1
 	 ON m1.Alpha2Code = c.country
+
+/* PR - 2/23/2018 -- Added code to fix Countrycode field and update info from country of subscription where not available */
+	update a
+	set a.CountryCode = b.Alpha2Code
+	from staging.TGCPlus_CustomerSignatureTEMP a join
+		(select a.CustomerID, a.country, b.country_of_registration, tc.Alpha2Code--, tc.Country
+		from staging.TGCPlus_CustomerSignatureTEMP a join
+			Archive.tgcplus_user b on a.CustomerID = b.id left join
+			Mapping.TGCPlusCountry tc on a.Country = tc.Country)b on a.CustomerID = b.CustomerID
+
+	-- Update countrycode from country of subscription for unknowns
+	update a
+	set a.CountryCode = b.country_of_subscription,
+		a.Country = b.Country
+	from staging.TGCPlus_CustomerSignatureTEMP a 
+	join Archive.Vw_TGCPlus_PASCountryOfSubscription b on a.CustomerID = b.pa_user_id
+	where a.CountryCode is null
+
+	/*PR - 3/29/2018  -- added code to update TGCCustFlag and segments for address match */
+
+	select a.*, b.CustomerID as TGC_CustID
+		,b.CustomerSegmentFrcst TGC_CustomerSegmentFrcst
+		,b.CustomerSegment TGC_CustomerSegment
+		,b.CustomerSegmentFnl TGC_CustomerSegmentFnl
+		,b.MatchType as NewMatchType
+		,b.AsOfDate as MatchDate
+		,b.CustomerSince
+	into #match
+	from staging.TGCPlus_CustomerSignatureTEMP a
+	join Mapping.TGC_TGCplus b
+	on a.CustomerID=b.TGCP_ID 
+	where a.TGCCustFlag is null
+
+	delete a
+	from #match a join
+		(select min(customersince) customersince, customerid from #match
+		where customerid in (select customerid
+						from #match
+						group by CustomerID
+						having count(customerid) > 1)
+		group by customerID)dupe on a.CustomerID = dupe.CustomerID
+							and a.CustomerSince <> dupe.customersince
+	
+		
+	update a
+	set a.TGCCustFlag = 1,
+		a.TGCCustomerID = b.TGC_CustID,
+		a.TGCCustSegmentFcst = b.TGC_CustomerSegmentFrcst,
+		a.TGCCustSegmentfnl = b.TGC_CustomerSegmentFnl
+	--select a.customerid, a.TGCCustFlag, a.TGCCustSegmentFcst, a.TGCCustSegmentFnl, b.TGC_CustomerSegmentFrcst, b.TGC_CustomerSegmentFnl
+	from staging.TGCPlus_CustomerSignatureTEMP a 
+	join #match b on a.CustomerID = b.CustomerID
+
 
 	END
 
+	 -- Load from staging to main table
+	 truncate table Marketing.TGCPlus_CustomerSignature
+ 
+	 insert into Marketing.TGCPlus_CustomerSignature
+	 select *
+	 from staging.TGCPlus_CustomerSignatureTEMP
 
+	 --truncate table staging.TGCPlus_CustomerSignatureTEMP
 
 -- Update registered only customers	  -- PR 11/2/2016
 EXEC Staging.SP_Load_TGCPlus_CustomerSignatureRegs

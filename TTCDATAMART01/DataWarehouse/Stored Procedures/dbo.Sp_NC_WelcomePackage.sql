@@ -57,7 +57,7 @@ select distinct a.orderid, b.CustomerID, a.ITEMID
 into #temp2 from DAXImports..DAX_OrderItemExport a               
 join #temp b on a.orderid = b.orderid              
 where LineType = 'ItemDelivered'              
-and ITEMID in ('RM0531')              
+and ITEMID in ('RM0531','RM0537')   -- ############## PR New RMCode RFM0537 added for PM5 folks moving to PM8 test -- 3/6/2018        
               
 update a              
 set a.FlagReceivedSpclShipCat  = 1,              
@@ -84,7 +84,7 @@ into #tempMV2
 from DAXImports..DAX_OrderItemExport a join              
 #tempMV b on a.orderid = b.orderid              
 where LineType = 'ItemDelivered'              
-and ITEMID in ('RM0532')              
+and ITEMID in ('RM0532','RM0538')    -- ############## PR New RMCode RFM0538 added for PM4 folks moving to PM5 test -- 3/6/2018  
               
               
 update a              
@@ -95,7 +95,35 @@ from  DataWarehouse.Marketing.NewCustomerWelcomeSeries (nolock) a
 join #tempMV2 b on a.CustomerID = b.CustomerID              
 where a.AcquisitionWeek =  @AcquisitionWeek             
                     
+     
               
+--For MV Space ad folks
+if OBJECT_ID('tempdb..#tempMVNew') is not null               
+Drop table #tempMVNew              
+              
+select * into #tempMVNew from DataWarehouse.Staging.vwOrders               
+where DateOrdered between @AcquisitionWeekStart and @AcquisitionWeekEnd              
+              
+if OBJECT_ID('tempdb..#tempMVNew2') is not null               
+Drop table #tempMVNew2              
+              
+select distinct a.orderid, b.CustomerID, a.ITEMID              
+into #tempMVNew2              
+from DAXImports..DAX_OrderItemExport a join              
+#tempMVNew b on a.orderid = b.orderid              
+where LineType = 'ItemDelivered'              
+and ITEMID in ('RM0539')   -- ############## PR New RMCode RFM0539 added for PM5 spaceAd folks moving to PM4 group -- 3/6/2018   
+              
+              
+update a              
+set a.FlagReceivedSpclShipCat  = 0,              
+      A.HVLVGroup = 'HV',              
+      a.itemid = b.ITEMID              
+from  DataWarehouse.Marketing.NewCustomerWelcomeSeries (nolock) a               
+join #tempMVNew2 b on a.CustomerID = b.CustomerID              
+where a.AcquisitionWeek =  @AcquisitionWeek         
+
+	          
 if object_id('Staging.TempNewCustomerWelcomeSeries') is not null              
 Drop table [Staging].[TempNewCustomerWelcomeSeries]              
         

@@ -200,7 +200,8 @@ begin
     left join Marketing.RFM_DATA_SPECIAL rfm (nolock) on rfm.CustomerID = c.CustomerID
     left join Mapping.DMMPInput mpi (nolock) on mpi.CustomerID = c.CustomerID
     left join Staging.vwCustomerLastOrderDate d on d.CustomerID = c.CustomerID
-    where isnull(c.RootCustomerID, '') = ''
+    where Isnull(C.CustomerID,'')<>''
+	and  ( Isnull(c.RootCustomerID, '') = '' or c.RootCustomerID  = c.CustomerID ) --bondugulav	20180323 to include customerid = RootCustomerID
     
 	/* Add remaining customers    */
     INSERT INTO Staging.TempCampaignCustomerSignature
@@ -356,7 +357,7 @@ begin
         left join Staging.vwCustomerLastOrderDate d on d.CustomerID = c.CustomerID
     WHERE 
     	CCS.CustomerID IS NULL
-		and isnull(c.RootCustomerID, '') = ''
+		and isnull(c.RootCustomerID, '') = '' 
     
     /*- Update rfm information for customers who are in rds, but not in csm table. -- PR Added this on 9/27/2007*/
     UPDATE TCCS

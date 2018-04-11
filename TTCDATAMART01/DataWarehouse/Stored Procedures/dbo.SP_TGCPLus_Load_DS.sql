@@ -4,7 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
 CREATE Proc [dbo].[SP_TGCPLus_Load_DS]
 As
 
@@ -35,7 +34,8 @@ Cast(null as datetime) uso_applied_at,
 Cast(null as varchar(255)) Final_Status
 into #tgcplus_userbilling_Payments
 From  (
-select distinct User_id,completed_at,billing_cycle_period_type,Type,Cast(pre_tax_amount as Money)pre_tax_amount,service_period_from,service_period_to ,service_period_to as actual_service_period_to ,subscription_plan_id,payment_handler
+select distinct User_id,completed_at,billing_cycle_period_type,Type,Cast(pre_tax_amount as Money)pre_tax_amount,
+service_period_from,service_period_to ,service_period_to as actual_service_period_to ,subscription_plan_id,payment_handler
 from Datawarehouse.archive.tgcplus_userbilling ub
 join Datawarehouse.Archive.Vw_TGCPlus_ValidUser cs
 on cs.customerid = ub.user_id
@@ -79,7 +79,8 @@ min(subscription_plan_id)subscription_plan_id,min(payment_handler) payment_handl
 Cast(0 as Money) RefundedAmount,Cast(null as datetime) Refunded_Completed_at,Cast(0 as Bit) Changed_RefundedService_period_to, Cast(0 as Bit) Changed_Service_period_to ,
 Cast(0 as Bit) Changed_Billing_cycle_period_type ,Cast(0 as Bit) Changed_Subscription_plan_id,Cast(0 as Bit)Changed_Payment_handler,Cast(null as datetime) PAS_Cancelled_date,
 Cast(0 as Bit) PAS_Cancelled,Cast(null as datetime) PAS_DeferredSuspension_date,Cast(0 as Bit) PAS_DeferredSuspension,Cast(null as datetime) PAS_Suspended_date,
-Cast(0 as Bit) PAS_Suspended,Count(*) as BillingDupes,Cast(1 as Bit)UBIssue,Cast(0 as int) uso_offer_id,Cast(0 as varchar(255)) uso_offer_code_applied,Cast(null as datetime) uso_applied_at,Cast(null as varchar(255)) Final_Status
+Cast(0 as Bit) PAS_Suspended,Count(*) as BillingDupes,Cast(1 as Bit)UBIssue,Cast(0 as int) uso_offer_id,
+Cast(0 as varchar(255)) uso_offer_code_applied,Cast(null as datetime) uso_applied_at,Cast(null as varchar(255)) Final_Status
 Into #UB_dupes
 from  
  #tgcplus_userbilling_Payments ub
@@ -115,12 +116,14 @@ on Ub.user_id = dupes.user_id
 --select * into ##UB_dupes from  #UB_dupes
 
 insert into #tgcplus_userbilling_Payments
- select User_id,completed_at,billing_cycle_period_type,Type,Cast(pre_tax_amount as Money)pre_tax_amount,service_period_from,service_period_to ,service_period_to as actual_service_period_to ,subscription_plan_id,payment_handler
+ select User_id,completed_at,billing_cycle_period_type,Type,Cast(pre_tax_amount as Money)pre_tax_amount,service_period_from,service_period_to 
+ ,service_period_to as actual_service_period_to ,subscription_plan_id,payment_handler
  ,Row_number() over(partition by user_id order by service_period_from , completed_at) BillingRank 
  --,Row_number() over(partition by user_id order by completed_at,service_period_from) BillingRank --VB 10/5/2017 test for billing rank fix
  
  ,Refunded , RefundedAmount, Refunded_Completed_at,Changed_RefundedService_period_to, Changed_Service_period_to ,Changed_Billing_cycle_period_type ,Changed_Subscription_plan_id,
-Changed_Payment_handler, PAS_Cancelled_date,PAS_Cancelled, PAS_DeferredSuspension_date,PAS_DeferredSuspension, PAS_Suspended_date,PAS_Suspended,BillingDupes,UBIssue,uso_offer_id,uso_offer_code_applied, uso_applied_at, Final_Status
+Changed_Payment_handler, PAS_Cancelled_date,PAS_Cancelled, PAS_DeferredSuspension_date,PAS_DeferredSuspension, PAS_Suspended_date,PAS_Suspended,BillingDupes,UBIssue,
+uso_offer_id,uso_offer_code_applied, uso_applied_at, Final_Status
  from #UB_dupes UB
  order by 1,2
 
@@ -570,7 +573,7 @@ Case when max(D.Date) between MissingDSStart and Dateadd(d,-1,MissingDSEnd) then
   Amount,NetAmount,DSSplits,PaidFlag,BillingDupes,	UBIssue, MinDS,MinDSDate,MaxDS,MaxDSDate,LTDAmount,LTDNetAmount,LTDPaymentRank,LTDNetPaymentRank,
   IntlDSbilling_cycle_period_type,IntlDSsubscription_plan_id,IntlDSpayment_handler,IntlDSAmount,IntlDSuso_offer_id,
   SubDSbilling_cycle_period_type,SubDSsubscription_plan_id,SubDSpayment_handler,SubDSAmount,SubDSuso_offer_id,
-  Case when Coalesce_DSDate = MaxDSDate and DS is not null then 1 else 0 end as CurrentDS,uso_offer_id,uso_offer_code_applied,uso_applied_at,Cast(0 as bit) Reactivated,
+  Case when Coalesce_DSDate = MaxDSDate and DS is not null then 1 else 0 end as CurrentDS,uso_offer_id,uso_offer_code_applied,uso_applied_at,Cast(0 as bit) Reactivated,Cast(null as int) FreeTrialDays,
   getdate() as DMLastupdated
   into Datawarehouse.Archive.TGCplus_DS
   from Datawarehouse.Staging.TGCplus_DS_Working DS
@@ -692,16 +695,37 @@ CREATE NONCLUSTERED INDEX [IX_TGCplus_DS_Cover1] ON [Archive].[TGCplus_DS]
 
 
 
+ ----------------------------------------------------------------------------#FreeDays-----------------------------------------------------------------------------------------------------  
+  --20180326 added new column to Archive.TGCPlus_DS table FreeTrialDays
+  
+  IF OBJECT_ID('staging.TGCPlus_DSfreedays') IS NOT NULL            
+    DROP TABLE staging.TGCPlus_DSfreedays      
+  
+  
+select DS.Customerid,service_period_from,datediff(d,service_period_from,actual_service_period_to) + 1 as Freedays,  
+ Case when  datediff(d,service_period_from,actual_service_period_to) + 1  between 1 and 10 then '1-10 Days'  
+      when  datediff(d,service_period_from,actual_service_period_to) + 1  between 11 and 20 then '11-20 Days'      
+   when  datediff(d,service_period_from,actual_service_period_to) + 1  between 21 and 32 then '21-32 Days'   
+   else  '>32 Days' end as FreedaysBucket,  
+   getdate() as DMLAstupdated  
+Into staging.TGCPlus_DSfreedays  
+from DataWarehouse.Archive.tgcplus_DS DS  
+where DS.DS = 0 AND DS.BillingRank = 1  
+Group by DS.Customerid,service_period_from,datediff(d,service_period_from,actual_service_period_to) + 1,  
+Case when  datediff(d,service_period_from,actual_service_period_to) + 1  between 1 and 10 then '1-10 Days'  
+ when  datediff(d,service_period_from,actual_service_period_to) + 1  between 11 and 20 then '11-20 Days'      
+ when  datediff(d,service_period_from,actual_service_period_to) + 1  between 21 and 32 then '21-32 Days'   
+ else  '>32 Days' end  
 
 
+ update DS
+ set Ds.FreeTrialDays = Free.Freedays
+ from Archive.TGCPlus_DS DS
+ join staging.TGCPlus_DSfreedays Free
+ on ds.customerid = Free.customerid
+ where DS.CurrentDS =  1
 
 END
-
-
-
-
-
-
 
 
 GO

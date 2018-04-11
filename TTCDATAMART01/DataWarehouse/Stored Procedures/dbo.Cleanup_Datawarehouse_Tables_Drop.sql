@@ -17,9 +17,9 @@ FOR
 SELECT SCHEMA_NAME(b.schema_id) + '.' + a.Name--,crdate 
 FROM sysobjects a join
 	 sys.tables b on a.id = b.object_id
-WHERE a.Name like 'TN_Contact%'
+WHERE a.Name like 'Email_201711%'
 --WHERE Name like 'ordallctn_%WkOf%History'
-and a.crdate <= dateadd(month,-4,getdate())
+and a.crdate <= dateadd(month,-3,getdate())
 and a.xtype = 'U'
 and a.name not like '%numHit%'
 and a.name not like '%FnlSmry%'

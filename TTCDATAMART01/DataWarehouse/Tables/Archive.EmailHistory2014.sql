@@ -12,3 +12,5 @@ CREATE TABLE [Archive].[EmailHistory2014]
 [R3FormatMediaPref] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_EmailHistory2014_TSTAMP_FlagHoldOut] ON [Archive].[EmailHistory2014] ([StartDate], [FlagHoldOut]) ON [PRIMARY]
+GO

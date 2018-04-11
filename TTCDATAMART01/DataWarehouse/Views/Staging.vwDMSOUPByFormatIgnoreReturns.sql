@@ -6,6 +6,7 @@ GO
 
 
 
+
 CREATE VIEW [Staging].[vwDMSOUPByFormatIgnoreReturns]
 AS
 
@@ -56,9 +57,9 @@ select b.CustomerID,
 	sum(case when left(a.StockItemID,2) in ('DA','DV','DT') then a.TotalQuantity else 0 end) DigitalUnits,
 	sum(case when left(a.StockItemID,2) in ('DA','DV','DT') then a.TotalParts else 0 end) DigitalParts,
 	--max(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then 1 else 0 end) FlagPhysical,
-	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.Totalsales else 0 end) PhysicalSales,
-	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.TotalQuantity else 0 end) PhysicalUnits,
-	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT') then a.TotalParts else 0 end) PhysicalParts,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT','LC','LM','LV','LD','LT') then a.Totalsales else 0 end) PhysicalSales,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT','LC','LM','LV','LD','LT') then a.TotalQuantity else 0 end) PhysicalUnits,
+	sum(case when left(a.StockItemID,2) in ('PC','PM','PA','PV','PD','PT','LC','LM','LV','LD','LT') then a.TotalParts else 0 end) PhysicalParts,
 	sum(a.TotalSales) TotalMerchandizeSales,
 	sum(a.TotalQuantity) TotalMerchandizeUnits,
 	sum(a.TotalParts) TotalMerchandizeParts
@@ -73,6 +74,7 @@ group by b.CustomerID,
 		b.Tax,
 		b.OrderSource,
 		b.AdCode
+
 
 
 

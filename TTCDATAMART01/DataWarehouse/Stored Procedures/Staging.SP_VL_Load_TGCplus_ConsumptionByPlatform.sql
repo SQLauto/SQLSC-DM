@@ -2,7 +2,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-CREATE Proc [Staging].[SP_VL_Load_TGCplus_ConsumptionByPlatform]   @GreaterThanTStamp Date = null        
+
+
+
+
+
+create Proc [Staging].[SP_VL_Load_TGCplus_ConsumptionByPlatform]   @GreaterThanTStamp Date = null        
 as          
 Begin          
         
@@ -11,7 +16,7 @@ Begin
 set @GreaterThanTStamp = DATEADD(d,-1,staging.getmonday(GETDATE()-7) )        
 End          
            
-Truncate table staging.TGCPlus_ConsumptionByPlatform_temp        
+Truncate table staging.TGCplus_ConsumptionByPlatform_temp        
   
 Declare @MaxConsumptionDate Datetime,@ReportDate Datetime  
   
@@ -21,72 +26,82 @@ select @MaxConsumptionDate,@ReportDate
 
 
 select * into #TGCPlus_VideoEvents 
-from Archive.TGCPlus_VideoEvents a
+from  marketing.TGCplus_VideoEvents_Smry a
 where tstamp >= @GreaterThanTStamp
 
         
-insert into staging.TGCPlus_ConsumptionByPlatform_temp        
-select   
-  a.pfm as Platform,  
-  a.useragent as BrowserVersion,  
+insert into staging.TGCplus_ConsumptionByPlatform_temp        
+  select   
+  Platform,  
+  useragent as BrowserVersion,  
   datawarehouse.Staging.RemoveDigits(a.useragent) as Browser,  
   b.genre as SubjectCategory,      
-  a.countryname as CountryName,   
-  a.countryisocode as CountryCode,   
+  c.Country as CountryName,   
+	 CountryCode, 
+	 a.FilmType, 
+	 a.Player,
+	 a.FlagAudio,
+	 a.FlagOffline,
+	 a.Speed,
+	 a.PaidFlag, 
   Year(a.tstamp) as YearPlayed,        
   Month(a.tstamp) as MonthPlayed,        
   cast(staging.getmonday(a.tstamp) as date) as WeekPlayed,        
   cast(a.tstamp as date) as DatePlayed,        
-  sum(case when pa = 'PLAY' then 1 else 0 end) as NumOfPlays,        
-  convert(float,(sum(case when pa = 'PING' then 1 else 0 end)  * 30.0)) as StreamedSeconds,      
-  convert(float,(sum(case when pa = 'PING' then 1 else 0 end)  * 30.0)/60) as StreamedMinutes,      
-  count(distinct a.uid) UniqueCustcount ,      
-  convert(float,(sum(case when pa = 'PLAY' then b.runtime else 0 end))) as AvlblSeconds,        
-  convert(float,(sum(case when pa = 'PLAY' then b.runtime else 0 end))/60) as AvlblMinutes,    
-  @MaxConsumptionDate AS MaxConsumptionDate,    
-  @ReportDate AS ReportDate,  
-   case when b.film_type IS null and b.course_id > 0 then 'Episode'         
-   when b.film_type IS null and isnull(b.course_id,'0') = 0 then 'Trailer'        
-   else b.film_type        
-  end as FilmType   
-from #TGCPlus_VideoEvents a         
-      join Archive.TGCPlus_Film b on a.vid = b.uuid        
-      join Archive.TGCPlus_User c on a.uid = c.uuid   
-where tstamp >= @GreaterThanTStamp  
-and c.email not like '%+%'
-and c.email not like '%plustest%'       
-group by   
-      a.pfm,  
-      a.useragent,  
- datawarehouse.Staging.RemoveDigits(a.useragent),  
-      b.genre,      
-      a.countryname,   
-   a.countryisocode,    
-      Year(a.tstamp),        
-      Month(a.tstamp),        
-	  cast(staging.getmonday(a.tstamp) as date),        
-      cast(a.tstamp as date),  
-       case when b.film_type IS null and b.course_id > 0 then 'Episode'         
-    when b.film_type IS null and isnull(b.course_id,'0') = 0 then 'Trailer'        
-    else b.film_type        
-   end     
+	sum(plays)  as NumOfPlays,        
+  convert(float,(sum(a.pings)  * 30.0)) as StreamedSeconds,      
+  convert(float,(sum(a.pings) * 30.0)/60) as StreamedMinutes,      
+  count(distinct a.UUID) UniqueCustcount ,      
+  convert(float,(sum(case when plays > 0 then a.lectureRunTime else 0 end))) as AvlblSeconds,        
+  convert(float,(sum(case when  plays > 0 then a.lectureRunTime else 0 end))/60) as AvlblMinutes,   
+ isnull(MAX(Tstamp),'1900/01/01') as MaxConsumptionDate,
+   getdate()  AS ReportDate  
+ 
+from Marketing.TGCplus_VideoEvents_Smry a
+      join Archive.TGCPlus_Film b on a.vid = b.uuid   
+left join DataWarehouse.Mapping.TGCPlusCountry c on a.countrycode=c.Alpha2Code
+where   tstamp >= @GreaterThanTStamp  
+group by
+ Platform,  
+  useragent ,  
+  datawarehouse.Staging.RemoveDigits(a.useragent) ,
+  COUNTRYCODE,
+   c.Country ,
+ FilmType,     
+  b.genre , 
+   a.Player,
+	 a.FlagAudio,
+	 a.FlagOffline,
+	 a.Speed,
+	 a.PaidFlag,
+  Year(a.tstamp) ,   
+  Month(a.tstamp),      
+ cast(staging.getmonday(a.tstamp) as date),   
+  cast(a.tstamp as date) 
+
+
         
   
 --Print 'Deleting'              
-delete Marketing.TGCPlus_ConsumptionByPlatform         
+delete Marketing.TGCplus_ConsumptionByPlatform         
 where DatePlayed >= @GreaterThanTStamp     
         
 Print 'Inserting'          
-Insert into Marketing.TGCPlus_ConsumptionByPlatform        
+Insert into Marketing.TGCplus_ConsumptionByPlatform        
 select  *      
-from staging.TGCPlus_ConsumptionByPlatform_temp      
+from staging.TGCplus_ConsumptionByPlatform_temp      
       
       
-update Marketing.TGCPlus_ConsumptionByPlatform  
+update Marketing.TGCplus_ConsumptionByPlatform  
 set MaxConsumptionDate = @MaxConsumptionDate,    
  ReportDate = @ReportDate      
 
 drop table #TGCPlus_VideoEvents          
 
 END   
+
+
+
+
+
 GO

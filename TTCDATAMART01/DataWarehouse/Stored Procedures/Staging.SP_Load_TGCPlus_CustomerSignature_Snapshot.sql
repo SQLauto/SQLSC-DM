@@ -231,7 +231,7 @@ Insert into #TGCPlus_Customer
 		on a.CustomerID=b.id 					
 		join Archive.TGCPlus_SubscriptionPlan d						
 		on a.SubPlanID=d.id	
-		join DataWarehouse.Mapping.vwAdcodesAll e
+		join Mapping.vwAdcodesAll e
 		on b.TGCPluscampaign=e.AdCode
 		join Archive.TGCPlus_SubscriptionPlan f						
 		on b.subscription_plan_id=f.id	
@@ -595,19 +595,19 @@ join Datawarehouse.Archive.TGCPlus_customerStatus_Snapshot s on c.CustomerID = s
 where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in ('Initial Payment','Recurring Payment')
 		
 
-/* Truncate and load TGCPlus_CustomerSignature_Snapshot*/
 
- Delete from  Datawarehouse.Marketing.TGCPlus_CustomerSignature_Snapshot
- where AsofDate = @SnapshotDate
+/* Truncate and load TEMPTGCPlus_CustomerSignature_Snapshot*/
+ 
+    if object_id('Staging.TEMPTGCPlus_CustomerSignature_Snapshot') is not null truncate table Staging.TEMPTGCPlus_CustomerSignature_Snapshot
 
-		Insert into Datawarehouse.Marketing.TGCPlus_CustomerSignature_Snapshot
+		Insert into Staging.TEMPTGCPlus_CustomerSignature_Snapshot
 		select 
 				AsofDate,
 				a.CustomerID,
 				a.uuid,
 				a.EmailAddress,
 				a.TGCCustomerID,
-				convert(varchar(10),'US') CountryCode,
+				convert(varchar(10),null) CountryCode,
 				a.IntlCampaignID,
 				a.IntlCampaignName,
 				b.MD_Country as IntlMD_Country,
@@ -700,11 +700,11 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 				getdate()
  
 		from DataWarehouse.#TGCPlus_CustomerDaily a
-		left join DataWarehouse.mapping.vwadcodesall b
+		left join Mapping.vwadcodesall b
 		on a.IntlCampaignID=b.adcode
 		left join DataWarehouse.Archive.TGCPlus_BillingAddress Ad
 		on ad.userId = a.UUId
-		left Join DataWarehouse.Mapping.TGCPlus_CustomerOverlay O
+		left Join Mapping.TGCPlus_CustomerOverlay O
 		on O.CustomerID = A.CustomerID
 		join Mapping.Vw_TGCPlus_ValidSubscriptionPlan P
 		on P.id =a.SubPlanID
@@ -715,16 +715,42 @@ where c.TransactionType = 'cancelled' and S.ActiveSubscriber = 1 and S.Status in
 		and a.IntlMDChannel not like '%OfficeDepot%'
 		order by a.CustomerID, a.IntlSubDate 
 
-/* Country update to include Country names from datawarehouse.Mapping.TGCPLusCountry vikram 9/20/2016*/
+/* Country update to include Country names from Mapping.TGCPLusCountry vikram 9/20/2016*/
 
 	 Update C
-	 set c.country = Coalesce(m.Country,m1.Country,'ROW') 
-	 from Datawarehouse.Marketing.TGCPlus_CustomerSignature_Snapshot c
-	 left join datawarehouse.Mapping.TGCPLusCountry m
+	 set c.country = Coalesce(m.Country,m1.Country,'Unknown') 
+	 from Staging.TEMPTGCPlus_CustomerSignature_Snapshot c
+	 left join Mapping.TGCPLusCountry m
 	 on m.Country = c.country
-	 left join datawarehouse.Mapping.TGCPLusCountry m1
+	 left join Mapping.TGCPLusCountry m1
 	 on m1.Alpha2Code = c.country
 	 where AsofDate = dateadd(day,0,convert(date,@SnapshotDate))
+
+/* PR - 3/8/2018 -- Added code to fix Countrycode field and update info from country of subscription where not available */
+	update a
+	set a.CountryCode = b.Alpha2Code
+	from Staging.TEMPTGCPlus_CustomerSignature_Snapshot a join
+		(select a.CustomerID, a.country, b.country_of_registration, tc.Alpha2Code--, tc.Country
+		from staging.TEMPTGCPlus_CustomerSignature_Snapshot a join
+			Archive.tgcplus_user b on a.CustomerID = b.id left join
+			Mapping.TGCPlusCountry tc on a.Country = tc.Country)b on a.CustomerID = b.CustomerID
+
+	-- Update countrycode from country of subscription for unknowns
+	update a
+	set a.CountryCode = b.country_of_subscription,
+		a.Country = b.Country
+	from Staging.TEMPTGCPlus_CustomerSignature_Snapshot a 
+	join Archive.Vw_TGCPlus_PASCountryOfSubscription b on a.CustomerID = b.pa_user_id
+	where a.CountryCode is null
+
+/* Load final data into main snapshot */
+ Delete from  Marketing.TGCPlus_CustomerSignature_Snapshot
+ where AsofDate = @SnapshotDate
+
+ insert into Marketing.TGCPlus_CustomerSignature_Snapshot
+ select *
+ from Staging.TEMPTGCPlus_CustomerSignature_Snapshot
+
 
 
 End

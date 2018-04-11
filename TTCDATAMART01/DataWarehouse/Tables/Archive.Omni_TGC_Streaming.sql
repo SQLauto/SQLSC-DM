@@ -37,3 +37,7 @@ ALTER TABLE [Archive].[Omni_TGC_Streaming] ADD CONSTRAINT [PK__Omni_TGC__E9940D4
 GO
 CREATE NONCLUSTERED INDEX [IX_Omni_TGC_Streaming_ActionDate_Platform] ON [Archive].[Omni_TGC_Streaming] ([Actiondate], [Platform]) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_Omni_TGC_Streaming_Cover1] ON [Archive].[Omni_TGC_Streaming] ([CustomerID], [MarketingCloudVisitorID], [MagentoUserID]) INCLUDE ([Actiondate]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_Omni_TGC_Streaming_MagentoUserID] ON [Archive].[Omni_TGC_Streaming] ([MagentoUserID]) INCLUDE ([Actiondate]) ON [PRIMARY]
+GO

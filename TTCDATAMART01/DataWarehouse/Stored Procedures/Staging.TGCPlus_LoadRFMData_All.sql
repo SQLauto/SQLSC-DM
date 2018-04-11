@@ -24,6 +24,7 @@ begin
  if @AsOfDate is null   
   select @AsOfDate = max(AsofDate)  
   from marketing.TGCPlus_CustomerSignature_Snapshot  
+  where day(asofdate) = 1
  else  
   select @AsOfDate = DATEADD(month, DATEDIFF(month, 0, @AsOfDate), 0)  
   
@@ -188,6 +189,7 @@ begin
  and a.PaidFlag = 1-- and b.CustStatusFlag = 1  
  --and a.CustomerID in (2130333) --,2998034,3617941,2528907)  
  --and a.AsofDate >= '1/1/2017'  
+ and day(a.AsofDate)  = 1
  group by a.AsofDate  
  ,a.CustomerID  
  ,a.IntlSubDate  

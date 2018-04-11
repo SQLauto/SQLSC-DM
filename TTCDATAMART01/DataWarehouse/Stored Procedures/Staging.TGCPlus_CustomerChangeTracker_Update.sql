@@ -22,7 +22,10 @@ BEGIN
 			B.DSMonthCancelled_New,
 			b.DS,
 			b.BillingRank,
-			sub.genre as PreferredCategory_LTD
+			sub.genre as PreferredCategory_LTD,
+			convert(varchar(10), null) as PreferredAVCat_LTD,
+			convert(varchar(10), null) as PreferredPlayerSpeed_LTD,
+			convert(varchar(255), null) as PreferredPlayer_LTD
 		into #current
 		from  marketing.TGCPlus_CustomerSignature (nolock) A      
 		left join      
@@ -41,8 +44,42 @@ BEGIN
 		) B on A.CustomerID = B.CustomerID       
 		left join
 		(select CustomerID, genre
-		from  DataWarehouse.[Archive].[VW_TGCPlus_LTD_CustConsumptionBySubject] 
-		where Rank = 1)sub on a.CustomerID = sub.CustomerID
+		from  Archive.VW_TGCPlus_LTD_CustConsumptionBySubject
+		where Rank = 1)sub on a.CustomerID = sub.CustomerID       
+		
+		update a
+		set a.PreferredAVCat_LTD = av.FlagAudioVideo
+		from #current a join
+			(select CustomerID, FlagAudioVideo
+			from  Archive.VW_TGCPlus_LTD_CustConsumptionByAudioVideo 
+			where Rank = 1)av on a.CustomerID = av.CustomerID   
+		
+		update a
+		set a.PreferredPlayerSpeed_LTD = ps.Playerspeed
+		from #current a join
+			(select CustomerID, PlayerSpeed
+			from  Archive.VW_TGCPlus_LTD_CustConsumptionBySpeed 
+			where Rank = 1)ps on a.CustomerID = ps.CustomerID  
+			
+		update a
+		set a.PreferredPlayer_LTD = pl.Player
+		from #current a join
+		(select CustomerID, Player
+		from  Archive.VW_TGCPlus_LTD_CustConsumptionByPlayer
+		where Rank = 1)pl on a.CustomerID = pl.CustomerID
+
+	truncate table DataWarehouse.Marketing.TGCPlus_CustomerPreferences
+
+	insert into DataWarehouse.Marketing.TGCPlus_CustomerPreferences
+	select distinct a.customerid, a.uuid, a.EmailAddress,
+		b.PreferredAVCat_LTD,
+		b.PreferredCategory_LTD,
+		b.PreferredPlayer_LTD,
+		b.PreferredPlayerSpeed_LTD,
+		a.AsofDate
+	from DataWarehouse.Marketing.TGCPlus_CustomerSignature a left join
+		#current b on a.CustomerID = b.CustomerID
+
 
 	-- if load type is 'Update' then run updates
 
@@ -61,7 +98,7 @@ BEGIN
 
 		-- add new customers:
 		insert into Archive.TGCPlus_CustChangeTracker
-		select a.*,1 as FlagChange
+		select a.*,1 as FlagChange	
 		from #current a left join
 			Archive.TGCPlus_CustChangeTracker b on a.CustomerID = b.CustomerID
 		where b.CustomerID is null   
@@ -73,13 +110,16 @@ BEGIN
 		into #changes
 		from #current a join
 			Archive.TGCPlus_CustChangeTracker b on a.CustomerID = b.CustomerID
-		where (a.CustStatusFlag <> b.CustStatusFlag
-			 or a.TGCCustFlag <> b.TGCCustFlag
-			 or a.PaidFlag <> b.PaidFlag
-			 or a.DSMonthCancelled_New <> b.DSMonthCancelled_New
-			 or a.DS <> b.DS
-			 or a.BillingRank <> b.BillingRank
-			 or a.PreferredCategory_LTD <> b.PreferredCategory_LTD)
+		where (isnull(a.CustStatusFlag,'') <> isnull(b.CustStatusFlag,'')
+			 or isnull(a.TGCCustFlag,'')  <> isnull(b.TGCCustFlag,'')
+			 or isnull(a.PaidFlag,'')  <> isnull(b.PaidFlag,'')
+			 or isnull(a.DSMonthCancelled_New,'')  <> isnull(b.DSMonthCancelled_New,'')
+			 or isnull(a.DS,'') <> isnull(b.DS,'')
+			 or isnull(a.BillingRank,'') <> isnull(b.BillingRank,'')
+			 or isnull(a.PreferredCategory_LTD, '') <> isnull(b.PreferredCategory_LTD,''))
+			 --or isnull(a.PreferredAVCat_LTD, '') <> b.PreferredAVCat_LTD,'')
+			 --or isnull(a.PreferredPlayerSpeed_LTD, '') <> b.PreferredPlayerSpeed_LTD,'')
+			 --or isnull(a.PreferredPlayer_LTD, '') <> b.PreferredPlayer_LTD))
 
 		delete a
 		from Archive.TGCPlus_CustChangeTracker a join

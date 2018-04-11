@@ -6,7 +6,8 @@ GO
 CREATE Proc [dbo].[SP_FB_TGC_FilesByCourse]
 	@CourseID INT,
 	@FormatType varchar(20) = 'Digital only',
-	@CountryCode varchar(3) = 'All'
+	@CountryCode varchar(3) = 'All',
+	@Channel varchar(200) = 'All'
 as
 Begin
 
@@ -18,6 +19,7 @@ Declare @SQL Nvarchar(2000)
 	,@Year varchar(4)
 	,@FormatSql nvarchar(2000)
 	,@CountrySql nvarchar(2000)
+	,@ChannelSql nvarchar(2000)
 	,@ErrorMsg varchar(2000)
 
 
@@ -53,7 +55,21 @@ set  @Year = year(@Date)
 
 /* TableName */
 
-set @FnlTable = 'FB_TGC_File_' + convert(varchar,@CourseID) + '_' + replace(@FormatType,' ','') + '_' + @CountryCode + '_' + @Date
+if @Channel = 'All' 
+	set @FnlTable = 'FB_TGC_File_' + convert(varchar,@CourseID) + '_' + replace(@FormatType,' ','') + '_' + @CountryCode + '_' + @Date
+else 
+ begin
+	set @FnlTable = 'FB_TGC_File_' + convert(varchar,@CourseID) + '_' + replace(@FormatType,' ','') + '_' + @CountryCode + '_Facebook' + @Date
+
+	select distinct a.OrderID
+	into #FBOrders
+	from Marketing.DMPurchaseOrders a 
+	join (select distinct Adcode
+		from DataWarehouse.Mapping.vwAdcodesAll
+		where ChannelID = 14   -- social Media
+		and MD_CampaignName like '%facebook%')b on a.AdCode = b.AdCode
+ end
+
 print '@FnlTable = ' + @FnlTable
 
 /* Folder Name */
@@ -81,6 +97,11 @@ print '@FormatSql = ' + @FormatSql
 					 end
 print '@CountrySql = ' + @CountrySql
 
+select @ChannelSql = case when @Channel = 'Facebook' then ' and a.OrderID in (select OrderID from #FBOrders)'
+						else ' '
+					end
+print '@ChannelSql = ' + @ChannelSql
+
   if object_id('RFM.dbo.' + @FnlTable) is not null 
     begin
 		set @SQL = 'drop table RFM.dbo.' + @FnlTable
@@ -103,6 +124,7 @@ set @SQL =	'select distinct a.CourseID
 		where a.courseid in (' + convert(varchar,@CourseID) + ')'
 		+ @CountrySql
 		+ @FormatSql
+		+ @ChannelSql
 		
 
 Print @SQL

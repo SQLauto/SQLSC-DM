@@ -45,6 +45,8 @@ CREATE TABLE [Archive].[TGCPlus_User]
 [email_consent_visible] [int] NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_TGCPlus_User_cover1] ON [Archive].[TGCPlus_User] ([email]) INCLUDE ([id], [uuid]) ON [PRIMARY]
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [UC_TGCPlus_User_id] ON [Archive].[TGCPlus_User] ([id]) ON [PRIMARY]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UC_TGCPlus_User_uuid] ON [Archive].[TGCPlus_User] ([uuid]) ON [PRIMARY]

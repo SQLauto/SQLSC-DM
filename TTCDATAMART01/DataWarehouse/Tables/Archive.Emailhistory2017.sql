@@ -1,4 +1,4 @@
-CREATE TABLE [Archive].[Emailhistory2017]
+CREATE TABLE [Archive].[EmailHistory2017]
 (
 [CustomerID] [dbo].[udtCustomerID] NOT NULL,
 [Adcode] [int] NULL,
@@ -11,4 +11,6 @@ CREATE TABLE [Archive].[Emailhistory2017]
 [BinDaysSinceLastPurchase] [int] NULL,
 [R3FormatMediaPref] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_EmailHistory2017_TSTAMP_FlagHoldOut] ON [Archive].[EmailHistory2017] ([StartDate], [FlagHoldOut]) ON [PRIMARY]
 GO

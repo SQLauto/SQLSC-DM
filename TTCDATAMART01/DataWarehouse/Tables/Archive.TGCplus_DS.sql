@@ -65,6 +65,7 @@ CREATE TABLE [Archive].[TGCplus_DS]
 [uso_offer_code_applied] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [uso_applied_at] [datetime] NULL,
 [Reactivated] [bit] NULL,
+[FreeTrialDays] [int] NULL,
 [DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO

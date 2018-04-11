@@ -4,10 +4,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
-
-
-
 CREATE view [Staging].[Vw_DMCourse]
 AS
     
@@ -51,7 +47,10 @@ from Mapping.DMCourse a
 	left join Mapping.TGCPartners c on a.CobrandPartnerID = c.PartnerID
 	left join (select distinct course_id
 					,genre
-				from Archive.TGCPlus_Film)plus on a.CourseID = plus.course_id
+				from Archive.TGCPlus_Film
+				where status = 'open'
+				and course_id is not null)plus on a.CourseID = plus.course_id
+
 
 
 

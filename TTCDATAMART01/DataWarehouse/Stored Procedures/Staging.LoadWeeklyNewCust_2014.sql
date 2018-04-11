@@ -169,7 +169,7 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 	from DAXImports..DAX_OrderItemExport a join
 		Staging.TempOrdersWPTest b on a.orderid = b.orderid
 	where LineType = 'ItemDelivered'
-	and ITEMID in ('RM0531'))b on a.CustomerID = b.CustomerID
+	and ITEMID in ('RM0531','RM0537'))b on a.CustomerID = b.CustomerID -- ############## PR New RMCode RFM0537 added for PM5 folks moving to PM8 test -- 3/6/2018  
 							and a.MinOrderIDinPeriod = b.orderid
 
 
@@ -182,9 +182,22 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 	from DAXImports..DAX_OrderItemExport a join
 		Staging.TempOrdersWPTest b on a.orderid = b.orderid
 	where LineType = 'ItemDelivered'
-	and ITEMID in ('RM0532'))b on a.CustomerID = b.CustomerID
+	and ITEMID in ('RM0532','RM0538'))b on a.CustomerID = b.CustomerID  -- ############## PR New RMCode RFM0538 added for PM4 folks moving to PM5 test -- 3/6/2018  
 							and a.MinOrderIDinPeriod = b.orderid
-							
+
+
+	-- ############## PR New Non Digital SpaceAd customer PM4 group -- 3/6/2018  
+	update a
+	set a.FlagReceivedSpclShipCat  = 0,
+		a.HVLVGroup = 'HV',
+		a.ItemID = b.ITEMID  -- PR 5/6/2014 - added ITEMID for qc
+	from  Staging.NewCustomerWelcomeSeriesTEMP a join
+		(select distinct a.orderid, b.CustomerID, a.ITEMID  -- PR 5/6/2014 - added ITEMID for qc
+		from DAXImports..DAX_OrderItemExport a join
+			Staging.TempOrdersWPTest b on a.orderid = b.orderid
+		where LineType = 'ItemDelivered'
+		and ITEMID in ('RM0539'))b on a.CustomerID = b.CustomerID  -- ############## PR New RMCode RFM0539 added for PM5 spaceAd folks moving to PM4 group -- 3/6/2018  
+								and a.MinOrderIDinPeriod = b.orderid							
 
 	update a
 	set a.FlagDigitalPhysical = isnull(b.FlagDigitalPhysical,'Physical Only'),
@@ -252,7 +265,7 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 	and HVLVGroup = 'HV'
 	and v.MD_Channel not like '%space%' 
 
-	-- ############## Update for Space customers
+	-- ############## Update for Space 'Digital ONly' customers
 	update a
 	set a.HVLVGroup = case when v.PriceTypeID = 4 then 'HV'
 							when v.PriceTypeID <> 4 then 'MV'
@@ -264,6 +277,8 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 		left join Marketing.DMPurchaseOrders b on a.MinOrderIDinPeriod = b.orderid 
 		left join Mapping.vwAdcodesAll v on b.AdCode = v.AdCode
 	where v.MD_Channel like '%space%' 
+	and a.FlagDigitalPhysical = 'Digital Only'
+
 
 -- ############## New Digital Only customer Split Update ends here....
 			
@@ -293,7 +308,7 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 		from DAXImports..DAX_OrderItemExport a join
 			Staging.TempOrdersWPTest b on a.orderid = b.orderid
 		where LineType = 'ItemDelivered'
-		and ITEMID in ('RM0531'))b on a.CustomerID = b.CustomerID
+		and ITEMID in ('RM0531','RM0537'))b on a.CustomerID = b.CustomerID -- ############## PR New RMCode RFM0537 added for PM5 folks moving to PM8 test -- 3/6/2018  
 	where a.AcquisitionWeek = @AcquistionWeek
 	--group by a.FlagReceivedSpclShipCat, A.HVLVGroup	
 	--(657 row(s) affected)	
@@ -308,11 +323,26 @@ from  Staging.NewCustomerWelcomeSeriesTEMP a join
 		from DAXImports..DAX_OrderItemExport a join
 			Staging.TempOrdersWPTest b on a.orderid = b.orderid
 		where LineType = 'ItemDelivered'
-		and ITEMID in ('RM0532'))b on a.CustomerID = b.CustomerID
+		and ITEMID in ('RM0532','RM0538'))b on a.CustomerID = b.CustomerID -- ############## PR New RMCode RFM0538 added for PM4 folks moving to PM5 test -- 3/6/2018  
 	where a.AcquisitionWeek = @AcquistionWeek
 	--group by a.FlagReceivedSpclShipCat, A.HVLVGroup	
 	--(657 row(s) affected)		
 	
+	update a
+	set a.FlagReceivedSpclShipCat  = 0,
+		A.HVLVGroup = 'HV',
+		a.itemid = b.ITEMID -- PR 5/6/2014 - added ITEMID for qc
+	-- select 	a.FlagReceivedSpclShipCat, A.HVLVGroup, count(a.customerid)
+	from  Marketing.NewCustomerWelcomeSeries a join
+		(select distinct a.orderid, b.CustomerID, a.ITEMID -- PR 5/6/2014 - added ITEMID for qc
+		from DAXImports..DAX_OrderItemExport a join
+			Staging.TempOrdersWPTest b on a.orderid = b.orderid
+		where LineType = 'ItemDelivered'
+		and ITEMID in ('RM0539'))b on a.CustomerID = b.CustomerID  -- ############## PR New RMCode RFM0539 added for PM5 spaceAd folks moving to PM4 group -- 3/6/2018  
+	where a.AcquisitionWeek = @AcquistionWeek
+	--group by a.FlagReceivedSpclShipCat, A.HVLVGroup	
+	--(657 row(s) affected)		
+		
 	drop table Staging.TempOrdersWPTest
 	
 end

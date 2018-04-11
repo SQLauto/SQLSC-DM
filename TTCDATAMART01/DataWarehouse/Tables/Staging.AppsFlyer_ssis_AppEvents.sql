@@ -57,7 +57,7 @@ CREATE TABLE [Staging].[AppsFlyer_ssis_AppEvents]
 [WIFI] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Operator] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Carrier] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Language] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Language] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AppsFlyerID] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AdvertisingID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [IDFA] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

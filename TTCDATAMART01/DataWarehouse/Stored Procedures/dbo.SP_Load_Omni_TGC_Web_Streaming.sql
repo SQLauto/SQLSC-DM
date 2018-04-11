@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
       
 CREATE Proc [dbo].[SP_Load_Omni_TGC_Web_Streaming]     @CountryCode varchar(3)        
 as        
@@ -77,6 +78,10 @@ if @CountryCode  =  'AU'
   Countrycode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries         
   from #omni_TGC_Web_Streaming_AU        
         
+
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming
+
         
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Streaming_AU') IS NOT NULL        
     DROP TABLE #omni_TGC_Web_Streaming_AU        
@@ -162,6 +167,7 @@ if @CountryCode  =  'AU'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -274,6 +280,11 @@ Else if @CountryCode  =  'UK'
    select Date,MarketingCloudVisitorID,UserId,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,DeviceConnected,MediaViews,MediaTimePlayed,Watched25pct,Watched50pct,Watched75pct,Watched95pct,MediaCompletes,        
    Countrycode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries         
    from #omni_TGC_Web_Streaming_UK        
+
+
+
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming
         
         
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Streaming_UK') IS NOT NULL        
@@ -359,6 +370,7 @@ Else if @CountryCode  =  'UK'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -471,6 +483,11 @@ Else if @CountryCode  =  'US'
    Countrycode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries         
    from #omni_TGC_Web_Streaming_US        
         
+
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming
+
+
         
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Streaming_US') IS NOT NULL        
     DROP TABLE #omni_TGC_Web_Streaming_US        
@@ -556,6 +573,7 @@ Else if @CountryCode  =  'US'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType

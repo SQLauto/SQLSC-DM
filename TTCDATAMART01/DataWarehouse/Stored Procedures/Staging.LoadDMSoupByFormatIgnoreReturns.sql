@@ -20,8 +20,8 @@ BEGIN
 		case when VideoDLUnits > 0 then 1 else 0 end as FlagVideoDL,
 		case when TranscriptUnits > 0 then 1 else 0 end as FlagTranscript,
 		case when DigitalTranscriptUnits > 0 then 1 else 0 end as FlagDigitalTranscript,
-		case when PhysicalUnits > 0 then 1 else 0 end as FlagPhysical,
 		case when DigitalUnits > 0 then 1 else 0 end as FlagDigital,
+		case when PhysicalUnits > 0 then 1 else 0 end as FlagPhysical,
 		case when OrderSource = 'W' then 'Web'
 			when OrderSource = 'P' then 'Phone'
 			when OrderSource = 'M' then 'Mail'
@@ -43,6 +43,7 @@ BEGIN
 		0 as Adj_PhysicalSales,
 		0 as Adj_TotalMerchandizeSales
 	from Staging.vwDMSOUPByFormatIgnoreReturns 
+	--where customerid = 41071312
 	
 	-- Update MD Channel information
 	update a

@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 CREATE Proc [dbo].[SP_Calc_TGCplus_VideoEvents_Smry] @FromDate date = null, @ToDate date = null
 as
 Begin
@@ -9,7 +10,7 @@ Begin
 If @FromDate is null 
 	Begin 
 		Select @FromDate = cast(max(TSTAMP) as date) 
-		from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry
+		from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup
 		--set @FromDate = DATEADD(d,1,@FromDate)
 		select @FromDate as 'MaxDate'
 	End
@@ -31,11 +32,11 @@ If @Todate is null
 
 
 	/*Delete data greater than @FromDate to force recalculation*/
-	Delete from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry
+	Delete from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup
 	where cast(tstamp as date) between @FromDate and @ToDate
 
 
-	Insert into Datawarehouse.Marketing.TGCplus_VideoEvents_Smry
+	Insert into Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup
 		SELECT 
 			u.UUID,
 			U.ID,
@@ -73,7 +74,7 @@ If @Todate is null
 		left join DataWarehouse.Archive.TGCPlus_Film F
 		on F.uuid=V.Vid
 		where u.email not like '%+%'
-		--and u.email not like '%plustest%' 
+		and u.email not like '%plustest%' 
 		--where cast(V.tstamp as date) >= @FromDate	--'8/1/2015'
 	Group by u.UUID, U.ID,cast(V.TSTAMP as date),datepart(Month,V.TSTAMP),datepart(Year,V.TSTAMP),datepart(Week,V.TSTAMP), 
 	v.pfm,v.useragent,V.Vid,f.Course_id,F.Episode_Number,F.Film_Type,F.RunTime,V.Countryisocode,V.cityname,V.subdivision1,V.subdivision1,timezone,uip
@@ -126,15 +127,15 @@ If @Todate is null
 
 		update t
 		set t.SeqNum = s.RNK
-		from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry  t
+		from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup  t
 			 join ( select uuid,id,MinTstamp,
 					Row_number ()over (partition by uuid,id order by  MinTstamp )as RNK
 					--,isnull( lead(SeqNum) over (partition by uuid,id order by  MinTstamp ) + Row_number ()over (partition by uuid,id order by  MinTstamp)
 					--		,Lag(SeqNum) over (partition by uuid,id order by  MinTstamp ) + Row_number ()over (partition by uuid,id order by  MinTstamp)
 					--		)as SeqNum
-						from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry
+						from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup
 						where id in (select id 
-									from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry 
+									from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup 
 									where SeqNum = 0
 									group by id) 
 
@@ -152,20 +153,20 @@ If @Todate is null
 --alter table Datawarehouse.Marketing.TGCplus_VideoEvents_Smry add Paid_SeqNum int
 	update t
 	set Paid_SeqNum = 0 
-	from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry t
+	from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup t
 	join #Userbilling ub
 	on t.id = ub.id and t.MinTstamp>= ub.mincompleted_at
 	where t.Paid_SeqNum is null
 
 	update t
 	set t.Paid_SeqNum = s.RNK
-	from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry  t
+	from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup  t
 			join ( select uuid,id,MinTstamp,
 				Row_number ()over (partition by uuid,id order by  MinTstamp )as RNK
-					from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry
+					from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup
 					where Paid_SeqNum >=0
 					and id in (select id 
-								from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry 
+								from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry_backup 
 								where Paid_SeqNum = 0
 								group by id) 
 		) s

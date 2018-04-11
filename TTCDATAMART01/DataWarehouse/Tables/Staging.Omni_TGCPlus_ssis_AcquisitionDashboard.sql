@@ -10,6 +10,7 @@ CREATE TABLE [Staging].[Omni_TGCPlus_ssis_AcquisitionDashboard]
 [TGCPlusAddtoWatchlist] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TGCPlusRemovefromWatchlist] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TGCPlusSubscriptionCancellation] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[TGCPlusSubscriptionChangePlans] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[TGCPlusSubscriptionChangePlans] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PageViews] [int] NULL
 ) ON [PRIMARY]
 GO

@@ -3,9 +3,6 @@ GO
 SET ANSI_NULLS ON
 GO
 
-
-
-  
 CREATE Proc [dbo].[Sp_EmailPull_LandingPageUpdate]  @emailid varchar(200)      
 as      
 Begin      
@@ -21,6 +18,10 @@ Select  @startdate = cast(dateadd(d,0,max(startdate)) as DATE),
     from DataWarehouse.Mapping.Email_adcode (nolock)      
 where EmailID=@emailid      
       
+	  if @startdate is null
+	  begin 
+	  return 0
+	  End
       
 select @count = isnull(count(CourseID),0)       
 from DataWarehouse.Mapping.email_landingpage      
@@ -34,7 +35,7 @@ insert into datawarehouse.mapping.WebLP_InputCourse
 select CourseID, 0      
 from DataWarehouse.Mapping.DMCourse      
 where CourseID in       
-(select CourseID       
+(select  CourseID       
 from DataWarehouse.Mapping.email_landingpage      
 where EmailID=@emailid      
 )      
@@ -345,11 +346,5 @@ Print 'Analytics'
       
       
 end  
-  
-  
-  
-  
-  
-
 
 GO

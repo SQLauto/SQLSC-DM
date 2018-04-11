@@ -45,6 +45,8 @@ CREATE TABLE [Marketing].[TGCPlus_TGCCustomerSpending]
 [TGCCustomerSince] [datetime] NULL,
 [TGCCustomerSegmentFnl] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TGCCustomerSegmentFrcst] [varchar] (57) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FormatPref] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FormatDPPref] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TGCSegAsOfDate] [date] NULL,
 [TGCP_TenureDays] [int] NULL,
 [TGCP_TenureMonthsCmplt] [int] NULL,

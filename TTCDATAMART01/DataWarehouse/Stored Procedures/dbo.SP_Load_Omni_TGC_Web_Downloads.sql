@@ -2,6 +2,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
+
     
 CREATE Proc [dbo].[SP_Load_Omni_TGC_Web_Downloads]     @CountryCode varchar(3)          
 as          
@@ -67,7 +69,10 @@ Into #omni_TGC_Web_Downloaded_AU
           
   select Date,MarketingCloudVisitorID,UserId,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,CountryCode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries,AllVisits          
   from #omni_TGC_Web_Downloaded_AU          
-          
+
+
+	--Missing Course update    
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Downloads          
           
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Downloaded_AU') IS NOT NULL          
     DROP TABLE #omni_TGC_Web_Downloaded_AU          
@@ -75,12 +80,12 @@ Into #omni_TGC_Web_Downloaded_AU
 
 
 
-/*Update Final table [Archive].[Omni_TGC_Streaming] */  
+/*Update Final table [Archive].[Omni_TGC_Downloads] */  
   
   
   Declare @AUMaxActionDate Date  
   select  @AUMaxActionDate = max(Actiondate)    
-  from [Archive].[Omni_TGC_Streaming]  
+  from [Archive].[Omni_TGC_Downloads]  
   where platform = 'AU Web'  
   
   select @AUMaxActionDate = isnull(@AUMaxActionDate,'2015/01/01')  
@@ -145,6 +150,7 @@ Into #omni_TGC_Web_Downloaded_AU
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -248,17 +254,20 @@ Into #omni_TGC_Web_Downloaded_UK
   select Date,MarketingCloudVisitorID,UserId,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,CountryCode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries,AllVisits          
   from #omni_TGC_Web_Downloaded_UK          
           
+
+	--Missing Course update    
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Downloads
           
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Downloaded_UK') IS NOT NULL          
     DROP TABLE #omni_TGC_Web_Downloaded_UK          
 
 
-/*Update Final table [Archive].[Omni_TGC_Streaming] */  
+/*Update Final table [Archive].[Omni_TGC_Downloads] */  
   
   
   Declare @UKMaxActionDate Date  
   select  @UKMaxActionDate = max(Actiondate)    
-  from [Archive].[Omni_TGC_Streaming]  
+  from [Archive].[Omni_TGC_Downloads]  
   where platform = 'UK Web'  
   
   select @UKMaxActionDate = isnull(@UKMaxActionDate,'2015/01/01')  
@@ -323,6 +332,7 @@ Into #omni_TGC_Web_Downloaded_UK
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -424,18 +434,22 @@ Into #omni_TGC_Web_Downloaded_US
   select Date,MarketingCloudVisitorID,UserId,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,CountryCode,FormatType,Lecture_duration,Browser,GeoSegmentationCountries,AllVisits         
   from #omni_TGC_Web_Downloaded_US          
           
+
+
+	--Missing Course update    
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Downloads
           
  IF OBJECT_ID('tempdb..#omni_TGC_Web_Downloaded_US') IS NOT NULL          
     DROP TABLE #omni_TGC_Web_Downloaded_US          
             
       
 
-/*Update Final table [Archive].[Omni_TGC_Streaming] */  
+/*Update Final table [Archive].[Omni_TGC_Downloads] */  
   
   
   Declare @USMaxActionDate Date  
   select  @USMaxActionDate = max(Actiondate)    
-  from [Archive].[Omni_TGC_Streaming]  
+  from [Archive].[Omni_TGC_Downloads]  
   where platform = 'US Web'  
   
   select @USMaxActionDate = isnull(@USMaxActionDate,'2015/01/01')  
@@ -500,6 +514,7 @@ Into #omni_TGC_Web_Downloaded_US
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType

@@ -10,8 +10,8 @@ CREATE TABLE [Marketing].[TGCPlus_Consumption_FreeTrial]
 [StreamedMins] [numeric] (12, 1) NULL,
 [plays] [int] NULL,
 [Platform] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[MaxVPOS] [bigint] NULL,
-[Max_VPOSMins] [numeric] (26, 6) NULL,
+[MaxVPOS] [int] NULL,
+[Max_VPOSMins] [numeric] (17, 6) NULL,
 [CourseID] [bigint] NULL,
 [CourseName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [LectureNum] [bigint] NULL,
@@ -21,6 +21,7 @@ CREATE TABLE [Marketing].[TGCPlus_Consumption_FreeTrial]
 [StreamedMinsCapped] [numeric] (26, 6) NULL,
 [FINALStreamedMins] [numeric] (26, 6) NULL,
 [FlagCompletedLecture] [int] NULL,
-[LectureCompletedPrcnt] [float] NULL
+[LectureCompletedPrcnt] [float] NULL,
+[DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO

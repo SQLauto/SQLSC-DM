@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
     
     
 CREATE Proc [dbo].[SP_Load_Omni_TGC_App_Downloads]     @AppCode varchar(10)          
@@ -66,8 +67,9 @@ if @AppCode  =  'Android'
           
    select Date,userID,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,App,AppId,FormatType,Lecture_duration,GeoSegmentationCountries,Allvisits    
    from #omni_TGC_Apps_Downloads_Android          
-          
     
+	--Missing Course update      
+    exec SP_Load_Omni_TGC_UpdateMissingCourse_Downloads
           
  IF OBJECT_ID('tempdb..#omni_TGC_Apps_Downloads_Android') IS NOT NULL          
     DROP TABLE #omni_TGC_Apps_Downloads_Android          
@@ -140,6 +142,7 @@ if @AppCode  =  'Android'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -238,7 +241,9 @@ Else if @AppCode  =  'Ios'
    select Date,userID,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,App,AppId,FormatType,Lecture_duration,GeoSegmentationCountries ,Allvisits   
    from #omni_TGC_Apps_Downloads_IOS          
               
-          
+	--Missing Course update      
+    exec SP_Load_Omni_TGC_UpdateMissingCourse_Downloads
+	          
  IF OBJECT_ID('tempdb..#omni_TGC_Apps_Downloads_IOS') IS NOT NULL          
  DROP TABLE #omni_TGC_Apps_Downloads_IOS          
             
@@ -309,6 +314,7 @@ Else if @AppCode  =  'Ios'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType

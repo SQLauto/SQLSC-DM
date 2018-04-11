@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
   
 CREATE Proc [dbo].[SP_Load_Omni_TGC_App_Streaming]     @AppCode varchar(10)        
 as        
@@ -75,7 +76,9 @@ if @AppCode  =  'Android'
    select Date,userID,MobileDeviceType,MobileDevice,MediaName,courseid,LectureNumber,DeviceConnected,MediaViews,cast(replace(MediaTimePlayed,'.00','') as int)MediaTimePlayed,        
    Watched25pct,Watched50pct,Watched75pct,Watched95pct,MediaCompletes,App,FormatType,Lecture_duration,AppID,GeoSegmentationCountries        
    from #omni_TGC_Apps_Streaming_Android        
-        
+
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming        
 
 /*Update Final table [Archive].[Omni_TGC_Streaming] */
 
@@ -155,6 +158,7 @@ if @AppCode  =  'Android'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -265,7 +269,8 @@ Else if @AppCode  =  'Ios'
    Watched25pct,Watched50pct,Watched75pct,Watched95pct,MediaCompletes,App,FormatType,Lecture_duration,AppID,GeoSegmentationCountries        
    from #omni_TGC_Apps_Streaming_IOS        
         
-
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming
 
 /*Update Final table [Archive].[Omni_TGC_Streaming] */
 
@@ -345,6 +350,7 @@ Else if @AppCode  =  'Ios'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType
@@ -455,7 +461,8 @@ Else if @AppCode  =  'Roku'
    Watched25pct,Watched50pct,Watched75pct,Watched95pct,MediaCompletes,App,FormatType,Lecture_duration,AppID,GeoSegmentationCountries        
    from #omni_TGC_Apps_Streaming_ROKU        
         
-        
+	--Missing Course update    	
+	exec SP_Load_Omni_TGC_UpdateMissingCourse_Streaming        
 
 /*Update Final table [Archive].[Omni_TGC_Streaming] */
 
@@ -535,6 +542,7 @@ Else if @AppCode  =  'Roku'
 		  DO.[DateOrdered],
 		  Case when do.StockItemID is not null then 'Purchased'
 			   when Omni.MediaName like '%Promo%' then 'Promotional'
+			   when Omni.MediaName like 'PF%' then 'Promotional'
 			   when Omni.MediaName like '%free%' then 'Free'
 			   else 'NA'
 		  end as TransactionType

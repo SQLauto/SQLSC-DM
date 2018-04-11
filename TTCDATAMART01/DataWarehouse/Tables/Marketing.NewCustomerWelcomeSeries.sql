@@ -40,5 +40,9 @@ CREATE TABLE [Marketing].[NewCustomerWelcomeSeries]
 [FlagOther] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [IX_NewCustomerWelcomeSeries_HVLVGroup_JFYEmailDLRDate_cover1] ON [Marketing].[NewCustomerWelcomeSeries] ([HVLVGroup], [JFYEmailDLRDate]) INCLUDE ([CustomerID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [IX_NewCustomerWelcomeSeries_Cover1] ON [Marketing].[NewCustomerWelcomeSeries] ([HVLVGroup]) INCLUDE ([CustomerID], [EmailAddress]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_NewCustomerWelcomeSeries_Cover3] ON [Marketing].[NewCustomerWelcomeSeries] ([HVLVGroup], [CustomerID]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_NewCustomerWelcomeSeries_Cover2] ON [Marketing].[NewCustomerWelcomeSeries] ([HVLVGroup], [EmailAddress]) ON [PRIMARY]
 GO

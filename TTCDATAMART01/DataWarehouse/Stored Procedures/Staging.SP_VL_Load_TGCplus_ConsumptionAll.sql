@@ -3,6 +3,11 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
+
+
+
+
  
 CREATE Proc [Staging].[SP_VL_Load_TGCplus_ConsumptionAll]   @GreaterThanTStamp Date = null      
 as        
@@ -28,57 +33,62 @@ select @MaxConsumptionDate,@ReportDate,@GreaterThanTStamp
 
 
 select * into #TGCPlus_VideoEvents 
-from Archive.TGCPlus_VideoEvents a
+from marketing.TGCplus_VideoEvents_Smry
 where tstamp >= @GreaterThanTStamp
 
          
-Truncate table staging.TGCPlus_ConsumptionAll_temp      
+truncate table staging.TGCPlus_ConsumptionAll_temp
+
       
-insert into staging.TGCPlus_ConsumptionAll_temp      
-select convert(int,b.course_id) as CourseID,      
-  b.seriestitle as Coursename,      
-  convert(int,b.episode_number) as LectureNumber,      
+insert into staging.TGCPlus_ConsumptionAll_temp    
+select CourseID,      
+	b.seriestitle as Coursename,      
+	episode_number as LectureNumber,      
   b.title as LectureTitle,      
-  case when b.film_type IS null and b.course_id > 0 then 'Episode'       
-  when b.film_type IS null and isnull(b.course_id,'0') = 0 then 'Trailer'      
-  else b.film_type      
-  end as FilmType,     
+ FilmType,     
   b.genre as SubjectCategory,    
   b.runtime as CourseSeconds,    
-  (b.runtime/60.0) as CourseMinutes,    
-  Year(a.tstamp) as YearPlayed,      
-  Month(a.tstamp) as MonthPlayed,      
-  cast(staging.getmonday(a.tstamp) as Date) as WeekPlayed,      
-  cast(a.tstamp as date) as DatePlayed,      
-  sum(case when pa = 'PLAY' then 1 else 0 end) as NumOfPlays,      
-  convert(float,(sum(case when pa = 'PING' then 1 else 0 end)  * 30.0)) as StreamedSeconds,    
-  convert(float,(sum(case when pa = 'PING' then 1 else 0 end)  * 30.0)/60) as StreamedMinutes,    
-  count(distinct a.uid) UniqueCustcount ,    
-  convert(float,(sum(case when pa = 'PLAY' then b.runtime else 0 end))) as AvlblSeconds,      
-  convert(float,(sum(case when pa = 'PLAY' then b.runtime else 0 end))/60) as AvlblMinutes,  
-  @MaxConsumptionDate AS MaxConsumptionDate,  
-  @ReportDate AS ReportDate    
-from #TGCPlus_VideoEvents a       
+  (b.runtime/60.0) as CourseMinutes, 
+ a.FlagAudio,
+ a.FlagOffline,
+ a.Speed,
+ a.Player,
+  Year(a.tstamp) as YearPlayed,        
+  Month(a.tstamp) as MonthPlayed,        
+  cast(staging.getmonday(a.tstamp) as date) as WeekPlayed,        
+  cast(a.tstamp as date) as DatePlayed,        
+	sum(plays)  as NumOfPlays,        
+  convert(float,(sum(a.pings)  * 30.0)) as StreamedSeconds,      
+  convert(float,(sum(a.pings) * 30.0)/60) as StreamedMinutes,      
+  count(distinct a.UUID) UniqueCustcount ,      
+  convert(float,(sum(case when plays > 0 then a.lectureRunTime else 0 end))) as AvlblSeconds,        
+  convert(float,(sum(case when  plays > 0 then a.lectureRunTime else 0 end))/60) as AvlblMinutes,   
+ isnull(MAX(Tstamp),'1900/01/01') as MaxConsumptionDate,
+   getdate()  AS ReportDate    
+from Marketing.TGCplus_VideoEvents_Smry a
       join Archive.TGCPlus_Film b on a.vid = b.uuid   
-      join Archive.TGCPlus_User c on a.uid = c.uuid   
-where tstamp >= @GreaterThanTStamp 
-and c.email not like '%+%'
-and c.email not like '%plustest%' 
-group by convert(int,b.course_id),      
-      b.seriestitle,      
-      convert(int,b.episode_number),      
-      b.title,      
-      case when b.film_type IS null and b.course_id > 0 then 'Episode'       
-            when b.film_type IS null and isnull(b.course_id,'0') = 0 then 'Trailer'      
-            else b.film_type      
-      end ,    
-      b.genre,    
-      b.runtime,    
-      (b.runtime/60.0),    
-      Year(a.tstamp),      
-      Month(a.tstamp),      
-      staging.getmonday(a.tstamp),      
-      cast(a.tstamp as date)        
+where  tstamp >= @GreaterThanTStamp  
+group by
+a.courseid,
+b.seriestitle ,   
+episode_number ,
+  b.title  ,
+ FilmType,     
+  b.genre  , 
+  b.runtime, 
+  (b.runtime/60.0),
+ a.Player,
+	 a.FlagAudio,
+	 a.FlagOffline,
+	 a.Speed,
+	 a.PaidFlag,
+  Year(a.tstamp) ,   
+  Month(a.tstamp),      
+ staging.getmonday(a.tstamp) ,   
+  cast(a.tstamp as date)   
+
+
+
       
 -- Update Number Of Plays to 1 when 0    
 --update a    
@@ -98,19 +108,26 @@ Print 'Deleting'
 -- and a.MonthPlayed = b.MonthPlayed   
 -- and a.WeekPlayed = b.WeekPlayed   
 -- and a.DatePlayed = b.DatePlayed       
-delete from Marketing.TGCPlus_ConsumptionAll 
+
+
+delete from Marketing.TGCPlus_ConsumptionAll
 where DatePlayed >= @GreaterThanTStamp
       
 Print 'Inserting'        
-Insert into Marketing.TGCPlus_ConsumptionAll      
-select  *    
+Insert into Marketing.TGCPlus_ConsumptionAll     
+select  *  
 from staging.TGCPlus_ConsumptionAll_temp    
     
-update Marketing.TGCPlus_ConsumptionAll
+update Marketing.TGCPlus_ConsumptionAll   
 set	MaxConsumptionDate = @MaxConsumptionDate,  
 	ReportDate = @ReportDate    
 
 Drop table #TGCPlus_VideoEvents    
 END 
+
+
+
+
+
 
 GO

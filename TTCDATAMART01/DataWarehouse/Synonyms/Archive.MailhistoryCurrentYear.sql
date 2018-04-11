@@ -1,2 +1,2 @@
-CREATE SYNONYM [Archive].[MailhistoryCurrentYear] FOR [DataWarehouse].[Archive].[MailingHistory2017]
+CREATE SYNONYM [Archive].[MailhistoryCurrentYear] FOR [DataWarehouse].[Archive].[MailingHistory2018]
 GO

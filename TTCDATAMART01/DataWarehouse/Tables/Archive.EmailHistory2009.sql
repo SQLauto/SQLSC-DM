@@ -9,3 +9,5 @@ CREATE TABLE [Archive].[EmailHistory2009]
 [EmailAddress] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_EmailHistory2009_TSTAMP_FlagHoldOut] ON [Archive].[EmailHistory2009] ([StartDate], [FlagHoldOut]) ON [PRIMARY]
+GO
