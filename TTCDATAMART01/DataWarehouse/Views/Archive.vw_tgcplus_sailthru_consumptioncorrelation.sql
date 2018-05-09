@@ -5,18 +5,22 @@ GO
 CREATE VIEW [Archive].[vw_tgcplus_sailthru_consumptioncorrelation]
 AS
 SELECT        a.send_Date, a.Campaignname, a.Label, a.blast_id, a.EmailOpened, a.Customerid, b.IntlSubDate, b.CustStatusFlag, b.PaidFlag, b.IntlSubType, 
-                         b.IntlSubPaymentHandler, a.Send_IntlSubType, a.Send_SubType, a.Send_CustStatusFlag, a.Send_PaidFlag, SUM(ISNULL(a.Prior3DayStreamedMins, 0) 
-                         + ISNULL(a.Prior2DayStreamedMins, 0) + ISNULL(a.Prior1DayStreamedMins, 0)) AS Prior_SM, SUM(ISNULL(a.Post2DayStreamedMins, 0) 
-                         + ISNULL(a.Post1DayStreamedMins, 0) + ISNULL(a.CurrentDayStreamedMins, 0)) AS Post_SM, SUM(ISNULL(a.Prior3DayCoursesStreamed, 0) 
-                         + ISNULL(a.Prior2DayCoursesStreamed, 0) + ISNULL(a.Prior1DayCoursesStreamed, 0)) AS Prior_Courses, SUM(ISNULL(a.Post2DayCoursesStreamed, 0) 
-                         + ISNULL(a.Post1DayCoursesStreamed, 0) + ISNULL(a.CurrentDayCoursesStreamed, 0)) AS Post_Courses, SUM(ISNULL(a.Prior3DayLecturesStreamed, 0) 
-                         + ISNULL(a.Prior2DayLecturesStreamed, 0) + ISNULL(a.Prior1DayLecturesStreamed, 0)) AS Prior_Lectures, SUM(ISNULL(a.Post2DayLecturesStreamed, 0) 
-                         + ISNULL(a.Post1DayLecturesStreamed, 0) + ISNULL(a.CurrentDayLecturesStreamed, 0)) AS Post_Lectures
+                         b.IntlSubPaymentHandler, a.SendTime_IntlSubType, a.SendTime_SubType, a.SendTime_CustStatusFlag, a.SendTime_PaidFlag, 
+                         SUM(ISNULL(a.Prior3DayStreamedMins, 0) + ISNULL(a.Prior2DayStreamedMins, 0) + ISNULL(a.Prior1DayStreamedMins, 0)) AS Prior_SM, 
+                         SUM(ISNULL(a.Post2DayStreamedMins, 0) + ISNULL(a.Post1DayStreamedMins, 0) + ISNULL(a.CurrentDayStreamedMins, 0)) AS Post_SM, 
+                         SUM(ISNULL(a.Prior3DayCoursesStreamed, 0) + ISNULL(a.Prior2DayCoursesStreamed, 0) + ISNULL(a.Prior1DayCoursesStreamed, 0)) AS Prior_Courses, 
+                         SUM(ISNULL(a.Post2DayCoursesStreamed, 0) + ISNULL(a.Post1DayCoursesStreamed, 0) + ISNULL(a.CurrentDayCoursesStreamed, 0)) AS Post_Courses, 
+                         SUM(ISNULL(a.Prior3DayLecturesStreamed, 0) + ISNULL(a.Prior2DayLecturesStreamed, 0) + ISNULL(a.Prior1DayLecturesStreamed, 0)) AS Prior_Lectures, 
+                         SUM(ISNULL(a.Post2DayLecturesStreamed, 0) + ISNULL(a.Post1DayLecturesStreamed, 0) + ISNULL(a.CurrentDayLecturesStreamed, 0)) AS Post_Lectures, 
+                         SUM(ISNULL(c.LTDStreamedMinutes, 0)) AS LTDStreamedMinutes
 FROM            Archive.VW_Tgcplus_sailthru_blast_streaming AS a WITH (nolock) INNER JOIN
-                         Archive.Vw_TGCPlus_CustomerSignature AS b WITH (nolock) ON a.Customerid = b.CustomerID
+                         Archive.Vw_TGCPlus_CustomerSignature AS b WITH (nolock) ON a.Customerid = b.CustomerID LEFT OUTER JOIN
+                             (SELECT        ID AS CustomerID, SUM(StreamedMins) AS LTDStreamedMinutes
+                               FROM            Marketing.TGCplus_VideoEvents_Smry WITH (nolock)
+                               GROUP BY ID) AS c ON a.Customerid = c.CustomerID
 WHERE        (a.Label NOT IN ('Abandon'))
 GROUP BY a.send_Date, a.Campaignname, a.Label, a.blast_id, a.EmailOpened, a.Customerid, b.IntlSubDate, b.CustStatusFlag, b.PaidFlag, b.IntlSubType, 
-                         b.IntlSubPaymentHandler, a.Send_IntlSubType, a.Send_SubType, a.Send_CustStatusFlag, a.Send_PaidFlag
+                         b.IntlSubPaymentHandler, a.SendTime_IntlSubType, a.SendTime_SubType, a.SendTime_CustStatusFlag, a.SendTime_PaidFlag
 GO
 EXEC sp_addextendedproperty N'MS_DiagramPane1', N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
 Begin DesignProperties = 
@@ -91,20 +95,30 @@ Begin DesignProperties =
       Begin Tables = 
          Begin Table = "a"
             Begin Extent = 
-               Top = 6
-               Left = 38
-               Bottom = 135
-               Right = 297
+               Top = 31
+               Left = 729
+               Bottom = 160
+               Right = 988
             End
             DisplayFlags = 280
             TopColumn = 0
          End
          Begin Table = "b"
             Begin Extent = 
-               Top = 145
-               Left = 477
-               Bottom = 274
-               Right = 717
+               Top = 198
+               Left = 361
+               Bottom = 327
+               Right = 601
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "c"
+            Begin Extent = 
+               Top = 6
+               Left = 335
+               Bottom = 101
+               Right = 554
             End
             DisplayFlags = 280
             TopColumn = 0

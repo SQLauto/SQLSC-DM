@@ -39,6 +39,7 @@ CREATE TABLE [Mapping].[DMCourse]
 [NonCoreFlag] [tinyint] NULL,
 [CoBrandPartnerID] [smallint] NULL,
 [PrimaryWebCategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PrimaryWebSubcategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[PrimaryWebSubcategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CourseCost] [money] NULL
 ) ON [PRIMARY]
 GO

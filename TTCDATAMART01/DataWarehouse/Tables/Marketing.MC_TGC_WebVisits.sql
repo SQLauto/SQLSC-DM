@@ -11,5 +11,7 @@ CREATE TABLE [Marketing].[MC_TGC_WebVisits]
 GO
 ALTER TABLE [Marketing].[MC_TGC_WebVisits] ADD CONSTRAINT [PK__MC_TGC_W__CB4F4E21CFABB2A2] PRIMARY KEY CLUSTERED  ([MC_TGC_WebVisits_id]) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_MC_TGC_WebVisits_Customerid] ON [Marketing].[MC_TGC_WebVisits] ([CustomerID]) ON [PRIMARY]
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [UC_MC_TGC_WebVisits] ON [Marketing].[MC_TGC_WebVisits] ([CustomerID], [MonthStartDate]) ON [PRIMARY]
 GO

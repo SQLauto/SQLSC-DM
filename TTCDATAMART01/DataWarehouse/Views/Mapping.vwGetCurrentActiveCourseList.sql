@@ -7,6 +7,7 @@ GO
 
 
 
+
 CREATE VIEW [Mapping].[vwGetCurrentActiveCourseList]
 AS
     
@@ -26,9 +27,10 @@ AS
           WHERE forsaleonweb=1 
 			AND forsaletoconsumer=1 
 			AND InvStatusID in ('Active','Disc')
-			AND itemcategoryid in ('course','bundle'))B ON A.CourseID = B.courseID
+			AND itemcategoryid in ('course'))B ON A.CourseID = B.courseID
     WHERE A.BundleFlag = 0
     and ReleaseDate <= GETDATE()
+
 
 
 

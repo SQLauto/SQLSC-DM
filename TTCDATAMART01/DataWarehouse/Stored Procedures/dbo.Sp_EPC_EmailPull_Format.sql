@@ -26,6 +26,12 @@ from #Cust group by Customerid ) c2
 on c1.customerid = c2.customerid  
 
 
+select  Customerid     
+into #Email_DormantCustomer_Holdout    
+from Archive.Email_DormantCustomer_Holdout_20180313     
+where Segment ='TEST'  
+group by Customerid    
+
 /* Duplicate dormant emails  */
 
         
@@ -149,7 +155,7 @@ datepart(d,map.startdate) as SendDate,
 CAST(null as tinyint) as BatchID,        
 CAST('' as varchar(30)) as ECampaignID, /*Concatenation of 'Email' + Adcode + '_' + Startdate*/        
 cast(DATENAME(WEEKDAY, map.EndDate) + ', ' + DATENAME(Month, map.EndDate) + ' ' + cast(datepart(dd,map.EndDate) as varchar(2)) as varchar(50)) as DeadlineDate,        
-cast ('' as varchar(50)) as Subject, /* BLANK */        
+cast ('' as varchar(50)) as Subject, /* BLANK */ 
 map.segmentgroup as CatalogName,        
 ccs.CustomerSegmentNew,        
 --cast(ccs.CustomerID as varchar(15)) + '_' + CAST(Map.adcode as varchar (10)) as UserID /*Concatenation of customerid + '_' +  Adcode + '_' + CatalogName (remove space and use segment group)*/        
@@ -816,9 +822,12 @@ END
         
 
 /* Canada CANSPAM Clean up Can not send them any email after 24 months*/
-Delete from staging.EPC_EmailPullFormat
-where CountryCode = 'CA'
-and isnull(Newseg,20)>15
+Delete E from staging.EPC_EmailPullFormat E
+left join Datawarehouse.archive.CANSPAM c
+on c.EmailAddress = E.Emailaddress
+where CountryCode = 'CA' and isnull(Newseg,20)>15    
+and c.EmailAddress is null
+    
         
 --------------------------------------------------------------------------------------------------------------------------------------------        
 --------------------------------------------------------------------------------------------------------------------------------------------        
@@ -841,7 +850,7 @@ where AdCode in
         
         
      
-update Email        
+update Email       
 Set Email.Adcode = EA.Adcode,        
 email.comboid = DLR.ComboID        
 --select count(*)--Ea.Adcode,DLR.Adcode, Email.*         
@@ -866,6 +875,37 @@ END
 --------------------------------------------------------------------------------------------------------------------------------------------      
 
 
+    
+                    
+/*Dormant Customer HoldOuts*/    
+    
+declare @DormantHolder int = 0  ,  @DormantStartdate date = null    
+                      
+select @DormantHolder = isnull(Adcode,0),@DormantStartdate = Startdate from   datawarehouse.Mapping.Email_adcode_Format                            
+where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'Dormant Holdout' and countrycode= 'US'                            
+select '@DormantHolder', @DormantHolder   ,'@DormantStartdate', @DormantStartdate    
+    
+If @DormantHolder>0    
+Begin    
+    
+CREATE NONCLUSTERED INDEX [IX_EPC_EmailPull_temp]    
+ON [Staging].EPC_EmailPullFormat ([AdCode])    
+INCLUDE ([CustomerID],[EmailAddress],[PreferredCategory],[ComboID])    
+    
+  insert into Archive.Email_DormantCustomer_Holdout_20180313_history     
+  select distinct CustomerID,@DormantHolder as Adcode,cast(@DormantStartdate as date) as StartDate,1 as FlagHoldOut,ComboID,PreferredCategory,EmailAddress,getdate() as DMlastupdated    
+  from Datawarehouse.staging.EPC_EmailPullFormat E    
+  --join datawarehouse.Mapping.Email_Adcode A    
+  --on A.adcode = E.adcode    
+  where E.customerid in (select  Customerid from #Email_DormantCustomer_Holdout)                      
+    
+    
+  Delete from Datawarehouse.staging.EPC_EmailPullFormat    
+  where customerid in (select  Customerid from #Email_DormantCustomer_Holdout)       
+    
+    
+End    
+
 --------------------------------------------------------------------------------------------------------------------------------------------     
 --------------------------------------------------------------------------------------------------------------------------------------------                        
 ---------------------------------------------------------RAM Process Start------------------------------------------------------------------      
@@ -874,7 +914,7 @@ END
       
 --Declare @RAMControlAdcode int = 0   ,@Senddate  datetime   /* Send date is used for the RAM adcode date */      
 --select @RAMControlAdcode = isnull(Adcode,0),@Senddate = Startdate from   datawarehouse.mapping.Email_adcode_Format                         
---where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US' and Format='DVD'                  
+--where EmailID = @EmailID and DLRFlag = 0 and segmentGroup = 'RAM' and countrycode= 'US' and Format='DVD'               
       
       
 --Declare @RAMTestAdcode int = 0                   
@@ -1343,7 +1383,7 @@ Insert into staging.EPC_EmailPull_Format_PRSPCT
  '' ComboID,     
  datepart(d,map.startdate) as SendDate,     
  1 BatchID,     
- 'Email'+ cast(Map.Adcode as varchar(10))+'_' + convert(varchar(8), map.startdate, 112)as   ECampaignID,     
+ 'Email'+ cast(Map.Adcode as varchar(10))+'_' + convert(varchar(8), map.startdate, 112)as  ECampaignID,     
  cast(DATENAME(WEEKDAY, map.EndDate) + ', ' + DATENAME(Month, map.EndDate) + ' ' + cast(datepart(dd,map.EndDate) as varchar(2)) as varchar(50)) as DeadlineDate,      
  '' as Subject,     
  'Prospect' CatalogName,     
@@ -1453,7 +1493,7 @@ group by primary_adcode having COUNT(*)>1
         
      while exists (select top 1 * from #splitter where processed=0 order by adcode)        
       Begin        
-        
+     
       select top 1 @adcode = adcode ,@PrimaryAdcode=primary_adcode, @Emailcnt = Emailcnt, @cnt = cnt,@comboid=comboid,@preferredcategory=preferredcategory         
       from #splitter         
       where processed=0         

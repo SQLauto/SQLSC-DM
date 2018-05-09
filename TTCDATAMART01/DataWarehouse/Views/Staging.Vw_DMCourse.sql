@@ -4,13 +4,18 @@ SET ANSI_NULLS ON
 GO
 
 
+
+
+
+
+
 CREATE view [Staging].[Vw_DMCourse]
 AS
     
 select a.CourseID
 	,a.CourseName
 	,a.AbbrvCourseName
-	,a.CourseParts
+	,convert(money,a.CourseParts) CourseParts
 	,a.CourseHours
 	,a.ReleaseDate
 	,a.SubjectCategory
@@ -40,8 +45,14 @@ select a.CourseID
 	,a.CoBrandPartnerID
 	,c.PartnerName
 	,c.AbbrvPartnerName
+	,a.CourseCost
 	,case when plus.course_id is null then 0 else 1 end as FlagTGCPlusCourse
 	,plus.genre as TGCPlusSubjectCategory
+	,bv.BVRating
+	,bv.BVTotalSubmittedReviews
+	,prd.ReleaseDate as TGCPlus_ReleaseDate
+	,aiv.ReleaseDate as AIV_ReleaseDate
+	,adbl.ReleaseDate as Audible_ReleaseDate
 from Mapping.DMCourse a
 	--left join Mapping.DMCourseNewSubject b on a.CourseID = b.CourseID 
 	left join Mapping.TGCPartners c on a.CobrandPartnerID = c.PartnerID
@@ -50,6 +61,28 @@ from Mapping.DMCourse a
 				from Archive.TGCPlus_Film
 				where status = 'open'
 				and course_id is not null)plus on a.CourseID = plus.course_id
+	left join (select bva.CourseID, AverageOverallRating as BVRating
+					,bva.TotalSubmittedReviews BVTotalSubmittedReviews
+				  --,cast(bva.InsertedDate as date) as BVDateLoaded
+				from Archive.BV_Ratings bva join
+					(select Courseid, max(InsertedDate) MaxDate
+					from Archive.BV_Ratings
+					group by CourseID)bvb on bva.CourseID = bvb.CourseID
+										and bva.InsertedDate = bvb.MaxDate)bv on a.CourseID = bv.CourseID
+	left join (select *
+			   from mapping.TGC_CourseReleasesDates
+			   where bu = 'TGCPlus')prd on a.CourseID = prd.courseid
+	left join (select *
+			   from mapping.TGC_CourseReleasesDates
+			   where bu = 'AIV')aiv on a.CourseID = aiv.courseid
+	left join (select *
+			   from mapping.TGC_CourseReleasesDates
+			   where bu = 'Audible')adbl on a.CourseID = adbl.courseid
+
+
+
+
+
 
 
 

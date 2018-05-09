@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
   
 CREATE View [Archive].[Vw_TGCPlus_CustomerSignature]        
 as        
@@ -22,6 +23,7 @@ Select A.*
  ,tc.SubRegionName  
  ,tc.ContinentCode  
  ,tc.ContinentName   
+ ,ba.FullName
 from        
 (select * from marketing.TGCPlus_CustomerSignature (nolock)) A        
 left join        
@@ -41,6 +43,7 @@ case    when Cancelled + Suspended + DeferredSuspension = 0 and RefundedAmount =
 left join Marketing.TGCPlus_RFM rfm    
 on rfm.CustomerID = A.CustomerID and rfm.CurrentFlag = 1  
 left join Mapping.TGCPlusCountry tc   
-on A.CountryCode = tc.Alpha2Code  
+on A.CountryCode = tc.Alpha2Code 
+left join Archive.TGCPlus_BillingAddress ba on a.uuid = ba.userId 
   
 GO

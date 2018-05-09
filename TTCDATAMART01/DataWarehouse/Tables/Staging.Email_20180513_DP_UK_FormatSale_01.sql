@@ -1,4 +1,4 @@
-CREATE TABLE [Staging].[EPC_EmailPull_DailyDeals]
+CREATE TABLE [Staging].[Email_20180513_DP_UK_FormatSale_01]
 (
 [CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [LastName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -22,8 +22,8 @@ CREATE TABLE [Staging].[EPC_EmailPull_DailyDeals]
 [UserID] [nvarchar] (51) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CountryCode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [NewSeg] [int] NULL,
-[courseId] [int] NULL,
 [ComboidPrior] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Format] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Priority] [varchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

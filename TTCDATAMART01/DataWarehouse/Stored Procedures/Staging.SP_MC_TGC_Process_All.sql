@@ -18,8 +18,9 @@ Print 'Staging.SP_MC_TGC_EMailContacts Completed'
 Waitfor Delay '00:00:10';
 
 
-
-
+Exec Staging.SP_MC_TGC_Customer
+Print 'Staging.SP_MC_TGC_Customer Completed'
+Waitfor Delay '00:00:10';
 
 End
 GO

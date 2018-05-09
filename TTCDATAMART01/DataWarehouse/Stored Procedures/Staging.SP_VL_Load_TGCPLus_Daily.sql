@@ -137,20 +137,21 @@ exec Staging.SP_TGCPLUS_SP_Run_End   'Staging.SP_VL_Load_TGCplus_ConsumptionByPl
 -- adding these modified procs to run in parallel starting on 3/19/2018 - Imane Badra
 
 -- alter procedure names to reflect new names for backup procedure  4/2/2018 - imane 
+-- Commented them as these are replaced by new procs listed above... 4/30/2018 - PR
 
-exec Staging.SP_TGCPLUS_SP_Run_start  'staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
-exec [Staging].[SP_VL_Load_TGCplus_ConsumptionAll_bkp_del]
+--exec Staging.SP_TGCPLUS_SP_Run_start  'staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
+--exec [Staging].[SP_VL_Load_TGCplus_ConsumptionAll_bkp_del]
 
-Print 'Executed staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
-exec Staging.SP_TGCPLUS_SP_Run_End   'staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
-
-
-exec Staging.SP_TGCPLUS_SP_Run_start  'staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
-exec [Staging].[SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del]
+--Print 'Executed staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
+--exec Staging.SP_TGCPLUS_SP_Run_End   'staging.SP_VL_Load_TGCplus_ConsumptionAll_bkp_del'
 
 
-Print 'Executed staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
-exec Staging.SP_TGCPLUS_SP_Run_End   'staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
+--exec Staging.SP_TGCPLUS_SP_Run_start  'staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
+--exec [Staging].[SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del]
+
+
+--Print 'Executed staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
+--exec Staging.SP_TGCPLUS_SP_Run_End   'staging.SP_VL_Load_TGCplus_ConsumptionByPlatform_bkp_del'
 
 
 exec Staging.SP_TGCPLUS_SP_Run_start  'Staging.SP_TGCPlus_ConsumptionFreeMonthChurn'

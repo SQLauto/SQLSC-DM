@@ -3,6 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
 CREATE Proc [dbo].[Sp_EmailPull_LandingPageUpdate]  @emailid varchar(200)      
 as      
 Begin      
@@ -237,15 +238,15 @@ set @sql = 'update a
   
 ---new landing page process      
 --print 'new landing page process'      
---select * from reports..mktwebcategorycourses      
+--select * from Exports.Magento.MktWebEmailLander      
       
 print 'new landing page process by category Id'      
 select CategoryID, COUNT(*)       
-from reports..mktwebcategorycourses      
+from Exports.Magento.MktWebEmailLander      
 group by CategoryID      
 order by 1      
       
-Set @SQL = 'insert into reports..mktwebcategorycourses        
+Set @SQL = 'insert into Exports.Magento.MktWebEmailLander        
    select distinct PreferredCategory as CategoryID,       
     CourseID,      
     RANK as DisplayOrder,      
@@ -258,17 +259,17 @@ Set @SQL = 'insert into reports..mktwebcategorycourses
 exec (@SQL)      
       
 --print 'Inserted mktwebcategorycourses ordered by rank'      
---select * from reports..mktwebcategorycourses      
+--select * from Exports.Magento.MktWebEmailLander      
 --order by 3      
       
       
 print 'Count records from mktwebcategorycourses by CategoryID'      
 select CategoryID, COUNT(*)       
-from reports..mktwebcategorycourses      
+from Exports.Magento.MktWebEmailLander      
 group by CategoryID      
 order by 1      
       
---now QC the reports..mktwebcategorycourses table      
+--now QC the Exports.Magento.MktWebEmailLander table      
       
       
 --Final update to EmailPull       
@@ -313,7 +314,7 @@ End
       
 print 'JIRA TICKET'      
 Print 'Hi,      
-I have appended the ranking table to reports..mktwebcategorycourses on TTCDatamart01.       
+I have appended the ranking table to Exports.Magento.MktWebEmailLander on TTCDatamart01.       
 Please confirm when the table gets loaded to production.      
       
 Here is my qc:      
@@ -321,7 +322,7 @@ Here is my qc:
       
 set @SQL = '      
 select a.CategoryID, a.Expires, COUNT(a.CourseID) as CourseCount from      
-reports..mktwebcategorycourses a join      
+Exports.Magento.MktWebEmailLander a join      
  (select distinct preferredcategory as categoryID      
  from  LStmgr.dbo.'+ @tablenm +' )b on a.categoryid = b.categoryID      
 group by a.CategoryID, Expires      

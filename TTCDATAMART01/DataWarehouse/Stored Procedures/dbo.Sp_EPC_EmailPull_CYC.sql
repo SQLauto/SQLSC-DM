@@ -1301,9 +1301,12 @@ where PreferredCategory like '% %'
     
   
   /* Canada CANSPAM Clean up Can not send them any email after 24 months*/    
-Delete from staging.EPC_EmailPullCYC    
-where CountryCode = 'CA'    
-and isnull(Newseg,20)>15    
+Delete E from staging.EPC_EmailPullCYC E
+left join Datawarehouse.archive.CANSPAM c
+on c.EmailAddress = E.Emailaddress
+where CountryCode = 'CA' and isnull(Newseg,20)>15    
+and c.EmailAddress is null
+    
   
 --------------------------------------------------------------------------------------------------------------------------------------------       
 --------------------------------------------------------------------------------------------------------------------------------------------                          

@@ -1,9 +1,9 @@
-CREATE TABLE [Marketing].[TGC_Consumption_LTDSmry]
+CREATE TABLE [Staging].[MC_TGC_Consumption_MonthlySmryTEMP]
 (
-[CustomerID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CustomerID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AsOfDate] [date] NULL,
 [TotalPlays_LTD] [int] NOT NULL,
-[StreamedMins_LTD] [numeric] (38, 2) NOT NULL,
+[StreamedMins_LTD] [numeric] (18, 2) NOT NULL,
 [CoursesStreamed_LTD] [int] NOT NULL,
 [LecturesStreamed_LTD] [int] NOT NULL,
 [FlagStreamed_LTD] [int] NOT NULL,

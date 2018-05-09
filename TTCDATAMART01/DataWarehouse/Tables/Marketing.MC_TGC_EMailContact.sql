@@ -9,5 +9,7 @@ CREATE TABLE [Marketing].[MC_TGC_EMailContact]
 GO
 ALTER TABLE [Marketing].[MC_TGC_EMailContact] ADD CONSTRAINT [PK__MC_TGC_E__045F9F87593CF683] PRIMARY KEY CLUSTERED  ([MC_TGC_EMailContact_id]) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_MC_TGC_EMailContact_Customerid] ON [Marketing].[MC_TGC_EMailContact] ([CustomerID]) ON [PRIMARY]
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [UK_MC_EMailContact] ON [Marketing].[MC_TGC_EMailContact] ([CustomerID], [MonthStartDate]) ON [PRIMARY]
 GO

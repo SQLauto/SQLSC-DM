@@ -1,4 +1,4 @@
-CREATE TABLE [Staging].[TGC_Consumption_LTDSmryTEMP]
+CREATE TABLE [Marketing].[MC_TGC_Consumption_LTDSmry]
 (
 [CustomerID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AsOfDate] [date] NULL,

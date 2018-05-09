@@ -10,8 +10,7 @@ SELECT        CAST(VCM.send_Datetime AS date) AS send_Date, VCM.Campaignname, VC
                          S.Prior1DayStreamedMins, S.CurrentDayStreamedMins, S.Post1DayStreamedMins, S.Post2DayStreamedMins, S.Post3DayStreamedMins, 
                          S.Prior3DayCoursesStreamed, S.Prior2DayCoursesStreamed, S.Prior1DayCoursesStreamed, S.CurrentDayCoursesStreamed, S.Post1DayCoursesStreamed, 
                          S.Post2DayCoursesStreamed, S.Post3DayCoursesStreamed, S.Prior3DayLecturesStreamed, S.Prior2DayLecturesStreamed, S.Prior1DayLecturesStreamed, 
-                         S.CurrentDayLecturesStreamed, S.Post1DayLecturesStreamed, S.Post2DayLecturesStreamed, S.Post3DayLecturesStreamed, S.IntlSubType AS Send_IntlSubType, 
-                         S.SubType AS Send_SubType, S.CustStatusFlag AS Send_CustStatusFlag, S.PaidFlag AS Send_PaidFlag
+                         S.CurrentDayLecturesStreamed, S.Post1DayLecturesStreamed, S.Post2DayLecturesStreamed, S.Post3DayLecturesStreamed
 FROM            Sailthru.dbo.Vw_Campaign_Messages AS VCM LEFT OUTER JOIN
                          Archive.TGCPlus_SailThru_blast_Streaming AS S ON VCM.profile_id = S.profile_id AND VCM.blast_id = S.blast_id
 WHERE        (YEAR(VCM.send_Datetime) >= 2018)
@@ -99,10 +98,10 @@ Begin DesignProperties =
          End
          Begin Table = "S"
             Begin Extent = 
-               Top = 138
-               Left = 38
-               Bottom = 267
-               Right = 324
+               Top = 101
+               Left = 598
+               Bottom = 311
+               Right = 1141
             End
             DisplayFlags = 280
             TopColumn = 0

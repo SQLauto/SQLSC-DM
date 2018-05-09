@@ -31,8 +31,8 @@ declare @tempgrp nvarchar(4000) = 'dbo.tempgrp'
 --select * from [dbo].[Polling_MasterSuppression]
 --select * from [dbo].[Polling_MasterOptOut]
 
-set  @query1 = 'select a.CustomerID,a.FirstName,a.LastName,c.MaxOpenDate,a.Frequency as SingleOrMulti,c.EmailAddress,0 as FlagSelected ,a.LastOrderDate,a.CountryCode,a.PreferredCategory2,a.MediaFormatPreference,a.OrderSourcePreference ,convert(int,0) as CustGroup into ' + @tablenm + 
-' from DataWarehouse.Marketing.CampaignCustomerSignature a join (select distinct CustomerID from DataWarehouse.Marketing.DMPurchaseOrders where DateOrdered between  DATEADD(DAY, 1, EOMONTH(getdate(), -3)) and DATEADD(DAY, 1, EOMONTH(getdate(), -1)) )b on a.CustomerID = b.CustomerID join (select * from DataWarehouse.Marketing.Vw_EPC_EmailPull where EmailFrequency = 1 and FlagDormantCustomer = 0) c on a.CustomerID = c.CustomerID where a.PublicLibrary = 0 and a.CountryCode = ''US'' and a.BuyerType = 4'
+set  @query1 = 'select  a.CustomerID,a.FirstName,a.LastName,c.MaxOpenDate,a.Frequency as SingleOrMulti,c.EmailAddress,0 as FlagSelected ,a.LastOrderDate,a.CountryCode,a.PreferredCategory2,a.MediaFormatPreference,a.OrderSourcePreference ,convert(int,0) as CustGroup into ' + @tablenm + 
+' from DataWarehouse.Marketing.CampaignCustomerSignature a join (select distinct CustomerID from DataWarehouse.Marketing.DMPurchaseOrders where DateOrdered between  DATEADD(DAY, 1, EOMONTH(getdate(), -3)) and DATEADD(DAY, 1, EOMONTH(getdate(), -1)) )b on  a.CustomerID = b.CustomerID join (select * from DataWarehouse.Marketing.Vw_EPC_EmailPull where EmailFrequency = 1 and FlagDormantCustomer = 0) c on a.CustomerID = c.CustomerID where a.PublicLibrary = 0 and a.CountryCode = ''US'' and a.BuyerType = 4'
 
 exec (@query1)
 
@@ -86,7 +86,9 @@ drop table dbo.TempPoll
 declare @temp3 varchar(50)
 set @temp3	 = 'TempPoll'
 
-set @query9='select a.CustomerID, min(MaxOpenDate) Maxopendate into ' + @temp3+ ' from '+ @tablenm +'  a join (select customerid from '+  @tablenm + ' group by CustomerID having count(Emailaddress) > 1)B  ON A.CustomerID = b.CustomerID group by a.CustomerID'
+set @query9='select a.CustomerID, min(MaxOpenDate) Maxopendate into ' + @temp3+ ' from '+ @tablenm +'  a join (select distinct customerid from '+  @tablenm + ' group by CustomerID having count(Emailaddress) > 1)B  ON A.CustomerID = b.CustomerID group by a.Customer
+
+ID'
 
 exec (@query9)
 
@@ -121,7 +123,7 @@ GROUP BY SCHEMA_NAME(schema_id), [Tables].name
 
 
 
-set @qry = 'select top  ' + cast(@samplesize as nvarchar(10)) + '  * into ' +  @tempgrp +' from ' +@tablenm + ' where FlagSelected = 0 order by newid()' 
+set @qry = 'select distinct top  ' + cast(@samplesize as nvarchar(10)) + '  * into ' +  @tempgrp +' from ' +@tablenm + ' where FlagSelected = 0 order by newid()' 
 
 set @qry1 ='update a set a.flagselected = 1, a.CustGroup = ' + cast(@cnt as nvarchar(10)) + ' from ' +  @tablenm + ' a join ' +  @tempgrp +' b on a.CustomerID = b.CustomerID' 
 
@@ -253,6 +255,7 @@ from datawarehouse.archive.RD_Polling_History_del
 
 
 */
+
 
 
 GO

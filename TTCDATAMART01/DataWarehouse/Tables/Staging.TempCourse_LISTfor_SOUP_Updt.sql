@@ -40,10 +40,11 @@ CREATE TABLE [Staging].[TempCourse_LISTfor_SOUP_Updt]
 [CoBrandPartnerID] [smallint] NULL,
 [PrimaryWebCategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PrimaryWebSubcategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CourseCost] [money] NULL,
 [TGCPlus_SubjCat] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[ProfessorID] [int] NULL,
-[Prof_FistName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ProfessorID] [money] NULL,
+[Prof_FistName] [int] NULL,
 [Prof_LastName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[ProfQual] [varchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[ProfQual] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

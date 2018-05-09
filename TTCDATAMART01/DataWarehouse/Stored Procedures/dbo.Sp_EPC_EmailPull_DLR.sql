@@ -815,17 +815,22 @@ if OBJECT_ID('staging.CANSPAM') is not null
 drop table staging.CANSPAM
 
 
-select * into Datawarehouse.staging.CANSPAM
-from staging.EPC_EmailPull    
-where CountryCode = 'CA'    
-and isnull(Newseg,20)>15 
+select E.* into Datawarehouse.staging.CANSPAM
+from staging.EPC_EmailPull   E
+left join Datawarehouse.archive.CANSPAM c
+on c.EmailAddress = E.Emailaddress
+where CountryCode = 'CA' and isnull(Newseg,20)>15    
+and c.EmailAddress is null
+
 
 
 End 
 
-Delete from staging.EPC_EmailPull    
-where CountryCode = 'CA'    
-and isnull(Newseg,20)>15    
+Delete E from staging.EPC_EmailPull E
+left join Datawarehouse.archive.CANSPAM c
+on c.EmailAddress = E.Emailaddress
+where CountryCode = 'CA' and isnull(Newseg,20)>15    
+and c.EmailAddress is null
     
                          
 --------------------------------------------------------------------------------------------------------------------------------------------                            
