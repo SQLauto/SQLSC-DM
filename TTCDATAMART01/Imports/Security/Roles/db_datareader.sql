@@ -1,4 +1,6 @@
 
+EXEC sp_addrolemember N'db_datareader', N'TEACHCO\miscoj'
+
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\chouiniereb'
 
 EXEC sp_addrolemember N'db_datareader', N'TEACHCO\RSQLINT'
