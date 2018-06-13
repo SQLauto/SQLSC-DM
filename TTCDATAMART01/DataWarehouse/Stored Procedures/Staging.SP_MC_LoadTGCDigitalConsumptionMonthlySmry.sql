@@ -3,6 +3,10 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
+
+
+
 CREATE PROCEDURE [Staging].[SP_MC_LoadTGCDigitalConsumptionMonthlySmry]
 	@AsOfDate date = null
 AS
@@ -191,55 +195,64 @@ BEGIN
 	-- Get information for subsequent month
 	select distinct isnull(a.CustomerID, b.customerid) CustomerID
 		,isnull(a.AsOfDate, b.AsOfDate) AsOfDate
-		,isnull(a.TotalPlays, 0) TotalPlays_LTD
-		,isnull(a.StreamedMins, 0) StreamedMins_LTD
-		,isnull(a.CoursesStreamed, 0) CoursesStreamed_LTD
-		,isnull(a.LecturesStreamed, 0) LecturesStreamed_LTD
-		,isnull(a.FlagStreamed, 0) FlagStreamed_LTD
+		,isnull(a.TotalPlays, 0) TotalPlays
+		,isnull(a.StreamedMins, 0) StreamedMins
+		,isnull(a.CoursesStreamed, 0) CoursesStreamed
+		,isnull(a.LecturesStreamed, 0) LecturesStreamed
+		,isnull(a.FlagStreamed, 0) FlagStreamed
 		/* For DVD */
-		,isnull(a.TotalPlays_DVD, 0) TotalPlays_DVD_LTD
-		,isnull(a.StreamedMins_DVD, 0) StreamedMins_DVD_LTD
-		,isnull(a.CoursesStreamed_DVD, 0) CoursesStreamed_DVD_LTD
-		,isnull(a.LecturesStreamed_DVD, 0) LecturesStreamed_DVD_LTD
-		,case when a.StreamedMins_DVD > 0 then 1 else 0 end as FlagStreamed_DVD_LTD
+		,isnull(a.TotalPlays_DVD, 0) TotalPlays_DVD
+		,isnull(a.StreamedMins_DVD, 0) StreamedMins_DVD
+		,isnull(a.CoursesStreamed_DVD, 0) CoursesStreamed_DVD
+		,isnull(a.LecturesStreamed_DVD, 0) LecturesStreamed_DVD
+		,case when a.StreamedMins_DVD > 0 then 1 else 0 end as FlagStreamed_DVD
 		/* For CD */
-		,isnull(a.TotalPlays_CD, 0) TotalPlays_CD_LTD
-		,isnull(a.StreamedMins_CD, 0) StreamedMins_CD_LTD
-		,isnull(a.CoursesStreamed_CD, 0) CoursesStreamed_CD_LTD
-		,isnull(a.LecturesStreamed_CD, 0) LecturesStreamed_CD_LTD
-		,case when a.StreamedMins_CD > 0 then 1 else 0 end as FlagStreamed_CD_LTD
+		,isnull(a.TotalPlays_CD, 0) TotalPlays_CD
+		,isnull(a.StreamedMins_CD, 0) StreamedMins_CD
+		,isnull(a.CoursesStreamed_CD, 0) CoursesStreamed_CD
+		,isnull(a.LecturesStreamed_CD, 0) LecturesStreamed_CD
+		,case when a.StreamedMins_CD > 0 then 1 else 0 end as FlagStreamed_CD
 		/* For DownloadV */
-		,isnull(a.TotalPlays_DownloadV, 0) TotalPlays_DownloadV_LTD
-		,isnull(a.StreamedMins_DownloadV, 0) StreamedMins_DownloadV_LTD
-		,isnull(a.CoursesStreamed_DownloadV, 0) CoursesStreamed_DownloadV_LTD
-		,isnull(a.LecturesStreamed_DownloadV, 0) LecturesStreamed_DownloadV_LTD
-		,case when a.StreamedMins_DownloadV > 0 then 1 else 0 end as FlagStreamed_DownloadV_LTD
+		,isnull(a.TotalPlays_DownloadV, 0) TotalPlays_DownloadV
+		,isnull(a.StreamedMins_DownloadV, 0) StreamedMins_DownloadV
+		,isnull(a.CoursesStreamed_DownloadV, 0) CoursesStreamed_DownloadV
+		,isnull(a.LecturesStreamed_DownloadV, 0) LecturesStreamed_DownloadV
+		,case when a.StreamedMins_DownloadV > 0 then 1 else 0 end as FlagStreamed_DownloadV
 		/* For DownloadA */
-		,isnull(a.TotalPlays_DownloadA, 0) TotalPlays_DownloadA_LTD
-		,isnull(a.StreamedMins_DownloadA, 0) StreamedMins_DownloadA_LTD
-		,isnull(a.CoursesStreamed_DownloadA, 0) CoursesStreamed_DownloadA_LTD
-		,isnull(a.LecturesStreamed_DownloadA, 0) LecturesStreamed_DownloadA_LTD
-		,case when a.StreamedMins_DownloadA > 0 then 1 else 0 end as FlagStreamed_DownloadA_LTD
+		,isnull(a.TotalPlays_DownloadA, 0) TotalPlays_DownloadA
+		,isnull(a.StreamedMins_DownloadA, 0) StreamedMins_DownloadA
+		,isnull(a.CoursesStreamed_DownloadA, 0) CoursesStreamed_DownloadA
+		,isnull(a.LecturesStreamed_DownloadA, 0) LecturesStreamed_DownloadA
+		,case when a.StreamedMins_DownloadA > 0 then 1 else 0 end as FlagStreamed_DownloadA
 		/* For Downloads */
-		,isnull(b.TotalDnlds,0) TotalDnlds_LTD
-		,isnull(b.CoursesDnld,0) CoursesDnld_LTD
-		,isnull(b.LecturesDnld,0) LecturesDnld_LTD
-		,isnull(b.FlagDnld,0) FlagDnld_LTD
+		,isnull(b.TotalDnlds,0) TotalDnlds
+		,isnull(b.CoursesDnld,0) CoursesDnld
+		,isnull(b.LecturesDnld,0) LecturesDnld
+		,isnull(b.FlagDnld,0) FlagDnld
 		/* For DownloadV */
-		,isnull(b.TotalDnlds_DownloadV,0) TotalDnlds_DownloadV_LTD
-		,isnull(b.CoursesDnld_DownloadV,0) CoursesDnld_DownloadV_LTD
-		,isnull(b.LecturesDnld_DownloadV,0) LecturesDnld_DownloadV_LTD
-		,case when b.CoursesDnld_DownloadV > 0 then 1 else 0 end as FlagDnld_DownloadV_LTD
+		,isnull(b.TotalDnlds_DownloadV,0) TotalDnlds_DownloadV
+		,isnull(b.CoursesDnld_DownloadV,0) CoursesDnld_DownloadV
+		,isnull(b.LecturesDnld_DownloadV,0) LecturesDnld_DownloadV
+		,case when b.CoursesDnld_DownloadV > 0 then 1 else 0 end as FlagDnld_DownloadV
 		/* For DownloadA */
-		,isnull(b.TotalDnlds_DownloadA,0) TotalDnlds_DownloadA_LTD
-		,isnull(b.CoursesDnld_DownloadA,0) CoursesDnld_DownloadA_LTD
-		,isnull(b.LecturesDnld_DownloadA,0) LecturesDnld_DownloadA_LTD
-		,case when b.CoursesDnld_DownloadA > 0 then 1 else 0 end as FlagDnld_DownloadA_LTD
+		,isnull(b.TotalDnlds_DownloadA,0) TotalDnlds_DownloadA
+		,isnull(b.CoursesDnld_DownloadA,0) CoursesDnld_DownloadA
+		,isnull(b.LecturesDnld_DownloadA,0) LecturesDnld_DownloadA
+		,case when b.CoursesDnld_DownloadA > 0 then 1 else 0 end as FlagDnld_DownloadA,
+		NULL AS LecturesStreamed_Bins,
+		NULL AS CoursesStreamed_Bins,
+		NULL AS [TotalPLaysBins],
+		NULL AS TotalMinBins
 	into Staging.MC_TGC_Consumption_MonthlySmryTEMP
 	from #conformatSmryMnthly a
 	full outer join #CondlsmryMnthly b on a.CustomerID = b.CustomerID
 							and a.asofdate = b.asofdate
-							
+
+
+	update Staging.MC_TGC_Consumption_MonthlySmryTEMP set [CoursesStreamed_Bins] =  case when CoursesStreamed = 1 then '1. 1 Course' when CoursesStreamed = 2 then '2. 2 Courses' when CoursesStreamed >= 3 then '3. >= 3 Courses' else '4. None'end  -- where AsOfDate =	@AsOfDate
+	update Staging.MC_TGC_Consumption_MonthlySmryTEMP set [LecturesStreamed_Bins] =  case when LecturesStreamed = 1 then '1. 1 Lctr' when LecturesStreamed = 2 then '2. 2 Lctrs' when LecturesStreamed between 3 and 5 then '3. 3-5 Lctrs' when LecturesStreamed between 6 and 10 then '4. 6-10 Lctrs' when LecturesStreamed >= 11 then '5. >= 11 Lctrs' else '6. None' end  --where AsOfDate = 	AsOfDate
+	update Staging.MC_TGC_Consumption_MonthlySmryTEMP set [totalplaysBins] =	case when totalplays between 1 and 3 then '1. 1-3 Plays'	when totalplays between 4 and 6 then '2. 4-6 Plays' when totalplays between 7 and 9 then '3. 7-9 Plays'	WHEN totalplays >= 10 THEN '4. >=10 Plays' ELSE '5. None'   end
+	update Staging.MC_TGC_Consumption_MonthlySmryTEMP	set TotalMinBins =	case when StreamedMins between 1 and 30 then '1. 1-30 Mins' when StreamedMins between 31 and 60 then '2. 31-60 Mins' when StreamedMins between 61 and 90 then '3. 61-90 Mins' WHEN StreamedMins >= 91 THEN '4. >= 91 Mins' else '5. None' END						
 	print 'Done tempfinal'
 	--commit TRANSACTION Inner5; 
 		
@@ -256,5 +269,9 @@ BEGIN
 
 
 end
+
+
+
+
 
 GO

@@ -31,7 +31,7 @@ CREATE TABLE [Archive].[TGCPLUS_Churn_Working]
 [Days_Join_Stream] [int] NULL,
 [FirstPlatform] [varchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FirstBrowser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[FirstCourse] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FirstCourse] [varchar] (261) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FirstLecture] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FirstLectureNumber] [int] NULL,
 [FirstGenre] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

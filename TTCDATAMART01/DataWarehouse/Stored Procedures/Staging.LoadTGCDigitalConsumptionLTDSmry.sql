@@ -2,6 +2,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
+
+
+
 CREATE PROCEDURE [Staging].[LoadTGCDigitalConsumptionLTDSmry]
 	@AsOfDate date = null
 AS
@@ -188,13 +192,20 @@ BEGIN
 		,isnull(b.TotalDnlds_DownloadA,0) TotalDnlds_DownloadA_LTD
 		,isnull(b.CoursesDnld_DownloadA,0) CoursesDnld_DownloadA_LTD
 		,isnull(b.LecturesDnld_DownloadA,0) LecturesDnld_DownloadA_LTD
-		,case when b.CoursesDnld_DownloadA > 0 then 1 else 0 end as FlagDnld_DownloadA_LTD
+		,case when b.CoursesDnld_DownloadA > 0 then 1 else 0 end as FlagDnld_DownloadA_LTD,
+		NULL AS LecturesStreamedBins,
+		NULL AS CoursesStreamedBins,
+		NULL AS TotalPlaysBins,
+		NULL AS TotalMinBins
 	into Staging.TGC_Consumption_LTDSmryTEMP
 	from #conformatSmry a
 	full outer join #Condlsmry b on a.CustomerID = b.CustomerID
 							and a.asofdate = b.asofdate
 							
-
+update Staging.TGC_Consumption_LTDSmryTEMP set [CoursesStreamedBins] =  case when CoursesStreamed_LTD = 1 then '1. 1 Course' when CoursesStreamed_LTD = 2 then '2. 2 Courses' when CoursesStreamed_LTD >= 3 then '3. >= 3 Courses' else '4. None'end  -- where AsOfDate =	@AsOfDate
+update Staging.TGC_Consumption_LTDSmryTEMP set [LecturesStreamedBins] =  case when LecturesStreamed_LTD = 1 then '1. 1 Lctr' when LecturesStreamed_LTD = 2 then '2. 2 Lctrs' when LecturesStreamed_LTD between 3 and 5 then '3. 3-5 Lctrs' when LecturesStreamed_LTD between 6 and 10 then '4. 6-10 Lctrs' when LecturesStreamed_LTD >= 11 then '5. >= 11 Lctrs' else '6. None' end  --where AsOfDate = 	AsOfDate
+update Staging.TGC_Consumption_LTDSmryTEMP	set [totalplaysBins] =	case when totalplays_LTD between 1 and 3 then '1. 1-3 Plays'	when totalplays_LTD between 4 and 6 then '2. 4-6 Plays' when totalplays_LTD between 7 and 9 then '3. 7-9 Plays'	WHEN totalplays_LTD >= 10 THEN '4. >=10 Plays' ELSE '5. None'   end			
+update Staging.TGC_Consumption_LTDSmryTEMP	set TotalMinBins =	case when StreamedMins_LTD between 1 and 30 then '1. 1-30 Mins' when StreamedMins_LTD between 31 and 60 then '2. 31-60 Mins' when StreamedMins_LTD between 61 and 90 then '3. 61-90 Mins' WHEN StreamedMins_LTD >= 91 THEN '4. >= 91 Mins' else '5. None' END 
 		
 	-- delete if AsOfDate is already in the table 
 	delete a
@@ -209,4 +220,8 @@ BEGIN
 
 
 end
+
+
+
+
 GO

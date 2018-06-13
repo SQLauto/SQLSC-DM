@@ -1,7 +1,7 @@
 CREATE TABLE [Staging].[MC_TGC_Consumption_L12MnthStrmTempAll]
 (
-[Customerid] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DateOrdered] [datetime] NULL,
+[Customerid] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DateOrdered] [date] NULL,
 [StartDate] [date] NULL,
 [MinActionDate] [date] NULL,
 [MaxActionDate] [date] NULL,

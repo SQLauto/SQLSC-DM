@@ -5,6 +5,7 @@ GO
 
 
 
+
 CREATE Proc [dbo].[SP_Calc_TGCplus_Consumption_Smry] @FromDate date = null, @ToDate date = null
 as
 Begin
@@ -232,7 +233,7 @@ update t
 	where t.Paid_SeqNum is null
 
 	update t
-	set t.Paid_SeqNum = s.RNK
+	set t.Paid_SeqNum = s.RNK ,  t.PaidFlag = 1
 	from Datawarehouse.Marketing.TGCplus_VideoEvents_Smry  t
 			join ( select uuid,id,MinTstamp,
 				Row_number ()over (partition by uuid,id order by  MinTstamp )as RNK
@@ -264,6 +265,7 @@ update t
 End
 
  
+
 
 
 

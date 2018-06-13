@@ -1,7 +1,7 @@
 CREATE TABLE [Archive].[Omni_TGC_PRSPCT_CourseConsmption]
 (
 [Courseid] [int] NULL,
-[CourseName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CourseName] [varchar] (261) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AbbrvCourseName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ReleaseDate] [datetime] NULL,
 [PrimaryWebCategory] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

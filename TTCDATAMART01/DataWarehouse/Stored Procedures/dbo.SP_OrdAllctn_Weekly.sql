@@ -519,17 +519,17 @@ and PromotionType = 'Paid Search - Brand'
 -- (1178 row(s) affected)
 
 -- for 65, change the Budscategory name
-select *
-from DataWarehouse.staging.OrdAllctn_AllOrders_weekly
-where PromotionType like '%Displ%'
+--select *
+--from DataWarehouse.staging.OrdAllctn_AllOrders_weekly
+--where PromotionType like '%Displ%'
 
 
 
-select * from DataWarehouse.Mapping.vwAdcodesAll
-where MD_Year = 2014
-and MD_Channel in ('House Mailings')
-and MD_PromotionType in ('House Mailings: Catalog', 'House Mailings: Magalog', 'House Mailings: Catalog No 2',
-								'House Mailings: Magazine', 'House Mailings: Magnificent 7')
+--select * from DataWarehouse.Mapping.vwAdcodesAll
+--where MD_Year = 2014
+--and MD_Channel in ('House Mailings')
+--and MD_PromotionType in ('House Mailings: Catalog', 'House Mailings: Magalog', 'House Mailings: Catalog No 2',
+--								'House Mailings: Magazine', 'House Mailings: Magnificent 7')
 
 -------------------------- -------------------------- -------------------------- 
 -- For Uncoded sales, try to allocate based on courses in the order.
@@ -1084,7 +1084,8 @@ from DataWarehouse.Mapping.vwAdcodesAll
 where StopDate >= @ForecastWeekStart 
 and StartDate <= @ForecastWeekSaturday
 and MD_Channel in ('House Mailings')
-and MD_PromotionType in ('House Mailings: Magnificent 7 Reactivation','House Mailings: Catalog Reactivation','House Mailings: Magalog Reactivation')
+and MD_PromotionType in ('House Mailings: Magnificent 7 Reactivation','House Mailings: Catalog Reactivation','House Mailings: Magalog Reactivation','House Mailings: Deep Inactive Reactivation')
+						-- PR 5/29/2018 added Deep swamp promotion type
 and MD_CampaignID <> 1234 -- Based on Joe P's request to remove best customers from allocation		
 and MD_CampaignName not like '%Best Customer%'-- Based on Joe P's request to remove best customers from allocation
 	
@@ -1439,6 +1440,16 @@ where FlagUnsourcedOrder = 0
 and asn_channelID = 4
 and asn_catalogname is null
 
+-- PR 5/29/2018
+-- Added newer channels to avoid manual updates every week.
+update DataWarehouse.staging.OrdAllctn_AllOrders_weekly
+set Asn_CatalogCode = asn_ChannelID,
+	Asn_CatalogName = Asn_Channel
+-- 	select * from DataWarehouse.staging.OrdAllctn_AllOrders_weekly
+where FlagUnsourcedOrder = 0
+and asn_channelID in (7,10,50,51,52,53,54,55,56,57,58,59)
+and asn_catalogname is null
+
 update DataWarehouse.staging.OrdAllctn_AllOrders_weekly
 set Asn_CatalogCode = asn_ChannelID,
 	Asn_CatalogName = Asn_Channel
@@ -1470,7 +1481,7 @@ set Asn_CatalogCode = asn_campaignID,
 -- 	select * from DataWarehouse.staging.OrdAllctn_AllOrders_weekly
 where FlagUnsourcedOrder = 0
 and asn_channelID in (1,2,6)
-and asn_promotiontypeid in (1,2,3,4,5,6,7,8,9,10,14,17,16,101,103,18,19,20,21,155)
+and asn_promotiontypeid in (1,2,3,4,5,6,7,8,9,10,14,17,16,101,103,18,19,20,21,155,198)
 and asn_catalogName is null
 
 

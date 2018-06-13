@@ -2,6 +2,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
+
 CREATE PROCEDURE [Staging].[SP_MC_LoadTGCDigitalConsumptionL12MnthSmry_TEST]
 	@AsOfDate date = null
 AS
@@ -11,7 +13,7 @@ BEGIN
 	
 	select @AsOfDate  as AsOfDate
     
-	if object_id('Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST') is not null drop table Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST
+	if object_id('Staging.MC_TGC_Consumption_BaseTEMPL12Mnth') is not null drop table Staging.MC_TGC_Consumption_BaseTEMPL12Mnth
 
 	if @AsOfDate >= '1/1/2017'
 		begin
@@ -25,7 +27,7 @@ BEGIN
 				,TotalActions
 				,MediaTimePlayed
 				,CourseLecture
-			into Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST
+			into Staging.MC_TGC_Consumption_BaseTEMPL12Mnth
 			from Archive.Vw_TGC_DigitalConsumptionAllYrs
 			where ActionDate < '1/1/2018' --@AsOfDate
 			and TransactionType = 'Purchased'
@@ -38,7 +40,7 @@ BEGIN
 			,Action, TotalActions
 			,(StreamSeconds/60) MediaTimePlayed
 			,convert(varchar,CourseID) + convert(varchar,Lecturenumber) as CourseLecture
-			into Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST
+			into Staging.MC_TGC_Consumption_BaseTEMPL12Mnth
 			from Archive.DigitalConsumptionHistory
 			where StreamingDate < @AsOfDate
 			and CustomerID is not null
@@ -53,8 +55,8 @@ BEGIN
 	-- Get Last Order Date for customers as of the @asofdate
 	-- drop table #LastOrder
 	select a.CustomerID
-			,a.DateOrdered --dateadd(day,-1,a.DateOrdered) EndDate,
-			,dateadd(year,-1,a.DateOrdered) StartDate
+			,cast(a.DateOrdered as date) DateOrdered--dateadd(day,-1,a.DateOrdered) EndDate,
+			,dateadd(year,-1,cast(a.DateOrdered as date)) StartDate
 			,a.OrderID
 			,a.SequenceNum
 	into #LastOrder
@@ -69,11 +71,11 @@ BEGIN
 	delete a
 	from #LastOrder a left join
 		(select distinct customerid 
-		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST)b on a.CustomerID = b.Customerid
+		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth)b on a.CustomerID = b.Customerid
 	where b.Customerid is null
 
 
-	if object_id('Staging.MC_TGC_Consumption_L12MnthStrmTempAll_TEST') is not null drop table Staging.MC_TGC_Consumption_L12MnthStrmTempAll_TEST
+	if object_id('Staging.MC_TGC_Consumption_L12MnthStrmTempAll') is not null drop table Staging.MC_TGC_Consumption_L12MnthStrmTempAll
 
 	select a.Customerid
 			,b.DateOrdered
@@ -85,8 +87,8 @@ BEGIN
 			,count(distinct CourseID) CoursesStreamed
 			,count(distinct convert(varchar,CourseID) + convert(varchar,Lecturenumber)) LecturesStreamed
 			,1 as FlagStreamed
-		into Staging.MC_TGC_Consumption_L12MnthStrmTempAll_TEST
-		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST a 
+		into Staging.MC_TGC_Consumption_L12MnthStrmTempAll
+		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth a 
 		join #LastOrder b on a.Customerid = b.CustomerID
 					and a.ActionDate between b.StartDate and b.DateOrdered
 		where MediaTimePlayed > 0
@@ -95,12 +97,12 @@ BEGIN
 			,b.DateOrdered
 			,b.StartDate
 
-		/*	select top 100 * from Staging.MC_TGC_Consumption_L12MnthStrmTempAll_TEST
+		/*	select top 100 * from Staging.MC_TGC_Consumption_L12MnthStrmTempAll
 			where Customerid = 42118435*/
 
 
 
-	if object_id('Staging.MC_TGC_Consumption_L12MnthStrmTemp_TEST') is not null drop table Staging.MC_TGC_Consumption_L12MnthStrmTemp_TEST
+	if object_id('Staging.MC_TGC_Consumption_L12MnthStrmTemp') is not null drop table Staging.MC_TGC_Consumption_L12MnthStrmTemp
 
 	select a.Customerid
 			,b.DateOrdered
@@ -114,8 +116,8 @@ BEGIN
 			,count(distinct CourseID) CoursesStreamed
 			,count(distinct convert(varchar,CourseID) + convert(varchar,Lecturenumber)) LecturesStreamed
 			,1 as FlagStreamed
-		into Staging.MC_TGC_Consumption_L12MnthStrmTemp_TEST
-		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST a 
+		into Staging.MC_TGC_Consumption_L12MnthStrmTemp
+		from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth a 
 		join #LastOrder b on a.Customerid = b.CustomerID
 					and a.ActionDate between b.StartDate and b.DateOrdered
 		where MediaTimePlayed > 0
@@ -126,7 +128,7 @@ BEGIN
 			--,b.EndDate
 			,replace(FormatPurchased,' ','')
 
-			select top 100 * from Staging.MC_TGC_Consumption_L12MnthStrmTemp_TEST
+			select top 100 * from Staging.MC_TGC_Consumption_L12MnthStrmTemp
 
 
 	-- Metrics
@@ -166,8 +168,8 @@ BEGIN
 		,sum(case when FormatPurchased = 'DownloadA' then b.Coursesstreamed else 0 end) CoursesStreamed_DownloadA
 		,sum(case when FormatPurchased = 'DownloadA' then b.LecturesStreamed else 0 end) LecturesStreamed_DownloadA
 	into #conformatSmry
-	from staging.MC_TGC_Consumption_L12MnthStrmTempAll_TEST a
-	left join Staging.MC_TGC_Consumption_L12MnthStrmTemp_TEST b on a.Customerid = b.Customerid
+	from staging.MC_TGC_Consumption_L12MnthStrmTempAll a
+	left join Staging.MC_TGC_Consumption_L12MnthStrmTemp b on a.Customerid = b.Customerid
 	group by a.CustomerID
 		,a.DateOrdered
 		,a.StartDate
@@ -181,7 +183,7 @@ BEGIN
 	
 	select top 100 * from #conformatSmry
 
-	if object_id('Staging.MC_TGC_Consumption_L12MnthDnldTempAll_TEST') is not null drop table Staging.MC_TGC_Consumption_L12MnthDnldTempAll_TEST
+	if object_id('Staging.MC_TGC_Consumption_L12MnthDnldTempAll') is not null drop table Staging.MC_TGC_Consumption_L12MnthDnldTempAll
 
 	select a.Customerid
 			,b.DateOrdered
@@ -192,8 +194,8 @@ BEGIN
 			,count(distinct CourseID) CoursesDnld
 			,count(distinct convert(varchar,CourseID) + convert(varchar,Lecturenumber)) LecturesDnld
 			,1 as FlagDnld
-	into Staging.MC_TGC_Consumption_L12MnthDnldTempAll_TEST
-	from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST a 
+	into Staging.MC_TGC_Consumption_L12MnthDnldTempAll
+	from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth a 
 	join #LastOrder b on a.Customerid = b.CustomerID
 				and a.ActionDate between b.StartDate and b.DateOrdered
 	where action = 'Download'
@@ -201,25 +203,40 @@ BEGIN
 	group by a.CustomerID
 		,b.DateOrdered
 		,b.StartDate
-		
-			select top 100 * from Staging.MC_TGC_Consumption_L12MnthDnldTempAll_TEST
+
+		select * from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth  a 
+	join #LastOrder b on a.Customerid = b.CustomerID
+				and a.ActionDate between b.StartDate and b.DateOrdered
+		where a.customerid = 42295105
+		and TotalActions > 0
+		and FormatPurchased = 'DownloadV'
+
+		select distinct Courseid from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth  a 
+	join #LastOrder b on a.Customerid = b.CustomerID
+				and a.ActionDate between b.StartDate and b.DateOrdered
+		where a.customerid = 42295105
+		and TotalActions > 0
+		and FormatPurchased = 'DownloadV'
+
+			--select * from Staging.MC_TGC_Consumption_L12MnthDnldTempAll
+			--where customerid = 42295105
 
 	
-	if object_id('Staging.MC_TGC_Consumption_L12MnthDnldTemp_TEST') is not null drop table Staging.MC_TGC_Consumption_L12MnthDnldTemp_TEST
+	if object_id('Staging.MC_TGC_Consumption_L12MnthDnldTemp') is not null drop table Staging.MC_TGC_Consumption_L12MnthDnldTemp
 
 	select a.Customerid
 			,b.DateOrdered
 			,b.StartDate
 			--,b.EndDate
-			, Min(a.ActionDate) MinActionDate
-			, Max(a.ActionDate) MaxActionDate
+			--, Min(a.ActionDate) MinActionDate
+			--, Max(a.ActionDate) MaxActionDate
 			,replace(FormatPurchased,' ','') FormatPurchased
 			,sum(TotalActions) TotalDnlds
 			,count(distinct CourseID) CoursesDnld
 			,count(distinct convert(varchar,CourseID) + convert(varchar,Lecturenumber)) LecturesDnld
 			,1 as FlagDnld
-	into Staging.MC_TGC_Consumption_L12MnthDnldTemp_TEST
-	from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth_TEST a 
+	into Staging.MC_TGC_Consumption_L12MnthDnldTemp
+	from Staging.MC_TGC_Consumption_BaseTEMPL12Mnth a 
 	join #LastOrder b on a.Customerid = b.CustomerID
 				and a.ActionDate between b.StartDate and b.DateOrdered
 	where action = 'Download'
@@ -228,11 +245,12 @@ BEGIN
 		,b.DateOrdered
 		,b.StartDate
 		--,b.EndDate
-		,cast(DATEADD(month, DATEDIFF(month, 0, ActionDate), 0) as date)
+		--,cast(DATEADD(month, DATEDIFF(month, 0, ActionDate), 0) as date)
 		,replace(FormatPurchased,' ','')
 
-			select top 100 * from Staging.MC_TGC_Consumption_L12MnthDnldTemp_TEST
-
+			/*select top 100 * from Staging.MC_TGC_Consumption_L12MnthDnldTemp
+			where customerid = 42295105
+			*/
 	--drop table #Condlsmry
 	select a.CustomerID
 		,'1/1/2018' as AsoFdate --@AsOfDate as AsOfDate
@@ -253,8 +271,8 @@ BEGIN
 		,sum(case when FormatPurchased = 'DownloadA' then b.CoursesDnld else 0 end) CoursesDnld_DownloadA
 		,sum(case when FormatPurchased = 'DownloadA' then b.LecturesDnld else 0 end) LecturesDnld_DownloadA
 	into #Condlsmry
-	from Staging.MC_TGC_Consumption_L12MnthDnldTempAll_TEST a
-	left join Staging.MC_TGC_Consumption_L12MnthDnldTemp_TEST b on a.Customerid = b.Customerid
+	from Staging.MC_TGC_Consumption_L12MnthDnldTempAll a
+	left join Staging.MC_TGC_Consumption_L12MnthDnldTemp b on a.Customerid = b.Customerid
 	group by a.CustomerID
 		,a.DateOrdered
 		,a.StartDate
@@ -265,14 +283,19 @@ BEGIN
 		,a.LecturesDnld
 		,a.FlagDnld
 
- --   truncate table Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST
-	if object_id('Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST') is not null drop table Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST
+		select CoursesDnld_DownloadV,*
+		from #Condlsmry
+		where customerid = 42295105
+
+
+ --   truncate table Staging.MC_TGC_Consumption_L12MnthSmryTEMP
+	if object_id('Staging.MC_TGC_Consumption_L12MnthSmryTEMP') is not null drop table Staging.MC_TGC_Consumption_L12MnthSmryTEMP
 
 	-- Get information for subsequent month
 	select distinct isnull(a.CustomerID, b.customerid) CustomerID
 		,isnull(a.AsOfDate, b.AsOfDate) AsOfDate
-		,isnull(a.LastOrderDate, b.LastOrderDate) LastOrderDate
-		,isnull(a.StartDate, b.StartDate) StartDate
+		--,isnull(a.LastOrderDate, b.LastOrderDate) LastOrderDate
+		--,isnull(a.StartDate, b.StartDate) StartDate
 		,isnull(a.TotalPlays, 0) TotalPlays_L12Mnth
 		,isnull(a.StreamedMins, 0) StreamedMins_L12Mnth
 		,isnull(a.CoursesStreamed, 0) CoursesStreamed_L12Mnth
@@ -317,25 +340,29 @@ BEGIN
 		,isnull(b.CoursesDnld_DownloadA,0) CoursesDnld_DownloadA_L12Mnth
 		,isnull(b.LecturesDnld_DownloadA,0) LecturesDnld_DownloadA_L12Mnth
 		,case when b.CoursesDnld_DownloadA > 0 then 1 else 0 end as FlagDnld_DownloadA_L12Mnth
-	into Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST
+	into Staging.MC_TGC_Consumption_L12MnthSmryTEMP
 	from #conformatSmry a
 	full outer join #Condlsmry b on a.CustomerID = b.CustomerID
 							and a.asofdate = b.asofdate
 							
 
-	select top 100 * from Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST
+/*	select top 100 CoursesDnld_DownloadV_L12Mnth,* from Staging.MC_TGC_Consumption_L12MnthSmryTEMP
+	where customerid = 42295105
+	*/
 		
 	-- delete if AsOfDate is already in the table 
 	delete a
 	-- select a.*
-	from Marketing.MC_TGC_Consumption_L12MnthSmry_TEST a join
+	from Marketing.MC_TGC_Consumption_L12MnthSmry a join
 		(select distinct AsOfDate
-		from Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST)b on a.AsofDate = b.AsOfDate
+		from Staging.MC_TGC_Consumption_L12MnthSmryTEMP)b on a.AsofDate = b.AsOfDate
 
-	insert into Marketing.MC_TGC_Consumption_L12MnthSmry_TEST
+	insert into Marketing.MC_TGC_Consumption_L12MnthSmry
 	select * 
-	from Staging.MC_TGC_Consumption_L12MnthSmryTEMP_TEST
+	from Staging.MC_TGC_Consumption_L12MnthSmryTEMP
 
 
 end
+
+
 GO

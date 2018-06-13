@@ -1,11 +1,9 @@
 CREATE TABLE [Marketing].[MC_TGC_Consumption_L12MnthSmry]
 (
 [CustomerID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AsOfDate] [varchar] (8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[LastOrderDate] [datetime] NULL,
-[StartDate] [datetime] NULL,
+[AsOfDate] [date] NULL,
 [TotalPlays_L12Mnth] [int] NOT NULL,
-[StreamedMins_L12Mnth] [numeric] (38, 2) NOT NULL,
+[StreamedMins_L12Mnth] [numeric] (18, 2) NOT NULL,
 [CoursesStreamed_L12Mnth] [int] NOT NULL,
 [LecturesStreamed_L12Mnth] [int] NOT NULL,
 [FlagStreamed_L12Mnth] [int] NOT NULL,

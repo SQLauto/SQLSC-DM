@@ -18,6 +18,9 @@ CREATE TABLE [Staging].[TGCplus_ssis_ios]
 [Country] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ActiveSubscriptions] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ActiveFreeTrials] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[MarketingOptIns] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[MarketingOptIns] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ActivePayUpFrontSubscriptions] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ActivePayAsYouGoSubscriptions] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[BillingRetry] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

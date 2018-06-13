@@ -1,10 +1,8 @@
 CREATE TABLE [Staging].[MC_TGC_Consumption_L12MnthDnldTemp_TEST]
 (
 [Customerid] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DateOrdered] [datetime] NULL,
-[StartDate] [datetime] NULL,
-[MinActionDate] [date] NULL,
-[MaxActionDate] [date] NULL,
+[DateOrdered] [date] NULL,
+[StartDate] [date] NULL,
 [FormatPurchased] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TotalDnlds] [int] NULL,
 [CoursesDnld] [int] NULL,

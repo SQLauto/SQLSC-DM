@@ -1,15 +1,15 @@
 CREATE TABLE [Staging].[MC_TGC_ContactPreferenceExtended]
 (
-[Asofdate] [date] NULL,
-[Customerid] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[DistinctEmailCounts] [int] NULL,
-[NewCourseAnnouncements] [tinyint] NULL,
-[FreeLecturesClipsandInterviews] [tinyint] NULL,
-[ExclusiveOffers] [tinyint] NULL,
-[Frequency] [tinyint] NULL,
-[FlagEmailValid] [tinyint] NULL,
-[FlagEmailable] [tinyint] NULL,
-[FlagMailPref] [tinyint] NULL,
-[FlagMail] [tinyint] NULL
+[AsofDate] [date] NULL,
+[CustomerID] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DistinctEmailCounts] [int] NOT NULL,
+[NewCourseAnnouncements] [int] NOT NULL,
+[FreeLecturesClipsandInterviews] [int] NOT NULL,
+[ExclusiveOffers] [int] NOT NULL,
+[Frequency] [int] NOT NULL,
+[FlagValidEmail] [int] NOT NULL,
+[FlagEmailable] [int] NOT NULL,
+[FlagMail] [int] NOT NULL,
+[FlagMailPref] [bit] NOT NULL
 ) ON [PRIMARY]
 GO

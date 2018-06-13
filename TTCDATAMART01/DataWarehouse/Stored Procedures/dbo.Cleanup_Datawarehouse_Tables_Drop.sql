@@ -17,14 +17,20 @@ FOR
 SELECT SCHEMA_NAME(b.schema_id) + '.' + a.Name--,crdate 
 FROM sysobjects a join
 	 sys.tables b on a.id = b.object_id
-WHERE a.Name like 'Email_201711%'
---WHERE Name like 'ordallctn_%WkOf%History'
-and a.crdate <= dateadd(month,-3,getdate())
+--where a.name like 'welcomeEmail%AdcodeGridBKP%'
+--WHERE a.Name like 'Email_2018%'
+where a.name like 'Final%mtchbck%'
+--WHERE a.Name like 'ordallctn_%OrdersWithPay%WkOf%'
+--WHERE a.Name like '%DeL'
+and a.crdate <= dateadd(month,-6,getdate())
 and a.xtype = 'U'
 and a.name not like '%numHit%'
 and a.name not like '%FnlSmry%'
+and a.name not like '%model%'
+and a.name not like '%tgcplus%'
 --and SCHEMA_NAME(b.schema_id) = 'staging'
-order by 1 --2 desc
+order by 1 
+--order by 2 desc
 --and name not like '%COLO'
 
 --- BEGIN Cursor for each table

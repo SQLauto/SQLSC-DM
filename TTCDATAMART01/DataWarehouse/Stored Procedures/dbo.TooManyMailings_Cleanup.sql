@@ -7,7 +7,7 @@ CREATE procedure [dbo].[TooManyMailings_Cleanup]
 as 
 
 
-   Insert into [DataWarehouse].[Staging].[Customer_TooMany_Mailings_Historal] 
+   Insert into [DataWarehouse].[Staging].[Customer_TooMany_Mailings_Historical] 
    SELECT CustomerID ,DateAddedByAgent FROM [DataWarehouse].[Staging].[Customer_TooMany_Mailings] where customerid is not null
 
 

@@ -21,7 +21,10 @@ CREATE TABLE [Archive].[TGCplus_ios_report]
 [ActiveSubscriptions] [int] NULL,
 [ActiveFreeTrials] [int] NULL,
 [MarketingOptIns] [int] NULL,
-[DMlastupdated] [datetime] NULL CONSTRAINT [DF__TGCplus_i__DMlas__41D687C2] DEFAULT (getdate())
+[DMlastupdated] [datetime] NULL CONSTRAINT [DF__TGCplus_i__DMlas__41D687C2] DEFAULT (getdate()),
+[ActivePayUpFrontSubscriptions] [int] NULL,
+[ActivePayAsYouGoSubscriptions] [int] NULL,
+[BillingRetry] [int] NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [Archive].[TGCplus_ios_report] ADD CONSTRAINT [PK__TGCplus___5F131AE8AD0FEEF5] PRIMARY KEY CLUSTERED  ([TGCplus_ios_report_id]) ON [PRIMARY]

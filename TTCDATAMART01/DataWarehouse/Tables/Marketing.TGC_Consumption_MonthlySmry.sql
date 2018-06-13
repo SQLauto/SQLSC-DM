@@ -38,6 +38,8 @@ CREATE TABLE [Marketing].[TGC_Consumption_MonthlySmry]
 [TotalDnlds_DownloadA] [int] NOT NULL,
 [CoursesDnld_DownloadA] [int] NOT NULL,
 [LecturesDnld_DownloadA] [int] NOT NULL,
-[FlagDnld_DownloadA] [int] NOT NULL
+[FlagDnld_DownloadA] [int] NOT NULL,
+[LecturesStreamed_Bins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CoursesStreamed_Bins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

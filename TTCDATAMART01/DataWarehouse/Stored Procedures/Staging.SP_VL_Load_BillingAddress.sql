@@ -24,7 +24,7 @@ on S.userId = A.userId
 insert into  [Archive].TGCPlus_BillingAddress  
 ([userId] ,[userEmail],[userFirstName] ,[userLastName] ,[line1],[line2] ,[line3],[county],[city] ,[region] ,[postalCode] ,[country],[Fullname])  
 select Distinct [userId]  
-,[userEmail]  
+,Null as [userEmail]   /*GDPR Changes: No need to save Email in this table*/
 ,[userFirstName]   
 ,[userLastName]   
 ,[line1]  
@@ -123,7 +123,6 @@ exec SP_TGCPlus_UpdateCurrentCounts @TGCPlusTableName = 'TGCPlus_BillingAddress'
 
 
 End
-
 
 
 

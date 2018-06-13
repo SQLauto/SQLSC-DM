@@ -2,6 +2,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
+
+
 CREATE PROC [dbo].[SP_TGC_CoverPoll]
 as
 
@@ -86,9 +89,7 @@ drop table dbo.TempPoll
 declare @temp3 varchar(50)
 set @temp3	 = 'TempPoll'
 
-set @query9='select a.CustomerID, min(MaxOpenDate) Maxopendate into ' + @temp3+ ' from '+ @tablenm +'  a join (select distinct customerid from '+  @tablenm + ' group by CustomerID having count(Emailaddress) > 1)B  ON A.CustomerID = b.CustomerID group by a.Customer
-
-ID'
+set @query9='select a.CustomerID, min(MaxOpenDate) Maxopendate into ' + @temp3+ ' from '+ @tablenm +'  a join (select distinct customerid from '+  @tablenm + ' group by CustomerID having count(Emailaddress) > 1)B  ON A.CustomerID = b.CustomerID group by a.CustomerID'
 
 exec (@query9)
 
@@ -117,7 +118,11 @@ AND [Partitions].index_id IN ( 0, 1 )
  WHERE [Tables].name = substring(@tablenm,6,50)
 GROUP BY SCHEMA_NAME(schema_id), [Tables].name
  
-  select @avlsample 
+
+ Print 'Sample:'
+  select  @avlsample 
+  Print 'Population:'
+ select @totalpopulation
 
 
 
@@ -255,6 +260,9 @@ from datawarehouse.archive.RD_Polling_History_del
 
 
 */
+
+
+
 
 
 

@@ -16,6 +16,7 @@ CREATE TABLE [Mapping].[RFMComboLookup]
 [CustomerSegment2] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CustomerSegmentFnl] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CustomerSegment2ID] [int] NULL,
-[CustomerSegmentFnlID] [int] NULL
+[CustomerSegmentFnlID] [int] NULL,
+[CustomerSegmentFrcstID] [int] NULL
 ) ON [PRIMARY]
 GO

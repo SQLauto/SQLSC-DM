@@ -38,6 +38,10 @@ CREATE TABLE [Marketing].[MC_TGC_Consumption_LTDSmry]
 [TotalDnlds_DownloadA_LTD] [int] NOT NULL,
 [CoursesDnld_DownloadA_LTD] [int] NOT NULL,
 [LecturesDnld_DownloadA_LTD] [int] NOT NULL,
-[FlagDnld_DownloadA_LTD] [int] NOT NULL
+[FlagDnld_DownloadA_LTD] [int] NOT NULL,
+[LecturesStreamedBins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[CoursesStreamedBins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TotalPLaysBins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[TotalMinBins] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO

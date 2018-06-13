@@ -100,6 +100,8 @@ CREATE TABLE [Marketing].[EPC_EmailPull]
 [DMLastupdated] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [IX_EPC_EmailPull_temp1] ON [Marketing].[EPC_EmailPull] ([BuyerType], [PublicLibrary], [CountryCode]) INCLUDE ([ComboID], [CustomerID], [CustomerSegmentNew], [Emailaddress], [FirstName], [LastName], [NewSeg], [PreferredCategory], [PreferredCategory2], [State]) ON [PRIMARY]
+GO
 CREATE NONCLUSTERED INDEX [IX_EPC_EmailPull_CustomerID] ON [Marketing].[EPC_EmailPull] ([CustomerID]) INCLUDE ([Emailaddress]) ON [PRIMARY]
 GO
 CREATE UNIQUE CLUSTERED INDEX [PK_EPC_EmailPull] ON [Marketing].[EPC_EmailPull] ([Emailaddress]) ON [PRIMARY]
